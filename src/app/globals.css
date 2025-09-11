@@ -3,13 +3,19 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --c1: #394ba2;
+  --c2: #7d95ff;
+  --c3: #becaff;  
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-c1: var(--c1);
+  --color-c2: var(--c2);
+  --color-c3: var(--c3);
+  --font-sans: var(--font-jost-sans);
+  --font-mono: var(--font-jost-mono);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -19,8 +25,17 @@
   }
 }
 
+/* Reusable buttons */
+.btn-primary {
+  @apply bg-blue-600 text-white px-6 py-3 rounded-xl shadow hover:bg-blue-700 transition;
+}
+
+.btn-secondary {
+  @apply bg-c2 text-gray-800 px-6 py-3 rounded-xl hover:bg-c3 transition;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Jost;
 }
