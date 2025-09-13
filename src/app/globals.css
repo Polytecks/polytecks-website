@@ -34,6 +34,11 @@
   @apply bg-c2 text-gray-800 px-6 py-3 rounded-xl hover:bg-c3 transition;
 }
 
+html {
+  scroll-padding-top: 80px; /* same as navbar height */
+  scroll-behavior: smooth; /* optional: smooth scrolling */
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
