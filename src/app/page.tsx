@@ -97,7 +97,7 @@ export default function HomePage() {
       >
         {/* Text block */}
         <div className="relative z-10 w-full sm:w-3/5 mb-10 sm:mb-0">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 text-gray-800">
+          <h1 className="text-4xl sm:text-5xl md:text-5xl font-bold mb-4 text-gray-800">
             The skin is a window into the body
           </h1>
           <h2 className="text-xl sm:text-2xl md:text-2xl font-semibold mb-6 text-gray-700">
@@ -217,7 +217,7 @@ export default function HomePage() {
             <h3 className="text-xl font-semibold text-gray-800">Ruben Ruiz-Mateos</h3>
             <p className="text-c1 font-medium">Founder & CEO</p>
             <p className="text-gray-600 text-sm mt-2">
-              Short description of their background and how they support Polytecks.
+              Ruben is a PhD researcher in Bioelectronics at the University of Cambridge, where his work focuses on developing advanced bioelectronic interfaces for healthcare. He founded Polytecks to translate his research into wearable technology that enables early, accessible and non-invasive diagnostics.
             </p>
           </div>
 
@@ -235,7 +235,7 @@ export default function HomePage() {
             <h3 className="text-xl font-semibold text-gray-800">Charlie Brunt</h3>
             <p className="text-c1 font-medium">CTO</p>
             <p className="text-gray-600 text-sm mt-2">
-              Short description of their background and how they support Polytecks.
+              Charlie holds an MEng from the University of Cambridge and brings strong expertise in electrical engineering to Polytecks. As CTO, he leads the technical strategy and development of the company’s technology, ensuring it is robust, scalable and ready for real-world deployment.
             </p>
           </div>
         </div>
@@ -257,7 +257,7 @@ export default function HomePage() {
             <h3 className="text-xl font-semibold text-gray-800">Prof. George Malliaras</h3>
             <p className="text-c1 font-medium">Medical Device Manufacturing</p>
             <p className="text-gray-600 text-sm mt-2">
-              Short description of their background and how they support Polytecks.
+              Professor Malliaras is the Prince Philip Professor of Technology at the University of Cambridge and a global leader in bioelectronics. As Scientific Advisor to Polytecks, he provides strategic scientific guidance, ensuring the company’s technology is built on the latest advances in medical electronics.
             </p>
           </div>
 
@@ -275,7 +275,7 @@ export default function HomePage() {
             <h3 className="text-xl font-semibold text-gray-800">Prof. Jose Novo Matos</h3>
             <p className="text-c1 font-medium">Veterinary Cardiology</p>
             <p className="text-gray-600 text-sm mt-2">
-              Short description of their background and how they support Polytecks.
+              Professor Novo Matos is a European Specialist in Small Animal Cardiology at the University of Cambridge. He supports Polytecks by advising on veterinary applications and guiding pre-clinical validation studies, helping to ensure the technology benefits both animal and human healthcare.
             </p>
           </div>
 
@@ -293,7 +293,7 @@ export default function HomePage() {
             <h3 className="text-xl font-semibold text-gray-800">Dr. Ben Woodington</h3>
             <p className="text-c1 font-medium">Entrepreneurship</p>
             <p className="text-gray-600 text-sm mt-2">
-              Short description of their background and how they support Polytecks.
+              Dr. Woodington is a founder of Coherence Bio, a medtech spinout from the University of Cambridge. As Entrepreneurship Advisor to Polytecks, he provides insight into company growth, commercialization strategy and navigating the path from academic innovation to market adoption.
             </p>
           </div>
         </div>
