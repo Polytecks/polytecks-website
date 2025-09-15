@@ -214,7 +214,7 @@ export default function HomePage() {
                 className="object-cover object-center w-full h-full"
               />
             </div>
-            <h3 className="text-xl font-semibold text-gray-800">Ruben Ruiz-Mateos</h3>
+            <h3 className="text-xl font-semibold text-gray-800">Ruben Ruiz-Mateos Serrano</h3>
             <p className="text-c1 font-medium">Founder & CEO</p>
             <p className="text-gray-600 text-sm mt-2">
               Ruben is a PhD researcher in Bioelectronics at the University of Cambridge, where his work focuses on developing advanced bioelectronic interfaces for healthcare. He founded Polytecks to translate his research into wearable technology that enables early, accessible and non-invasive diagnostics.

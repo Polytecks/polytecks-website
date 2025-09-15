@@ -1,23 +1,24 @@
 @import "tailwindcss";
 
+/* -------------------- Root Colors -------------------- */
 :root {
   --background: #ffffff;
   --foreground: #171717;
   --c1: #394ba2;
   --c2: #7d95ff;
-  --c3: #becaff;  
+  --c3: #becaff;
 }
 
+/* -------------------- Theme Variables -------------------- */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-c1: var(--c1);
   --color-c2: var(--c2);
   --color-c3: var(--c3);
-  --font-sans: var(--font-jost-sans);
-  --font-mono: var(--font-jost-mono);
 }
 
+/* -------------------- Dark Mode -------------------- */
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
@@ -25,22 +26,23 @@
   }
 }
 
-/* Reusable buttons */
+/* -------------------- Global Styles -------------------- */
+html {
+  scroll-padding-top: 80px; /* same as navbar height */
+  scroll-behavior: smooth;  /* optional: smooth scrolling */
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  /* Font is applied via layout.tsx jost.className or Tailwind font-sans */
+}
+
+/* -------------------- Buttons -------------------- */
 .btn-primary {
   @apply bg-blue-600 text-white px-6 py-3 rounded-xl shadow hover:bg-blue-700 transition;
 }
 
 .btn-secondary {
   @apply bg-c2 text-gray-800 px-6 py-3 rounded-xl hover:bg-c3 transition;
-}
-
-html {
-  scroll-padding-top: 80px; /* same as navbar height */
-  scroll-behavior: smooth; /* optional: smooth scrolling */
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Jost;
 }

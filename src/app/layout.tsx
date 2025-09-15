@@ -3,6 +3,7 @@ import { Jost } from "next/font/google";
 
 const jost = Jost({
   subsets: ["latin"],
+  weight: ["400", "700"],  // include weights you need
   variable: "--font-jost",
 });
 
@@ -17,8 +18,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={jost.variable}>
-      <body className="font-sans">{children}</body>
+    <html lang="en" className={jost.className}>
+      <body>{children}</body>
     </html>
   );
 }
