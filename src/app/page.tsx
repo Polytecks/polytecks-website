@@ -238,6 +238,24 @@ export default function HomePage() {
               Charlie holds an MEng from the University of Cambridge and brings strong expertise in electrical engineering to Polytecks. As CTO, he leads the technical strategy and development of the company’s technology, ensuring it is robust, scalable and ready for real-world deployment.
             </p>
           </div>
+
+        {/* Team member */}
+          <div className="flex flex-col items-center text-center max-w-xs">
+            <div className="w-40 h-40 rounded-full overflow-hidden mb-4 shadow-md">
+              <Image 
+                src="/team/jen-richardson.png" 
+                alt="Jen Richardson" 
+                width={160} 
+                height={160} 
+                className="object-cover object-top w-full h-full"
+              />
+            </div>
+            <h3 className="text-xl font-semibold text-gray-800">Jen Richardson</h3>
+            <p className="text-c1 font-medium">Engagement Lead</p>
+            <p className="text-gray-600 text-sm mt-2">
+              Jen has 13 years’ experience working within the startup ecosystem in Cambridge. Covering all things recruitment, brand, marketing and communications, she supports Polytecks’ engagement. She also hosts The Project Cambridge Podcast, a podcast showcasing innovation, entrepreneurship and inclusivity within the Cambridge ecosystem.
+            </p>
+          </div>
         </div>
 
         {/* Advisors */}
