@@ -233,7 +233,7 @@ export default function HomePage() {
               />
             </div>
             <h3 className="text-xl font-semibold text-gray-800">Charlie Brunt</h3>
-            <p className="text-c1 font-medium">CTO</p>
+            <p className="text-c1 font-medium">Technical Advisor</p>
             <p className="text-gray-600 text-sm mt-2">
               Charlie holds an MEng from the University of Cambridge and brings strong expertise in electrical engineering to Polytecks. As CTO, he leads the technical strategy and development of the company’s technology, ensuring it is robust, scalable and ready for real-world deployment.
             </p>
