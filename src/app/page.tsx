@@ -239,6 +239,24 @@ export default function HomePage() {
             </p>
           </div>
 
+          {/* Team member */}
+          <div className="flex flex-col items-center text-center max-w-xs">
+            <div className="w-40 h-40 rounded-full overflow-hidden mb-4 shadow-md">
+              <Image 
+                src="/team/callan-macdonald.png" 
+                alt="Callan MacDonald" 
+                width={160} 
+                height={160} 
+                className="object-cover object-top w-full h-full"
+              />
+            </div>
+            <h3 className="text-xl font-semibold text-gray-800">Callan MacDonald</h3>
+            <p className="text-c1 font-medium">Commercial Advisor</p>
+            <p className="text-gray-600 text-sm mt-2">
+              Callan holds an MPhil in Bioscience Enterprise from the University of Cambridge and leads Polytecks’ commercialisation. With experience across the Cambridge deep-tech ecosystem, Callan focuses on turning our breakthrough bioelectronics into scalable operations.
+            </p>
+          </div>
+
         {/* Team member */}
           <div className="flex flex-col items-center text-center max-w-xs">
             <div className="w-40 h-40 rounded-full overflow-hidden mb-4 shadow-md">
