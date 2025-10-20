@@ -158,7 +158,7 @@ export default function HomePage() {
         {/* Pitch deck */}
         <p className="mt-10 mb-10 text-center">
           <a 
-            href="/slides/polytecks.pdf" 
+            href="/slides/polytecks_V2.pdf" 
             target="_blank" 
             rel="noopener noreferrer" 
             className="text-2xl text-c1 bg-c2 rounded-xl px-3 py-2 font-semibold hover:underline hover:bg-c3 transition"
@@ -319,17 +319,17 @@ export default function HomePage() {
           <div className="flex flex-col items-center text-center max-w-xs">
             <div className="w-40 h-40 rounded-full overflow-hidden mb-4 shadow-md">
               <Image 
-                src="/team/ben-woodington.png" 
-                alt="Ben Woodington" 
+                src="/team/david-fairen-jimenez.png" 
+                alt="David Fairen-Jimenez" 
                 width={160} 
                 height={160} 
                 className="object-cover object-bottom w-full h-full"
               />
             </div>
-            <h3 className="text-xl font-semibold text-gray-800">Dr. Ben Woodington</h3>
+            <h3 className="text-xl font-semibold text-gray-800">Prof. David Fairen-Jimenez</h3>
             <p className="text-c1 font-medium">Entrepreneurship</p>
             <p className="text-gray-600 text-sm mt-2">
-              Dr. Woodington is a founder of Coherence Bio, a medtech spinout from the University of Cambridge. As Entrepreneurship Advisor to Polytecks, he provides insight into company growth, commercialization strategy and navigating the path from academic innovation to market adoption.
+              Prof. David Fairen-Jimenez is Professor of Molecular Engineering at the University of Cambridge and an experienced academic entrepreneur. As Entrepreneurship Advisor to Polytecks, he offers strategic guidance on company growth, technology commercialisation and the transition from academic research to market-ready innovation.
             </p>
           </div>
         </div>
