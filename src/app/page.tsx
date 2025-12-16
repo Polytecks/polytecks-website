@@ -158,7 +158,7 @@ export default function HomePage() {
         {/* Pitch deck */}
         <p className="mt-10 mb-10 text-center">
           <a 
-            href="/slides/polytecks_V2.pdf" 
+            href="/" 
             target="_blank" 
             rel="noopener noreferrer" 
             className="text-2xl text-c1 bg-c2 rounded-xl px-3 py-2 font-semibold hover:underline hover:bg-c3 transition"
