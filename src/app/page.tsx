@@ -147,13 +147,13 @@ export default function HomePage() {
           Polytecks is a Cambridge University spin-out pioneering smart textile technology for next-generation healthcare diagnostics. Our patented high-density e-textile electrode arrays capture bioelectrical signals from the body’s surface with unprecedented resolution and comfort. Combined with advanced AI, these signals are transformed into detailed maps that provide actionable insights in minutes.
         </p>  
         <p className="text-lg text-gray-600 pb-5">
-          We are starting with cardiology — the world’s leading cause of death — where early detection can extend lives and prevent over 80% of cases. Our pilot studies, conducted in collaboration with veterinary hospitals, have already shown promising results opening the door to faster and more accessible care.
+          We are starting with cardiology, the world’s leading cause of death, where early detection can extend lives and prevent over 80% of cases. Our pilot studies, conducted in collaboration with veterinary hospitals, have already shown promising results opening the door to faster and more accessible care.
         </p> 
         <p className="text-lg text-gray-600 pb-5"> 
           But our vision goes further. The same approach can be applied across multiple healthcare domains, from neurology and neuroprosthetics to gut health and foetal monitoring. By building a platform for high-resolution, non-invasive bioelectrical mapping, Polytecks aims to unlock a new era of diagnostics and monitoring that is scalable, affordable and accessible.
         </p>  
         <p className="text-lg text-gray-600">
-          Polytecks is more than an upgrade to the ECG — it is a step-change in how we connect the body’s signals to healthcare, ensuring no patient, human or animal, is left behind.
+          Polytecks is a step-change in how we connect the body’s signals to healthcare, ensuring no patient, human or animal, is left behind.
         </p>
         {/* Pitch deck */}
         <p className="mt-10 mb-10 text-center">
