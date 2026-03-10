@@ -144,7 +144,7 @@ export default function HomePage() {
       >
         <h2 className="text-3xl font-bold mb-6 text-gray-800">About Polytecks</h2>
         <p className="text-lg text-gray-600 pb-5">
-          Polytecks is a Cambridge University spin-out pioneering smart textile technology for next-generation healthcare diagnostics. Our patented high-density e-textile electrode arrays capture bioelectrical signals from the body’s surface with unprecedented resolution and comfort. Combined with advanced AI, these signals are transformed into detailed maps that provide actionable insights in minutes.
+          Polytecks is a Cambridge University spin-out pioneering smart textile technology for enhanced healthcare diagnostics and monitoring. Our patented high-density e-textile electrode arrays capture bioelectrical signals from the body’s surface with unprecedented resolution and comfort. Combined with advanced AI, these signals are transformed into detailed maps that provide actionable insights in minutes.
         </p>  
         <p className="text-lg text-gray-600 pb-5">
           We are starting with cardiology, the world’s leading cause of death, where early detection can extend lives and prevent over 80% of cases. Our pilot studies, conducted in collaboration with veterinary hospitals, have already shown promising results opening the door to faster and more accessible care.
