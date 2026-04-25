@@ -1,11 +1,21 @@
 {
+  "permissions": {
+    "allow": [
+      "Bash(npx --yes create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --use-npm --no-turbopack --yes)",
+      "Bash(npx --yes shadcn@latest init --yes --base-color neutral)",
+      "Bash(npx --yes shadcn@latest init --help)",
+      "Bash(npx --yes shadcn@latest init -d)",
+      "Bash(npx --yes shadcn@latest add tabs --yes)",
+      "Bash(npx tsc *)",
+      "Bash(npm run *)",
+      "Bash(curl -sS -o /dev/null -w '%{http_code}\\\\n' http://localhost:3001__TRACKED_VAR__)",
+      "Bash(curl -sS \"http://localhost:3001/\")",
+      "Bash(curl -sS -o /dev/null -w \"%{http_code}\\\\n\" \"http://localhost:3001/\")",
+      "Bash(git add *)"
+    ]
+  },
   "enableAllProjectMcpServers": true,
   "enabledMcpjsonServers": [
     "shadcn"
-  ],
-  "permissions": {
-    "allow": [
-      "Bash(npx --yes create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --use-npm --no-turbopack --yes)"
-    ]
-  }
+  ]
 }
