@@ -1,0 +1,108 @@
+/* Mirrors legacy/index.html lines 229-304, with shipped defaults baked in:
+   - cta-color "both-bright" -> --cl-color: #fff, --cl-accent: #8e98ee
+   - cta-anim  "charge"      -> 520ms underline / 260ms arrow */
+
+.link {
+  --cl-color: #fff;
+  --cl-accent: #8e98ee;
+  --cl-line: rgba(255, 255, 255, 0.18);
+  --cl-charge-ms: 520ms;
+  --cl-arrow-ms: 260ms;
+
+  appearance: none;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  font-family: var(--font-display);
+  color: var(--cl-color);
+  text-align: left;
+  text-decoration: none;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: clamp(20px, 1.7vw, 26px);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  padding: 6px 0 10px;
+  transition: color 0.25s, transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transform-origin: left center;
+}
+
+.arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 1em;
+  height: 1em;
+  color: var(--cl-color);
+  transform: translateX(0);
+  transition: transform var(--cl-arrow-ms) cubic-bezier(0.2, 0.8, 0.2, 1),
+              filter var(--cl-arrow-ms) ease,
+              color var(--cl-arrow-ms) ease;
+  transition-delay: 0s;
+}
+
+.arrow svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.track {
+  position: relative;
+  display: block;
+  height: 8px;
+  width: 100%;
+}
+
+.track::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 1px;
+  height: 1px;
+  background: var(--cl-line);
+}
+
+.fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 2px;
+  width: 0;
+  background: var(--cl-accent);
+  box-shadow: 0 0 10px var(--cl-accent);
+  transition: width var(--cl-charge-ms) cubic-bezier(0.6, 0.05, 0.2, 1);
+}
+
+.link:hover .fill {
+  width: 100%;
+}
+
+.link:hover .arrow {
+  transform: translateX(6px);
+  color: var(--cl-accent);
+  transition-delay: var(--cl-charge-ms);
+}
+
+.link:hover .label {
+  color: var(--cl-accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fill,
+  .arrow,
+  .label {
+    transition: none !important;
+  }
+}
