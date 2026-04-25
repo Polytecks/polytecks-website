@@ -1,0 +1,96 @@
+.ribbon {
+  position: relative;
+  z-index: 4;
+  padding: 56px 0 40px;
+  margin-top: 24px;
+  border-top: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(10, 10, 14, 0.6), rgba(10, 10, 14, 0.95));
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--indigo-bright);
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  text-align: center;
+  margin-bottom: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.label::before,
+.label::after {
+  content: "";
+  flex: 0 0 60px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(168, 176, 243, 0.5));
+}
+
+.label::after {
+  background: linear-gradient(90deg, rgba(168, 176, 243, 0.5), transparent);
+}
+
+.trackWrap {
+  position: relative;
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+}
+
+.track {
+  display: flex;
+  gap: clamp(56px, 8vw, 120px);
+  width: max-content;
+  animation: slide 32s linear infinite;
+  align-items: center;
+}
+
+@keyframes slide {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.item {
+  flex: 0 0 auto;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: grayscale(1) brightness(1.6) contrast(0.9);
+  opacity: 0.55;
+  transition: opacity 0.4s, filter 0.4s, transform 0.4s;
+}
+
+.item:hover {
+  opacity: 1;
+  filter: grayscale(0) brightness(1) contrast(1);
+  transform: scale(1.08);
+}
+
+.text {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(18px, 1.6vw, 24px);
+  letter-spacing: -0.01em;
+  color: #d8dae5;
+  white-space: nowrap;
+}
+
+.text em {
+  font-style: italic;
+  font-weight: 300;
+  color: #a0a4b5;
+}
+
+.isCenter {
+  opacity: 1;
+  filter: grayscale(0) brightness(1) contrast(1);
+}
+
+.isNear {
+  opacity: 0.8;
+  filter: grayscale(0.3) brightness(1.2) contrast(0.95);
+}
