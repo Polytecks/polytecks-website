@@ -1,23 +1,29 @@
-import { PlaceholderGrid } from "@/components/placeholder-grid";
-import { Subpage } from "@/components/subpage";
-import { TechFeature } from "@/components/technology/tech-feature";
-import { TechHero } from "@/components/technology/tech-hero";
-
-const FIGURES = [
-  { label: "Figure · Sensor array", title: "Electrode topology", body: "Diagram of the 19-channel hex lattice." },
-  { label: "Figure · Signal pipeline", title: "Acquisition pipeline", body: "From skin → amplifier → reconstruction → app." },
-  { label: "Spec · Performance", title: "Specs & validation", body: "Sampling rate, SNR, clinical benchmarks." },
-  { label: "Section · IP", title: "Patents & publications", body: "List of filings and peer-reviewed work." },
-] as const;
+import { ChargeLink } from "@/components/home/charge-link";
+import { TechnologyHero } from "@/components/technology/hero";
+import { Philosophy } from "@/components/technology/philosophy";
+import { PillarSection } from "@/components/technology/pillars/pillar-section";
+import { ProofStrip } from "@/components/technology/proof-strip";
+import { TweakPanel } from "@/components/technology/tweak-panel";
 
 export default function TechnologyPage() {
   return (
     <>
-      <TechHero />
-      <Subpage>
-        <TechFeature />
-        <PlaceholderGrid items={FIGURES} />
-      </Subpage>
+      <TechnologyHero />
+      <PillarSection />
+      <ProofStrip />
+      <Philosophy />
+      <section
+        style={{
+          maxWidth: 1400,
+          margin: "0 auto",
+          padding: "calc(40px * var(--tw-rhythm, 1)) 40px calc(96px * var(--tw-rhythm, 1))",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <ChargeLink href="/devices" label="See it in action" variant="inline" />
+      </section>
+      <TweakPanel />
     </>
   );
 }
