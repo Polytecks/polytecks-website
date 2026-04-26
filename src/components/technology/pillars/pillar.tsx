@@ -89,7 +89,6 @@ export function Pillar({
       style={styleVars}
       animate={{ opacity, scale }}
       transition={{ duration: animMs / 1000, ease: [0.2, 0.7, 0.2, 1] }}
-      layout
     >
       <div className={styles.titleZone}>
         <h3 className={styles.title}>{content.title}</h3>

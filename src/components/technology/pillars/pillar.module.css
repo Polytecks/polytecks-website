@@ -24,7 +24,12 @@
 
   background-color: rgba(255, 255, 255, 0.012);
 
+  /* Smooth width (flex-grow) + height (min-height) morph via CSS instead of
+     Framer's `layout` prop, which mis-measured the rect when both dimensions
+     were animating simultaneously and translated the card off-screen. */
   transition:
+    flex-grow var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1),
+    min-height var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1),
     border-color var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1),
     background-color var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1);
 }
