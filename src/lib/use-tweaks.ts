@@ -2,39 +2,46 @@
 
 import { useCallback, useEffect, useState } from "react";
 
-export type TweakAccent = "indigo" | "cyan" | "green";
+export type PillarVariant = "card" | "split";
+export type ActiveTheme = "indigo" | "lighter" | "cool";
 
 export type TweakValues = {
-  pillarPop: number;     // 1.0 → 1.8
-  siblingDim: number;    // 0 → 0.7 (used as opacity offset; 0 = no dim)
-  animMs: number;        // 200 → 600
-  accent: TweakAccent;   // swatch
-  rhythm: number;        // 0.7 → 1.4 (multiplier on section padding)
+  variant: PillarVariant;
+  activeTheme: ActiveTheme;
 };
 
 export const TWEAK_DEFAULTS: TweakValues = {
-  pillarPop: 1.6,
-  siblingDim: 0.5,
-  animMs: 350,
-  accent: "indigo",
-  rhythm: 1.0,
+  variant: "card",
+  activeTheme: "indigo",
 };
 
 const STORAGE_KEY = "polytecks:tweaks";
 
-const ACCENT_HEX: Record<TweakAccent, string> = {
-  indigo: "#6a74dc",
-  cyan: "#5cd9e8",
-  green: "#34d399",
+/**
+ * Active-pillar background + border for each theme.
+ * "indigo" matches the baseline tokens defined in globals.css.
+ */
+const ACTIVE_THEMES: Record<ActiveTheme, { bg: string; border: string }> = {
+  indigo: {
+    bg: "rgba(74, 84, 192, 0.08)",
+    border: "rgba(168, 176, 243, 0.45)",
+  },
+  lighter: {
+    bg: "rgba(142, 152, 238, 0.16)",
+    border: "rgba(168, 176, 243, 0.7)",
+  },
+  cool: {
+    bg: "rgba(255, 255, 255, 0.07)",
+    border: "rgba(255, 255, 255, 0.3)",
+  },
 };
 
 function applyToBody(values: TweakValues) {
   const body = document.body;
-  body.style.setProperty("--tw-pillar-pop", String(values.pillarPop));
-  body.style.setProperty("--tw-sibling-dim", String(values.siblingDim));
-  body.style.setProperty("--tw-anim-ms", `${values.animMs}ms`);
-  body.style.setProperty("--tw-rhythm", String(values.rhythm));
-  body.style.setProperty("--indigo-bright", ACCENT_HEX[values.accent]);
+  body.dataset.pillarVariant = values.variant;
+  const theme = ACTIVE_THEMES[values.activeTheme];
+  body.style.setProperty("--tw-active-bg", theme.bg);
+  body.style.setProperty("--tw-active-border", theme.border);
 }
 
 function readStored(): TweakValues {
@@ -56,7 +63,7 @@ export function useTweaks() {
     const initial = readStored();
     applyToBody(initial);
     // Hydrating React state from localStorage on mount. setState-in-effect is
-    // justified here: without it, the panel's sliders render at defaults on
+    // justified here: without it, the panel's controls render at defaults on
     // first paint instead of the user's persisted values.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setValues(initial);

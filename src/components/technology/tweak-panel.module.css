@@ -105,6 +105,38 @@
   box-shadow: 0 0 0 1px var(--indigo-bright);
 }
 
+.segmented {
+  display: flex;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 3px;
+}
+
+.segment {
+  appearance: none;
+  flex: 1;
+  background: transparent;
+  border: 0;
+  color: var(--ink-dim);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 6px 10px;
+  border-radius: 4px;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.segment:hover { color: var(--ink); }
+
+.segment[data-active="true"] {
+  background: rgba(74, 84, 192, 0.25);
+  color: #fff;
+}
+
 .swatches { display: flex; gap: 8px; }
 
 .swatch {

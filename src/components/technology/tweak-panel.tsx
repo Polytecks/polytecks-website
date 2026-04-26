@@ -1,14 +1,23 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useTweaks, type TweakAccent } from "@/lib/use-tweaks";
+import {
+  useTweaks,
+  type ActiveTheme,
+  type PillarVariant,
+} from "@/lib/use-tweaks";
 import styles from "./tweak-panel.module.css";
 
-const ACCENT_PREVIEW: Record<TweakAccent, string> = {
-  indigo: "#6a74dc",
-  cyan: "#5cd9e8",
-  green: "#34d399",
-};
+const VARIANTS: { id: PillarVariant; label: string; hint: string }[] = [
+  { id: "card",  label: "Card",  hint: "Three separate cards, gaps between" },
+  { id: "split", label: "Split", hint: "One rectangle in three sections" },
+];
+
+const ACTIVE_THEMES: { id: ActiveTheme; label: string; swatch: string }[] = [
+  { id: "indigo",  label: "Indigo",  swatch: "rgba(74, 84, 192, 0.6)" },
+  { id: "lighter", label: "Lighter", swatch: "rgba(142, 152, 238, 0.85)" },
+  { id: "cool",    label: "Cool",    swatch: "rgba(255, 255, 255, 0.5)" },
+];
 
 export function TweakPanel() {
   const [enabled, setEnabled] = useState(false);
@@ -47,86 +56,43 @@ export function TweakPanel() {
       <div className={styles.body} data-collapsed={collapsed}>
         <div className={styles.row}>
           <div className={styles.rowLabel}>
-            <span>Pillar pop</span>
-            <span className={styles.value}>{values.pillarPop.toFixed(2)}×</span>
+            <span>Variant</span>
+            <span className={styles.value}>{values.variant}</span>
           </div>
-          <input
-            type="range"
-            className={styles.slider}
-            min={1}
-            max={1.8}
-            step={0.05}
-            value={values.pillarPop}
-            onChange={(e) => setValue("pillarPop", Number(e.target.value))}
-          />
-        </div>
-
-        <div className={styles.row}>
-          <div className={styles.rowLabel}>
-            <span>Sibling dim</span>
-            <span className={styles.value}>{Math.round(values.siblingDim * 100)}%</span>
-          </div>
-          <input
-            type="range"
-            className={styles.slider}
-            min={0}
-            max={0.7}
-            step={0.05}
-            value={values.siblingDim}
-            onChange={(e) => setValue("siblingDim", Number(e.target.value))}
-          />
-        </div>
-
-        <div className={styles.row}>
-          <div className={styles.rowLabel}>
-            <span>Transition</span>
-            <span className={styles.value}>{values.animMs}ms</span>
-          </div>
-          <input
-            type="range"
-            className={styles.slider}
-            min={200}
-            max={600}
-            step={25}
-            value={values.animMs}
-            onChange={(e) => setValue("animMs", Number(e.target.value))}
-          />
-        </div>
-
-        <div className={styles.row}>
-          <div className={styles.rowLabel}>
-            <span>Accent</span>
-            <span className={styles.value}>{values.accent}</span>
-          </div>
-          <div className={styles.swatches}>
-            {(Object.keys(ACCENT_PREVIEW) as TweakAccent[]).map((accent) => (
+          <div className={styles.segmented}>
+            {VARIANTS.map((v) => (
               <button
-                key={accent}
+                key={v.id}
                 type="button"
-                className={styles.swatch}
-                aria-label={`Accent: ${accent}`}
-                data-active={values.accent === accent}
-                style={{ background: ACCENT_PREVIEW[accent] }}
-                onClick={() => setValue("accent", accent)}
-              />
+                className={styles.segment}
+                data-active={values.variant === v.id}
+                onClick={() => setValue("variant", v.id)}
+                title={v.hint}
+              >
+                {v.label}
+              </button>
             ))}
           </div>
         </div>
 
         <div className={styles.row}>
           <div className={styles.rowLabel}>
-            <span>Rhythm</span>
-            <span className={styles.value}>{values.rhythm.toFixed(2)}×</span>
+            <span>Active color</span>
+            <span className={styles.value}>{values.activeTheme}</span>
           </div>
-          <input
-            type="range"
-            className={styles.slider}
-            min={0.7}
-            max={1.4}
-            step={0.05}
-            value={values.rhythm}
-            onChange={(e) => setValue("rhythm", Number(e.target.value))}
-          />
+          <div className={styles.swatches}>
+            {ACTIVE_THEMES.map((t) => (
+              <button
+                key={t.id}
+                type="button"
+                className={styles.swatch}
+                aria-label={`Active theme: ${t.label}`}
+                data-active={values.activeTheme === t.id}
+                style={{ background: t.swatch }}
+                onClick={() => setValue("activeTheme", t.id)}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </div>
