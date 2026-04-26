@@ -5,18 +5,19 @@ import { Pillar } from "./pillar";
 import { PILLARS } from "./pillar-data";
 import styles from "./pillar-section.module.css";
 
-const POP_BY_VARIANT = {
-  card: 1.0,
-  split: 1.6,
-} as const;
+function readTweakNumber(name: string, fallback: number): number {
+  if (typeof window === "undefined") return fallback;
+  const raw = getComputedStyle(document.body).getPropertyValue(name).trim();
+  if (!raw) return fallback;
+  const num = parseFloat(raw);
+  return Number.isFinite(num) ? num : fallback;
+}
 
-const SIBLING_DIM = 0.4;
-const ANIM_MS = 550;
-
-function readVariant(): "card" | "split" {
-  if (typeof window === "undefined") return "card";
-  const v = document.body.dataset.pillarVariant;
-  return v === "split" ? "split" : "card";
+function readImageStyle(): "framed" | "banner" | "background" {
+  if (typeof window === "undefined") return "framed";
+  const v = document.body.dataset.imageStyle;
+  if (v === "banner" || v === "background") return v;
+  return "framed";
 }
 
 export function PillarSection() {
@@ -24,18 +25,20 @@ export function PillarSection() {
   const [, forceUpdate] = useReducer((x: number) => x + 1, 0);
   const rowRef = useRef<HTMLDivElement>(null);
 
-  // Re-render when document.body's dataset.pillarVariant changes (TweakPanel writes it).
+  // Re-render when document.body's style or dataset attrs change (TweakPanel writes them).
   useEffect(() => {
     const obs = new MutationObserver(() => forceUpdate());
     obs.observe(document.body, {
       attributes: true,
-      attributeFilter: ["data-pillar-variant", "style"],
+      attributeFilter: ["style", "data-image-style"],
     });
     return () => obs.disconnect();
   }, []);
 
-  const variant = readVariant();
-  const popRatio = POP_BY_VARIANT[variant];
+  const popRatio = readTweakNumber("--tw-pillar-pop", 1.6);
+  const siblingDim = readTweakNumber("--tw-sibling-dim", 0.5);
+  const animMs = readTweakNumber("--tw-anim-ms", 350);
+  const imageStyle = readImageStyle();
 
   // Cursor-closest activation: whichever pillar's horizontal center is nearest
   // to the cursor x while the cursor is anywhere in the row.
@@ -74,7 +77,6 @@ export function PillarSection() {
       <div
         ref={rowRef}
         className={styles.row}
-        data-variant={variant}
         onPointerMove={onRowPointerMove}
         onPointerLeave={onRowPointerLeave}
       >
@@ -82,12 +84,12 @@ export function PillarSection() {
           <Pillar
             key={p.id}
             content={p}
-            variant={variant}
+            imageStyle={imageStyle}
             isActive={activeId === p.id}
             anyActive={activeId !== null}
             popRatio={popRatio}
-            siblingDim={SIBLING_DIM}
-            animMs={ANIM_MS}
+            siblingDim={siblingDim}
+            animMs={animMs}
             onActivate={() => setActiveId(p.id)}
             onDeactivate={() => {
               setActiveId((curr) => (curr === p.id ? null : curr));

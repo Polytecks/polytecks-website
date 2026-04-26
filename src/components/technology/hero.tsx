@@ -4,18 +4,7 @@ import styles from "./hero.module.css";
 
 export function TechnologyHero() {
   return (
-    <>
-      <header className={styles.header}>
-        <SubpageHeader
-          eyebrow="Technology"
-          title={
-            <>
-              The electrode, <em>reinvented</em>.
-            </>
-          }
-          lede="A new frontier in bioelectrical mapping."
-        />
-      </header>
+    <div className={styles.hero}>
       <div className={styles.banner}>
         <Image
           src="/assets/array-mosaic.jpg"
@@ -26,7 +15,18 @@ export function TechnologyHero() {
           priority
         />
         <div className={styles.fade} aria-hidden="true" />
+        <div className={styles.header}>
+          <SubpageHeader
+            eyebrow="Technology"
+            title={
+              <>
+                The electrode, <em>reinvented</em>.
+              </>
+            }
+            lede="A new frontier in bioelectrical mapping."
+          />
+        </div>
       </div>
-    </>
+    </div>
   );
 }

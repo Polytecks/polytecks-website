@@ -2,25 +2,42 @@
 
 import { useCallback, useEffect, useState } from "react";
 
-export type PillarVariant = "card" | "split";
+export type TweakAccent = "indigo" | "cyan" | "green";
 export type ActiveTheme = "indigo" | "lighter" | "cool";
+export type ImageStyle = "framed" | "banner" | "background";
 
 export type TweakValues = {
-  variant: PillarVariant;
-  activeTheme: ActiveTheme;
+  pillarPop: number;     // 1.0 → 1.8 (active grows by this multiplier)
+  siblingDim: number;    // 0 → 0.7 (opacity offset for siblings)
+  animMs: number;        // 200 → 600 (transition speed)
+  accent: TweakAccent;   // global brand accent
+  rhythm: number;        // 0.7 → 1.4 (vertical-padding multiplier)
+  activeTheme: ActiveTheme; // active-pillar background+border
+  imageStyle: ImageStyle;   // per-pillar image layout at rest
+  imageScale: number;       // 1.0 → 2.0 (object-scale within container)
+  imagePosY: number;        // 0 → 100 (object-position Y%)
 };
 
 export const TWEAK_DEFAULTS: TweakValues = {
-  variant: "card",
-  activeTheme: "indigo",
+  pillarPop: 1.6,
+  siblingDim: 0.5,
+  animMs: 350,
+  accent: "indigo",
+  rhythm: 1.0,
+  activeTheme: "cool",
+  imageStyle: "framed",
+  imageScale: 1.0,
+  imagePosY: 50,
 };
 
 const STORAGE_KEY = "polytecks:tweaks";
 
-/**
- * Active-pillar background + border for each theme.
- * "indigo" matches the baseline tokens defined in globals.css.
- */
+const ACCENT_HEX: Record<TweakAccent, string> = {
+  indigo: "#6a74dc",
+  cyan: "#5cd9e8",
+  green: "#34d399",
+};
+
 const ACTIVE_THEMES: Record<ActiveTheme, { bg: string; border: string }> = {
   indigo: {
     bg: "rgba(74, 84, 192, 0.08)",
@@ -38,10 +55,19 @@ const ACTIVE_THEMES: Record<ActiveTheme, { bg: string; border: string }> = {
 
 function applyToBody(values: TweakValues) {
   const body = document.body;
-  body.dataset.pillarVariant = values.variant;
+  body.style.setProperty("--tw-pillar-pop", String(values.pillarPop));
+  body.style.setProperty("--tw-sibling-dim", String(values.siblingDim));
+  body.style.setProperty("--tw-anim-ms", `${values.animMs}ms`);
+  body.style.setProperty("--tw-rhythm", String(values.rhythm));
+  body.style.setProperty("--indigo-bright", ACCENT_HEX[values.accent]);
+
   const theme = ACTIVE_THEMES[values.activeTheme];
   body.style.setProperty("--tw-active-bg", theme.bg);
   body.style.setProperty("--tw-active-border", theme.border);
+
+  body.dataset.imageStyle = values.imageStyle;
+  body.style.setProperty("--tw-img-scale", String(values.imageScale));
+  body.style.setProperty("--tw-img-pos-y", `${values.imagePosY}%`);
 }
 
 function readStored(): TweakValues {
@@ -62,9 +88,6 @@ export function useTweaks() {
   useEffect(() => {
     const initial = readStored();
     applyToBody(initial);
-    // Hydrating React state from localStorage on mount. setState-in-effect is
-    // justified here: without it, the panel's controls render at defaults on
-    // first paint instead of the user's persisted values.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setValues(initial);
   }, []);
@@ -95,11 +118,6 @@ export function useTweaks() {
   return { values, setValue, reset };
 }
 
-/**
- * Lightweight applier for routes that don't render the panel.
- * Reads stored values once and applies them to document.body so the page
- * matches the last-tweaked state even without ?tweaks=1 in the URL.
- */
 export function applyStoredTweaks() {
   if (typeof window === "undefined") return;
   applyToBody(readStored());

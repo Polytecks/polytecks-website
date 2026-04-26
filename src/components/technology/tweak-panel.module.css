@@ -137,6 +137,12 @@
   color: #fff;
 }
 
+.divider {
+  height: 1px;
+  background: var(--line);
+  margin: 4px 0;
+}
+
 .swatches { display: flex; gap: 8px; }
 
 .swatch {

@@ -1,28 +1,32 @@
+/* Pillar card — single image whose position morphs between three rest
+   styles (framed/banner/background) and a uniform "framed at bottom"
+   active state. No "01/02/03" number; description appears between title
+   and image when the card is active. */
+
 .pillar {
   appearance: none;
   background: transparent;
   border: 1px solid var(--line);
   border-radius: 8px;
   padding: 0;
-  cursor: pointer;
+  cursor: default;
   color: inherit;
   font: inherit;
   text-align: left;
 
   position: relative;
-  display: flex;
-  flex-direction: column;
   flex-basis: 0;
   flex-grow: 1;
   flex-shrink: 1;
-
   min-width: 0;
+  min-height: 480px;
   overflow: hidden;
 
   background-color: rgba(255, 255, 255, 0.012);
 
-  transition: border-color var(--tw-anim-ms, 550ms) cubic-bezier(0.2, 0.7, 0.2, 1),
-              background-color var(--tw-anim-ms, 550ms) cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition:
+    border-color var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1),
+    background-color var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 .pillar:focus-visible {
@@ -35,22 +39,18 @@
   background-color: var(--tw-active-bg, rgba(74, 84, 192, 0.08));
 }
 
-.persistent {
-  position: relative;
-  z-index: 2;
+/* ---------- Title zone (top, always on top of any image) ---------- */
+
+.titleZone {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 24px 24px 0;
+  z-index: 3;
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  padding: 24px 24px 0;
-}
-
-.number {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: var(--indigo-bright);
+  gap: 8px;
 }
 
 .title {
@@ -72,37 +72,26 @@
   margin: 0;
 }
 
-.restVisual {
-  position: relative;
-  margin: 16px 24px 24px;
-  aspect-ratio: 16 / 10;
-  overflow: hidden;
-  border-radius: 4px;
-  background: #0d0e14;
-}
+/* ---------- Description (visible only when active, between title and image) ---------- */
 
-.restVisual img,
-.restVisual svg {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.restVisualOverlay {
+.descriptionZone {
   position: absolute;
-  inset: 0;
+  left: 24px;
+  right: 24px;
+  top: 110px;
+  bottom: 244px;
+  z-index: 3;
+  opacity: 0;
   pointer-events: none;
-  background: linear-gradient(135deg, rgba(74, 84, 192, 0.12), transparent 55%);
+  overflow-y: auto;
+  transition:
+    opacity 250ms cubic-bezier(0.2, 0.7, 0.2, 1) 0ms;
 }
 
-.reveal {
-  position: relative;
-  z-index: 2;
-  padding: 4px 24px 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+.pillar[data-active="true"] .descriptionZone {
+  opacity: 1;
+  pointer-events: auto;
+  transition-delay: 200ms;
 }
 
 .body {
@@ -111,28 +100,121 @@
   font-size: 15px;
   line-height: 1.6;
   color: var(--ink-dim);
-  max-width: 360px;
   margin: 0;
 }
 
-.detailVisual {
-  position: relative;
-  aspect-ratio: 16 / 9;
+/* ---------- Image zone — position morphs between rest styles + active ---------- */
+
+.imageZone {
+  position: absolute;
+  z-index: 1;
   overflow: hidden;
-  border-radius: 4px;
   background: #0d0e14;
+  transition:
+    top var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1),
+    bottom var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1),
+    left var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1),
+    right var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1),
+    height var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1),
+    border-radius var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
-.detailVisual img,
-.detailVisual svg {
+.imageZone img,
+.imageZone video {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center var(--tw-img-pos-y, 50%);
+  transform: scale(var(--tw-img-scale, 1));
+  transform-origin: center center;
   display: block;
 }
 
+/* Rest states — vary by image style */
+
+.pillar[data-active="false"][data-style="framed"] .imageZone {
+  top: 110px;
+  left: 24px;
+  right: 24px;
+  height: clamp(180px, 22vw, 240px);
+  border-radius: 4px;
+}
+
+.pillar[data-active="false"][data-style="banner"] .imageZone {
+  top: 110px;
+  left: 0;
+  right: 0;
+  height: clamp(140px, 18vw, 200px);
+  border-radius: 0;
+}
+
+.pillar[data-active="false"][data-style="background"] .imageZone {
+  inset: 0;
+  border-radius: 8px;
+  z-index: 1;
+}
+
+/* Background-mode rest: gradient under title so it stays readable. */
+.pillar[data-active="false"][data-style="background"]::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 55%;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgba(10, 10, 14, 0.92) 0%,
+    rgba(10, 10, 14, 0.7) 35%,
+    rgba(10, 10, 14, 0.0) 100%
+  );
+  border-radius: 8px 8px 0 0;
+}
+
+/* Active state — uniform "framed at bottom" regardless of rest style */
+.pillar[data-active="true"] .imageZone {
+  top: auto;
+  bottom: 24px;
+  left: 24px;
+  right: 24px;
+  height: 200px;
+  border-radius: 6px;
+}
+
+/* Active background-mode: kill the rest-mode gradient */
+.pillar[data-active="true"][data-style="background"]::before {
+  display: none;
+}
+
+/* Subtle indigo overlay on image (visual treatment, all states) */
+.imageOverlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(135deg, rgba(74, 84, 192, 0.12), transparent 55%);
+  z-index: 2;
+}
+
 @media (max-width: 720px) {
-  .persistent { padding: 20px 18px 0; gap: 10px; }
-  .restVisual { margin: 14px 18px 18px; aspect-ratio: 16 / 9; }
-  .reveal { padding: 4px 18px 20px; }
+  .pillar { min-height: 420px; }
+  .titleZone { padding: 20px 18px 0; }
+  .descriptionZone { left: 18px; right: 18px; top: 96px; bottom: 220px; }
+  .pillar[data-active="false"][data-style="framed"] .imageZone {
+    top: 96px;
+    left: 18px;
+    right: 18px;
+    height: 200px;
+  }
+  .pillar[data-active="false"][data-style="banner"] .imageZone {
+    top: 96px;
+    height: 160px;
+  }
+  .pillar[data-active="true"] .imageZone {
+    bottom: 18px;
+    left: 18px;
+    right: 18px;
+    height: 180px;
+  }
 }

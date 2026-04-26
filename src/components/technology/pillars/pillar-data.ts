@@ -1,16 +1,12 @@
 export type PillarVisual =
-  | { kind: "image"; src: string; alt: string; objectPosition?: string; filter?: string }
-  | { kind: "signal" };
+  | { kind: "image"; src: string; alt: string; width: number; height: number }
+  | { kind: "video"; src: string; alt: string };
 
 export type PillarContent = {
   id: string;
-  number: string;
   title: string;
   subtitle: string;
-  /** Always rendered. */
-  restVisual: PillarVisual;
-  /** Rendered, but visually hidden until pillar is active. */
-  detailVisual: PillarVisual;
+  visual: PillarVisual;
   /** ~40 words. */
   body: string;
 };
@@ -20,22 +16,15 @@ export type PillarContent = {
 export const PILLARS: PillarContent[] = [
   {
     id: "materials",
-    number: "01",
     title: "New Materials",
     subtitle: "New sensing possibilities",
-    restVisual: {
+    visual: {
       kind: "image",
-      src: "/assets/array-mosaic.jpg",
-      alt: "Cropped detail of the Polytecks electrode array sheet",
-      objectPosition: "20% 30%",
-      filter: "grayscale(0.4) contrast(1.25) brightness(0.95)",
-    },
-    detailVisual: {
-      kind: "image",
-      src: "/assets/array-mosaic.jpg",
-      alt: "Wider view of the array sheet showing electrode lattice",
-      objectPosition: "center 35%",
-      filter: "grayscale(0.2) contrast(1.15) brightness(0.95)",
+      // Filename has a capital M but no spaces — used verbatim.
+      src: "/assets/Materials.jpg",
+      alt: "Polytecks electrode material — close-up texture",
+      width: 1600,
+      height: 1000,
     },
     // TODO: real claim about conducting-polymer wet-dry electrodes
     body:
@@ -45,20 +34,15 @@ export const PILLARS: PillarContent[] = [
   },
   {
     id: "form",
-    number: "02",
     title: "New Form",
     subtitle: "Engineered for ease-of-use",
-    restVisual: {
+    visual: {
       kind: "image",
-      src: "/assets/polytecks-arm-v2.png",
-      alt: "Polytecks hexagonal electrode array on forearm",
-      objectPosition: "55% 40%",
-    },
-    detailVisual: {
-      kind: "image",
-      src: "/assets/polytecks-arm-v2.png",
-      alt: "Wider view of the array conforming to forearm anatomy",
-      objectPosition: "center center",
+      // Filename has a space — URL-encoded so Next/Image accepts it cleanly.
+      src: "/assets/Polytecks%20Form.png",
+      alt: "Polytecks textile-integrated electrode array",
+      width: 1600,
+      height: 1000,
     },
     // TODO: real claim about textile-integrated mechanical design
     body:
@@ -68,12 +52,13 @@ export const PILLARS: PillarContent[] = [
   },
   {
     id: "intelligence",
-    number: "03",
     title: "New Intelligence",
     subtitle: "Signal made meaningful",
-    // TODO: split detailVisual into noisy "wet electrode" trace + clean "Polytecks" trace, stacked
-    restVisual: { kind: "signal" },
-    detailVisual: { kind: "signal" },
+    visual: {
+      kind: "video",
+      src: "/assets/information.webm",
+      alt: "Bioelectric signal reconstruction — animated visualisation",
+    },
     // TODO: real claim about software / decision-support layer
     body:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod " +

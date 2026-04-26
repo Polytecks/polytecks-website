@@ -17,7 +17,6 @@
   margin: 0 0 56px 0;
 }
 
-/* Card variant: 3 separate rounded-corner cards with gaps. */
 .row {
   display: flex;
   align-items: stretch;
@@ -25,32 +24,7 @@
   gap: clamp(16px, 1.6vw, 28px);
 }
 
-/* Split variant: butted-up rectangles that visually read as one strip. */
-.row[data-variant="split"] {
-  gap: 0;
-  border-radius: 0;
-  overflow: hidden;
-  border: 1px solid var(--line);
-}
-
-.row[data-variant="split"] :global(.pillar-root) {
-  border-radius: 0;
-  border-top: 0;
-  border-bottom: 0;
-  border-right: 1px solid var(--line);
-  border-left: 0;
-}
-
-.row[data-variant="split"] :global(.pillar-root):last-child {
-  border-right: 0;
-}
-
 @media (max-width: 720px) {
   .section { padding: calc(64px * var(--tw-rhythm, 1)) 20px calc(64px * var(--tw-rhythm, 1)); }
   .row { flex-direction: column; min-height: 0; }
-  .row[data-variant="split"] :global(.pillar-root) {
-    border-right: 0;
-    border-bottom: 1px solid var(--line);
-  }
-  .row[data-variant="split"] :global(.pillar-root):last-child { border-bottom: 0; }
 }

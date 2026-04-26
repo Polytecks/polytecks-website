@@ -4,29 +4,35 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { useRef } from "react";
 import type { PillarContent, PillarVisual } from "./pillar-data";
-import { SignalTrace } from "./signal-trace";
 import styles from "./pillar.module.css";
 
-function Visual({ visual, signalAnimate }: { visual: PillarVisual; signalAnimate: boolean }) {
-  if (visual.kind === "signal") return <SignalTrace animate={signalAnimate} />;
+function Visual({ visual }: { visual: PillarVisual }) {
+  if (visual.kind === "video") {
+    return (
+      <video
+        src={visual.src}
+        autoPlay
+        loop
+        muted
+        playsInline
+        aria-label={visual.alt}
+      />
+    );
+  }
   return (
     <Image
       src={visual.src}
       alt={visual.alt}
-      width={1600}
-      height={1000}
+      width={visual.width}
+      height={visual.height}
       sizes="(max-width: 720px) 100vw, 33vw"
-      style={{
-        objectPosition: visual.objectPosition ?? "center center",
-        filter: visual.filter,
-      }}
     />
   );
 }
 
 export function Pillar({
   content,
-  variant,
+  imageStyle,
   isActive,
   anyActive,
   popRatio,
@@ -36,7 +42,7 @@ export function Pillar({
   onDeactivate,
 }: {
   content: PillarContent;
-  variant: "card" | "split";
+  imageStyle: "framed" | "banner" | "background";
   isActive: boolean;
   anyActive: boolean;
   popRatio: number;
@@ -49,16 +55,15 @@ export function Pillar({
 
   const flexGrow = !anyActive ? 1 : isActive ? popRatio : (3 - popRatio) / 2;
   const opacity = !anyActive ? 1 : isActive ? 1 : 1 - siblingDim;
-  const scale = !anyActive ? 1 : isActive || variant === "split" ? 1 : 0.96;
+  const scale = !anyActive ? 1 : isActive ? 1 : 0.96;
 
   return (
     <motion.button
       ref={ref}
       type="button"
-      // Class on the rendered DOM element (not a CSS-Modules name) so the
-      // section's [data-variant] selectors can target it via :global(.pillar-root).
       className={`${styles.pillar} pillar-root`}
       data-active={isActive}
+      data-style={imageStyle}
       data-pillar-id={content.id}
       onFocus={onActivate}
       onBlur={onDeactivate}
@@ -69,33 +74,19 @@ export function Pillar({
       transition={{ duration: animMs / 1000, ease: [0.2, 0.7, 0.2, 1] }}
       layout
     >
-      <div className={styles.persistent}>
-        <span className={styles.number}>{content.number}</span>
+      <div className={styles.titleZone}>
         <h3 className={styles.title}>{content.title}</h3>
         <p className={styles.subtitle}>{content.subtitle}</p>
       </div>
 
-      <div className={styles.restVisual}>
-        <Visual visual={content.restVisual} signalAnimate={false} />
-        <span className={styles.restVisualOverlay} aria-hidden="true" />
+      <div className={styles.descriptionZone} aria-hidden={!isActive}>
+        <p className={styles.body}>{content.body}</p>
       </div>
 
-      <motion.div
-        className={styles.reveal}
-        initial={false}
-        animate={{ opacity: isActive ? 1 : 0, y: isActive ? 0 : 16 }}
-        transition={{
-          duration: 0.25,
-          delay: isActive ? 0.2 : 0,
-          ease: [0.2, 0.7, 0.2, 1],
-        }}
-        aria-hidden={!isActive}
-      >
-        <p className={styles.body}>{content.body}</p>
-        <div className={styles.detailVisual}>
-          <Visual visual={content.detailVisual} signalAnimate={isActive && content.id === "intelligence"} />
-        </div>
-      </motion.div>
+      <div className={styles.imageZone}>
+        <Visual visual={content.visual} />
+        <span className={styles.imageOverlay} aria-hidden="true" />
+      </div>
     </motion.button>
   );
 }

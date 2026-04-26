@@ -1,22 +1,19 @@
-/* Top header: matches Subpage padding so the eyebrow + title sit at the
-   same y-position as on /about, /devices, etc. */
-.header {
+/* Hero stack:
+   - Banner sits at top of page (under nav, above body) at --banner-height.
+   - Header text overlays the banner, positioned to match Subpage's header
+     y-coordinate. Text uses subpage-scale typography.
+   - Bottom of banner fades smoothly into page background (#0a0a0e). */
+
+.hero {
   position: relative;
-  z-index: 5;
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 100px 40px 56px;
+  width: 100%;
 }
 
-/* Banner sits below the header. Shorter than the original full-bleed hero
-   and shows the bottom 3/4 of the mosaic so the busiest part of the
-   electrode lattice fills the frame. */
 .banner {
   position: relative;
   width: 100%;
   height: var(--banner-height, clamp(440px, 60vh, 620px));
   overflow: hidden;
-  border-block: 1px solid var(--line);
 }
 
 .banner img {
@@ -35,11 +32,28 @@
   inset: 0;
   pointer-events: none;
   background:
+    /* Darken under nav so eyebrow + title read crisply */
     linear-gradient(to bottom,
-      rgba(10, 10, 14, 0.55) 0%,
-      rgba(10, 10, 14, 0.0) 30%,
-      rgba(10, 10, 14, 0.0) 70%,
-      rgba(10, 10, 14, 0.95) 100%);
+      rgba(10, 10, 14, 0.85) 0%,
+      rgba(10, 10, 14, 0.55) 200px,
+      rgba(10, 10, 14, 0.0) 360px),
+    /* Bottom blend into the page background */
+    linear-gradient(to bottom,
+      transparent 0%,
+      transparent 50%,
+      rgba(10, 10, 14, 0.6) 75%,
+      rgb(10, 10, 14) 100%);
+}
+
+.header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 100px 40px 56px;
 }
 
 @media (max-width: 720px) {

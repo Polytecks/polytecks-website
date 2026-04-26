@@ -4,19 +4,27 @@ import { useEffect, useState } from "react";
 import {
   useTweaks,
   type ActiveTheme,
-  type PillarVariant,
+  type ImageStyle,
+  type TweakAccent,
 } from "@/lib/use-tweaks";
 import styles from "./tweak-panel.module.css";
 
-const VARIANTS: { id: PillarVariant; label: string; hint: string }[] = [
-  { id: "card",  label: "Card",  hint: "Three separate cards, gaps between" },
-  { id: "split", label: "Split", hint: "One rectangle in three sections" },
-];
+const ACCENT_PREVIEW: Record<TweakAccent, string> = {
+  indigo: "#6a74dc",
+  cyan: "#5cd9e8",
+  green: "#34d399",
+};
 
 const ACTIVE_THEMES: { id: ActiveTheme; label: string; swatch: string }[] = [
   { id: "indigo",  label: "Indigo",  swatch: "rgba(74, 84, 192, 0.6)" },
   { id: "lighter", label: "Lighter", swatch: "rgba(142, 152, 238, 0.85)" },
   { id: "cool",    label: "Cool",    swatch: "rgba(255, 255, 255, 0.5)" },
+];
+
+const IMAGE_STYLES: { id: ImageStyle; label: string; hint: string }[] = [
+  { id: "framed",     label: "Framed",     hint: "Curved corners, margin around" },
+  { id: "banner",     label: "Banner",     hint: "Full-width strip, no margin" },
+  { id: "background", label: "Background", hint: "Fills card, fades behind title" },
 ];
 
 export function TweakPanel() {
@@ -56,23 +64,86 @@ export function TweakPanel() {
       <div className={styles.body} data-collapsed={collapsed}>
         <div className={styles.row}>
           <div className={styles.rowLabel}>
-            <span>Variant</span>
-            <span className={styles.value}>{values.variant}</span>
+            <span>Pillar pop</span>
+            <span className={styles.value}>{values.pillarPop.toFixed(2)}×</span>
           </div>
-          <div className={styles.segmented}>
-            {VARIANTS.map((v) => (
+          <input
+            type="range"
+            className={styles.slider}
+            min={1}
+            max={1.8}
+            step={0.05}
+            value={values.pillarPop}
+            onChange={(e) => setValue("pillarPop", Number(e.target.value))}
+          />
+        </div>
+
+        <div className={styles.row}>
+          <div className={styles.rowLabel}>
+            <span>Sibling dim</span>
+            <span className={styles.value}>{Math.round(values.siblingDim * 100)}%</span>
+          </div>
+          <input
+            type="range"
+            className={styles.slider}
+            min={0}
+            max={0.7}
+            step={0.05}
+            value={values.siblingDim}
+            onChange={(e) => setValue("siblingDim", Number(e.target.value))}
+          />
+        </div>
+
+        <div className={styles.row}>
+          <div className={styles.rowLabel}>
+            <span>Transition</span>
+            <span className={styles.value}>{values.animMs}ms</span>
+          </div>
+          <input
+            type="range"
+            className={styles.slider}
+            min={200}
+            max={600}
+            step={25}
+            value={values.animMs}
+            onChange={(e) => setValue("animMs", Number(e.target.value))}
+          />
+        </div>
+
+        <div className={styles.row}>
+          <div className={styles.rowLabel}>
+            <span>Accent</span>
+            <span className={styles.value}>{values.accent}</span>
+          </div>
+          <div className={styles.swatches}>
+            {(Object.keys(ACCENT_PREVIEW) as TweakAccent[]).map((accent) => (
               <button
-                key={v.id}
+                key={accent}
                 type="button"
-                className={styles.segment}
-                data-active={values.variant === v.id}
-                onClick={() => setValue("variant", v.id)}
-                title={v.hint}
-              >
-                {v.label}
-              </button>
+                className={styles.swatch}
+                aria-label={`Accent: ${accent}`}
+                data-active={values.accent === accent}
+                style={{ background: ACCENT_PREVIEW[accent] }}
+                onClick={() => setValue("accent", accent)}
+              />
             ))}
           </div>
+        </div>
+
+        <div className={styles.row}>
+          <div className={styles.rowLabel}>
+            <span>Rhythm</span>
+            <span className={styles.value}>{values.rhythm.toFixed(2)}×</span>
+          </div>
+          <input
+            type="range"
+            className={styles.slider}
+            min={0.7}
+            max={1.4}
+            step={0.05}
+            value={values.rhythm}
+            onChange={(e) => setValue("rhythm", Number(e.target.value))}
+          />
         </div>
 
         <div className={styles.row}>
@@ -93,6 +164,61 @@ export function TweakPanel() {
               />
             ))}
           </div>
+        </div>
+
+        <div className={styles.divider} />
+
+        <div className={styles.row}>
+          <div className={styles.rowLabel}>
+            <span>Image style</span>
+            <span className={styles.value}>{values.imageStyle}</span>
+          </div>
+          <div className={styles.segmented}>
+            {IMAGE_STYLES.map((s) => (
+              <button
+                key={s.id}
+                type="button"
+                className={styles.segment}
+                data-active={values.imageStyle === s.id}
+                onClick={() => setValue("imageStyle", s.id)}
+                title={s.hint}
+              >
+                {s.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className={styles.row}>
+          <div className={styles.rowLabel}>
+            <span>Image scale</span>
+            <span className={styles.value}>{values.imageScale.toFixed(2)}×</span>
+          </div>
+          <input
+            type="range"
+            className={styles.slider}
+            min={1}
+            max={2}
+            step={0.05}
+            value={values.imageScale}
+            onChange={(e) => setValue("imageScale", Number(e.target.value))}
+          />
+        </div>
+
+        <div className={styles.row}>
+          <div className={styles.rowLabel}>
+            <span>Image position</span>
+            <span className={styles.value}>{values.imagePosY}%</span>
+          </div>
+          <input
+            type="range"
+            className={styles.slider}
+            min={0}
+            max={100}
+            step={5}
+            value={values.imagePosY}
+            onChange={(e) => setValue("imagePosY", Number(e.target.value))}
+          />
         </div>
       </div>
     </div>
