@@ -67,6 +67,9 @@ export function Pillar({
     ["--img-rest-scale" as string]: String(imageTweaks.rest.scale),
     ["--img-active-pos" as string]: `${imageTweaks.active.posX}% ${imageTweaks.active.posY}%`,
     ["--img-active-scale" as string]: String(imageTweaks.active.scale),
+    // Active-state container size — width as multiplier of available, height in px.
+    ["--img-active-width-mult" as string]: String(imageTweaks.active.widthPct / 100),
+    ["--img-active-height" as string]: `${imageTweaks.active.heightPx}px`,
   };
 
   return (

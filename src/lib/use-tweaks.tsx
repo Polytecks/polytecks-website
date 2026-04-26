@@ -16,9 +16,13 @@ export type CardId = "materials" | "form" | "intelligence";
 export type ImageState = "rest" | "active";
 
 export type ImageTweak = {
-  scale: number;  // 1.0 → 2.5 (transform: scale on the img element)
-  posX: number;   // 0 → 100 (object-position-x %)
-  posY: number;   // 0 → 100 (object-position-y %)
+  scale: number;     // 1.0 → 2.5 (transform: scale on the img element)
+  posX: number;      // 0 → 100 (object-position-x %)
+  posY: number;      // 0 → 100 (object-position-y %)
+  /** Active-state only: width as % of available card width. Ignored on rest. */
+  widthPct: number;  // 40 → 100
+  /** Active-state only: container height in px. Ignored on rest. */
+  heightPx: number;  // 120 → 400
 };
 
 export type CardImageTweaks = Record<ImageState, ImageTweak>;
@@ -35,7 +39,13 @@ export type TweakValues = {
   imageTweaks: Record<CardId, CardImageTweaks>;
 };
 
-const DEFAULT_IMAGE_TWEAK: ImageTweak = { scale: 1.0, posX: 50, posY: 50 };
+const DEFAULT_IMAGE_TWEAK: ImageTweak = {
+  scale: 1.0,
+  posX: 50,
+  posY: 50,
+  widthPct: 100,
+  heightPx: 200,
+};
 
 export const TWEAK_DEFAULTS: TweakValues = {
   pillarPop: 1.6,

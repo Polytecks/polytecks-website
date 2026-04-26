@@ -247,6 +247,25 @@ export function TweakPanel() {
           onChange={(v) => setCardImageTweak(editingCard, editingState, { posY: v })}
         />
 
+        {editingState === "active" ? (
+          <>
+            <Slider
+              label="Active width"
+              value={editing.widthPct}
+              min={40} max={100} step={2}
+              format={(v) => `${v}%`}
+              onChange={(v) => setCardImageTweak(editingCard, editingState, { widthPct: v })}
+            />
+            <Slider
+              label="Active height"
+              value={editing.heightPx}
+              min={120} max={400} step={5}
+              format={(v) => `${v}px`}
+              onChange={(v) => setCardImageTweak(editingCard, editingState, { heightPx: v })}
+            />
+          </>
+        ) : null}
+
         <div className={styles.divider} />
 
         <div className={styles.row}>
