@@ -100,14 +100,24 @@ function readStored(): TweakValues {
     const raw = window.localStorage.getItem(STORAGE_KEY);
     if (!raw) return TWEAK_DEFAULTS;
     const parsed = JSON.parse(raw) as Partial<TweakValues>;
+
+    // Deep-merge imageTweaks all the way down to per-state ImageTweak fields,
+    // so a stored snapshot from before we added a new field (e.g. cardHeightPx)
+    // doesn't leave that field undefined and turn `${value}px` into "undefinedpx".
+    const cardIds = Object.keys(TWEAK_DEFAULTS.imageTweaks) as CardId[];
+    const mergedImageTweaks = cardIds.reduce<Record<CardId, CardImageTweaks>>((acc, cardId) => {
+      const stored = parsed.imageTweaks?.[cardId];
+      acc[cardId] = {
+        rest:   { ...DEFAULT_IMAGE_TWEAK, ...(stored?.rest ?? {}) },
+        active: { ...DEFAULT_IMAGE_TWEAK, ...(stored?.active ?? {}) },
+      };
+      return acc;
+    }, {} as Record<CardId, CardImageTweaks>);
+
     return {
       ...TWEAK_DEFAULTS,
       ...parsed,
-      // Deep-merge imageTweaks so missing card entries pick up defaults.
-      imageTweaks: {
-        ...TWEAK_DEFAULTS.imageTweaks,
-        ...(parsed.imageTweaks ?? {}),
-      },
+      imageTweaks: mergedImageTweaks,
     };
   } catch {
     return TWEAK_DEFAULTS;
