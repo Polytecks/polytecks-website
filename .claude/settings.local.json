@@ -31,7 +31,8 @@
       "Read(//c/Users/Calla/desktop/claudecode/**)",
       "Bash(taskkill //F //IM node.exe)",
       "Bash(python3 -m http.server 4000)",
-      "Bash(python -m http.server 4000)"
+      "Bash(python -m http.server 4000)",
+      "Bash(git rm *)"
     ]
   },
   "enableAllProjectMcpServers": true,

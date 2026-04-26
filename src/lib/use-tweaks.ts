@@ -54,8 +54,12 @@ export function useTweaks() {
 
   useEffect(() => {
     const initial = readStored();
-    setValues(initial);
     applyToBody(initial);
+    // Hydrating React state from localStorage on mount. setState-in-effect is
+    // justified here: without it, the panel's sliders render at defaults on
+    // first paint instead of the user's persisted values.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setValues(initial);
   }, []);
 
   const setValue = useCallback(<K extends keyof TweakValues>(key: K, value: TweakValues[K]) => {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useReducer, useState } from "react";
 import { Pillar } from "./pillar";
 import { PILLARS } from "./pillar-data";
 import styles from "./pillar-section.module.css";
@@ -15,21 +15,20 @@ function readTweakNumber(name: string, fallback: number): number {
 
 export function PillarSection() {
   const [activeId, setActiveId] = useState<string | null>(null);
-  const [tick, setTick] = useState(0);
+  const [, forceUpdate] = useReducer((x: number) => x + 1, 0);
 
-  // Re-sample tweak values when document.body's style attr changes
-  // (i.e., when the TweakPanel writes a new value).
+  // Re-render when document.body's style attr changes (TweakPanel writes a
+  // new value). Reading via getComputedStyle on each render is cheap for 3
+  // elements.
   useEffect(() => {
-    const obs = new MutationObserver(() => setTick((t) => t + 1));
+    const obs = new MutationObserver(() => forceUpdate());
     obs.observe(document.body, { attributes: true, attributeFilter: ["style"] });
     return () => obs.disconnect();
   }, []);
 
-  const tweaks = useMemo(() => ({
-    popRatio: readTweakNumber("--tw-pillar-pop", 1.6),
-    siblingDim: readTweakNumber("--tw-sibling-dim", 0.5),
-    animMs: readTweakNumber("--tw-anim-ms", 350),
-  }), [tick]);
+  const popRatio = readTweakNumber("--tw-pillar-pop", 1.6);
+  const siblingDim = readTweakNumber("--tw-sibling-dim", 0.5);
+  const animMs = readTweakNumber("--tw-anim-ms", 350);
 
   const handleEscape = useCallback((e: KeyboardEvent) => {
     if (e.key === "Escape") setActiveId(null);
@@ -53,9 +52,9 @@ export function PillarSection() {
             content={p}
             isActive={activeId === p.id}
             anyActive={activeId !== null}
-            popRatio={tweaks.popRatio}
-            siblingDim={tweaks.siblingDim}
-            animMs={tweaks.animMs}
+            popRatio={popRatio}
+            siblingDim={siblingDim}
+            animMs={animMs}
             onActivate={() => setActiveId(p.id)}
             onDeactivate={() => {
               setActiveId((curr) => (curr === p.id ? null : curr));
