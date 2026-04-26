@@ -21,8 +21,8 @@
 
   background-color: rgba(255, 255, 255, 0.012);
 
-  transition: border-color var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1),
-              background-color var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition: border-color var(--tw-anim-ms, 550ms) cubic-bezier(0.2, 0.7, 0.2, 1),
+              background-color var(--tw-anim-ms, 550ms) cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 .pillar:focus-visible {
@@ -31,33 +31,8 @@
 }
 
 .pillar[data-active="true"] {
-  border-color: rgba(168, 176, 243, 0.45);
-  background-color: rgba(74, 84, 192, 0.06);
-}
-
-.cursorOutline {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 250ms cubic-bezier(0.2, 0.7, 0.2, 1);
-  background:
-    radial-gradient(
-      circle at var(--cursor-x, 50%) var(--cursor-y, 50%),
-      rgba(168, 176, 243, 0.3) 0%,
-      transparent 35%
-    );
-  mix-blend-mode: screen;
-  z-index: 1;
-}
-
-.pillar[data-active="true"] .cursorOutline { opacity: 1; }
-
-@media (prefers-reduced-motion: reduce) {
-  .cursorOutline {
-    background: radial-gradient(circle at 50% 50%, rgba(168, 176, 243, 0.18) 0%, transparent 50%);
-  }
+  border-color: var(--tw-active-border, rgba(168, 176, 243, 0.45));
+  background-color: var(--tw-active-bg, rgba(74, 84, 192, 0.08));
 }
 
 .persistent {

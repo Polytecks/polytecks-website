@@ -1,8 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { motion, useReducedMotion } from "framer-motion";
-import { useCallback, useRef } from "react";
+import { motion } from "framer-motion";
+import { useRef } from "react";
 import type { PillarContent, PillarVisual } from "./pillar-data";
 import { SignalTrace } from "./signal-trace";
 import styles from "./pillar.module.css";
@@ -26,6 +26,7 @@ function Visual({ visual, signalAnimate }: { visual: PillarVisual; signalAnimate
 
 export function Pillar({
   content,
+  variant,
   isActive,
   anyActive,
   popRatio,
@@ -35,6 +36,7 @@ export function Pillar({
   onDeactivate,
 }: {
   content: PillarContent;
+  variant: "card" | "split";
   isActive: boolean;
   anyActive: boolean;
   popRatio: number;
@@ -44,34 +46,22 @@ export function Pillar({
   onDeactivate: () => void;
 }) {
   const ref = useRef<HTMLButtonElement>(null);
-  const reduced = useReducedMotion();
 
-  const onPointerMove = useCallback((e: React.PointerEvent<HTMLButtonElement>) => {
-    if (!isActive || reduced) return;
-    const el = ref.current;
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    const y = ((e.clientY - rect.top) / rect.height) * 100;
-    el.style.setProperty("--cursor-x", `${x}%`);
-    el.style.setProperty("--cursor-y", `${y}%`);
-  }, [isActive, reduced]);
-
-  const flexGrow = !anyActive ? 1 : isActive ? popRatio : (2 - popRatio) / 2;
+  const flexGrow = !anyActive ? 1 : isActive ? popRatio : (3 - popRatio) / 2;
   const opacity = !anyActive ? 1 : isActive ? 1 : 1 - siblingDim;
-  const scale = !anyActive ? 1 : isActive ? 1 : 0.96;
+  const scale = !anyActive ? 1 : isActive || variant === "split" ? 1 : 0.96;
 
   return (
     <motion.button
       ref={ref}
       type="button"
-      className={styles.pillar}
+      // Class on the rendered DOM element (not a CSS-Modules name) so the
+      // section's [data-variant] selectors can target it via :global(.pillar-root).
+      className={`${styles.pillar} pillar-root`}
       data-active={isActive}
-      onMouseEnter={onActivate}
-      onMouseLeave={onDeactivate}
+      data-pillar-id={content.id}
       onFocus={onActivate}
       onBlur={onDeactivate}
-      onPointerMove={onPointerMove}
       onClick={onActivate}
       aria-expanded={isActive}
       style={{ flexGrow }}
@@ -79,8 +69,6 @@ export function Pillar({
       transition={{ duration: animMs / 1000, ease: [0.2, 0.7, 0.2, 1] }}
       layout
     >
-      <span className={styles.cursorOutline} aria-hidden="true" />
-
       <div className={styles.persistent}>
         <span className={styles.number}>{content.number}</span>
         <h3 className={styles.title}>{content.title}</h3>

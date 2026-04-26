@@ -6,27 +6,6 @@
   padding: calc(96px * var(--tw-rhythm, 1)) 40px calc(96px * var(--tw-rhythm, 1));
 }
 
-.eyebrow {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: var(--indigo-bright);
-  margin-bottom: 28px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.eyebrow::before {
-  content: "";
-  width: 28px;
-  height: 1px;
-  background: var(--indigo-bright);
-  opacity: 0.6;
-}
-
 .lede {
   font-family: var(--font-display);
   font-weight: 300;
@@ -38,14 +17,40 @@
   margin: 0 0 56px 0;
 }
 
+/* Card variant: 3 separate rounded-corner cards with gaps. */
 .row {
   display: flex;
-  gap: clamp(16px, 1.6vw, 28px);
   align-items: stretch;
   min-height: 480px;
+  gap: clamp(16px, 1.6vw, 28px);
+}
+
+/* Split variant: butted-up rectangles that visually read as one strip. */
+.row[data-variant="split"] {
+  gap: 0;
+  border-radius: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+
+.row[data-variant="split"] :global(.pillar-root) {
+  border-radius: 0;
+  border-top: 0;
+  border-bottom: 0;
+  border-right: 1px solid var(--line);
+  border-left: 0;
+}
+
+.row[data-variant="split"] :global(.pillar-root):last-child {
+  border-right: 0;
 }
 
 @media (max-width: 720px) {
   .section { padding: calc(64px * var(--tw-rhythm, 1)) 20px calc(64px * var(--tw-rhythm, 1)); }
   .row { flex-direction: column; min-height: 0; }
+  .row[data-variant="split"] :global(.pillar-root) {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .row[data-variant="split"] :global(.pillar-root):last-child { border-bottom: 0; }
 }
