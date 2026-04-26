@@ -1,0 +1,25 @@
+.section {
+  position: relative;
+  z-index: 5;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: calc(56px * var(--tw-rhythm, 1)) 40px calc(80px * var(--tw-rhythm, 1));
+  display: flex;
+  justify-content: center;
+}
+
+.copy {
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: clamp(18px, 1.5vw, 22px);
+  line-height: 1.65;
+  color: var(--ink-dim);
+  max-width: 720px;
+  text-align: center;
+  text-wrap: pretty;
+  margin: 0;
+}
+
+@media (max-width: 720px) {
+  .section { padding: calc(40px * var(--tw-rhythm, 1)) 20px calc(56px * var(--tw-rhythm, 1)); }
+}
