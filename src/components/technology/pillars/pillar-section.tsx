@@ -11,22 +11,20 @@ export function PillarSection() {
   const [activeId, setActiveId] = useState<string | null>(null);
   const rowRef = useRef<HTMLDivElement>(null);
 
-  // Cursor-closest activation across the row gap.
+  // Cursor-closest activation by fixed horizontal zone (thirds of the row).
+  // Measuring each pillar's live rect would flicker because the active card's
+  // width animation shifts every pillar's center mid-transition; the cursor's
+  // "nearest" then flips back and forth, never settling. The row's width is
+  // stable, so dividing it into three equal zones gives a stable mapping.
   const onRowPointerMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
     const row = rowRef.current;
     if (!row) return;
-    const pillars = row.querySelectorAll<HTMLElement>("[data-pillar-id]");
-    let nearestId: string | null = null;
-    let nearestDist = Infinity;
-    pillars.forEach((el) => {
-      const rect = el.getBoundingClientRect();
-      const center = rect.left + rect.width / 2;
-      const d = Math.abs(center - e.clientX);
-      if (d < nearestDist) {
-        nearestDist = d;
-        nearestId = el.dataset.pillarId ?? null;
-      }
-    });
+    const rect = row.getBoundingClientRect();
+    if (rect.width <= 0) return;
+    const x = e.clientX - rect.left;
+    const zone = Math.min(2, Math.max(0, Math.floor((x / rect.width) * 3)));
+    const ids = row.querySelectorAll<HTMLElement>("[data-pillar-id]");
+    const nearestId = ids[zone]?.dataset.pillarId ?? null;
     if (nearestId !== null && nearestId !== activeId) setActiveId(nearestId);
   }, [activeId]);
 
