@@ -124,10 +124,22 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center var(--tw-img-pos-y, 50%);
-  transform: scale(var(--tw-img-scale, 1));
-  transform-origin: center center;
   display: block;
+  /* Per-card per-state values are written as CSS variables on the pillar
+     button via inline style. Defaults here let the pillar render sanely
+     without a tweaks provider. */
+  object-position: var(--img-rest-pos, 50% 50%);
+  transform: scale(var(--img-rest-scale, 1));
+  transform-origin: center center;
+  transition:
+    object-position var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.pillar[data-active="true"] .imageZone img,
+.pillar[data-active="true"] .imageZone video {
+  object-position: var(--img-active-pos, 50% 50%);
+  transform: scale(var(--img-active-scale, 1));
 }
 
 /* Rest states — vary by image style */

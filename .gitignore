@@ -43,3 +43,6 @@ next-env.d.ts
 # visual-regression harness output (commit compare.mjs only)
 /compare/*.png
 /compare/diff.json
+
+# Local snapshot of design-tweaks panel state (dev-only, used to lock in defaults)
+/tweaks-snapshot.json

@@ -2,7 +2,8 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { useRef } from "react";
+import { useRef, type CSSProperties } from "react";
+import type { CardImageTweaks } from "@/lib/use-tweaks";
 import type { PillarContent, PillarVisual } from "./pillar-data";
 import styles from "./pillar.module.css";
 
@@ -33,6 +34,7 @@ function Visual({ visual }: { visual: PillarVisual }) {
 export function Pillar({
   content,
   imageStyle,
+  imageTweaks,
   isActive,
   anyActive,
   popRatio,
@@ -43,6 +45,7 @@ export function Pillar({
 }: {
   content: PillarContent;
   imageStyle: "framed" | "banner" | "background";
+  imageTweaks: CardImageTweaks;
   isActive: boolean;
   anyActive: boolean;
   popRatio: number;
@@ -57,6 +60,15 @@ export function Pillar({
   const opacity = !anyActive ? 1 : isActive ? 1 : 1 - siblingDim;
   const scale = !anyActive ? 1 : isActive ? 1 : 0.96;
 
+  const styleVars: CSSProperties = {
+    flexGrow,
+    // Per-card per-state image positioning consumed in pillar.module.css.
+    ["--img-rest-pos" as string]: `${imageTweaks.rest.posX}% ${imageTweaks.rest.posY}%`,
+    ["--img-rest-scale" as string]: String(imageTweaks.rest.scale),
+    ["--img-active-pos" as string]: `${imageTweaks.active.posX}% ${imageTweaks.active.posY}%`,
+    ["--img-active-scale" as string]: String(imageTweaks.active.scale),
+  };
+
   return (
     <motion.button
       ref={ref}
@@ -69,7 +81,7 @@ export function Pillar({
       onBlur={onDeactivate}
       onClick={onActivate}
       aria-expanded={isActive}
-      style={{ flexGrow }}
+      style={styleVars}
       animate={{ opacity, scale }}
       transition={{ duration: animMs / 1000, ease: [0.2, 0.7, 0.2, 1] }}
       layout

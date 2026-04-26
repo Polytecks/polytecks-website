@@ -143,6 +143,36 @@
   margin: 4px 0;
 }
 
+.snapshot {
+  appearance: none;
+  width: 100%;
+  background: rgba(74, 84, 192, 0.18);
+  border: 1px solid rgba(168, 176, 243, 0.4);
+  color: #fff;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 10px 14px;
+  border-radius: 6px;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.snapshot:hover {
+  background: rgba(74, 84, 192, 0.32);
+  border-color: rgba(168, 176, 243, 0.7);
+}
+
+.snapshotMsg {
+  margin-top: 6px;
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  color: var(--ink-dim);
+  word-break: break-all;
+}
+
 .swatches { display: flex; gap: 8px; }
 
 .swatch {
