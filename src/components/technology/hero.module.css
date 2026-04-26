@@ -1,27 +1,31 @@
-.hero {
+/* Top header: matches Subpage padding so the eyebrow + title sit at the
+   same y-position as on /about, /devices, etc. */
+.header {
   position: relative;
   z-index: 5;
-  padding: 0;
-  max-width: none;
-  margin: 0;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 100px 40px 56px;
 }
 
-.mosaic {
+/* Banner sits below the header. Shorter than the original full-bleed hero
+   and shows the bottom 3/4 of the mosaic so the busiest part of the
+   electrode lattice fills the frame. */
+.banner {
   position: relative;
   width: 100%;
-  height: clamp(620px, 80vh, 880px);
+  height: var(--banner-height, clamp(440px, 60vh, 620px));
   overflow: hidden;
-  display: flex;
-  align-items: flex-end;
+  border-block: 1px solid var(--line);
 }
 
-.mosaic img {
+.banner img {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center center;
+  object-position: center 75%;
   display: block;
   filter: contrast(1.15) brightness(0.85);
 }
@@ -31,89 +35,13 @@
   inset: 0;
   pointer-events: none;
   background:
-    linear-gradient(to bottom, rgba(10, 10, 14, 0.7) 0%, rgba(10, 10, 14, 0.4) 120px, rgba(10, 10, 14, 0.15) 240px, transparent 320px),
-    linear-gradient(to top, rgba(10, 10, 14, 0.95) 0%, rgba(10, 10, 14, 0.6) 35%, transparent 70%),
-    linear-gradient(to right, rgba(10, 10, 14, 0.55) 0%, rgba(10, 10, 14, 0.2) 45%, transparent 75%);
+    linear-gradient(to bottom,
+      rgba(10, 10, 14, 0.55) 0%,
+      rgba(10, 10, 14, 0.0) 30%,
+      rgba(10, 10, 14, 0.0) 70%,
+      rgba(10, 10, 14, 0.95) 100%);
 }
 
-.inner {
-  position: relative;
-  z-index: 2;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 100px 40px 72px;
-  width: 100%;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 32px;
-  flex-wrap: wrap;
-}
-
-.copy { max-width: 920px; }
-
-.headline {
-  font-family: var(--font-display);
-  font-weight: 300;
-  font-size: clamp(56px, 7vw, 132px);
-  letter-spacing: 0.01em;
-  line-height: 1.0;
-  color: #fff;
-  margin: 0 0 28px 0;
-  text-wrap: balance;
-}
-
-.headline em {
-  font-style: italic;
-  font-weight: 500;
-  color: var(--indigo-bright);
-  text-shadow: 0 0 28px rgba(106, 116, 220, 0.5);
-  position: relative;
-  display: inline-block;
-}
-
-.headline em::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0.06em;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(106, 116, 220, 0.75), transparent);
-}
-
-.subtitle {
-  font-family: var(--font-sans);
-  font-weight: 400;
-  font-size: clamp(20px, 1.7vw, 28px);
-  line-height: 1.45;
-  color: #c8cad6;
-  max-width: 640px;
-  margin: 0;
-}
-
-.anchor {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: rgba(168, 176, 243, 0.55);
-  display: flex;
-  gap: 18px;
-  align-items: center;
-  margin-bottom: 6px;
-}
-
-.anchor span { white-space: nowrap; }
-.anchor span + span::before {
-  content: "·";
-  margin-right: 18px;
-  color: rgba(168, 176, 243, 0.3);
-}
-
-@media (max-width: 860px) {
-  .mosaic { height: clamp(520px, 80vh, 720px); }
-  .inner { padding: 90px 20px 48px; flex-direction: column; align-items: flex-start; }
-  .anchor { font-size: 9px; gap: 12px; }
-  .anchor span + span::before { margin-right: 12px; }
+@media (max-width: 720px) {
+  .header { padding: 100px 20px 40px; }
 }

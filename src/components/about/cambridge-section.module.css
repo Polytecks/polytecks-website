@@ -41,7 +41,7 @@
 
 .body {
   position: relative;
-  height: clamp(440px, 60vh, 620px);
+  height: var(--banner-height, clamp(440px, 60vh, 620px));
 }
 
 .media {
