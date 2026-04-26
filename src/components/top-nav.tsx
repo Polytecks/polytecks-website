@@ -25,10 +25,11 @@ export function TopNav() {
           <Image
             src="/assets/polytecks-logo-white.png"
             alt="Polytecks"
-            width={140}
-            height={28}
+            width={2500}
+            height={720}
             priority
-            className="h-7 w-auto"
+            className="h-8"
+            style={{ width: "auto" }}
           />
         </Link>
         <ul className="flex items-center gap-1">
