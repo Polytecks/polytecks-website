@@ -1,0 +1,136 @@
+/* Hex portrait — shared by team grid + advisor grid (legacy lines 899-1004). */
+
+.frame {
+  position: relative;
+  width: var(--hex-w, 220px);
+  height: var(--hex-h, 254px);
+  margin-bottom: 24px;
+  transition: filter 0.4s;
+}
+
+.ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 10px rgba(106, 116, 220, 0.4));
+  transition: filter 0.4s;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.ring polygon {
+  fill: none;
+  stroke: url(#hex-gradient);
+  stroke-width: 4;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.clip {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  clip-path: polygon(50% 1.3%, 98.7% 25.9%, 98.7% 74.1%, 50% 98.7%, 1.3% 74.1%, 1.3% 25.9%);
+  overflow: hidden;
+  background: #0a0a0e;
+  transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.clip img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 18%;
+  transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+  filter: grayscale(0.1) contrast(1.05);
+}
+
+/* Per-portrait crop tuning — preserved from legacy lines 976-983 */
+.clip img[src*="team-callan"]            { object-position: center 30%; }
+.clip img[src*="team-ruben"]             { object-position: center 28%; }
+.clip img[src*="team-charlie"]           { object-position: center 28%; }
+.clip img[src*="advisor-malliaras"]      { object-position: center 26%; transform: scale(0.88); transform-origin: center 30%; }
+.clip img[src*="advisor-novo-matos"]     { object-position: center 26%; transform: scale(0.88); transform-origin: center 30%; }
+.clip img[src*="advisor-fairen-jimenez"] { object-position: center 32%; transform: scale(0.86); transform-origin: center 34%; }
+.clip img[src*="advisor-hampton"]        { object-position: center 30%; transform: scale(0.9);  transform-origin: center 32%; }
+.clip img[src*="advisor-richardson"]     { object-position: center 32%; transform: scale(0.88); transform-origin: center 34%; }
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  cursor: default;
+}
+
+/* Hover — rotate ring, glow, scale image. Move ring behind image so zoom isn't clipped. */
+.card:hover .ring {
+  z-index: 0;
+  animation: hex-rotate 6s linear infinite;
+  filter: drop-shadow(0 0 22px rgba(120, 135, 255, 0.75));
+}
+
+.card:hover .frame {
+  filter: drop-shadow(0 0 32px rgba(106, 116, 220, 0.45));
+}
+
+.card:hover .clip img {
+  transform: scale(var(--hover-zoom, 1.05));
+}
+
+/* Per-portrait hover-zoom — multiplied against base transform */
+.card[data-portrait="advisor-malliaras"] .clip img,
+.card[data-portrait="advisor-novo-matos"] .clip img    { --hover-zoom: 0.97; }
+.card[data-portrait="advisor-fairen-jimenez"] .clip img { --hover-zoom: 0.95; }
+.card[data-portrait="advisor-hampton"] .clip img        { --hover-zoom: 0.99; }
+.card[data-portrait="advisor-richardson"] .clip img     { --hover-zoom: 0.97; }
+
+@keyframes hex-rotate {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card:hover .ring { animation: none; }
+}
+
+.name {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+
+.role {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+}
+
+/* Smaller variant for advisors */
+.advisor {
+  --hex-w: 140px;
+  --hex-h: 161.65px;
+}
+
+.advisor .frame {
+  margin-bottom: 16px;
+}
+
+.advisor .name {
+  font-size: 14px;
+  line-height: 1.3;
+  max-width: 160px;
+}
+
+.advisor .role {
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  margin-top: 4px;
+  max-width: 180px;
+  line-height: 1.4;
+}

@@ -1,0 +1,65 @@
+.section { margin-top: 80px; }
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(32px, 3.6vw, 52px);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: 48px;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.titleLogo {
+  height: 0.9em;
+  width: auto;
+}
+
+.subheading {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--indigo-bright);
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  margin-bottom: 40px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.teamGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  justify-items: center;
+}
+
+.advisors {
+  margin-top: 96px;
+}
+
+.advisorsRow {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 24px;
+  justify-items: center;
+}
+
+@media (max-width: 960px) {
+  .advisorsRow {
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 620px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 860px) {
+  .teamGrid { grid-template-columns: 1fr; gap: 48px; }
+}
+
+@media (max-width: 560px) {
+  .advisorsRow { grid-template-columns: repeat(2, 1fr); max-width: 420px; }
+}

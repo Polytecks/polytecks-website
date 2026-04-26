@@ -1,11 +1,24 @@
-import { RouteStub } from "@/components/route-stub";
+import { CambridgeSection } from "@/components/about/cambridge-section";
+import { TeamSection } from "@/components/about/team-section";
+import { HexGradientDefs } from "@/components/hex-portrait";
+import { Subpage, SubpageHeader } from "@/components/subpage";
 
 export default function AboutPage() {
   return (
-    <RouteStub
-      eyebrow="About Us"
-      title="We are building the sensing layer for next-generation healthcare."
-      hint="Cambridge bleed section, team grid, and advisors row arrive in phase 2."
-    />
+    <Subpage>
+      <HexGradientDefs />
+      <SubpageHeader
+        eyebrow="About Us"
+        title={
+          <>
+            We are building the <em>sensing layer</em> for next-generation
+            healthcare.
+          </>
+        }
+        lede="Polytecks is a medical technology start-up developing breakthrough bioelectrical mapping for a novel non-invasive information source into disease."
+      />
+      <CambridgeSection />
+      <TeamSection />
+    </Subpage>
   );
 }
