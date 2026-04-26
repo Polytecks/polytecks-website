@@ -112,9 +112,19 @@
   overflow: hidden;
   /* No background fill — preserves alpha-channel transparency in webm/png assets. */
   background: transparent;
-  /* Position transitions handled by Framer Motion's `layout` prop on this div
-     (transform-only FLIP, GPU-accelerated). Border-radius stays on CSS. */
-  transition: border-radius var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1);
+  /* CSS transitions on every position/size property; nested Framer `layout`
+     fights the parent button's `layout` and miscalculates rects, so the
+     container animates via plain CSS while the inner image's transform +
+     object-position carry the "zoom" feel. */
+  transition:
+    top var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1),
+    bottom var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1),
+    left var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1),
+    right var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1),
+    width var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1),
+    height var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1),
+    border-radius var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1),
+    margin-inline var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 .imageZone img,

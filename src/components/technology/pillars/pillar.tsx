@@ -100,14 +100,10 @@ export function Pillar({
         <p className={styles.body}>{content.body}</p>
       </div>
 
-      <motion.div
-        className={styles.imageZone}
-        layout
-        transition={{ duration: animMs / 1000, ease: [0.2, 0.7, 0.2, 1] }}
-      >
+      <div className={styles.imageZone}>
         <Visual visual={content.visual} />
         <span className={styles.imageOverlay} aria-hidden="true" />
-      </motion.div>
+      </div>
     </motion.button>
   );
 }
