@@ -3,7 +3,7 @@
  * Captures new (3000) and legacy (4000 + #fragment) at desktop only.
  */
 import { chromium } from "playwright";
-import { mkdirSync, writeFileSync } from "node:fs";
+import { mkdirSync } from "node:fs";
 import { join } from "node:path";
 
 const route = (process.argv[2] || "/").replace(/^\/+/, "/");
