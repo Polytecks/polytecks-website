@@ -1,9 +1,19 @@
 import Link from "next/link";
 import styles from "./charge-link.module.css";
 
-export function ChargeLink({ href, label }: { href: string; label: string }) {
+export type ChargeLinkVariant = "stacked" | "inline";
+
+export function ChargeLink({
+  href,
+  label,
+  variant = "stacked",
+}: {
+  href: string;
+  label: string;
+  variant?: ChargeLinkVariant;
+}) {
   return (
-    <Link href={href} className={styles.link}>
+    <Link href={href} className={styles.link} data-variant={variant}>
       <span className={styles.label}>
         <span>{label}</span>
         <span className={styles.arrow} aria-hidden="true">

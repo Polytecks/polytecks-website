@@ -99,6 +99,23 @@
   color: var(--cl-accent);
 }
 
+/* Inline variant: tight horizontal label + arrow, narrow track flush below.
+   Used by the technology page CTA. */
+.link[data-variant="inline"] {
+  display: inline-block;
+  width: auto;
+}
+
+.link[data-variant="inline"] .label {
+  justify-content: flex-start;
+  gap: 12px;
+  padding: 6px 0 8px;
+}
+
+.link[data-variant="inline"] .track {
+  height: 6px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .fill,
   .arrow,
