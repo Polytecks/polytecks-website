@@ -110,14 +110,11 @@
   position: absolute;
   z-index: 1;
   overflow: hidden;
-  background: #0d0e14;
-  transition:
-    top var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1),
-    bottom var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1),
-    left var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1),
-    right var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1),
-    height var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1),
-    border-radius var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1);
+  /* No background fill — preserves alpha-channel transparency in webm/png assets. */
+  background: transparent;
+  /* Position transitions handled by Framer Motion's `layout` prop on this div
+     (transform-only FLIP, GPU-accelerated). Border-radius stays on CSS. */
+  transition: border-radius var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 .imageZone img,
@@ -186,6 +183,13 @@
   border-radius: 8px 8px 0 0;
 }
 
+/* Active card grows vertically — the active pillar's min-height extends
+   the card downwards beyond its rest baseline. Sibling cards stay shorter
+   because the row uses align-items: flex-start (see pillar-section.module.css). */
+.pillar[data-active="true"] {
+  min-height: var(--card-active-height, 520px);
+}
+
 /* Active state — uniform "framed at bottom" regardless of rest style.
    Width and height are tweakable per card. The container is centered
    horizontally so reducing widthPct narrows it symmetrically. */
@@ -198,11 +202,6 @@
   width: calc((100% - 48px) * var(--img-active-width-mult, 1));
   height: var(--img-active-height, 200px);
   border-radius: 6px;
-  transition:
-    width var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1),
-    height var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1),
-    bottom var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1),
-    border-radius var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 /* Active background-mode: kill the rest-mode gradient */

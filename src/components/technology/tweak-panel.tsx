@@ -263,6 +263,13 @@ export function TweakPanel() {
               format={(v) => `${v}px`}
               onChange={(v) => setCardImageTweak(editingCard, editingState, { heightPx: v })}
             />
+            <Slider
+              label="Active card height"
+              value={editing.cardHeightPx}
+              min={480} max={800} step={10}
+              format={(v) => `${v}px`}
+              onChange={(v) => setCardImageTweak(editingCard, editingState, { cardHeightPx: v })}
+            />
           </>
         ) : null}
 

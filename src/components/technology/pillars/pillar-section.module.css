@@ -19,7 +19,9 @@
 
 .row {
   display: flex;
-  align-items: stretch;
+  /* Top-align so the active card can grow downwards while siblings keep
+     their rest min-height. */
+  align-items: flex-start;
   min-height: 480px;
   gap: clamp(16px, 1.6vw, 28px);
 }

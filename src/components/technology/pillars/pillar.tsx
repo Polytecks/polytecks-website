@@ -67,9 +67,11 @@ export function Pillar({
     ["--img-rest-scale" as string]: String(imageTweaks.rest.scale),
     ["--img-active-pos" as string]: `${imageTweaks.active.posX}% ${imageTweaks.active.posY}%`,
     ["--img-active-scale" as string]: String(imageTweaks.active.scale),
-    // Active-state container size — width as multiplier of available, height in px.
+    // Active-state image-window size — width as multiplier of available, height in px.
     ["--img-active-width-mult" as string]: String(imageTweaks.active.widthPct / 100),
     ["--img-active-height" as string]: `${imageTweaks.active.heightPx}px`,
+    // Active-state card min-height — drives how far down the card extends.
+    ["--card-active-height" as string]: `${imageTweaks.active.cardHeightPx}px`,
   };
 
   return (
@@ -98,10 +100,14 @@ export function Pillar({
         <p className={styles.body}>{content.body}</p>
       </div>
 
-      <div className={styles.imageZone}>
+      <motion.div
+        className={styles.imageZone}
+        layout
+        transition={{ duration: animMs / 1000, ease: [0.2, 0.7, 0.2, 1] }}
+      >
         <Visual visual={content.visual} />
         <span className={styles.imageOverlay} aria-hidden="true" />
-      </div>
+      </motion.div>
     </motion.button>
   );
 }
