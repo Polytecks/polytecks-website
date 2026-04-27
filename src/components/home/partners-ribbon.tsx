@@ -60,11 +60,33 @@ export function PartnersRibbon() {
     };
   }, []);
 
+  // Measure the width of one duplicate set so the slide animation translates
+  // by an exact integer-pixel amount, not 50% (which can land off-pixel and
+  // produce a visible jump at the loop reset).
+  useEffect(() => {
+    const measure = () => {
+      const track = trackRef.current;
+      if (!track) return;
+      const itemEls = track.querySelectorAll<HTMLElement>(`.${styles.item}`);
+      if (itemEls.length === 0) return;
+      const half = itemEls.length / 2;
+      // Half-set width = position of the (half)-th item's left edge minus
+      // the position of the 0th item's left edge, both in track-local coords.
+      const first = itemEls[0].offsetLeft;
+      const halfStart = itemEls[Math.floor(half)].offsetLeft;
+      const offset = Math.round(halfStart - first);
+      track.style.setProperty("--ribbon-loop-offset", `${offset}px`);
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, []);
+
   const items = [...PARTNERS, ...PARTNERS];
 
   return (
     <div ref={ribbonRef} className={styles.ribbon}>
-      <div className={styles.label}>Our Investors and Partners</div>
+      <div className={styles.label}>Affiliations and Partners</div>
       <div className={styles.trackWrap}>
         <div ref={trackRef} className={styles.track}>
           {items.map((p, i) => (

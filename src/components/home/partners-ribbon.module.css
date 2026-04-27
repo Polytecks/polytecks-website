@@ -4,7 +4,7 @@
   padding: 56px 0 40px;
   margin-top: 24px;
   border-top: 1px solid var(--line);
-  background: linear-gradient(180deg, rgba(10, 10, 14, 0.6), rgba(10, 10, 14, 0.95));
+  background: var(--bg);
 }
 
 .label {
@@ -44,13 +44,13 @@
   display: flex;
   gap: clamp(56px, 8vw, 120px);
   width: max-content;
-  animation: slide 32s linear infinite;
   align-items: center;
+  animation: slidePx var(--ribbon-loop-duration, 32s) linear infinite;
 }
 
-@keyframes slide {
+@keyframes slidePx {
   from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  to   { transform: translateX(calc(-1 * var(--ribbon-loop-offset, 50%))); }
 }
 
 .item {
