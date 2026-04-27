@@ -1,4 +1,5 @@
 import { PlaceholderGrid } from "@/components/placeholder-grid";
+import { StackEntry } from "@/components/stack-entry";
 import { Subpage, SubpageHeader } from "@/components/subpage";
 
 const CHANNELS = [
@@ -9,16 +10,20 @@ const CHANNELS = [
 export default function ContactPage() {
   return (
     <Subpage>
-      <SubpageHeader
-        eyebrow="Contact"
-        title={
-          <>
-            Start a <em>conversation</em>.
-          </>
-        }
-        lede="Partnerships, clinical collaborations, press, and investor inquiries."
-      />
-      <PlaceholderGrid items={CHANNELS} />
+      <StackEntry index={0}>
+        <SubpageHeader
+          eyebrow="Contact"
+          title={
+            <>
+              Start a <em>conversation</em>.
+            </>
+          }
+          lede="Partnerships, clinical collaborations, press, and investor inquiries."
+        />
+      </StackEntry>
+      <StackEntry index={1}>
+        <PlaceholderGrid items={CHANNELS} />
+      </StackEntry>
     </Subpage>
   );
 }

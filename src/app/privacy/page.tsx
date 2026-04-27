@@ -1,13 +1,16 @@
+import { StackEntry } from "@/components/stack-entry";
 import { Subpage, SubpageHeader } from "@/components/subpage";
 
 export default function PrivacyPage() {
   return (
     <Subpage>
-      <SubpageHeader
-        eyebrow="Legal"
-        title={<>Privacy Policy</>}
-        lede="Coming soon."
-      />
+      <StackEntry index={0}>
+        <SubpageHeader
+          eyebrow="Legal"
+          title={<>Privacy Policy</>}
+          lede="Coming soon."
+        />
+      </StackEntry>
     </Subpage>
   );
 }

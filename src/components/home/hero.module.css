@@ -111,6 +111,25 @@
   .word { animation: none !important; }
 }
 
+/* Sequence continues after the last word finishes (~1.87s):
+   arm image → subtitle → CTA buttons. Uses a letter-spacing-free variant of
+   hl-unblur so non-headline elements don't end up with -0.035em spacing.
+   Note: .arm img layout/filter styles follow below — animation is declared there
+   to keep both rule blocks together. */
+
+@keyframes hl-unblur-elem {
+  from {
+    opacity: 0;
+    filter: blur(14px);
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
 .sub {
   font-family: var(--font-sans);
   font-weight: 400;
@@ -120,6 +139,13 @@
   max-width: clamp(520px, 60vw, 900px);
   margin-bottom: 64px;
   text-shadow: 0 1px 20px rgba(0, 0, 0, 0.6);
+  will-change: transform, opacity, filter;
+  animation: hl-unblur-elem 1.1s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: 2.2s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sub { animation: none !important; }
 }
 
 .ctas {
@@ -129,6 +155,18 @@
   gap: 18px;
   width: clamp(420px, 36vw, 620px);
   max-width: 100%;
+}
+
+.ctas > * {
+  will-change: transform, opacity, filter;
+  animation: hl-unblur-elem 1.1s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.ctas > *:nth-child(1) { animation-delay: 2.35s; }
+.ctas > *:nth-child(2) { animation-delay: 2.5s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ctas > * { animation: none !important; }
 }
 
 .arm {
@@ -147,6 +185,14 @@
   filter: contrast(1.1) saturate(1.15)
     drop-shadow(0 0 26px rgba(255, 255, 255, 0.18))
     drop-shadow(0 24px 70px rgba(0, 0, 0, 0.9));
+  /* Entry animation — fires after the headline words finish (~1.87s) */
+  will-change: transform, opacity, filter;
+  animation: hl-unblur-elem 1.1s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: 2.0s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arm img { animation: none !important; }
 }
 
 .arm::before {

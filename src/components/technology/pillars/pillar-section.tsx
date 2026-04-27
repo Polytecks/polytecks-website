@@ -50,7 +50,7 @@ export function PillarSection() {
         onPointerMove={onRowPointerMove}
         onPointerLeave={onRowPointerLeave}
       >
-        {PILLARS.map((p) => (
+        {PILLARS.map((p, i) => (
           <Pillar
             key={p.id}
             content={p}
@@ -61,6 +61,9 @@ export function PillarSection() {
             popRatio={values.pillarPop}
             siblingDim={values.siblingDim}
             animMs={values.animMs}
+            // Right-to-left stagger: rightmost card (i=2) appears first (entryIndex=0),
+            // middle card (i=1) second (entryIndex=1), leftmost (i=0) last (entryIndex=2).
+            entryIndex={PILLARS.length - 1 - i}
             onActivate={() => setActiveId(p.id)}
             onDeactivate={() => {
               setActiveId((curr) => (curr === p.id ? null : curr));

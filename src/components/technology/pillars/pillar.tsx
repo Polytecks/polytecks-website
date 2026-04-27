@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { useRef, type CSSProperties } from "react";
+import { useRef, useState, type CSSProperties } from "react";
 import type { CardImageTweaks } from "@/lib/use-tweaks";
 import type { PillarContent, PillarVisual } from "./pillar-data";
 import styles from "./pillar.module.css";
@@ -40,6 +40,7 @@ export function Pillar({
   popRatio,
   siblingDim,
   animMs,
+  entryIndex,
   onActivate,
   onDeactivate,
 }: {
@@ -51,10 +52,15 @@ export function Pillar({
   popRatio: number;
   siblingDim: number;
   animMs: number;
+  /** Right-to-left stagger order index (0 = first to appear). If undefined, no entry animation. */
+  entryIndex?: number;
   onActivate: () => void;
   onDeactivate: () => void;
 }) {
   const ref = useRef<HTMLButtonElement>(null);
+  // Track when the entry animation has completed so subsequent hover/active
+  // opacity transitions don't carry the entry delay.
+  const [entryDone, setEntryDone] = useState(entryIndex === undefined);
 
   const flexGrow = !anyActive ? 1 : isActive ? popRatio : (3 - popRatio) / 2;
   const opacity = !anyActive ? 1 : isActive ? 1 : 1 - siblingDim;
@@ -74,6 +80,11 @@ export function Pillar({
     ["--card-active-height" as string]: `${imageTweaks.active.cardHeightPx}px`,
   };
 
+  // Entry animation: fade up from below on mount (right-to-left stagger via entryIndex).
+  // After the entry completes, onAnimationComplete clears the entry delay so subsequent
+  // opacity/scale transitions (hover interactions) respond without lag.
+  const entryDelay = entryIndex !== undefined ? entryIndex * 0.12 : 0;
+
   return (
     <motion.button
       ref={ref}
@@ -87,8 +98,18 @@ export function Pillar({
       onClick={onActivate}
       aria-expanded={isActive}
       style={styleVars}
-      animate={{ opacity, scale }}
-      transition={{ duration: animMs / 1000, ease: [0.2, 0.7, 0.2, 1] }}
+      initial={entryIndex !== undefined ? { opacity: 0, y: 28 } : false}
+      animate={{ opacity, scale, y: 0 }}
+      transition={
+        entryDone
+          ? { duration: animMs / 1000, ease: [0.2, 0.7, 0.2, 1] }
+          : {
+              opacity: { duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: entryDelay },
+              scale: { duration: animMs / 1000, ease: [0.2, 0.7, 0.2, 1] },
+              y: { duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: entryDelay },
+            }
+      }
+      onAnimationComplete={() => { if (!entryDone) setEntryDone(true); }}
     >
       <div className={styles.titleZone}>
         <h3 className={styles.title}>{content.title}</h3>

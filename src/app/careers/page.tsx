@@ -1,4 +1,5 @@
 import { PlaceholderGrid } from "@/components/placeholder-grid";
+import { StackEntry } from "@/components/stack-entry";
 import { Subpage, SubpageHeader } from "@/components/subpage";
 
 const ROLES = [
@@ -11,16 +12,20 @@ const ROLES = [
 export default function CareersPage() {
   return (
     <Subpage>
-      <SubpageHeader
-        eyebrow="Careers"
-        title={
-          <>
-            Help us make the <em>invisible</em> legible.
-          </>
-        }
-        lede="We're a small, technical team working across electrical engineering, machine learning, neuroscience, and industrial design. Remote-friendly, Boston-based."
-      />
-      <PlaceholderGrid items={ROLES} />
+      <StackEntry index={0}>
+        <SubpageHeader
+          eyebrow="Careers"
+          title={
+            <>
+              Help us make the <em>invisible</em> legible.
+            </>
+          }
+          lede="We're a small, technical team working across electrical engineering, machine learning, neuroscience, and industrial design. Remote-friendly, Boston-based."
+        />
+      </StackEntry>
+      <StackEntry index={1}>
+        <PlaceholderGrid items={ROLES} />
+      </StackEntry>
     </Subpage>
   );
 }
