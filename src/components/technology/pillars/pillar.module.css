@@ -117,19 +117,15 @@
   overflow: hidden;
   /* No background fill — preserves alpha-channel transparency in webm/png assets. */
   background: transparent;
-  /* CSS transitions on every position/size property; nested Framer `layout`
-     fights the parent button's `layout` and miscalculates rects, so the
-     container animates via plain CSS while the inner image's transform +
-     object-position carry the "zoom" feel. */
+  /* CSS transitions on the four edge properties + height + radius. All
+     rest and active values are explicit calc() lengths so every property
+     interpolates cleanly (no `auto` snap-to-end). */
   transition:
     top var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1),
-    bottom var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1),
     left var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1),
     right var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1),
-    width var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1),
     height var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1),
-    border-radius var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1),
-    margin-inline var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1);
+    border-radius var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 .imageZone img,
@@ -174,7 +170,12 @@
 }
 
 .pillar[data-active="false"][data-style="background"] .imageZone {
-  inset: 0;
+  /* Explicit edge values (no `inset` shorthand) so each property can
+     interpolate to the active-state values smoothly. */
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
   border-radius: 8px;
   z-index: 1;
 }
@@ -206,15 +207,16 @@
 }
 
 /* Active state — uniform "framed at bottom" regardless of rest style.
-   Width and height are tweakable per card. The container is centered
-   horizontally so reducing widthPct narrows it symmetrically. */
+   Every position property is an explicit calc() length so CSS can
+   interpolate smoothly between rest and active. (Earlier versions used
+   `top: auto; margin-inline: auto; width: calc(...)` which made the
+   transition jump — `auto` doesn't transition.) */
 .pillar[data-active="true"] .imageZone {
-  top: auto;
-  bottom: 24px;
-  left: 0;
-  right: 0;
-  margin-inline: auto;
-  width: calc((100% - 48px) * var(--img-active-width-mult, 1));
+  top: calc(100% - var(--img-active-height, 200px) - 24px);
+  /* Horizontal margin = (parent_w - (parent_w - 48) * mult) / 2
+     Simplified: 50%·(1 - mult) + 24·mult */
+  left:  calc(50% * (1 - var(--img-active-width-mult, 1)) + 24px * var(--img-active-width-mult, 1));
+  right: calc(50% * (1 - var(--img-active-width-mult, 1)) + 24px * var(--img-active-width-mult, 1));
   height: var(--img-active-height, 200px);
   border-radius: 6px;
 }

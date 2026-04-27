@@ -37,12 +37,14 @@
       rgba(10, 10, 14, 0.85) 0%,
       rgba(10, 10, 14, 0.55) 200px,
       rgba(10, 10, 14, 0.0) 360px),
-    /* Bottom blend into the page background */
+    /* Bottom blend into the page background — pulled earlier and stronger
+       so the image's hard bottom edge is hidden. */
     linear-gradient(to bottom,
       transparent 0%,
-      transparent 50%,
-      rgba(10, 10, 14, 0.6) 75%,
-      rgb(10, 10, 14) 100%);
+      transparent 35%,
+      rgba(10, 10, 14, 0.5) 55%,
+      rgba(10, 10, 14, 0.85) 75%,
+      rgb(10, 10, 14) 95%);
 }
 
 .header {

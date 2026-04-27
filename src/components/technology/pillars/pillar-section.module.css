@@ -3,7 +3,8 @@
   z-index: 5;
   max-width: 1400px;
   margin: 0 auto;
-  padding: calc(96px * var(--tw-rhythm, 1)) 40px calc(96px * var(--tw-rhythm, 1));
+  /* Tighter top padding pulls the lede + cards closer to the banner. */
+  padding: calc(40px * var(--tw-rhythm, 1)) 40px calc(96px * var(--tw-rhythm, 1));
 }
 
 .lede {

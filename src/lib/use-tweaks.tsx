@@ -50,18 +50,28 @@ const DEFAULT_IMAGE_TWEAK: ImageTweak = {
   cardHeightPx: 520,
 };
 
+// Locked-in defaults from tweaks-snapshot.json (2026-04-27).
 export const TWEAK_DEFAULTS: TweakValues = {
-  pillarPop: 1.6,
-  siblingDim: 0.5,
-  animMs: 350,
+  pillarPop: 1.45,
+  siblingDim: 0.25,
+  animMs: 600,
   accent: "indigo",
-  rhythm: 1.0,
-  activeTheme: "cool",
-  imageStyle: "framed",
+  rhythm: 1.3,
+  activeTheme: "lighter",
+  imageStyle: "background",
   imageTweaks: {
-    materials: { rest: { ...DEFAULT_IMAGE_TWEAK }, active: { ...DEFAULT_IMAGE_TWEAK } },
-    form: { rest: { ...DEFAULT_IMAGE_TWEAK }, active: { ...DEFAULT_IMAGE_TWEAK } },
-    intelligence: { rest: { ...DEFAULT_IMAGE_TWEAK }, active: { ...DEFAULT_IMAGE_TWEAK } },
+    materials: {
+      rest:   { scale: 1.0, posX: 58, posY: 0,  widthPct: 100, heightPx: 200, cardHeightPx: 520 },
+      active: { scale: 1.0, posX: 64, posY: 96, widthPct: 72,  heightPx: 275, cardHeightPx: 620 },
+    },
+    form: {
+      rest:   { scale: 1.0, posX: 38, posY: 34, widthPct: 100, heightPx: 200, cardHeightPx: 520 },
+      active: { scale: 1.2, posX: 80, posY: 50, widthPct: 66,  heightPx: 260, cardHeightPx: 600 },
+    },
+    intelligence: {
+      rest:   { scale: 1.55, posX: 50, posY: 50, widthPct: 100, heightPx: 200, cardHeightPx: 520 },
+      active: { scale: 1.0,  posX: 50, posY: 50, widthPct: 70,  heightPx: 350, cardHeightPx: 630 },
+    },
   },
 };
 

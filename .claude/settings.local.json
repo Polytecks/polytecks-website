@@ -33,7 +33,8 @@
       "Bash(python3 -m http.server 4000)",
       "Bash(python -m http.server 4000)",
       "Bash(git rm *)",
-      "Bash(git mv *)"
+      "Bash(git mv *)",
+      "PowerShell(Get-NetTCPConnection *)"
     ]
   },
   "enableAllProjectMcpServers": true,

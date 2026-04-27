@@ -35,7 +35,7 @@ export const PILLARS: PillarContent[] = [
   {
     id: "form",
     title: "New Form",
-    subtitle: "Engineered for ease-of-use",
+    subtitle: "Flexible, conformable arrays",
     visual: {
       kind: "image",
       // Filename has a space — URL-encoded so Next/Image accepts it cleanly.
