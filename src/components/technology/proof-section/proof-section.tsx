@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useScroll, useReducedMotion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useSyncExternalStore } from "react";
 import { useTweaks } from "@/lib/use-tweaks";
 import { ProofCard, type ProofCardData } from "./proof-card";
 import styles from "./proof-section.module.css";
@@ -17,14 +17,15 @@ export function ProofSection() {
   const outerRef = useRef<HTMLElement>(null);
   const reducedMotion = useReducedMotion();
   const { values } = useTweaks();
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth <= 720);
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
-  }, []);
+  const isMobile = useSyncExternalStore(
+    (callback) => {
+      const mq = window.matchMedia("(max-width: 720px)");
+      mq.addEventListener("change", callback);
+      return () => mq.removeEventListener("change", callback);
+    },
+    () => window.matchMedia("(max-width: 720px)").matches,
+    () => false, // SSR fallback
+  );
 
   const { scrollYProgress } = useScroll({
     target: outerRef,

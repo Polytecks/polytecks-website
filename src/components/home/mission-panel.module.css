@@ -56,6 +56,9 @@
   text-wrap: balance;
 }
 
+/* Mission lede — paragraph inside the white mission panel on the home page.
+   Sans/300/clamp(18,24)px in near-black on white. Slightly larger than the
+   subpage lede to anchor the white panel's eye-magnet section. */
 .lede {
   font-family: var(--font-sans);
   font-weight: 300;

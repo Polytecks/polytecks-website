@@ -40,6 +40,8 @@
   color: var(--indigo-bright);
 }
 
+/* Subpage hero lede — body copy under a subpage <h1>. Uses sans/300/19px in
+   muted ink to read as supporting context, not headline weight. */
 .lede {
   font-family: var(--font-sans);
   font-weight: 300;

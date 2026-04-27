@@ -22,13 +22,24 @@ import styles from "./animated-title.module.css";
  * cheap because animations only fire on mount.
  */
 export function AnimatedTitle({ children }: { children: ReactNode }) {
-  const { values } = useTweaks();
+  const { values, hydrated } = useTweaks();
+
+  // Render unanimated until localStorage tweaks have hydrated — prevents a
+  // replay of the wrong animation style on first paint.
+  if (!hydrated) return <>{children}</>;
+
   const style = values.titleAnim;
   const key = `${style}-${values.titleDurationMs}-${values.titleStaggerMs}`;
 
   if (style === "cascade") {
     let charIndex = 0;
     const wrap = (node: ReactNode): ReactNode => {
+      // Coerce numeric children to string so they get the per-char treatment
+      // — otherwise digits in titles like `Polytecks 2026` would jump in
+      // instantly while letters cascade.
+      if (typeof node === "number" || typeof node === "bigint") {
+        return wrap(String(node));
+      }
       if (typeof node === "string") {
         return node.split("").map((c) => {
           if (c === " ") return c;

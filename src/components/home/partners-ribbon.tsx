@@ -19,20 +19,24 @@ export function PartnersRibbon() {
   const trackRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const ribbon = ribbonRef.current;
+    const track = trackRef.current;
+    if (!ribbon || !track) return;
+
+    // Cache the items NodeList once — it's constant after mount.
+    const items = Array.from(track.querySelectorAll<HTMLElement>(`.${styles.item}`));
+
     let raf = 0;
-    let cancelled = false;
+
+    const resetBaseline = () => {
+      for (const el of items) {
+        el.classList.remove(styles.isCenter, styles.isNear);
+      }
+    };
 
     const tick = () => {
-      if (cancelled) return;
-      const ribbon = ribbonRef.current;
-      const track = trackRef.current;
-      if (!ribbon || !track) {
-        raf = requestAnimationFrame(tick);
-        return;
-      }
       const wrapRect = ribbon.getBoundingClientRect();
       const center = wrapRect.left + wrapRect.width / 2;
-      const items = Array.from(track.querySelectorAll<HTMLElement>(`.${styles.item}`));
       let nearest: HTMLElement | null = null;
       let nearestDist = Infinity;
       const measured: { el: HTMLElement; d: number }[] = [];
@@ -53,9 +57,23 @@ export function PartnersRibbon() {
       raf = requestAnimationFrame(tick);
     };
 
-    raf = requestAnimationFrame(tick);
+    // Only run the rAF loop while the ribbon is in the viewport.
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          raf = requestAnimationFrame(tick);
+        } else {
+          cancelAnimationFrame(raf);
+          resetBaseline();
+        }
+      },
+      { threshold: 0 },
+    );
+
+    observer.observe(ribbon);
+
     return () => {
-      cancelled = true;
+      observer.disconnect();
       cancelAnimationFrame(raf);
     };
   }, []);

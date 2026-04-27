@@ -123,6 +123,12 @@ const ACTIVE_THEMES: Record<ActiveTheme, { bg: string; border: string }> = {
   cool:    { bg: "rgba(255, 255, 255, 0.07)", border: "rgba(255, 255, 255, 0.3)"  },
 };
 
+const PANEL_TONES: Record<PanelTone, string> = {
+  "pure":      "#ffffff",
+  "off-white": "#fafaf8",
+  "paper":     "#f4f1ea",
+};
+
 function applyToBody(values: TweakValues) {
   const body = document.body;
   body.style.setProperty("--tw-pillar-pop", String(values.pillarPop));
@@ -143,11 +149,6 @@ function applyToBody(values: TweakValues) {
   body.style.setProperty("--tw-giant-vh", `${values.giantVh}vh`);
   body.style.setProperty("--tw-settle-scale", String(values.settleScale));
   body.style.setProperty("--tw-vignette", String(values.vignette));
-  const PANEL_TONES: Record<PanelTone, string> = {
-    "pure":      "#ffffff",
-    "off-white": "#fafaf8",
-    "paper":     "#f4f1ea",
-  };
   body.style.setProperty("--tw-panel-tone", PANEL_TONES[values.panelTone]);
   body.style.setProperty("--tw-label-weight", String(values.labelWeight));
 
@@ -200,18 +201,21 @@ type TweaksAPI = {
     patch: Partial<ImageTweak>,
   ) => void;
   reset: () => void;
+  hydrated: boolean;
 };
 
 const TweaksContext = createContext<TweaksAPI | null>(null);
 
 export function TweaksProvider({ children }: { children: ReactNode }) {
   const [values, setValues] = useState<TweakValues>(TWEAK_DEFAULTS);
+  const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
     const initial = readStored();
     applyToBody(initial);
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setValues(initial);
+    setHydrated(true);
   }, []);
 
   const persistAndApply = useCallback((next: TweakValues) => {
@@ -262,7 +266,7 @@ export function TweaksProvider({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <TweaksContext.Provider value={{ values, setValue, setCardImageTweak, reset }}>
+    <TweaksContext.Provider value={{ values, setValue, setCardImageTweak, reset, hydrated }}>
       {children}
     </TweaksContext.Provider>
   );
@@ -280,6 +284,7 @@ export function useTweaks(): TweaksAPI {
     setValue: () => {},
     setCardImageTweak: () => {},
     reset: () => {},
+    hydrated: false,
   };
 }
 
