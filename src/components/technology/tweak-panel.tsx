@@ -1,47 +1,28 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import {
-  useTweaks,
-  type ActiveTheme,
-  type CardId,
-  type ImageState,
-  type ImageStyle,
-  type TweakAccent,
-} from "@/lib/use-tweaks";
+import { useTweaks } from "@/lib/use-tweaks";
+import { PillarsTab } from "./tweak-tabs/pillars-tab";
+import { ProofTab } from "./tweak-tabs/proof-tab";
+import { PageFxTab } from "./tweak-tabs/page-fx-tab";
 import styles from "./tweak-panel.module.css";
 
-const ACCENT_PREVIEW: Record<TweakAccent, string> = {
-  indigo: "#6a74dc",
-  cyan: "#5cd9e8",
-  green: "#34d399",
-};
+type TabId = "pillars" | "proof" | "page-fx";
 
-const ACTIVE_THEMES: { id: ActiveTheme; label: string; swatch: string }[] = [
-  { id: "indigo",  label: "Indigo",  swatch: "rgba(74, 84, 192, 0.6)" },
-  { id: "lighter", label: "Lighter", swatch: "rgba(142, 152, 238, 0.85)" },
-  { id: "cool",    label: "Cool",    swatch: "rgba(255, 255, 255, 0.5)" },
+const TABS: { id: TabId; label: string }[] = [
+  { id: "pillars",  label: "Pillars" },
+  { id: "proof",    label: "Proof" },
+  { id: "page-fx",  label: "Page Fx" },
 ];
 
-const IMAGE_STYLES: { id: ImageStyle; label: string }[] = [
-  { id: "framed",     label: "Framed" },
-  { id: "banner",     label: "Banner" },
-  { id: "background", label: "Bg" },
-];
-
-const CARDS: { id: CardId; label: string }[] = [
-  { id: "materials",    label: "Materials" },
-  { id: "form",         label: "Form" },
-  { id: "intelligence", label: "Intelligence" },
-];
+const TAB_STORAGE_KEY = "polytecks:tweaks:tab";
 
 export function TweakPanel() {
   const [enabled, setEnabled] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
-  const [editingCard, setEditingCard] = useState<CardId>("materials");
-  const [editingState, setEditingState] = useState<ImageState>("rest");
+  const [activeTab, setActiveTab] = useState<TabId>("pillars");
   const [snapshotMsg, setSnapshotMsg] = useState<string | null>(null);
-  const { values, setValue, setCardImageTweak, reset } = useTweaks();
+  const { values, reset } = useTweaks();
 
   useEffect(() => {
     const check = () => {
@@ -53,9 +34,18 @@ export function TweakPanel() {
     return () => window.removeEventListener("popstate", check);
   }, []);
 
-  if (!enabled) return null;
+  useEffect(() => {
+    try {
+      const stored = window.localStorage.getItem(TAB_STORAGE_KEY) as TabId | null;
+      if (stored && TABS.some((t) => t.id === stored)) setActiveTab(stored);
+    } catch { /* ignore */ }
+  }, []);
 
-  const editing = values.imageTweaks[editingCard][editingState];
+  useEffect(() => {
+    try { window.localStorage.setItem(TAB_STORAGE_KEY, activeTab); } catch { /* ignore */ }
+  }, [activeTab]);
+
+  if (!enabled) return null;
 
   const saveSnapshot = async () => {
     setSnapshotMsg("Saving…");
@@ -66,11 +56,8 @@ export function TweakPanel() {
         body: JSON.stringify(values),
       });
       const json = await res.json();
-      if (res.ok) {
-        setSnapshotMsg(`Saved → ${json.path ?? "tweaks-snapshot.json"}`);
-      } else {
-        setSnapshotMsg(`Error: ${json.error ?? res.status}`);
-      }
+      if (res.ok) setSnapshotMsg(`Saved → ${json.path ?? "tweaks-snapshot.json"}`);
+      else        setSnapshotMsg(`Error: ${json.error ?? res.status}`);
     } catch (e) {
       setSnapshotMsg(`Error: ${e instanceof Error ? e.message : "unknown"}`);
     }
@@ -94,222 +81,35 @@ export function TweakPanel() {
         </div>
       </div>
 
+      {!collapsed && (
+        <div className={styles.tabs}>
+          {TABS.map((t) => (
+            <button
+              key={t.id}
+              type="button"
+              className={styles.tab}
+              data-active={activeTab === t.id}
+              onClick={() => setActiveTab(t.id)}
+            >
+              {t.label}
+            </button>
+          ))}
+        </div>
+      )}
+
       <div className={styles.body} data-collapsed={collapsed}>
-        <Slider
-          label="Pillar pop"
-          value={values.pillarPop}
-          min={1} max={1.8} step={0.05}
-          format={(v) => `${v.toFixed(2)}×`}
-          onChange={(v) => setValue("pillarPop", v)}
-        />
-        <Slider
-          label="Sibling dim"
-          value={values.siblingDim}
-          min={0} max={0.7} step={0.05}
-          format={(v) => `${Math.round(v * 100)}%`}
-          onChange={(v) => setValue("siblingDim", v)}
-        />
-        <Slider
-          label="Transition"
-          value={values.animMs}
-          min={200} max={600} step={25}
-          format={(v) => `${v}ms`}
-          onChange={(v) => setValue("animMs", v)}
-        />
-
-        <div className={styles.row}>
-          <div className={styles.rowLabel}>
-            <span>Accent</span>
-            <span className={styles.value}>{values.accent}</span>
-          </div>
-          <div className={styles.swatches}>
-            {(Object.keys(ACCENT_PREVIEW) as TweakAccent[]).map((accent) => (
-              <button
-                key={accent}
-                type="button"
-                className={styles.swatch}
-                aria-label={`Accent: ${accent}`}
-                data-active={values.accent === accent}
-                style={{ background: ACCENT_PREVIEW[accent] }}
-                onClick={() => setValue("accent", accent)}
-              />
-            ))}
-          </div>
-        </div>
-
-        <Slider
-          label="Rhythm"
-          value={values.rhythm}
-          min={0.7} max={1.4} step={0.05}
-          format={(v) => `${v.toFixed(2)}×`}
-          onChange={(v) => setValue("rhythm", v)}
-        />
-
-        <div className={styles.row}>
-          <div className={styles.rowLabel}>
-            <span>Active color</span>
-            <span className={styles.value}>{values.activeTheme}</span>
-          </div>
-          <div className={styles.swatches}>
-            {ACTIVE_THEMES.map((t) => (
-              <button
-                key={t.id}
-                type="button"
-                className={styles.swatch}
-                aria-label={`Active theme: ${t.label}`}
-                data-active={values.activeTheme === t.id}
-                style={{ background: t.swatch }}
-                onClick={() => setValue("activeTheme", t.id)}
-              />
-            ))}
-          </div>
-        </div>
+        {activeTab === "pillars" && <PillarsTab />}
+        {activeTab === "proof"   && <ProofTab />}
+        {activeTab === "page-fx" && <PageFxTab />}
 
         <div className={styles.divider} />
-
-        <div className={styles.row}>
-          <div className={styles.rowLabel}>
-            <span>Image style</span>
-            <span className={styles.value}>{values.imageStyle}</span>
-          </div>
-          <div className={styles.segmented}>
-            {IMAGE_STYLES.map((s) => (
-              <button
-                key={s.id}
-                type="button"
-                className={styles.segment}
-                data-active={values.imageStyle === s.id}
-                onClick={() => setValue("imageStyle", s.id)}
-              >
-                {s.label}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div className={styles.row}>
-          <div className={styles.rowLabel}>
-            <span>Card</span>
-          </div>
-          <div className={styles.segmented}>
-            {CARDS.map((c) => (
-              <button
-                key={c.id}
-                type="button"
-                className={styles.segment}
-                data-active={editingCard === c.id}
-                onClick={() => setEditingCard(c.id)}
-              >
-                {c.label}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div className={styles.row}>
-          <div className={styles.rowLabel}>
-            <span>State</span>
-          </div>
-          <div className={styles.segmented}>
-            {(["rest", "active"] as ImageState[]).map((s) => (
-              <button
-                key={s}
-                type="button"
-                className={styles.segment}
-                data-active={editingState === s}
-                onClick={() => setEditingState(s)}
-              >
-                {s}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <Slider
-          label="Image scale"
-          value={editing.scale}
-          min={1} max={2.5} step={0.05}
-          format={(v) => `${v.toFixed(2)}×`}
-          onChange={(v) => setCardImageTweak(editingCard, editingState, { scale: v })}
-        />
-        <Slider
-          label="Position X"
-          value={editing.posX}
-          min={0} max={100} step={2}
-          format={(v) => `${v}%`}
-          onChange={(v) => setCardImageTweak(editingCard, editingState, { posX: v })}
-        />
-        <Slider
-          label="Position Y"
-          value={editing.posY}
-          min={0} max={100} step={2}
-          format={(v) => `${v}%`}
-          onChange={(v) => setCardImageTweak(editingCard, editingState, { posY: v })}
-        />
-
-        {editingState === "active" ? (
-          <>
-            <Slider
-              label="Active width"
-              value={editing.widthPct}
-              min={40} max={100} step={2}
-              format={(v) => `${v}%`}
-              onChange={(v) => setCardImageTweak(editingCard, editingState, { widthPct: v })}
-            />
-            <Slider
-              label="Active height"
-              value={editing.heightPx}
-              min={120} max={400} step={5}
-              format={(v) => `${v}px`}
-              onChange={(v) => setCardImageTweak(editingCard, editingState, { heightPx: v })}
-            />
-            <Slider
-              label="Active card height"
-              value={editing.cardHeightPx}
-              min={480} max={800} step={10}
-              format={(v) => `${v}px`}
-              onChange={(v) => setCardImageTweak(editingCard, editingState, { cardHeightPx: v })}
-            />
-          </>
-        ) : null}
-
-        <div className={styles.divider} />
-
-        <div className={styles.row}>
+        <div className={styles.snapshotRow}>
           <button type="button" className={styles.snapshot} onClick={saveSnapshot}>
             💾 Save snapshot
           </button>
-          {snapshotMsg ? (
-            <div className={styles.snapshotMsg}>{snapshotMsg}</div>
-          ) : null}
+          {snapshotMsg ? <div className={styles.snapshotMsg}>{snapshotMsg}</div> : null}
         </div>
       </div>
-    </div>
-  );
-}
-
-function Slider({
-  label, value, min, max, step, format, onChange,
-}: {
-  label: string;
-  value: number;
-  min: number; max: number; step: number;
-  format: (v: number) => string;
-  onChange: (v: number) => void;
-}) {
-  return (
-    <div className={styles.row}>
-      <div className={styles.rowLabel}>
-        <span>{label}</span>
-        <span className={styles.value}>{format(value)}</span>
-      </div>
-      <input
-        type="range"
-        className={styles.slider}
-        min={min} max={max} step={step}
-        value={value}
-        onChange={(e) => onChange(Number(e.target.value))}
-      />
     </div>
   );
 }

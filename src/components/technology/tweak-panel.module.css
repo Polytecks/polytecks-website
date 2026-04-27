@@ -190,3 +190,39 @@
 .swatch[data-active="true"] {
   outline-color: var(--ink);
 }
+
+.tabs {
+  display: flex;
+  gap: 2px;
+  padding: 6px 10px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.tab {
+  appearance: none;
+  flex: 1;
+  background: transparent;
+  border: 0;
+  color: var(--ink-dim);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 8px 6px;
+  border-bottom: 1px solid transparent;
+  margin-bottom: -1px; /* overlap the .tabs border */
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.tab:hover { color: var(--ink); }
+
+.tab[data-active="true"] {
+  color: #fff;
+  border-bottom-color: var(--indigo-bright);
+}
+
+.snapshotRow {
+  display: grid;
+  gap: 6px;
+}
