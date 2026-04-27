@@ -19,7 +19,7 @@ const ADVISORS = [
 export function TeamSection() {
   return (
     <div className={styles.section}>
-      <h3 className={styles.title}>
+      <h2 className={styles.title}>
         The Team Behind
         <Image
           className={styles.titleLogo}
@@ -28,7 +28,7 @@ export function TeamSection() {
           width={2500}
           height={720}
         />
-      </h3>
+      </h2>
 
       <div className={styles.subheading}>Executive</div>
       <div className={styles.teamGrid}>

@@ -1,5 +1,5 @@
-/* Shipped layout: "bleed" — full-bleed image with overlay copy.
-   Mirrors legacy lines 1055-1207 with `data-cambridge-layout="bleed"`. */
+/* Cambridge section: full-bleed image banner with copy promoted above
+   and a floating ECG legacy badge in the top-right corner. */
 
 .section {
   margin: 40px 0 100px;
