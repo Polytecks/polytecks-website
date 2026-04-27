@@ -67,21 +67,66 @@
   text-wrap: pretty;
 }
 
-.meta {
-  display: inline-flex;
-  align-items: center;
-  gap: 14px;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: #4a4c5a;
+.divider {
+  border: 0;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.12);
+  max-width: 920px;
+  margin: 80px auto;
+  position: relative;
+  z-index: 1;
 }
 
-.metaDot {
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: #4a54c0;
-  opacity: 0.6;
+.teamTease {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+  color: #0a0a0e;
+  padding-bottom: 40px;
+}
+
+.teamEyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: #0a0a0e;
+  margin-bottom: 24px;
+}
+
+.teamTitle {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(24px, 2.4vw, 38px);
+  line-height: 1.25;
+  color: #0a0a0e;
+  max-width: 880px;
+  margin: 0 auto 56px;
+  text-wrap: balance;
+}
+
+.teamTitle em {
+  font-style: italic;
+  font-weight: 500;
+  color: #0a0a0e;
+}
+
+.logos {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: clamp(40px, 6vw, 80px);
+  flex-wrap: wrap;
+}
+
+@media (max-width: 720px) {
+  .logos {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+    justify-items: center;
+  }
 }
