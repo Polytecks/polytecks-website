@@ -224,7 +224,6 @@ for (const r of ROUTES) {
 
   // Per-route console output
   const passed = routeReport.checks.filter(c => c.pass).length;
-  const failed = routeReport.checks.filter(c => !c.pass).length;
   console.log(`\n${r.route}  (${passed}/${routeReport.checks.length} checks passed, ${routeReport.consoleErrors.length} console errors, ${routeReport.pageErrors.length} page errors)`);
   for (const c of routeReport.checks) {
     const mark = c.pass ? "  ✓" : "  ✗";
