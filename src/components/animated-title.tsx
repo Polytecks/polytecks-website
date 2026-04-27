@@ -37,7 +37,7 @@ export function AnimatedTitle({ children }: { children: ReactNode }) {
             <span
               key={idx}
               className={styles.cascadeChar}
-              style={{ ["--ci" as string]: idx } as CSSProperties}
+              style={{ ["--tw-title-ci" as string]: idx } as CSSProperties}
             >
               {c}
             </span>
@@ -57,7 +57,7 @@ export function AnimatedTitle({ children }: { children: ReactNode }) {
   if (style === "stack") {
     return (
       <span key={key} className={styles.stackLineWrap}>
-        <span className={styles.stackLine} style={{ ["--li" as string]: 0 } as CSSProperties}>
+        <span className={styles.stackLine} style={{ ["--tw-title-li" as string]: 0 } as CSSProperties}>
           {children}
         </span>
       </span>
@@ -69,7 +69,7 @@ export function AnimatedTitle({ children }: { children: ReactNode }) {
     <span
       key={key}
       className={styles.wipeLine}
-      style={{ ["--li" as string]: 0 } as CSSProperties}
+      style={{ ["--tw-title-li" as string]: 0 } as CSSProperties}
     >
       {children}
     </span>
