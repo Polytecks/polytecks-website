@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Placeholder wordmark — replace with the official University of Cambridge crest/logo when available. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 50" role="img" aria-label="Cambridge">
+  <text x="120" y="32" text-anchor="middle"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-weight="500" font-size="18" letter-spacing="3"
+        fill="currentColor">CAMBRIDGE</text>
+</svg>
