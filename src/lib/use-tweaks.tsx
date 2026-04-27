@@ -59,6 +59,13 @@ export type TweakValues = {
   titleDurationMs: number;     // 300 → 1500
   titleStaggerMs: number;      // 0 → 200
   topoLinesOnWhite: boolean;
+
+  // Cambridge callout badge position
+  cambridgeCalloutTop: number;   // 8 → 80 (px from top)
+  cambridgeCalloutRight: number; // 8 → 120 (px from right)
+  // Cambridge overlay text position
+  cambridgeOverlayTop: number;   // 0 → 120 (px from top of image)
+  cambridgeOverlayLeft: number;  // -100 → 100 (px from left of image)
 };
 
 const DEFAULT_IMAGE_TWEAK: ImageTweak = {
@@ -107,6 +114,11 @@ export const TWEAK_DEFAULTS: TweakValues = {
   titleDurationMs: 700,
   titleStaggerMs: 60,
   topoLinesOnWhite: true,
+
+  cambridgeCalloutTop: 24,
+  cambridgeCalloutRight: 24,
+  cambridgeOverlayTop: 32,
+  cambridgeOverlayLeft: -40,
 };
 
 const STORAGE_KEY = "polytecks:tweaks";
@@ -160,6 +172,14 @@ function applyToBody(values: TweakValues) {
     "--mission-panel-bg",
     values.topoLinesOnWhite ? "transparent" : "#000",
   );
+
+  // Cambridge callout badge position
+  body.style.setProperty("--tw-cb-callout-top", `${values.cambridgeCalloutTop}px`);
+  body.style.setProperty("--tw-cb-callout-right", `${values.cambridgeCalloutRight}px`);
+
+  // Cambridge overlay text position
+  body.style.setProperty("--tw-cb-overlay-top", `${values.cambridgeOverlayTop}px`);
+  body.style.setProperty("--tw-cb-overlay-left", `${values.cambridgeOverlayLeft}px`);
 }
 
 function readStored(): TweakValues {

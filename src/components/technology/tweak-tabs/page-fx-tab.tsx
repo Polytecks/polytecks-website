@@ -52,6 +52,21 @@ export function PageFxTab() {
             onClick={() => setValue("topoLinesOnWhite", false)}>Off</button>
         </div>
       </div>
+
+      <div className={styles.divider} />
+
+      <Slider label="Cambridge cb top" value={values.cambridgeCalloutTop} min={8} max={80} step={2}
+        format={(v) => `${v}px`}
+        onChange={(v) => setValue("cambridgeCalloutTop", v)} />
+      <Slider label="Cambridge cb right" value={values.cambridgeCalloutRight} min={8} max={120} step={2}
+        format={(v) => `${v}px`}
+        onChange={(v) => setValue("cambridgeCalloutRight", v)} />
+      <Slider label="Cambridge cp top" value={values.cambridgeOverlayTop} min={0} max={120} step={2}
+        format={(v) => `${v}px`}
+        onChange={(v) => setValue("cambridgeOverlayTop", v)} />
+      <Slider label="Cambridge cp left" value={values.cambridgeOverlayLeft} min={-100} max={100} step={2}
+        format={(v) => `${v}px`}
+        onChange={(v) => setValue("cambridgeOverlayLeft", v)} />
     </>
   );
 }

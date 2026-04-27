@@ -7,10 +7,6 @@ export function CambridgeSection() {
       <h2 className={styles.title}>
         From Origins at the <em>University of Cambridge</em>
       </h2>
-      <p className={styles.intro}>
-        Our founding team met while studying at Cambridge, and Polytecks
-        maintains strong research links with the university.
-      </p>
 
       <div className={styles.body}>
         <div className={styles.media}>
@@ -22,8 +18,11 @@ export function CambridgeSection() {
             sizes="100vw"
             priority
           />
+          <p className={styles.imageOverlayText}>
+            Polytecks grew out of the Cambridge ecosystem, and maintains strong research links with the university.
+          </p>
           <div className={styles.calloutBadge}>
-            <p>The ECG was born in Cambridge over a century ago. The next chapter starts here too.</p>
+            <p>The ECG was first made in Cambridge over a century ago. The next chapter starts here too.</p>
           </div>
         </div>
       </div>

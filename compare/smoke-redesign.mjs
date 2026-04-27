@@ -76,11 +76,11 @@ const ROUTES = [
       // Old heading "From Cambridge origins" should be GONE
       const oldHeading = await page.locator('text="From Cambridge origins"').count() === 0;
       checks.push({ name: "old 'From Cambridge origins' heading removed", pass: oldHeading });
-      // Intro paragraph (founding team)
-      const intro = await page.locator('text=/founding team met while studying at Cambridge/').count() > 0;
-      checks.push({ name: "intro paragraph promoted (founding team)", pass: intro });
+      // Intro paragraph (overlay text over image)
+      const intro = await page.locator('text=/Polytecks grew out of the Cambridge ecosystem/').count() > 0;
+      checks.push({ name: "intro paragraph over image (Cambridge ecosystem)", pass: intro });
       // ECG badge with new text
-      const badge = await page.locator('text=/The ECG was born in Cambridge over a century ago/').count() > 0;
+      const badge = await page.locator('text=/The ECG was first made in Cambridge over a century ago/').count() > 0;
       checks.push({ name: "ECG callout badge present with new copy", pass: badge });
       // Old meta strip should be GONE
       const oldMeta = await page.locator('text="ECG Legacy"').count() === 0;
