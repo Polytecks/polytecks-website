@@ -46,13 +46,19 @@ const ROUTES = [
       // Affiliations ribbon label updated
       const affiliationsLabel = await page.locator('text="Affiliations and Partners"').count() > 0;
       checks.push({ name: "ribbon renamed to 'Affiliations and Partners'", pass: affiliationsLabel });
-      // Mission team-tease universities (4 marks)
-      const cambridge = await page.locator('text=/^Cambridge$/').count() > 0;
-      const imperial = await page.locator('text=/^Imperial$/').count() > 0;
-      const durham = await page.locator('text=/^Durham$/').count() > 0;
-      const ucl = await page.locator('text=/^UCL$/').count() > 0;
-      checks.push({ name: "team-tease shows Cambridge/Imperial/Durham/UCL", pass: cambridge && imperial && durham && ucl,
-        detail: `cambridge=${cambridge} imperial=${imperial} durham=${durham} ucl=${ucl}` });
+      // Mission team-tease universities — check for the <img alt="..."> rendered
+      // by <UniversityMark> (works whether SVG loads or text-fallback fires).
+      const altCambridge = await page.locator('img[alt="Cambridge"]').count() > 0;
+      const altImperial = await page.locator('img[alt="Imperial"]').count() > 0;
+      const altDurham = await page.locator('img[alt="Durham"]').count() > 0;
+      const altUcl = await page.locator('img[alt="UCL"]').count() > 0;
+      // Fallback: if SVG 404s, UniversityMark renders a <span> with the name.
+      const fbCambridge = altCambridge || await page.locator('span:text-is("Cambridge")').count() > 0;
+      const fbImperial = altImperial || await page.locator('span:text-is("Imperial")').count() > 0;
+      const fbDurham = altDurham || await page.locator('span:text-is("Durham")').count() > 0;
+      const fbUcl = altUcl || await page.locator('span:text-is("UCL")').count() > 0;
+      checks.push({ name: "team-tease shows Cambridge/Imperial/Durham/UCL", pass: fbCambridge && fbImperial && fbDurham && fbUcl,
+        detail: `cambridge=${fbCambridge} imperial=${fbImperial} durham=${fbDurham} ucl=${fbUcl}` });
       // Team headline tagline
       const teamHeadline = await page.locator('text=/world-leading researchers/').count() > 0;
       checks.push({ name: "team-tease headline present", pass: teamHeadline });

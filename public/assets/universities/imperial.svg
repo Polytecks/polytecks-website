@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Placeholder wordmark — replace with the official Imperial College London logo when available. -->
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 50" role="img" aria-label="Imperial">
-  <text x="120" y="32" text-anchor="middle"
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 50" role="img" aria-label="Imperial">
+  <text x="80" y="32" text-anchor="middle"
         font-family="Georgia, 'Times New Roman', serif"
         font-weight="500" font-size="18" letter-spacing="3"
         fill="currentColor">IMPERIAL</text>
