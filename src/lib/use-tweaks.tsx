@@ -14,6 +14,10 @@ export type ActiveTheme = "indigo" | "lighter" | "cool";
 export type ImageStyle = "framed" | "banner" | "background";
 export type CardId = "materials" | "form" | "intelligence";
 export type ImageState = "rest" | "active";
+export type TitleAnim = "wipe" | "cascade" | "stack";
+export type EasingMode = "linear" | "eased" | "aggressive";
+export type PanelTone = "pure" | "off-white" | "paper";
+export type LabelWeight = 300 | 400 | 500;
 
 export type ImageTweak = {
   scale: number;       // 1.0 → 2.5 (transform: scale on the img element)
@@ -39,6 +43,22 @@ export type TweakValues = {
   imageStyle: ImageStyle;
   /** Per-card per-state image positioning. */
   imageTweaks: Record<CardId, CardImageTweaks>;
+
+  // Proof section (Tab 2)
+  pinScrollMult: number;       // 1.5 → 4
+  giantVh: number;             // 18 → 40 (vh)
+  settleScale: number;         // 0.15 → 0.45
+  easing: EasingMode;
+  phaseOverlap: number;        // 0 → 0.25
+  vignette: number;            // 0 → 0.6
+  panelTone: PanelTone;
+  labelWeight: LabelWeight;
+
+  // Page Fx (Tab 3)
+  titleAnim: TitleAnim;
+  titleDurationMs: number;     // 300 → 1500
+  titleStaggerMs: number;      // 0 → 200
+  topoLinesOnWhite: boolean;
 };
 
 const DEFAULT_IMAGE_TWEAK: ImageTweak = {
@@ -73,6 +93,20 @@ export const TWEAK_DEFAULTS: TweakValues = {
       active: { scale: 1.0,  posX: 50, posY: 50, widthPct: 70,  heightPx: 350, cardHeightPx: 630 },
     },
   },
+
+  pinScrollMult: 3,
+  giantVh: 30,
+  settleScale: 0.25,
+  easing: "eased",
+  phaseOverlap: 0,
+  vignette: 0.2,
+  panelTone: "pure",
+  labelWeight: 400,
+
+  titleAnim: "wipe",
+  titleDurationMs: 700,
+  titleStaggerMs: 60,
+  topoLinesOnWhite: true,
 };
 
 const STORAGE_KEY = "polytecks:tweaks";
@@ -102,6 +136,28 @@ function applyToBody(values: TweakValues) {
   body.style.setProperty("--tw-active-border", theme.border);
 
   body.dataset.imageStyle = values.imageStyle;
+
+  // Proof section knobs (consumed by ProofSection / ProofCard CSS)
+  body.style.setProperty("--tw-pin-scroll", String(values.pinScrollMult));
+  body.style.setProperty("--tw-giant-vh", `${values.giantVh}vh`);
+  body.style.setProperty("--tw-settle-scale", String(values.settleScale));
+  body.style.setProperty("--tw-vignette", String(values.vignette));
+  const PANEL_TONES: Record<PanelTone, string> = {
+    "pure":      "#ffffff",
+    "off-white": "#fafaf8",
+    "paper":     "#f4f1ea",
+  };
+  body.style.setProperty("--tw-panel-tone", PANEL_TONES[values.panelTone]);
+  body.style.setProperty("--tw-label-weight", String(values.labelWeight));
+
+  // Page Fx
+  body.style.setProperty("--tw-title-duration", `${values.titleDurationMs}ms`);
+  body.style.setProperty("--tw-title-stagger", `${values.titleStaggerMs}ms`);
+  body.dataset.titleAnim = values.titleAnim;
+  body.style.setProperty(
+    "--mission-panel-bg",
+    values.topoLinesOnWhite ? "transparent" : "#000",
+  );
 }
 
 function readStored(): TweakValues {
