@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
 import { TopNav } from "@/components/top-nav";
+import { Footer } from "@/components/footer/footer";
 import { Providers } from "./providers";
 import "./globals.css";
 
@@ -43,6 +44,7 @@ export default function RootLayout({
         <Providers>
           <TopNav />
           <main className="pt-[var(--nav-h,72px)]">{children}</main>
+          <Footer />
         </Providers>
       </body>
     </html>

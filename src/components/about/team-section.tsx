@@ -18,7 +18,7 @@ const ADVISORS = [
 
 export function TeamSection() {
   return (
-    <div className={styles.section}>
+    <div id="team" className={styles.section}>
       <h2 className={styles.title}>
         The Team Behind
         <Image
