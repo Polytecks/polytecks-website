@@ -139,6 +139,7 @@ function applyToBody(values: TweakValues) {
 
   // Proof section knobs (consumed by ProofSection / ProofCard CSS)
   body.style.setProperty("--tw-pin-scroll", String(values.pinScrollMult));
+  body.style.setProperty("--tw-proof-height", `${values.pinScrollMult * 100}vh`);
   body.style.setProperty("--tw-giant-vh", `${values.giantVh}vh`);
   body.style.setProperty("--tw-settle-scale", String(values.settleScale));
   body.style.setProperty("--tw-vignette", String(values.vignette));

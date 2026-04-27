@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useScroll, useReducedMotion } from "framer-motion";
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTweaks } from "@/lib/use-tweaks";
 import { ProofCard, type ProofCardData } from "./proof-card";
 import styles from "./proof-section.module.css";
@@ -59,12 +59,8 @@ export function ProofSection() {
     );
   }
 
-  const outerStyle: CSSProperties = {
-    height: `${values.pinScrollMult * 100}vh`,
-  };
-
   return (
-    <section ref={outerRef} className={styles.outer} style={outerStyle}>
+    <section ref={outerRef} className={styles.outer}>
       <div className={styles.sticky}>
         <div className={styles.panel}>
           <div className="whiteVignette" aria-hidden="true" />

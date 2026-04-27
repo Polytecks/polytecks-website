@@ -6,8 +6,10 @@
 .outer {
   position: relative;
   width: 100%;
-  /* Default: 3× viewport. Overridden inline based on tweak. */
-  height: 300vh;
+  /* Height driven by --tw-proof-height (set by applyToBody from pinScrollMult).
+     Falls back to 3× viewport. Mobile + reduced-motion media queries below
+     override to height: auto so the section collapses to its natural size. */
+  height: var(--tw-proof-height, 300vh);
   background: transparent;
 }
 
@@ -84,6 +86,15 @@
 /* Static fallback: triggered by mobile media query OR when the outer
    element has data-static="true" (reduced-motion users on desktop). */
 @media (max-width: 720px) {
+  .outer { height: auto; }
+  .sticky { position: static; height: auto; padding: 64px 24px; }
+  .panel { flex-direction: column; align-items: center; padding: 48px 0; gap: 96px; }
+  .cardsRoot { display: contents; }
+  .card { position: static; transform: none !important; }
+  .cardNumber { font-size: clamp(64px, 18vh, 140px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
   .outer { height: auto; }
   .sticky { position: static; height: auto; padding: 64px 24px; }
   .panel { flex-direction: column; align-items: center; padding: 48px 0; gap: 96px; }

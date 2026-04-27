@@ -70,11 +70,19 @@ export function ProofCard({
 
   const x = useTransform(xVw, (vw: number) => `calc(-50% + ${vw}vw)`);
 
+  // Z-index: giant state = 2 (above settled siblings), settled state = 1.
+  // Steps at zoomEnd because z-index doesn't smoothly interpolate.
+  const zIndex = useTransform(
+    scrollProgress,
+    [phaseStart, zoomEnd, phaseEnd, 1],
+    [2, 2, 1, 1],
+  );
+
   return (
     <motion.div
       className={styles.card}
       style={{
-        zIndex: 1,
+        zIndex,
         opacity,
         scale,
         x,
