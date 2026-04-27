@@ -1,0 +1,202 @@
+{
+  "base": "http://localhost:3000",
+  "routes": [
+    {
+      "route": "/",
+      "viewports": {
+        "desktop": "compare\\screenshots-redesign\\home-desktop.png",
+        "mobile": "compare\\screenshots-redesign\\home-mobile.png"
+      },
+      "checks": [
+        {
+          "name": "blinking R&D Cambridge UK eyebrow removed",
+          "pass": true
+        },
+        {
+          "name": "mission meta 'Founded 2024' removed",
+          "pass": true
+        },
+        {
+          "name": "footer copyright present",
+          "pass": true
+        },
+        {
+          "name": "ribbon renamed to 'Affiliations and Partners'",
+          "pass": true
+        },
+        {
+          "name": "team-tease shows Cambridge/Imperial/Durham/UCL",
+          "pass": true,
+          "detail": "cambridge=true imperial=true durham=true ucl=true"
+        },
+        {
+          "name": "team-tease headline present",
+          "pass": true
+        }
+      ],
+      "consoleErrors": [],
+      "pageErrors": []
+    },
+    {
+      "route": "/about",
+      "viewports": {
+        "desktop": "compare\\screenshots-redesign\\about-desktop.png",
+        "mobile": "compare\\screenshots-redesign\\about-mobile.png"
+      },
+      "checks": [
+        {
+          "name": "new Cambridge heading 'From Origins at the University of Cambridge'",
+          "pass": true
+        },
+        {
+          "name": "old 'From Cambridge origins' heading removed",
+          "pass": true
+        },
+        {
+          "name": "intro paragraph promoted (founding team)",
+          "pass": true
+        },
+        {
+          "name": "ECG callout badge present with new copy",
+          "pass": true
+        },
+        {
+          "name": "old 'ECG Legacy 100+ years' meta removed",
+          "pass": true
+        },
+        {
+          "name": "footer present",
+          "pass": true
+        },
+        {
+          "name": "#team anchor on team section",
+          "pass": true
+        }
+      ],
+      "consoleErrors": [],
+      "pageErrors": []
+    },
+    {
+      "route": "/technology",
+      "viewports": {
+        "desktop": "compare\\screenshots-redesign\\technology-desktop.png",
+        "mobile": "compare\\screenshots-redesign\\technology-mobile.png"
+      },
+      "checks": [
+        {
+          "name": "hero title 'The Mosaic™ Platform'",
+          "pass": true
+        },
+        {
+          "name": "old 'electrode, reinvented' title removed",
+          "pass": true
+        },
+        {
+          "name": "pillar section header 'Reimagined from first principles'",
+          "pass": true
+        },
+        {
+          "name": "old 'Rebuilt from first principles' lede removed",
+          "pass": true
+        },
+        {
+          "name": "proof section is multi-viewport tall (pinned scroll)",
+          "pass": true,
+          "detail": "max section height: 2700px (viewport 900px)"
+        },
+        {
+          "name": "footer present",
+          "pass": true
+        }
+      ],
+      "consoleErrors": [],
+      "pageErrors": []
+    },
+    {
+      "route": "/devices",
+      "viewports": {
+        "desktop": "compare\\screenshots-redesign\\devices-desktop.png",
+        "mobile": "compare\\screenshots-redesign\\devices-mobile.png"
+      },
+      "checks": [
+        {
+          "name": "footer present",
+          "pass": true
+        }
+      ],
+      "consoleErrors": [],
+      "pageErrors": []
+    },
+    {
+      "route": "/careers",
+      "viewports": {
+        "desktop": "compare\\screenshots-redesign\\careers-desktop.png",
+        "mobile": "compare\\screenshots-redesign\\careers-mobile.png"
+      },
+      "checks": [
+        {
+          "name": "footer present",
+          "pass": true
+        }
+      ],
+      "consoleErrors": [],
+      "pageErrors": []
+    },
+    {
+      "route": "/contact",
+      "viewports": {
+        "desktop": "compare\\screenshots-redesign\\contact-desktop.png",
+        "mobile": "compare\\screenshots-redesign\\contact-mobile.png"
+      },
+      "checks": [
+        {
+          "name": "footer present",
+          "pass": true
+        }
+      ],
+      "consoleErrors": [],
+      "pageErrors": []
+    },
+    {
+      "route": "/privacy",
+      "viewports": {
+        "desktop": "compare\\screenshots-redesign\\privacy-desktop.png",
+        "mobile": "compare\\screenshots-redesign\\privacy-mobile.png"
+      },
+      "checks": [
+        {
+          "name": "Privacy Policy heading renders",
+          "pass": true
+        },
+        {
+          "name": "'Coming soon.' lede renders",
+          "pass": true
+        }
+      ],
+      "consoleErrors": [],
+      "pageErrors": []
+    },
+    {
+      "route": "/terms",
+      "viewports": {
+        "desktop": "compare\\screenshots-redesign\\terms-desktop.png",
+        "mobile": "compare\\screenshots-redesign\\terms-mobile.png"
+      },
+      "checks": [
+        {
+          "name": "Terms of Service heading renders",
+          "pass": true
+        }
+      ],
+      "consoleErrors": [],
+      "pageErrors": []
+    }
+  ],
+  "summary": {
+    "totalChecks": 25,
+    "passed": 25,
+    "failed": 0,
+    "consoleErrors": 0,
+    "pageErrors": 0
+  }
+}

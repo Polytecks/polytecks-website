@@ -19,7 +19,11 @@ const EASE_FN: Record<EasingMode, EasingFunction | undefined> = {
   aggressive: cubicBezier(0.85, 0, 0.15, 1),
 };
 
-const SLOT_X_VW = [-33, 0, 33];
+// Slot positions as a percentage of the .cardsRoot container width, so cards
+// always land at thirds of the (max-1400px) content area regardless of
+// viewport. Using vw would push the right card past the viewport edge when
+// the number text is wide (e.g. "Days–Weeks" at 120px font).
+const SLOT_LEFT_PCT = ["16.67%", "50%", "83.33%"];
 
 export function ProofCard({
   data,
@@ -78,18 +82,19 @@ export function ProofCard({
   );
   const filter = useTransform(blur, (b) => `blur(${b}px)`);
 
-  // Horizontal slot — fixed at the card's final position throughout.
-  const slotVw = SLOT_X_VW[index];
-  const x = `calc(-50% + ${slotVw}vw)`;
+  // Horizontal slot — handled via `left` (set inline below) plus a constant
+  // -50% translateX to center the card on its slot anchor. No x animation.
+  const left = SLOT_LEFT_PCT[index];
 
   return (
     <motion.div
       className={styles.card}
       style={{
+        left,
         zIndex: 1,
         opacity,
         scale,
-        x,
+        x: "-50%",
         y,
         filter,
       }}
