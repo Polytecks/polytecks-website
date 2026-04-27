@@ -25,6 +25,20 @@
   object-position: center 75%;
   display: block;
   filter: contrast(1.15) brightness(0.85);
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    black calc(50% - var(--content-w, 1400px) / 2),
+    black calc(50% + var(--content-w, 1400px) / 2),
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    black calc(50% - var(--content-w, 1400px) / 2),
+    black calc(50% + var(--content-w, 1400px) / 2),
+    transparent 100%
+  );
 }
 
 .fade {

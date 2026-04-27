@@ -58,6 +58,20 @@
   object-position: center center;
   display: block;
   filter: grayscale(0.2) contrast(1.05) brightness(0.85);
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    black calc(50% - var(--content-w, 1400px) / 2),
+    black calc(50% + var(--content-w, 1400px) / 2),
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    black calc(50% - var(--content-w, 1400px) / 2),
+    black calc(50% + var(--content-w, 1400px) / 2),
+    transparent 100%
+  );
 }
 
 .media::after {
