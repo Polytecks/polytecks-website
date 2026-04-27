@@ -3,7 +3,7 @@
   z-index: 4;
   padding: clamp(80px, 12vh, 160px) 40px clamp(80px, 12vh, 140px);
   overflow: hidden;
-  background: #000;
+  background: var(--mission-panel-bg, #000);
 }
 
 .fill {

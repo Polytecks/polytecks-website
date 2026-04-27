@@ -246,8 +246,7 @@ export class TopoCanvas {
 
     this.updateField(time);
 
-    this.ctx.fillStyle = "#000";
-    this.ctx.fillRect(0, 0, this.W, this.H);
+    this.ctx.clearRect(0, 0, this.W, this.H);
 
     const phase = time * 0.25;
     const base: number[] = [];
