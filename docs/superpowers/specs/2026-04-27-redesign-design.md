@@ -69,32 +69,28 @@ The home hero headline keeps its existing `unblur` animation (locked in, not con
 
 ---
 
-## Section 3 — Topo lines, region-aware coloring
+## Section 3 — Topo lines, mix-blend approach
 
-Lines stay white over dark sections. Where they cross any element with `data-topo-invert`, they re-render in near-black (`#0a0a0e`, matching `--bg`). One canvas, no z-order changes, no blend modes.
+**Architecture revision (post-spec, pre-plan):** the original spec proposed region-aware coloring inside the canvas. During plan-writing, file inspection revealed that `mission-panel.module.css` already uses `mix-blend-mode: difference` on a near-white `.fill` over a black `.panel` background to produce the "white panel" appearance. Leveraging this existing infrastructure makes the line-inversion behavior fall out for free.
 
-**API change to `src/lib/topo-canvas.ts`:**
+**The change is two CSS one-liners:**
 
-```ts
-setDarkRegions(rects: DOMRect[]): void
-```
+1. `src/lib/topo-canvas.ts` — `draw()` currently does `ctx.fillStyle = "#000"; ctx.fillRect(0, 0, W, H)` to clear each frame. Change to `ctx.clearRect(0, 0, W, H)` so the canvas is transparent; lines are drawn on transparency, the body's `--bg` color shows through behind them.
 
-`DOMRect`s are in viewport coordinates (the canvas is `position: fixed`). Inside the render loop, each isoline segment computes its midpoint Y and tests against each region's vertical span. On match, stroke `#0a0a0e`; otherwise white. Y-only test because regions are full-bleed horizontally — cheaper than a full point-in-rect.
+2. `src/components/home/mission-panel.module.css` — `.panel { background: #000 }` → `.panel { background: var(--mission-panel-bg, transparent) }`. With the canvas now transparent and the panel transparent, the `.fill` element with `mix-blend-mode: difference` blends against the canvas (white lines + dark `--bg`), producing the inverted-line effect automatically: dark areas → near-white panel, white-line areas → near-black lines.
 
-**React side — `src/components/home/topo-canvas.tsx`:**
+**Tweak toggle.** `topoLinesOnWhite: boolean` in `TweakValues`, default `true`.
+- `true` → `--mission-panel-bg: transparent` (canvas shows through, lines invert via existing mix-blend)
+- `false` → `--mission-panel-bg: #000` (panel opaque, canvas hidden behind it as today)
 
-1. On mount, find all `[data-topo-invert]` elements.
-2. Subscribe to `scroll` and `resize` (passive listeners). On each event, recompute `getBoundingClientRect()` for each tracked element and call `topo.setDarkRegions(rects)`.
-3. Throttle to `requestAnimationFrame` so updates run at most once per frame.
-4. Read the `topoLinesOnWhite` toggle from `useTweaks()`. When `false`, call `setDarkRegions([])` so lines stay white everywhere (invisible behind opaque white panels — same as today).
-
-**Where the attribute goes:** `data-topo-invert` on the home `MissionPanel` outer `<section>`. Down the line, any other white-bg section opts in just by setting the attribute.
+**Why this works without a new canvas API:** mix-blend-mode's "backdrop" definition includes the painted result of all elements behind the blending element in painting order, including across stacking contexts when no `isolation: isolate` is in play. The `.fill` blends against the canvas's actual rendered pixels — dark transparent + white lines — and produces the inverse exactly where the lines are.
 
 **Affected files:**
-- `src/lib/topo-canvas.ts` — add `setDarkRegions`, update render loop.
-- `src/components/home/topo-canvas.tsx` — scroll/resize listeners, tweak read.
-- `src/components/home/mission-panel.tsx` — add `data-topo-invert` to the section.
-- `src/lib/use-tweaks.tsx` — add `topoLinesOnWhite: boolean` (default `true`).
+- `src/lib/topo-canvas.ts` — `fillRect` → `clearRect`.
+- `src/components/home/mission-panel.module.css` — `.panel` background uses CSS variable.
+- `src/lib/use-tweaks.tsx` — add `topoLinesOnWhite: boolean` (default `true`); `applyToBody` sets `--mission-panel-bg`.
+
+**Note:** this approach is per-section opt-in via mix-blend-mode setup, not via a `data-topo-invert` attribute. Mission panel is the only section needing this today; if a future white section needs the same treatment, it copies mission panel's `mix-blend-mode: difference` fill pattern. The `data-topo-invert` attribute mentioned elsewhere in this spec (e.g., §7) is now decorative — it documents intent but isn't read by code.
 
 ---
 
