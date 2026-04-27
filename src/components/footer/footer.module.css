@@ -3,13 +3,13 @@
   z-index: 4;
   background: var(--bg);
   border-top: 1px solid var(--line);
-  margin-top: 80px;
+  margin-top: 0;
 }
 
 .top {
   max-width: var(--content-w, 1400px);
   margin: 0 auto;
-  padding: 80px 24px 32px;
+  padding: 48px 24px 32px;
   display: grid;
   grid-template-columns: 1.4fr 1fr 1fr 1fr;
   gap: 64px;
@@ -47,8 +47,8 @@
 .columnLink:hover { color: var(--ink); }
 
 .divider {
-  max-width: var(--content-w, 1400px);
-  margin: 0 auto;
+  width: 100%;
+  margin: 0;
   border: 0;
   height: 1px;
   background: var(--line);

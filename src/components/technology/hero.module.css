@@ -28,15 +28,15 @@
   mask-image: linear-gradient(
     to right,
     transparent 0,
-    black calc(50% - var(--content-w, 1400px) / 2),
-    black calc(50% + var(--content-w, 1400px) / 2),
+    black calc(50% - var(--banner-w, 1200px) / 2),
+    black calc(50% + var(--banner-w, 1200px) / 2),
     transparent 100%
   );
   -webkit-mask-image: linear-gradient(
     to right,
     transparent 0,
-    black calc(50% - var(--content-w, 1400px) / 2),
-    black calc(50% + var(--content-w, 1400px) / 2),
+    black calc(50% - var(--banner-w, 1200px) / 2),
+    black calc(50% + var(--banner-w, 1200px) / 2),
     transparent 100%
   );
 }

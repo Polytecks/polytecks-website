@@ -2,7 +2,7 @@
   position: relative;
   z-index: 4;
   padding: 56px 0 40px;
-  margin-top: 24px;
+  margin-top: 0;
   border-top: 1px solid var(--line);
   background: var(--bg);
 }

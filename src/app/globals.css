@@ -133,6 +133,11 @@
      by the banner edge-taper mask + footer container. */
   --content-w: 1400px;
 
+  /* Banner content width — narrower than --content-w, used by banner-style
+     images so they match the visual rhythm of subpage content (1100-1200px)
+     rather than the wider top-nav/footer container (1400px). */
+  --banner-w: 1200px;
+
   /* Active-pillar theme — overridden by tweak panel "active theme" picker. */
   --tw-active-bg: rgba(74, 84, 192, 0.08);
   --tw-active-border: rgba(168, 176, 243, 0.45);
@@ -201,7 +206,9 @@
 }
 
 /* Mild vignette overlay used on white-bg sections (mission panel, proof
-   panel). Intensity driven by --tw-vignette (0–0.6), set by tweak panel. */
+   panel). Intensity driven by --tw-vignette (0–0.6), set by tweak panel.
+   background-attachment: fixed anchors the gradient to the viewport so the
+   dark corners track the visible window rather than the panel's static bounds. */
 .whiteVignette {
   position: absolute;
   inset: 0;
@@ -211,4 +218,6 @@
     transparent 50%,
     rgba(0, 0, 0, var(--tw-vignette, 0.2)) 100%
   );
+  background-attachment: fixed;
+  background-size: 100vw 100vh;
 }
