@@ -30,12 +30,12 @@ export function ProofTab() {
       <Slider label="Pin scroll" value={values.pinScrollMult} min={1.5} max={4} step={0.1}
         format={(v) => `${v.toFixed(1)}×`}
         onChange={(v) => setValue("pinScrollMult", v)} />
-      <Slider label="Giant size" value={values.giantVh} min={18} max={40} step={1}
-        format={(v) => `${v}vh`}
-        onChange={(v) => setValue("giantVh", v)} />
-      <Slider label="Settle scale" value={values.settleScale} min={0.15} max={0.45} step={0.01}
-        format={(v) => `${v.toFixed(2)}×`}
-        onChange={(v) => setValue("settleScale", v)} />
+      <Slider label="Number size" value={values.cardNumberSize} min={60} max={200} step={2}
+        format={(v) => `${v}px`}
+        onChange={(v) => setValue("cardNumberSize", v)} />
+      <Slider label="Label size" value={values.cardLabelSize} min={14} max={32} step={1}
+        format={(v) => `${v}px`}
+        onChange={(v) => setValue("cardLabelSize", v)} />
 
       <div className={styles.row}>
         <div className={styles.rowLabel}>

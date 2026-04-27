@@ -60,7 +60,7 @@
 .cardNumber {
   font-family: var(--font-display);
   font-weight: 300;
-  font-size: var(--tw-giant-vh, 30vh);
+  font-size: var(--tw-card-number-size, 120px);
   line-height: 1;
   letter-spacing: -0.03em;
   color: #0a0a0e;
@@ -76,11 +76,11 @@
 .cardLabel {
   font-family: var(--font-display);
   font-weight: var(--tw-label-weight, 400);
-  font-size: clamp(18px, 1.6vw, 28px);
+  font-size: var(--tw-card-label-size, 22px);
   line-height: 1.4;
   color: #0a0a0e;
   margin: 16px auto 0;
-  max-width: 520px;
+  max-width: 320px;
 }
 
 /* Static fallback: triggered by mobile media query OR when the outer

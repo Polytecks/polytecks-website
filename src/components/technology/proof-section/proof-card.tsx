@@ -11,10 +11,11 @@ export type ProofCardData = {
 
 type EasingMode = "linear" | "eased" | "aggressive";
 
-// EasingFunction = (v: number) => number — store callables, not tuples.
 const EASE_FN: Record<EasingMode, EasingFunction | undefined> = {
   linear:     undefined,
-  eased:      cubicBezier(0.2, 0.7, 0.2, 1),
+  // Premium ease-out — slow finish, smooth feel.
+  eased:      cubicBezier(0.16, 1, 0.3, 1),
+  // Sharp/snappy — quick at both ends, plateau in the middle.
   aggressive: cubicBezier(0.85, 0, 0.15, 1),
 };
 
@@ -26,67 +27,71 @@ export function ProofCard({
   scrollProgress,
   easing,
   phaseOverlap,
-  settleScale,
 }: {
   data: ProofCardData;
   index: 0 | 1 | 2;
   scrollProgress: MotionValue<number>;
   easing: EasingMode;
   phaseOverlap: number;       // 0 → 0.25
-  settleScale: number;        // 0.15 → 0.45
 }) {
   const phaseLen = 1 / 3;
   const overlap = phaseOverlap * phaseLen;
   const phaseStart = Math.max(0, index * phaseLen - overlap);
-  const zoomEnd = (index + 0.7) * phaseLen;
-  const phaseEnd = (index + 1) * phaseLen;
+  // Most of the phase is the appear animation; the last ~10% is a "rest" beat.
+  const appearEnd = phaseStart + (phaseLen - overlap) * 0.9;
 
   const easeFn = EASE_FN[easing];
   const easeOpt = easeFn ? { ease: easeFn } : undefined;
 
-  // Opacity: 0 before phaseStart, 1 by mid-zoom, stays 1.
+  // Opacity: 0 before phaseStart, 1 by appearEnd. Stays 1 throughout the rest.
   const opacity = useTransform(
     scrollProgress,
-    [phaseStart, phaseStart + (zoomEnd - phaseStart) * 0.4, 1],
+    [phaseStart, appearEnd, 1],
     [0, 1, 1],
     easeOpt,
   );
 
-  // Scale: 0.5 → 1 across zoom, → settleScale across move-to-slot.
+  // Scale: 0.85 → 1 across the appear phase.
   const scale = useTransform(
     scrollProgress,
-    [phaseStart, zoomEnd, phaseEnd],
-    [0.5, 1, settleScale],
+    [phaseStart, appearEnd, 1],
+    [0.85, 1, 1],
     easeOpt,
   );
 
-  // X: 0 (centered) during zoom, → slot during move-to-slot.
-  const xVw = useTransform(
+  // Subtle Y rise: 12px below baseline → 0.
+  const yOffset = useTransform(
     scrollProgress,
-    [zoomEnd, phaseEnd],
-    [0, SLOT_X_VW[index]],
+    [phaseStart, appearEnd, 1],
+    [12, 0, 0],
     easeOpt,
   );
+  // Compose with the -50% centering transform via calc().
+  const y = useTransform(yOffset, (v) => `calc(-50% + ${v}px)`);
 
-  const x = useTransform(xVw, (vw: number) => `calc(-50% + ${vw}vw)`);
-
-  // Z-index: giant state = 2 (above settled siblings), settled state = 1.
-  // Steps at zoomEnd because z-index doesn't smoothly interpolate.
-  const zIndex = useTransform(
+  // Blur: 8px → 0 (focus-pull).
+  const blur = useTransform(
     scrollProgress,
-    [phaseStart, zoomEnd, phaseEnd, 1],
-    [2, 2, 1, 1],
+    [phaseStart, appearEnd, 1],
+    [8, 0, 0],
+    easeOpt,
   );
+  const filter = useTransform(blur, (b) => `blur(${b}px)`);
+
+  // Horizontal slot — fixed at the card's final position throughout.
+  const slotVw = SLOT_X_VW[index];
+  const x = `calc(-50% + ${slotVw}vw)`;
 
   return (
     <motion.div
       className={styles.card}
       style={{
-        zIndex,
+        zIndex: 1,
         opacity,
         scale,
         x,
-        y: "-50%",
+        y,
+        filter,
       }}
     >
       <p className={styles.cardNumber}>{data.number}</p>

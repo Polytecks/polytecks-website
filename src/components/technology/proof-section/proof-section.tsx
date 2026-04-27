@@ -74,7 +74,6 @@ export function ProofSection() {
                 scrollProgress={scrollYProgress}
                 easing={values.easing}
                 phaseOverlap={values.phaseOverlap}
-                settleScale={values.settleScale}
               />
             ))}
           </div>

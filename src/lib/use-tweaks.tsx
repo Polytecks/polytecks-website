@@ -46,8 +46,8 @@ export type TweakValues = {
 
   // Proof section (Tab 2)
   pinScrollMult: number;       // 1.5 → 4
-  giantVh: number;             // 18 → 40 (vh)
-  settleScale: number;         // 0.15 → 0.45
+  cardNumberSize: number;       // 60 → 200 (px)
+  cardLabelSize: number;        // 14 → 32 (px)
   easing: EasingMode;
   phaseOverlap: number;        // 0 → 0.25
   vignette: number;            // 0 → 0.6
@@ -95,8 +95,8 @@ export const TWEAK_DEFAULTS: TweakValues = {
   },
 
   pinScrollMult: 3,
-  giantVh: 30,
-  settleScale: 0.25,
+  cardNumberSize: 120,
+  cardLabelSize: 22,
   easing: "eased",
   phaseOverlap: 0,
   vignette: 0.2,
@@ -146,8 +146,8 @@ function applyToBody(values: TweakValues) {
   // Proof section knobs (consumed by ProofSection / ProofCard CSS)
   body.style.setProperty("--tw-pin-scroll", String(values.pinScrollMult));
   body.style.setProperty("--tw-proof-height", `${values.pinScrollMult * 100}vh`);
-  body.style.setProperty("--tw-giant-vh", `${values.giantVh}vh`);
-  body.style.setProperty("--tw-settle-scale", String(values.settleScale));
+  body.style.setProperty("--tw-card-number-size", `${values.cardNumberSize}px`);
+  body.style.setProperty("--tw-card-label-size", `${values.cardLabelSize}px`);
   body.style.setProperty("--tw-vignette", String(values.vignette));
   body.style.setProperty("--tw-panel-tone", PANEL_TONES[values.panelTone]);
   body.style.setProperty("--tw-label-weight", String(values.labelWeight));
