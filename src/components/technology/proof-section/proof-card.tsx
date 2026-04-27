@@ -1,7 +1,6 @@
 "use client";
 
-import { motion, useTransform, type MotionValue } from "framer-motion";
-import { cubicBezier, type EasingFunction } from "motion-utils";
+import { motion, useTransform, cubicBezier, type MotionValue, type EasingFunction } from "framer-motion";
 import { type ReactNode } from "react";
 import styles from "./proof-section.module.css";
 
