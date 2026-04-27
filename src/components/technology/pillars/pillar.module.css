@@ -26,12 +26,15 @@
 
   /* Smooth width (flex-grow) + height (min-height) morph via CSS instead of
      Framer's `layout` prop, which mis-measured the rect when both dimensions
-     were animating simultaneously and translated the card off-screen. */
+     were animating simultaneously and translated the card off-screen.
+     On DEACTIVATION, the size shrinks immediately but the active colour
+     holds for ~50% of the anim duration before fading — gives a subtle
+     "linger" feel instead of color and size dropping simultaneously. */
   transition:
     flex-grow var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1),
     min-height var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1),
-    border-color var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1),
-    background-color var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1);
+    border-color calc(var(--tw-anim-ms, 350ms) * 0.7) cubic-bezier(0.2, 0.7, 0.2, 1) calc(var(--tw-anim-ms, 350ms) * 0.5),
+    background-color calc(var(--tw-anim-ms, 350ms) * 0.7) cubic-bezier(0.2, 0.7, 0.2, 1) calc(var(--tw-anim-ms, 350ms) * 0.5);
 }
 
 .pillar:focus-visible {
@@ -42,6 +45,13 @@
 .pillar[data-active="true"] {
   border-color: var(--tw-active-border, rgba(168, 176, 243, 0.45));
   background-color: var(--tw-active-bg, rgba(74, 84, 192, 0.08));
+  /* On ACTIVATION, override the deactivation delay so the colour kicks in
+     immediately alongside the size growth. */
+  transition:
+    flex-grow var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1),
+    min-height var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1),
+    border-color var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1),
+    background-color var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 /* ---------- Title zone (top, always on top of any image) ---------- */

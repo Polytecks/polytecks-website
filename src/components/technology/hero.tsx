@@ -19,9 +19,9 @@ export function TechnologyHero() {
           <SubpageHeader
             eyebrow="Technology"
             title={
-              <span style={{ color: "var(--indigo-bright)" }}>
-                The Mosaic<sup>™</sup> Platform
-              </span>
+              <>
+                The <em>Mosaic</em><sup>™</sup> Platform
+              </>
             }
             lede="A new frontier in bioelectrical mapping."
           />
