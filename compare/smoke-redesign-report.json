@@ -53,7 +53,7 @@
           "pass": true
         },
         {
-          "name": "intro paragraph promoted (founding team)",
+          "name": "intro paragraph over image (Cambridge ecosystem)",
           "pass": true
         },
         {
@@ -154,8 +154,18 @@
           "pass": true
         }
       ],
-      "consoleErrors": [],
-      "pageErrors": []
+      "consoleErrors": [
+        {
+          "vp": "mobile",
+          "text": "Failed to load resource: net::ERR_CONTENT_LENGTH_MISMATCH"
+        }
+      ],
+      "pageErrors": [
+        {
+          "vp": "mobile",
+          "text": "ChunkLoadError: Failed to load chunk /_next/static/chunks/src_app_layout_tsx_004glpo._.js from module [project]/node_modules/next/dist/compiled/react-server-dom-turbopack/cjs/react-server-dom-turbopack-client.browser.development.js [app-client] (ecmascript)"
+        }
+      ]
     },
     {
       "route": "/privacy",
@@ -196,7 +206,7 @@
     "totalChecks": 25,
     "passed": 25,
     "failed": 0,
-    "consoleErrors": 0,
-    "pageErrors": 0
+    "consoleErrors": 1,
+    "pageErrors": 1
   }
 }

@@ -1,7 +1,14 @@
 "use client";
 
-import { motion, useTransform, cubicBezier, type MotionValue, type EasingFunction } from "framer-motion";
-import { type ReactNode } from "react";
+import {
+  motion,
+  useMotionValueEvent,
+  useTransform,
+  cubicBezier,
+  type MotionValue,
+  type EasingFunction,
+} from "framer-motion";
+import { useRef, type ReactNode } from "react";
 import styles from "./proof-section.module.css";
 
 export type ProofCardData = {
@@ -48,27 +55,30 @@ export function ProofCard({
   const easeFn = EASE_FN[easing];
   const easeOpt = easeFn ? { ease: easeFn } : undefined;
 
-  // Opacity: locked at 0 from progress 0 → phaseStart, then animates 0→1.
+  // Drop the explicit 0→phaseStart lockup keyframes — when phaseStart=0 they
+  // produce a degenerate [0, 0, …] input range, which Framer's interpolator
+  // handles via division-by-zero and silently returns NaN for opacity. (NaN
+  // opacity falls back to 1, leaving cards faintly visible at scroll-top.)
+  // useTransform clamps at the input bounds by default, so progress<phaseStart
+  // simply returns the first output value.
   const opacity = useTransform(
     scrollProgress,
-    [0, phaseStart, phaseStart + (emergeEnd - phaseStart) * 0.5, 1],
-    [0, 0, 1, 1],
+    [phaseStart, phaseStart + (emergeEnd - phaseStart) * 0.5, 1],
+    [0, 1, 1],
     easeOpt,
   );
 
-  // Scale: locked at 0.4 from 0 → phaseStart, then 0.4 → 1.
   const scale = useTransform(
     scrollProgress,
-    [0, phaseStart, emergeEnd, 1],
-    [0.4, 0.4, 1, 1],
+    [phaseStart, emergeEnd, 1],
+    [0.4, 1, 1],
     easeOpt,
   );
 
-  // Blur: locked at 12 from 0 → phaseStart, then 12 → 0.
   const blur = useTransform(
     scrollProgress,
-    [0, phaseStart, emergeEnd, 1],
-    [12, 12, 0, 0],
+    [phaseStart, emergeEnd, 1],
+    [12, 0, 0],
     easeOpt,
   );
   const filter = useTransform(blur, (b) => `blur(${b}px)`);
@@ -82,22 +92,17 @@ export function ProofCard({
   // Approach: keep x as the centering -50% always; animate `left` via a motion
   // value that interpolates from "50%" to the slot percentage.
   const slotPct = SLOT_LEFT_PCT[index];
-  // Left: locked at "50%" from 0 → phaseStart, then animates to slot.
   const left = useTransform(
     scrollProgress,
-    [0, phaseStart, emergeEnd, slideEnd, 1],
-    ["50%", "50%", "50%", slotPct, slotPct],
+    [phaseStart, emergeEnd, slideEnd, 1],
+    ["50%", "50%", slotPct, slotPct],
     easeOpt,
   );
 
-  // Y: emergence at center (y = -50% of card), slide to settled row at
-  // -50% + SETTLED_Y_VH (so the card's center is at viewport center + 15vh).
-  // Locked at "-50%" from 0 → phaseStart.
   const y = useTransform(
     scrollProgress,
-    [0, phaseStart, emergeEnd, slideEnd, 1],
+    [phaseStart, emergeEnd, slideEnd, 1],
     [
-      "-50%",
       "-50%",
       "-50%",
       `calc(-50% + ${SETTLED_Y_VH}vh)`,
@@ -106,22 +111,48 @@ export function ProofCard({
     easeOpt,
   );
 
+  // Framer's <motion.div style={{...motionValues}}> creates WAAPI animations
+  // that on this codebase end up running on their own time-based clock instead
+  // of being scroll-linked, which means cards advance to opacity 1 within
+  // ~1s of mount regardless of scroll position. Bypass that by writing inline
+  // styles directly on a plain <div> via useMotionValueEvent.
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  useMotionValueEvent(opacity, "change", (v) => {
+    if (cardRef.current) cardRef.current.style.opacity = String(v);
+  });
+  useMotionValueEvent(scale, "change", (v) => {
+    if (cardRef.current) {
+      cardRef.current.style.setProperty("--card-scale", String(v));
+    }
+  });
+  useMotionValueEvent(filter, "change", (v) => {
+    if (cardRef.current) cardRef.current.style.filter = String(v);
+  });
+  useMotionValueEvent(left, "change", (v) => {
+    if (cardRef.current) cardRef.current.style.left = String(v);
+  });
+  useMotionValueEvent(y, "change", (v) => {
+    if (cardRef.current) {
+      cardRef.current.style.setProperty("--card-y", String(v));
+    }
+  });
+
   return (
-    <motion.div
+    <div
+      ref={cardRef}
       className={styles.card}
-      initial={{ opacity: 0, scale: 0.4, x: "-50%", y: "-50%" }}
       style={{
         zIndex: 1,
-        left,
-        opacity,
-        scale,
-        x: "-50%",
-        y,
-        filter,
+        opacity: 0,
+        left: "50%",
+        ["--card-scale" as string]: 0.4,
+        ["--card-y" as string]: "-50%",
+        filter: "blur(12px)",
       }}
     >
       <p className={styles.cardNumber}>{data.number}</p>
       <p className={styles.cardLabel}>{data.label}</p>
-    </motion.div>
+    </div>
   );
 }

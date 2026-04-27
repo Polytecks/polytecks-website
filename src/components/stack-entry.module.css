@@ -4,12 +4,14 @@
 
 .wrap {
   display: block;
-  overflow: hidden;
+  /* No overflow: hidden — would clip absolute-positioned children, glow effects,
+     position: sticky descendants (proof section), and any text that visually
+     extends past its box (e.g. negative-left overlays on Cambridge section). */
 }
 
 .inner {
   display: block;
-  transform: translateY(100%);
+  transform: translateY(28px);
   opacity: 0;
   animation: stackEntryIn var(--stack-duration-ms, 700ms) cubic-bezier(0.16, 1, 0.3, 1) both;
   animation-delay: calc(var(--stack-i, 0) * var(--stack-stagger-ms, 80ms));

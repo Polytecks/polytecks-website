@@ -150,7 +150,12 @@
 .imageOverlayText {
   position: absolute;
   top: var(--tw-cb-overlay-top, 32px);
-  left: var(--tw-cb-overlay-left, -40px);
+  /* Position relative to the image content area (banner-w 1200px centered
+     in viewport). The slider value (px) offsets from the image's left edge:
+     0 = right at the image edge, positive = into the image, negative = into
+     the page margin to the left of the image. Outer max() guards narrow
+     viewports so the overlay never goes negative-left of the viewport. */
+  left: max(20px, calc(50vw - var(--banner-w, 1200px) / 2 + var(--tw-cb-overlay-left, 0px)));
   max-width: 480px;
   z-index: 3;
   font-family: var(--font-display);
