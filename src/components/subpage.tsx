@@ -18,7 +18,7 @@ export function SubpageHeader({
   return (
     <>
       <div className={styles.eyebrow}>{eyebrow}</div>
-      <h2 className={styles.title}><AnimatedTitle>{title}</AnimatedTitle></h2>
+      <h1 className={styles.title}><AnimatedTitle>{title}</AnimatedTitle></h1>
       {lede ? <p className={styles.lede}>{lede}</p> : null}
     </>
   );

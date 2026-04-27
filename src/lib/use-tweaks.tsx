@@ -135,7 +135,7 @@ function applyToBody(values: TweakValues) {
   body.style.setProperty("--tw-sibling-dim", String(values.siblingDim));
   body.style.setProperty("--tw-anim-ms", `${values.animMs}ms`);
   body.style.setProperty("--tw-rhythm", String(values.rhythm));
-  body.style.setProperty("--indigo-bright", ACCENT_HEX[values.accent]);
+  body.style.setProperty("--tw-accent", ACCENT_HEX[values.accent]);
 
   const theme = ACTIVE_THEMES[values.activeTheme];
   body.style.setProperty("--tw-active-bg", theme.bg);

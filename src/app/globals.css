@@ -123,6 +123,12 @@
   /* Banner height (technology hero, cambridge bleed, future banner blocks). */
   --banner-height: clamp(440px, 60vh, 620px);
 
+  /* Pillar accent — tweak-panel "accent" picker overrides this. Keeps the
+     pillar focus outline + pillar section header accent decoupled from the
+     site-wide brand color. Defaults to brand indigo so non-tweaked pages
+     look identical to before. */
+  --tw-accent: var(--indigo-bright);
+
   /* Content max width — matches max-w-[1400px] on the top nav and is consumed
      by the banner edge-taper mask + footer container. */
   --content-w: 1400px;
@@ -130,6 +136,12 @@
   /* Active-pillar theme — overridden by tweak panel "active theme" picker. */
   --tw-active-bg: rgba(74, 84, 192, 0.08);
   --tw-active-border: rgba(168, 176, 243, 0.45);
+
+  /* Mission panel background — transparent by default lets the topo canvas
+     show through (with the .fill mix-blend producing the dark-line effect).
+     Tweak panel sets to #000 if user disables "Topo on white". Default
+     matches the locked-in tweak default so first-paint doesn't flash black. */
+  --mission-panel-bg: transparent;
 
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);

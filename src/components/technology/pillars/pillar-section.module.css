@@ -22,7 +22,7 @@
 .title em {
   font-style: italic;
   font-weight: 500;
-  color: var(--indigo-bright);
+  color: var(--tw-accent, var(--indigo-bright));
 }
 
 .row {
