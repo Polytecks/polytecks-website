@@ -64,6 +64,38 @@ export function PageFxTab() {
 
       <div className={styles.divider} />
 
+      <Slider label="Landing duration" value={values.landingElemDurationMs} min={200} max={2000} step={50}
+        format={(v) => `${v}ms`}
+        onChange={(v) => setValue("landingElemDurationMs", v)} />
+      <Slider label="Landing arm delay" value={values.landingArmDelayMs} min={0} max={3000} step={50}
+        format={(v) => `${v}ms`}
+        onChange={(v) => setValue("landingArmDelayMs", v)} />
+      <Slider label="Landing sub delay" value={values.landingSubDelayMs} min={0} max={3000} step={50}
+        format={(v) => `${v}ms`}
+        onChange={(v) => setValue("landingSubDelayMs", v)} />
+      <Slider label="Landing CTA1 delay" value={values.landingCta1DelayMs} min={0} max={3000} step={50}
+        format={(v) => `${v}ms`}
+        onChange={(v) => setValue("landingCta1DelayMs", v)} />
+      <Slider label="Landing CTA2 delay" value={values.landingCta2DelayMs} min={0} max={3000} step={50}
+        format={(v) => `${v}ms`}
+        onChange={(v) => setValue("landingCta2DelayMs", v)} />
+
+      <div className={styles.row}>
+        <button
+          type="button"
+          className={styles.snapshot}
+          onClick={() => {
+            if (typeof window !== "undefined") {
+              window.dispatchEvent(new Event("polytecks:replay-landing"));
+            }
+          }}
+        >
+          ▶ Replay landing anim
+        </button>
+      </div>
+
+      <div className={styles.divider} />
+
       <Slider label="Cambridge cb top" value={values.cambridgeCalloutTop} min={8} max={80} step={2}
         format={(v) => `${v}px`}
         onChange={(v) => setValue("cambridgeCalloutTop", v)} />

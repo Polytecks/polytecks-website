@@ -1,10 +1,21 @@
+"use client";
+
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import { ChargeLink } from "./charge-link";
 import styles from "./hero.module.css";
 
 export function Hero() {
+  const [replayKey, setReplayKey] = useState(0);
+
+  useEffect(() => {
+    const handler = () => setReplayKey((k) => k + 1);
+    window.addEventListener("polytecks:replay-landing", handler);
+    return () => window.removeEventListener("polytecks:replay-landing", handler);
+  }, []);
+
   return (
-    <section className={styles.hero}>
+    <section key={replayKey} className={styles.hero}>
       <div className={styles.gridOverlay} aria-hidden="true" />
       <div className={styles.vignette} aria-hidden="true" />
 

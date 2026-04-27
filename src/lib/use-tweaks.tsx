@@ -68,6 +68,13 @@ export type TweakValues = {
   // Cambridge overlay text position
   cambridgeOverlayTop: number;   // 0 → 120 (px from top of image)
   cambridgeOverlayLeft: number;  // -100 → 100 (px from left of image)
+
+  // Landing entry animation timing
+  landingArmDelayMs: number;       // 0 → 3000
+  landingSubDelayMs: number;       // 0 → 3000
+  landingCta1DelayMs: number;      // 0 → 3000
+  landingCta2DelayMs: number;      // 0 → 3000
+  landingElemDurationMs: number;   // 200 → 2000
 };
 
 const DEFAULT_IMAGE_TWEAK: ImageTweak = {
@@ -123,6 +130,12 @@ export const TWEAK_DEFAULTS: TweakValues = {
   cambridgeCalloutRight: 24,
   cambridgeOverlayTop: 32,
   cambridgeOverlayLeft: -40,
+
+  landingArmDelayMs: 1400,
+  landingSubDelayMs: 1600,
+  landingCta1DelayMs: 1800,
+  landingCta2DelayMs: 1950,
+  landingElemDurationMs: 900,
 };
 
 const STORAGE_KEY = "polytecks:tweaks";
@@ -190,6 +203,13 @@ function applyToBody(values: TweakValues) {
   // Cambridge overlay text position
   body.style.setProperty("--tw-cb-overlay-top", `${values.cambridgeOverlayTop}px`);
   body.style.setProperty("--tw-cb-overlay-left", `${values.cambridgeOverlayLeft}px`);
+
+  // Landing entry animation timing
+  body.style.setProperty("--landing-arm-delay", `${values.landingArmDelayMs}ms`);
+  body.style.setProperty("--landing-sub-delay", `${values.landingSubDelayMs}ms`);
+  body.style.setProperty("--landing-cta1-delay", `${values.landingCta1DelayMs}ms`);
+  body.style.setProperty("--landing-cta2-delay", `${values.landingCta2DelayMs}ms`);
+  body.style.setProperty("--landing-elem-duration", `${values.landingElemDurationMs}ms`);
 }
 
 function readStored(): TweakValues {
