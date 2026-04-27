@@ -51,35 +51,6 @@
   }
 }
 
-.eyebrow {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 500;
-  color: var(--indigo-bright);
-  text-transform: uppercase;
-  letter-spacing: 0.25em;
-  margin-bottom: 28px;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.eyebrow::before {
-  content: "";
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--indigo-bright);
-  box-shadow: 0 0 12px var(--indigo-bright);
-  animation: pulse 2.4s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50%      { opacity: 0.3; }
-}
-
 .headline {
   font-family: var(--font-display);
   font-weight: 300;

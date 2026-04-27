@@ -10,8 +10,6 @@ export function Hero() {
 
       <div className={styles.content}>
         <div>
-          <p className={styles.eyebrow}>R&amp;D &middot; Cambridge UK</p>
-
           <h1 className={styles.headline}>
             <span className={styles.nowrap}>
               <span className={styles.word} style={{ ["--wi" as string]: 0 }}>Making</span>{" "}
