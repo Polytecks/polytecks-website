@@ -1,0 +1,88 @@
+"use client";
+
+import { motion, useScroll, useReducedMotion } from "framer-motion";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { useTweaks } from "@/lib/use-tweaks";
+import { ProofCard, type ProofCardData } from "./proof-card";
+import styles from "./proof-section.module.css";
+
+const STATS: ProofCardData[] = [
+  // TODO: confirm exact figure (~10× claim)
+  { number: <>~10<sup>×</sup></>, label: "Non-invasive spatial resolution relative to standard electrodes" },
+  { number: <>0</>,                label: "Skin preparation needed — no electrode gel required" },
+  { number: <>Days–Weeks</>,       label: "Continuous wear on the body" },
+];
+
+export function ProofSection() {
+  const outerRef = useRef<HTMLElement>(null);
+  const reducedMotion = useReducedMotion();
+  const { values } = useTweaks();
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth <= 720);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  const { scrollYProgress } = useScroll({
+    target: outerRef,
+    offset: ["start start", "end end"],
+  });
+
+  // Mobile or reduced motion: render a non-pinned stack with simple
+  // whileInView reveals. data-static makes the static layout fire even on
+  // wide viewports for reduced-motion users.
+  if (isMobile || reducedMotion) {
+    return (
+      <section className={styles.outer} data-static="true">
+        <div className={styles.sticky}>
+          <div className={styles.panel}>
+            <div className="whiteVignette" aria-hidden="true" />
+            {STATS.map((stat, i) => (
+              <motion.div
+                key={i}
+                className={styles.card}
+                initial={{ opacity: 0, scale: 0.85 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true, amount: 0.4 }}
+                transition={{ duration: 0.6, ease: [0.2, 0.7, 0.2, 1] }}
+              >
+                <p className={styles.cardNumber}>{stat.number}</p>
+                <p className={styles.cardLabel}>{stat.label}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  const outerStyle: CSSProperties = {
+    height: `${values.pinScrollMult * 100}vh`,
+  };
+
+  return (
+    <section ref={outerRef} className={styles.outer} style={outerStyle}>
+      <div className={styles.sticky}>
+        <div className={styles.panel}>
+          <div className="whiteVignette" aria-hidden="true" />
+          <div className={styles.cardsRoot}>
+            {STATS.map((stat, i) => (
+              <ProofCard
+                key={i}
+                data={stat}
+                index={i as 0 | 1 | 2}
+                scrollProgress={scrollYProgress}
+                easing={values.easing}
+                phaseOverlap={values.phaseOverlap}
+                settleScale={values.settleScale}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

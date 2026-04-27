@@ -1,0 +1,114 @@
+/* Scroll-pinned proof section.
+   Outer height = pinScrollMult * 100vh (drives total scroll budget).
+   Sticky inner pins to viewport top; cards animate via Framer Motion
+   driven by useScroll progress. */
+
+.outer {
+  position: relative;
+  width: 100%;
+  /* Default: 3× viewport. Overridden inline based on tweak. */
+  height: 300vh;
+  background: transparent;
+}
+
+.sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.panel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: var(--tw-panel-tone, #ffffff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Vignette is provided by .whiteVignette utility from globals.css */
+
+.cardsRoot {
+  position: relative;
+  width: 100%;
+  max-width: var(--content-w, 1400px);
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Each card is absolutely positioned in the center; motion translates it
+   to its slot on settle. */
+.card {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform-origin: center center;
+  text-align: center;
+  color: #0a0a0e;
+  pointer-events: none;
+}
+
+.cardNumber {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: var(--tw-giant-vh, 30vh);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: #0a0a0e;
+  margin: 0;
+}
+
+.cardNumber sup {
+  font-size: 0.5em;
+  vertical-align: super;
+  font-weight: 400;
+}
+
+.cardLabel {
+  font-family: var(--font-display);
+  font-weight: var(--tw-label-weight, 400);
+  font-size: clamp(18px, 1.6vw, 28px);
+  line-height: 1.4;
+  color: #0a0a0e;
+  margin: 16px auto 0;
+  max-width: 520px;
+}
+
+/* Static fallback: triggered by mobile media query OR when the outer
+   element has data-static="true" (reduced-motion users on desktop). */
+@media (max-width: 720px) {
+  .outer { height: auto; }
+  .sticky { position: static; height: auto; padding: 64px 24px; }
+  .panel { flex-direction: column; align-items: center; padding: 48px 0; gap: 96px; }
+  .cardsRoot { display: contents; }
+  .card { position: static; transform: none !important; }
+  .cardNumber { font-size: clamp(64px, 18vh, 140px); }
+}
+
+.outer[data-static="true"] { height: auto; }
+.outer[data-static="true"] .sticky {
+  position: static;
+  height: auto;
+  padding: 64px 24px;
+}
+.outer[data-static="true"] .panel {
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 0;
+  gap: 96px;
+}
+.outer[data-static="true"] .cardsRoot { display: contents; }
+.outer[data-static="true"] .card {
+  position: static;
+  transform: none !important;
+}
+.outer[data-static="true"] .cardNumber {
+  font-size: clamp(64px, 18vh, 140px);
+}

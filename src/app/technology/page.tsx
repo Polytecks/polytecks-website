@@ -2,7 +2,7 @@ import { ChargeLink } from "@/components/home/charge-link";
 import { TechnologyHero } from "@/components/technology/hero";
 import { Philosophy } from "@/components/technology/philosophy";
 import { PillarSection } from "@/components/technology/pillars/pillar-section";
-import { ProofStrip } from "@/components/technology/proof-strip";
+import { ProofSection } from "@/components/technology/proof-section/proof-section";
 import { TweakPanel } from "@/components/technology/tweak-panel";
 
 export default function TechnologyPage() {
@@ -10,7 +10,7 @@ export default function TechnologyPage() {
     <>
       <TechnologyHero />
       <PillarSection />
-      <ProofStrip />
+      <ProofSection />
       <Philosophy />
       <section
         style={{
