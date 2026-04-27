@@ -37,7 +37,10 @@ export function TweakPanel() {
   useEffect(() => {
     try {
       const stored = window.localStorage.getItem(TAB_STORAGE_KEY) as TabId | null;
-      if (stored && TABS.some((t) => t.id === stored)) setActiveTab(stored);
+      if (stored && TABS.some((t) => t.id === stored)) {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setActiveTab(stored);
+      }
     } catch { /* ignore */ }
   }, []);
 
