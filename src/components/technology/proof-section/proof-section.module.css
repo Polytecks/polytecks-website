@@ -90,7 +90,7 @@
   .sticky { position: static; height: auto; padding: 64px 24px; }
   .panel { flex-direction: column; align-items: center; padding: 48px 0; gap: 96px; }
   .cardsRoot { display: contents; }
-  .card { position: static; transform: none !important; }
+  .card { position: static; transform: none !important; left: auto !important; }
   .cardNumber { font-size: clamp(64px, 18vh, 140px); }
 }
 
@@ -99,7 +99,7 @@
   .sticky { position: static; height: auto; padding: 64px 24px; }
   .panel { flex-direction: column; align-items: center; padding: 48px 0; gap: 96px; }
   .cardsRoot { display: contents; }
-  .card { position: static; transform: none !important; }
+  .card { position: static; transform: none !important; left: auto !important; }
   .cardNumber { font-size: clamp(64px, 18vh, 140px); }
 }
 
@@ -119,6 +119,7 @@
 .outer[data-static="true"] .card {
   position: static;
   transform: none !important;
+  left: auto !important;
 }
 .outer[data-static="true"] .cardNumber {
   font-size: clamp(64px, 18vh, 140px);

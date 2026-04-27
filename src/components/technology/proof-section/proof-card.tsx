@@ -13,17 +13,17 @@ type EasingMode = "linear" | "eased" | "aggressive";
 
 const EASE_FN: Record<EasingMode, EasingFunction | undefined> = {
   linear:     undefined,
-  // Premium ease-out — slow finish, smooth feel.
   eased:      cubicBezier(0.16, 1, 0.3, 1),
-  // Sharp/snappy — quick at both ends, plateau in the middle.
   aggressive: cubicBezier(0.85, 0, 0.15, 1),
 };
 
-// Slot positions as a percentage of the .cardsRoot container width, so cards
-// always land at thirds of the (max-1400px) content area regardless of
-// viewport. Using vw would push the right card past the viewport edge when
-// the number text is wide (e.g. "Days–Weeks" at 120px font).
+// Settled-row slot positions as percentages of the .cardsRoot container width.
+// Cards land at thirds of the (max-1400px) content area regardless of viewport.
 const SLOT_LEFT_PCT = ["16.67%", "50%", "83.33%"];
+
+// Settled row sits 15vh below the emergence center, so a giant card emerging
+// in the center never visually overlaps already-settled cards in the row.
+const SETTLED_Y_VH = 15;
 
 export function ProofCard({
   data,
@@ -41,57 +41,74 @@ export function ProofCard({
   const phaseLen = 1 / 3;
   const overlap = phaseOverlap * phaseLen;
   const phaseStart = Math.max(0, index * phaseLen - overlap);
-  // Most of the phase is the appear animation; the last ~10% is a "rest" beat.
-  const appearEnd = phaseStart + (phaseLen - overlap) * 0.9;
+  // Phase A (emerge) takes 70% of the phase; phase B (slide to slot) takes the rest.
+  const emergeEnd = phaseStart + (phaseLen - overlap) * 0.65;
+  const slideEnd  = phaseStart + (phaseLen - overlap);
 
   const easeFn = EASE_FN[easing];
   const easeOpt = easeFn ? { ease: easeFn } : undefined;
 
-  // Opacity: 0 before phaseStart, 1 by appearEnd. Stays 1 throughout the rest.
+  // Opacity: 0 before phaseStart, 1 by mid-emerge, stays 1.
   const opacity = useTransform(
     scrollProgress,
-    [phaseStart, appearEnd, 1],
+    [phaseStart, phaseStart + (emergeEnd - phaseStart) * 0.5, 1],
     [0, 1, 1],
     easeOpt,
   );
 
-  // Scale: 0.85 → 1 across the appear phase.
+  // Scale: emerge from 0.4 → 1 across phase A. Stays 1 throughout phase B.
   const scale = useTransform(
     scrollProgress,
-    [phaseStart, appearEnd, 1],
-    [0.85, 1, 1],
+    [phaseStart, emergeEnd, 1],
+    [0.4, 1, 1],
     easeOpt,
   );
 
-  // Subtle Y rise: 12px below baseline → 0.
-  const yOffset = useTransform(
-    scrollProgress,
-    [phaseStart, appearEnd, 1],
-    [12, 0, 0],
-    easeOpt,
-  );
-  // Compose with the -50% centering transform via calc().
-  const y = useTransform(yOffset, (v) => `calc(-50% + ${v}px)`);
-
-  // Blur: 8px → 0 (focus-pull).
+  // Blur: 12px → 0 across phase A. Stays 0.
   const blur = useTransform(
     scrollProgress,
-    [phaseStart, appearEnd, 1],
-    [8, 0, 0],
+    [phaseStart, emergeEnd, 1],
+    [12, 0, 0],
     easeOpt,
   );
   const filter = useTransform(blur, (b) => `blur(${b}px)`);
 
-  // Horizontal slot — handled via `left` (set inline below) plus a constant
-  // -50% translateX to center the card on its slot anchor. No x animation.
-  const left = SLOT_LEFT_PCT[index];
+  // X (slot offset, percent of container): 0 (center) during emerge, slides
+  // to its slot during phase B. Slot 0 → -33.33%, slot 1 → 0%, slot 2 → +33.33%.
+  // (These percentages are relative to the .cardsRoot container width because
+  // we set them via the `left` CSS property below — but the motion x is still
+  // in % units of the element's own width. So we use a calc that bakes the
+  // container-thirds offset into the centering translate.)
+  // Approach: keep x as the centering -50% always; animate `left` via a motion
+  // value that interpolates from "50%" to the slot percentage.
+  const slotPct = SLOT_LEFT_PCT[index];
+  const left = useTransform(
+    scrollProgress,
+    [phaseStart, emergeEnd, slideEnd, 1],
+    ["50%", "50%", slotPct, slotPct],
+    easeOpt,
+  );
+
+  // Y: emergence at center (y = -50% of card), slide to settled row at
+  // -50% + SETTLED_Y_VH (so the card's center is at viewport center + 15vh).
+  const y = useTransform(
+    scrollProgress,
+    [phaseStart, emergeEnd, slideEnd, 1],
+    [
+      "-50%",
+      "-50%",
+      `calc(-50% + ${SETTLED_Y_VH}vh)`,
+      `calc(-50% + ${SETTLED_Y_VH}vh)`,
+    ],
+    easeOpt,
+  );
 
   return (
     <motion.div
       className={styles.card}
       style={{
-        left,
         zIndex: 1,
+        left,
         opacity,
         scale,
         x: "-50%",
