@@ -10,7 +10,7 @@ const EXPLORE: FooterLink[] = [
 
 const COMPANY: FooterLink[] = [
   { label: "About Us", href: "/about" },
-  { label: "Team ↓",   href: "/about#team" },
+  { label: "Team",     href: "/about#team" },
   { label: "Careers",  href: "/careers" },
 ];
 

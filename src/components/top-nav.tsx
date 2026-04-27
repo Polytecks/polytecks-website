@@ -28,7 +28,7 @@ export function TopNav() {
             width={2500}
             height={720}
             priority
-            className="h-8"
+            className="h-10"
             style={{ width: "auto" }}
           />
         </Link>

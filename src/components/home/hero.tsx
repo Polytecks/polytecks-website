@@ -37,7 +37,7 @@ export function Hero() {
           </p>
 
           <div className={styles.ctas}>
-            <ChargeLink href="/technology" label="The Science" />
+            <ChargeLink href="/technology" label="The Technology" />
             <ChargeLink href="/devices" label="View Devices" />
           </div>
         </div>

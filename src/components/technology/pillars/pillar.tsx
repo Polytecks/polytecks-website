@@ -101,7 +101,9 @@ export function Pillar({
 
       <div className={styles.imageZone}>
         <Visual visual={content.visual} />
-        <span className={styles.imageOverlay} aria-hidden="true" />
+        {content.visual.kind !== "video" ? (
+          <span className={styles.imageOverlay} aria-hidden="true" />
+        ) : null}
       </div>
     </motion.button>
   );

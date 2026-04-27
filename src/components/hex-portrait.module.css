@@ -122,8 +122,9 @@
 }
 
 .advisor .name {
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.3;
+  letter-spacing: -0.02em;
   max-width: 160px;
 }
 

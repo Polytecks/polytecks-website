@@ -28,7 +28,8 @@
   font-weight: 300;
   font-size: clamp(40px, 5vw, 64px);
   letter-spacing: -0.03em;
-  line-height: 1.05;
+  line-height: 1.15;
+  padding-top: 0.1em;
   margin-bottom: 24px;
   max-width: 900px;
   color: var(--ink);

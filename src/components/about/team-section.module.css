@@ -10,12 +10,12 @@
   color: var(--ink);
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 24px;
   flex-wrap: wrap;
 }
 
 .titleLogo {
-  height: 1.2em;
+  height: 1.4em;
   width: auto;
 }
 
