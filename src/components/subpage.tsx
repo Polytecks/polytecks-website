@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { AnimatedTitle } from "./animated-title";
 import styles from "./subpage.module.css";
 
 export function Subpage({ children }: { children: ReactNode }) {
@@ -17,7 +18,7 @@ export function SubpageHeader({
   return (
     <>
       <div className={styles.eyebrow}>{eyebrow}</div>
-      <h2 className={styles.title}>{title}</h2>
+      <h2 className={styles.title}><AnimatedTitle>{title}</AnimatedTitle></h2>
       {lede ? <p className={styles.lede}>{lede}</p> : null}
     </>
   );
