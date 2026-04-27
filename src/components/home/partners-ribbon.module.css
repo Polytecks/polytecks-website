@@ -1,7 +1,7 @@
 .ribbon {
   position: relative;
   z-index: 4;
-  padding: 56px 0 40px;
+  padding: 80px 0 64px;
   margin-top: 0;
   border-top: 1px solid var(--line);
   background: var(--bg);
@@ -55,7 +55,7 @@
 
 .item {
   flex: 0 0 auto;
-  height: 56px;
+  height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;

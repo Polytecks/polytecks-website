@@ -6,12 +6,14 @@ export function OpenRolesSection() {
     <section className={styles.section}>
       <div className={styles.inner}>
         <StackEntry index={0}>
-          <p className={styles.eyebrow}>Open Roles</p>
+          <h2 className={styles.heading}>Open Roles</h2>
         </StackEntry>
         <StackEntry index={1}>
-          <p className={styles.message}>
-            Currently no open roles &mdash; check back later.
-          </p>
+          <div className={styles.list} role="list">
+            <p className={styles.empty}>
+              Currently no open roles &mdash; check back later.
+            </p>
+          </div>
         </StackEntry>
       </div>
     </section>

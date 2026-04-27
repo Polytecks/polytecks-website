@@ -9,6 +9,9 @@ export function CambridgeSection() {
       </h2>
 
       <div className={styles.body}>
+        <p className={styles.imageOverlayText}>
+          Polytecks grew out of the Cambridge ecosystem, and maintains strong research links with the university.
+        </p>
         <div className={styles.media}>
           <Image
             src="/assets/cambridge.png"
@@ -18,9 +21,6 @@ export function CambridgeSection() {
             sizes="100vw"
             priority
           />
-          <p className={styles.imageOverlayText}>
-            Polytecks grew out of the Cambridge ecosystem, and maintains strong research links with the university.
-          </p>
           <div className={styles.calloutBadge}>
             <p>The ECG was first made in Cambridge over a century ago. The next chapter starts here too.</p>
           </div>

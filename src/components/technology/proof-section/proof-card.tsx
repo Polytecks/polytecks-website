@@ -48,27 +48,27 @@ export function ProofCard({
   const easeFn = EASE_FN[easing];
   const easeOpt = easeFn ? { ease: easeFn } : undefined;
 
-  // Opacity: 0 before phaseStart, 1 by mid-emerge, stays 1.
+  // Opacity: locked at 0 from progress 0 → phaseStart, then animates 0→1.
   const opacity = useTransform(
     scrollProgress,
-    [phaseStart, phaseStart + (emergeEnd - phaseStart) * 0.5, 1],
-    [0, 1, 1],
+    [0, phaseStart, phaseStart + (emergeEnd - phaseStart) * 0.5, 1],
+    [0, 0, 1, 1],
     easeOpt,
   );
 
-  // Scale: emerge from 0.4 → 1 across phase A. Stays 1 throughout phase B.
+  // Scale: locked at 0.4 from 0 → phaseStart, then 0.4 → 1.
   const scale = useTransform(
     scrollProgress,
-    [phaseStart, emergeEnd, 1],
-    [0.4, 1, 1],
+    [0, phaseStart, emergeEnd, 1],
+    [0.4, 0.4, 1, 1],
     easeOpt,
   );
 
-  // Blur: 12px → 0 across phase A. Stays 0.
+  // Blur: locked at 12 from 0 → phaseStart, then 12 → 0.
   const blur = useTransform(
     scrollProgress,
-    [phaseStart, emergeEnd, 1],
-    [12, 0, 0],
+    [0, phaseStart, emergeEnd, 1],
+    [12, 12, 0, 0],
     easeOpt,
   );
   const filter = useTransform(blur, (b) => `blur(${b}px)`);
@@ -82,19 +82,22 @@ export function ProofCard({
   // Approach: keep x as the centering -50% always; animate `left` via a motion
   // value that interpolates from "50%" to the slot percentage.
   const slotPct = SLOT_LEFT_PCT[index];
+  // Left: locked at "50%" from 0 → phaseStart, then animates to slot.
   const left = useTransform(
     scrollProgress,
-    [phaseStart, emergeEnd, slideEnd, 1],
-    ["50%", "50%", slotPct, slotPct],
+    [0, phaseStart, emergeEnd, slideEnd, 1],
+    ["50%", "50%", "50%", slotPct, slotPct],
     easeOpt,
   );
 
   // Y: emergence at center (y = -50% of card), slide to settled row at
   // -50% + SETTLED_Y_VH (so the card's center is at viewport center + 15vh).
+  // Locked at "-50%" from 0 → phaseStart.
   const y = useTransform(
     scrollProgress,
-    [phaseStart, emergeEnd, slideEnd, 1],
+    [0, phaseStart, emergeEnd, slideEnd, 1],
     [
+      "-50%",
       "-50%",
       "-50%",
       `calc(-50% + ${SETTLED_Y_VH}vh)`,
@@ -106,6 +109,7 @@ export function ProofCard({
   return (
     <motion.div
       className={styles.card}
+      initial={{ opacity: 0, scale: 0.4, x: "-50%", y: "-50%" }}
       style={{
         zIndex: 1,
         left,

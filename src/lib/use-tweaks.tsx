@@ -59,6 +59,8 @@ export type TweakValues = {
   titleDurationMs: number;     // 300 → 1500
   titleStaggerMs: number;      // 0 → 200
   topoLinesOnWhite: boolean;
+  stackDurationMs: number;     // 200 → 1500
+  stackOverlapPct: number;     // 0 → 100 (% overlap with previous element's animation)
 
   // Cambridge callout badge position
   cambridgeCalloutTop: number;   // 8 → 80 (px from top)
@@ -114,6 +116,8 @@ export const TWEAK_DEFAULTS: TweakValues = {
   titleDurationMs: 700,
   titleStaggerMs: 60,
   topoLinesOnWhite: true,
+  stackDurationMs: 600,
+  stackOverlapPct: 30,
 
   cambridgeCalloutTop: 24,
   cambridgeCalloutRight: 24,
@@ -172,6 +176,12 @@ function applyToBody(values: TweakValues) {
     "--mission-panel-bg",
     values.topoLinesOnWhite ? "transparent" : "#000",
   );
+
+  // Stack animation
+  body.style.setProperty("--stack-duration-ms", `${values.stackDurationMs}ms`);
+  // Stagger = duration * (1 - overlapPct/100). 0% overlap = each starts after previous finishes; 100% = simultaneous.
+  const staggerMs = Math.round(values.stackDurationMs * (1 - values.stackOverlapPct / 100));
+  body.style.setProperty("--stack-stagger-ms", `${staggerMs}ms`);
 
   // Cambridge callout badge position
   body.style.setProperty("--tw-cb-callout-top", `${values.cambridgeCalloutTop}px`);

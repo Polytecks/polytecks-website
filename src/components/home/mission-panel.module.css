@@ -96,8 +96,20 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.3em;
-  color: #0a0a0e;
+  color: var(--indigo-bright);
   margin-bottom: 24px;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.teamEyebrow::before,
+.teamEyebrow::after {
+  content: "";
+  width: 28px;
+  height: 1px;
+  background: var(--indigo-bright);
+  opacity: 0.6;
 }
 
 .teamTitle {

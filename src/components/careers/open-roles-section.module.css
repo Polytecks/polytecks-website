@@ -12,28 +12,35 @@
   max-width: var(--content-w, 1400px);
   margin: 0 auto;
   padding: 80px 40px;
-  text-align: center;
+  width: 100%;
 }
 
-.eyebrow {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: #4a54c0;
-  margin: 0 0 32px;
-}
-
-.message {
+.heading {
   font-family: var(--font-display);
   font-weight: 300;
-  font-size: clamp(28px, 3vw, 44px);
-  line-height: 1.2;
+  font-size: clamp(40px, 5vw, 64px);
+  letter-spacing: -0.03em;
+  line-height: 1.05;
   color: #0a0a0e;
-  max-width: 680px;
-  margin: 0 auto;
-  text-wrap: balance;
+  margin: 0 0 56px;
+}
+
+.list {
+  border-top: 1px solid rgba(0, 0, 0, 0.18);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.18);
+  padding: 32px 0;
+  /* If there are role rows here in the future, they sit between these borders.
+     Today there's just the empty-state message. */
+}
+
+.empty {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(20px, 1.6vw, 26px);
+  line-height: 1.4;
+  color: #0a0a0e;
+  margin: 0;
+  /* Left-aligned per spec. */
 }
 
 @media (max-width: 720px) {

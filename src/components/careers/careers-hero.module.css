@@ -15,7 +15,7 @@
 
 .bgImage {
   object-fit: cover;
-  object-position: center center;
+  object-position: center 65%;
   filter: contrast(1.05) brightness(0.7);
 }
 

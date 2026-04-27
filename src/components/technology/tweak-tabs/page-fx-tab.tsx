@@ -55,6 +55,15 @@ export function PageFxTab() {
 
       <div className={styles.divider} />
 
+      <Slider label="Stack speed" value={values.stackDurationMs} min={200} max={1500} step={50}
+        format={(v) => `${v}ms`}
+        onChange={(v) => setValue("stackDurationMs", v)} />
+      <Slider label="Stack overlap" value={values.stackOverlapPct} min={0} max={100} step={5}
+        format={(v) => `${v}%`}
+        onChange={(v) => setValue("stackOverlapPct", v)} />
+
+      <div className={styles.divider} />
+
       <Slider label="Cambridge cb top" value={values.cambridgeCalloutTop} min={8} max={80} step={2}
         format={(v) => `${v}px`}
         onChange={(v) => setValue("cambridgeCalloutTop", v)} />

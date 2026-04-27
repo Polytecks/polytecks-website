@@ -55,8 +55,8 @@ export function ContactHero() {
         <div className={styles.imageCol}>
           <StackEntry index={1}>
             <Image
-              src="/assets/polytecks-arm-v2.png"
-              alt="Polytecks hexagonal electrode array on forearm"
+              src="/assets/Polytecks%20Form.png"
+              alt="Polytecks Mosaic platform device"
               width={1920}
               height={1661}
               className={styles.image}

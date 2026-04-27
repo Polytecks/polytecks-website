@@ -61,9 +61,8 @@ export function PillarSection() {
             popRatio={values.pillarPop}
             siblingDim={values.siblingDim}
             animMs={values.animMs}
-            // Right-to-left stagger: rightmost card (i=2) appears first (entryIndex=0),
-            // middle card (i=1) second (entryIndex=1), leftmost (i=0) last (entryIndex=2).
-            entryIndex={PILLARS.length - 1 - i}
+            // Left-to-right stagger: leftmost card (i=0) appears first (entryIndex=0).
+            entryIndex={i}
             onActivate={() => setActiveId(p.id)}
             onDeactivate={() => {
               setActiveId((curr) => (curr === p.id ? null : curr));

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { useRef, useState, type CSSProperties } from "react";
+import { useRef, useState, useEffect, type CSSProperties } from "react";
 import type { CardImageTweaks } from "@/lib/use-tweaks";
 import type { PillarContent, PillarVisual } from "./pillar-data";
 import styles from "./pillar.module.css";
@@ -62,6 +62,16 @@ export function Pillar({
   // opacity transitions don't carry the entry delay.
   const [entryDone, setEntryDone] = useState(entryIndex === undefined);
 
+  // Read the stack stagger from CSS vars (set by applyToBody in use-tweaks).
+  const [delay, setDelay] = useState(0);
+  useEffect(() => {
+    const cs = getComputedStyle(document.body);
+    const staggerStr = cs.getPropertyValue("--stack-stagger-ms").trim();
+    const staggerMs = parseFloat(staggerStr) || 80;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setDelay((entryIndex ?? 0) * (staggerMs / 1000));
+  }, [entryIndex]);
+
   const flexGrow = !anyActive ? 1 : isActive ? popRatio : (3 - popRatio) / 2;
   const opacity = !anyActive ? 1 : isActive ? 1 : 1 - siblingDim;
   const scale = !anyActive ? 1 : isActive ? 1 : 0.96;
@@ -80,10 +90,10 @@ export function Pillar({
     ["--card-active-height" as string]: `${imageTweaks.active.cardHeightPx}px`,
   };
 
-  // Entry animation: fade up from below on mount (right-to-left stagger via entryIndex).
+  // Entry animation: fade up from below on mount (left-to-right stagger via entryIndex).
   // After the entry completes, onAnimationComplete clears the entry delay so subsequent
   // opacity/scale transitions (hover interactions) respond without lag.
-  const entryDelay = entryIndex !== undefined ? entryIndex * 0.12 : 0;
+  // `delay` is derived from the --stack-stagger-ms CSS var (set by applyToBody).
 
   return (
     <motion.button
@@ -104,9 +114,9 @@ export function Pillar({
         entryDone
           ? { duration: animMs / 1000, ease: [0.2, 0.7, 0.2, 1] }
           : {
-              opacity: { duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: entryDelay },
+              opacity: { duration: 0.7, ease: [0.16, 1, 0.3, 1], delay },
               scale: { duration: animMs / 1000, ease: [0.2, 0.7, 0.2, 1] },
-              y: { duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: entryDelay },
+              y: { duration: 0.7, ease: [0.16, 1, 0.3, 1], delay },
             }
       }
       onAnimationComplete={() => { if (!entryDone) setEntryDone(true); }}
