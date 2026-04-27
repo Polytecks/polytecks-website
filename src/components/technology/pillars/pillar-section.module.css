@@ -7,15 +7,22 @@
   padding: calc(40px * var(--tw-rhythm, 1)) 40px calc(96px * var(--tw-rhythm, 1));
 }
 
-.lede {
+.title {
   font-family: var(--font-display);
   font-weight: 300;
-  font-size: clamp(28px, 3vw, 44px);
-  line-height: 1.15;
-  letter-spacing: -0.02em;
+  font-size: clamp(36px, 4vw, 56px);
+  line-height: 1.1;
+  letter-spacing: -0.025em;
   color: var(--ink);
-  max-width: 720px;
+  max-width: 920px;
   margin: 0 0 56px 0;
+  text-wrap: balance;
+}
+
+.title em {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--indigo-bright);
 }
 
 .row {

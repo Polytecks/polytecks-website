@@ -41,7 +41,9 @@ export function PillarSection() {
 
   return (
     <section className={styles.section} aria-label="Three pillars of the technology">
-      <p className={styles.lede}>Rebuilt from first principles.</p>
+      <h2 className={styles.title}>
+        The electrode. <em>Reimagined from first principles.</em>
+      </h2>
       <div
         ref={rowRef}
         className={styles.row}

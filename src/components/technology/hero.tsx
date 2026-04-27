@@ -20,7 +20,7 @@ export function TechnologyHero() {
             eyebrow="Technology"
             title={
               <>
-                The electrode, <em>reinvented</em>.
+                The Mosaic<sup>™</sup> Platform
               </>
             }
             lede="A new frontier in bioelectrical mapping."
