@@ -3,6 +3,12 @@
    Sticky inner pins to viewport top; cards animate via Framer Motion
    driven by useScroll progress. */
 
+@property --card-pulse {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 1;
+}
+
 .outer {
   position: relative;
   width: 100%;
@@ -61,8 +67,9 @@
   opacity: 0;
   /* x/y/scale composed manually so we avoid Framer's WAAPI binding —
      the proof-card useMotionValueEvent listeners write --card-y and
-     --card-scale, which this transform consumes. */
-  transform: translateX(-50%) translateY(var(--card-y, -50%)) scale(var(--card-scale, 0.4));
+     --card-scale, which this transform consumes. --card-pulse is
+     animated by the heartbeat keyframe when data-settled="true". */
+  transform: translateX(-50%) translateY(var(--card-y, -50%)) scale(calc(var(--card-scale, 0.4) * var(--card-pulse, 1)));
 }
 
 .cardNumber {
@@ -94,6 +101,20 @@
 .cardLabel strong {
   font-weight: 600;
   color: #0a0a0e;
+}
+
+/* Heartbeat pulsate — only fires once cards are settled in final row. */
+@keyframes heartbeat {
+  0%   { --card-pulse: 1; }
+  10%  { --card-pulse: calc(1 + var(--proof-pulse-intensity, 0.04) * 0.5); }
+  20%  { --card-pulse: 1; }
+  30%  { --card-pulse: calc(1 + var(--proof-pulse-intensity, 0.04)); }
+  40%  { --card-pulse: 1; }
+  100% { --card-pulse: 1; }
+}
+
+.card[data-settled="true"] {
+  animation: heartbeat 2.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
 /* Static fallback: triggered by mobile media query OR when the outer

@@ -78,6 +78,8 @@ export type TweakValues = {
   landingElemDurationMs: number;   // 200 → 2000
   landingHeroShiftPx: number;      // 0 → 200, default 0
 
+  proofPulseIntensity: number;         // 0 → 0.15, default 0.04
+
   // Spacing controls (Tab 4) — vertical gaps in px
   homeMissionMargin: number;          // 0 → 200, default 80
   homeRibbonMargin: number;           // 0 → 200, default 80
@@ -130,6 +132,7 @@ export const TWEAK_DEFAULTS: TweakValues = {
   vignette: 0.2,
   panelTone: "pure",
   labelWeight: 400,
+  proofPulseIntensity: 0.04,
 
   titleAnim: "wipe",
   titleDurationMs: 700,
@@ -203,6 +206,7 @@ function applyToBody(values: TweakValues) {
   body.style.setProperty("--tw-vignette", String(values.vignette));
   body.style.setProperty("--tw-panel-tone", PANEL_TONES[values.panelTone]);
   body.style.setProperty("--tw-label-weight", String(values.labelWeight));
+  body.style.setProperty("--proof-pulse-intensity", String(values.proofPulseIntensity));
 
   // Page Fx
   body.style.setProperty("--tw-title-duration", `${values.titleDurationMs}ms`);

@@ -1,7 +1,7 @@
 "use client";
 
-import { motion, useScroll, useReducedMotion } from "framer-motion";
-import { useRef, useSyncExternalStore } from "react";
+import { motion, useScroll, useReducedMotion, useMotionValueEvent } from "framer-motion";
+import { useRef, useState, useSyncExternalStore } from "react";
 import { useTweaks } from "@/lib/use-tweaks";
 import { ProofCard, type ProofCardData } from "./proof-card";
 import styles from "./proof-section.module.css";
@@ -16,6 +16,7 @@ export function ProofSection() {
   const outerRef = useRef<HTMLElement>(null);
   const reducedMotion = useReducedMotion();
   const { values } = useTweaks();
+  const [hasCompleted, setHasCompleted] = useState(false);
   const isMobile = useSyncExternalStore(
     (callback) => {
       const mq = window.matchMedia("(max-width: 720px)");
@@ -29,6 +30,10 @@ export function ProofSection() {
   const { scrollYProgress } = useScroll({
     target: outerRef,
     offset: ["start start", "end end"],
+  });
+
+  useMotionValueEvent(scrollYProgress, "change", (v) => {
+    if (v > 0.99) setHasCompleted(true);
   });
 
   // Mobile or reduced motion: render a non-pinned stack with simple
@@ -73,6 +78,7 @@ export function ProofSection() {
                 scrollProgress={scrollYProgress}
                 easing={values.easing}
                 phaseOverlap={values.phaseOverlap}
+                hasCompleted={hasCompleted}
               />
             ))}
           </div>

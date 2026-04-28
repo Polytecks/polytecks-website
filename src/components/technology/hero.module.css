@@ -12,7 +12,7 @@
 .banner {
   position: relative;
   width: 100%;
-  max-width: 1100px;
+  max-width: 1300px;
   margin: 0 auto;
   height: var(--banner-height, clamp(440px, 60vh, 620px));
   overflow: visible;
@@ -30,13 +30,13 @@
   /* Soft 4-side fade — opaque core covers most of the image; only the very
      edges fade into the page bg. */
   mask-image: radial-gradient(
-    ellipse 95% 95% at center,
-    black 75%,
+    ellipse 100% 100% at center,
+    black 80%,
     transparent 100%
   );
   -webkit-mask-image: radial-gradient(
-    ellipse 95% 95% at center,
-    black 75%,
+    ellipse 100% 100% at center,
+    black 80%,
     transparent 100%
   );
 }

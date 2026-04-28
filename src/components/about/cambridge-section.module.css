@@ -69,7 +69,7 @@
      dark page background — see futurecambridge.png reference. */
   position: relative;
   width: 100%;
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto;
   overflow: visible;
 }
@@ -79,27 +79,19 @@
   height: auto;
   display: block;
   filter: grayscale(0.2) contrast(1.05) brightness(0.85);
-  /* Soft fade at all four edges — opaque core covers most of the image;
-     only the very edges fade into the page bg. */
+  /* Soft fade just at the edges — most of the image stays sharp. */
   mask-image: radial-gradient(
-    ellipse 95% 95% at center,
-    black 75%,
+    ellipse 100% 100% at center,
+    black 80%,
     transparent 100%
   );
   -webkit-mask-image: radial-gradient(
-    ellipse 95% 95% at center,
-    black 75%,
+    ellipse 100% 100% at center,
+    black 80%,
     transparent 100%
   );
 }
 
-.media::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(225deg, rgba(0, 0, 0, 0.25) 0%, transparent 35%);
-  pointer-events: none;
-}
 
 .mediaCaption {
   position: absolute;

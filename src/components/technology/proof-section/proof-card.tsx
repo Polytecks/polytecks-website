@@ -7,7 +7,7 @@ import {
   type MotionValue,
   type EasingFunction,
 } from "framer-motion";
-import { useRef, type ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 import styles from "./proof-section.module.css";
 
 export type ProofCardData = {
@@ -37,12 +37,14 @@ export function ProofCard({
   scrollProgress,
   easing,
   phaseOverlap,
+  hasCompleted,
 }: {
   data: ProofCardData;
   index: 0 | 1 | 2;
   scrollProgress: MotionValue<number>;
   easing: EasingMode;
   phaseOverlap: number;       // 0 → 0.25
+  hasCompleted: boolean;
 }) {
   const phaseLen = 1 / 3;
   const overlap = phaseOverlap * phaseLen;
@@ -107,19 +109,30 @@ export function ProofCard({
   const cardRef = useRef<HTMLDivElement>(null);
 
   useMotionValueEvent(opacity, "change", (v) => {
-    if (cardRef.current) cardRef.current.style.opacity = String(v);
+    if (cardRef.current && !hasCompleted) cardRef.current.style.opacity = String(v);
   });
   useMotionValueEvent(scale, "change", (v) => {
-    if (cardRef.current) {
+    if (cardRef.current && !hasCompleted) {
       cardRef.current.style.setProperty("--card-scale", String(v));
     }
   });
   useMotionValueEvent(filter, "change", (v) => {
-    if (cardRef.current) cardRef.current.style.filter = String(v);
+    if (cardRef.current && !hasCompleted) cardRef.current.style.filter = String(v);
   });
   useMotionValueEvent(left, "change", (v) => {
-    if (cardRef.current) cardRef.current.style.left = String(v);
+    if (cardRef.current && !hasCompleted) cardRef.current.style.left = String(v);
   });
+
+  // When hasCompleted flips true: lock card at final state and enable heartbeat.
+  useEffect(() => {
+    if (hasCompleted && cardRef.current) {
+      cardRef.current.style.opacity = "1";
+      cardRef.current.style.filter = "none";
+      cardRef.current.style.left = SLOT_LEFT_PCT[index];
+      cardRef.current.style.setProperty("--card-scale", "1");
+      cardRef.current.dataset.settled = "true";
+    }
+  }, [hasCompleted, index]);
 
   return (
     <div

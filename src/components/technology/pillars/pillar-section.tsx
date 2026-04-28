@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTweaks, type CardId } from "@/lib/use-tweaks";
+import { StackEntry } from "@/components/stack-entry";
 import { Pillar } from "./pillar";
 import { PILLARS } from "./pillar-data";
 import styles from "./pillar-section.module.css";
@@ -41,9 +42,11 @@ export function PillarSection() {
 
   return (
     <section className={styles.section} aria-label="Three pillars of the technology">
-      <h2 className={styles.title}>
-        The electrode. <em>Reimagined from first principles.</em>
-      </h2>
+      <StackEntry index={0}>
+        <h2 className={styles.title}>
+          The electrode. <em>Reimagined from first principles.</em>
+        </h2>
+      </StackEntry>
       <div
         ref={rowRef}
         className={styles.row}
