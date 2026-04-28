@@ -207,8 +207,8 @@
 
 /* Mild vignette overlay used on white-bg sections (mission panel, proof
    panel). Intensity driven by --tw-vignette (0–0.6), set by tweak panel.
-   background-attachment: fixed anchors the gradient to the viewport so the
-   dark corners track the visible window rather than the panel's static bounds. */
+   Positioned absolutely so the gradient scrolls with the panel rather than
+   staying anchored to the viewport. */
 .whiteVignette {
   position: absolute;
   inset: 0;
@@ -218,6 +218,4 @@
     transparent 50%,
     rgba(0, 0, 0, var(--tw-vignette, 0.2)) 100%
   );
-  background-attachment: fixed;
-  background-size: 100vw 100vh;
 }

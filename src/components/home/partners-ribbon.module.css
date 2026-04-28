@@ -7,6 +7,20 @@
   background: var(--bg);
 }
 
+/* Extend the ribbon bg upward to cover the gap introduced by --sp-home-ribbon,
+   preventing the topo canvas from peeking through between the mission panel
+   and the ribbon when the spacing tweak is non-zero. */
+.ribbon::before {
+  content: "";
+  position: absolute;
+  top: calc(-1 * var(--sp-home-ribbon, 0px));
+  left: 0;
+  right: 0;
+  height: var(--sp-home-ribbon, 0px);
+  background: var(--bg);
+  z-index: -1;
+}
+
 .label {
   font-family: var(--font-mono);
   font-size: 11px;
