@@ -124,18 +124,8 @@
           "pass": true
         }
       ],
-      "consoleErrors": [
-        {
-          "vp": "desktop",
-          "text": "Failed to load resource: net::ERR_CONTENT_LENGTH_MISMATCH"
-        }
-      ],
-      "pageErrors": [
-        {
-          "vp": "desktop",
-          "text": "ChunkLoadError: Failed to load chunk /_next/static/chunks/src_app_layout_tsx_004glpo._.js from module [project]/node_modules/next/dist/compiled/react-server-dom-turbopack/cjs/react-server-dom-turbopack-client.browser.development.js [app-client] (ecmascript)"
-        }
-      ]
+      "consoleErrors": [],
+      "pageErrors": []
     },
     {
       "route": "/careers",
@@ -206,7 +196,7 @@
     "totalChecks": 25,
     "passed": 25,
     "failed": 0,
-    "consoleErrors": 1,
-    "pageErrors": 1
+    "consoleErrors": 0,
+    "pageErrors": 0
   }
 }

@@ -8,7 +8,7 @@ export function CareersHero() {
     <section className={styles.hero}>
       <div className={styles.bg}>
         <Image
-          src="/assets/Careers.png?v=2"
+          src="/assets/Careers.png"
           alt="Polytecks team"
           fill
           priority
