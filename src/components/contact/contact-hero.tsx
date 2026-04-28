@@ -33,20 +33,9 @@ export function ContactHero() {
                 <Field id="lastName" label="Last name" />
               </div>
               <Field id="email" label="Email" type="email" />
-              <SelectField id="role" label="Select role">
-                <option value="" disabled>Select role</option>
-                <option value="clinician">Clinician / Medical professional</option>
-                <option value="researcher">Researcher / Scientist</option>
-                <option value="industry">Industry partner</option>
-                <option value="investor">Investor</option>
-                <option value="press">Press / Media</option>
-                <option value="other">Other</option>
-              </SelectField>
-              <Field id="location" label="Location" />
-              <label className={styles.checkRow}>
-                <input type="checkbox" className={styles.checkbox} />
-                <span>I&apos;d like to subscribe to the newsletter</span>
-              </label>
+              <Field id="jobTitle" label="Job title" />
+              <Field id="company" label="Company" />
+              <TextareaField id="message" label="Message" />
               <button type="submit" className={styles.submit}>Submit</button>
             </form>
           </StackEntry>
@@ -55,16 +44,39 @@ export function ContactHero() {
         <div className={styles.imageCol}>
           <StackEntry index={1}>
             <Image
-              src="/assets/Polytecks%20Form.png"
-              alt="Polytecks Mosaic platform device"
+              src="/assets/transparentform.png"
+              alt="Polytecks Mosaic platform — sensor in glove"
               width={1600}
-              height={1600}
+              height={1200}
               className={styles.image}
               priority
               unoptimized
             />
           </StackEntry>
         </div>
+      </div>
+
+      <div className={styles.newsletterInner}>
+        <StackEntry index={4}>
+          <p className={styles.newsletterEyebrow}>Newsletter</p>
+        </StackEntry>
+        <StackEntry index={5}>
+          <h2 className={styles.newsletterTitle}>Stay in the loop.</h2>
+        </StackEntry>
+        <StackEntry index={6}>
+          <form className={styles.newsletterForm} onSubmit={(e) => e.preventDefault()}>
+            <div className={styles.newsletterRow}>
+              <input
+                type="email"
+                name="newsletterEmail"
+                placeholder="your@email.com"
+                required
+                className={`${styles.input} ${styles.newsletterInput}`}
+              />
+              <button type="submit" className={styles.submit}>Subscribe</button>
+            </div>
+          </form>
+        </StackEntry>
       </div>
     </section>
   );
@@ -94,27 +106,24 @@ function Field({
   );
 }
 
-function SelectField({
+function TextareaField({
   id,
   label,
-  children,
 }: {
   id: string;
   label: string;
-  children: React.ReactNode;
 }) {
   return (
     <div className={styles.field}>
       <label htmlFor={id} className={styles.label}>{label}*</label>
-      <select
+      <textarea
         id={id}
         name={id}
         required
-        defaultValue=""
-        className={`${styles.input} ${styles.select}`}
-      >
-        {children}
-      </select>
+        rows={4}
+        className={`${styles.input} ${styles.textarea}`}
+        placeholder=" "
+      />
     </div>
   );
 }

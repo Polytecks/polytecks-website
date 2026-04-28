@@ -108,32 +108,6 @@
   padding-right: 24px;
 }
 
-.checkRow {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-family: var(--font-sans);
-  font-size: 13px;
-  color: var(--ink-dim);
-  cursor: pointer;
-}
-
-.checkbox {
-  appearance: none;
-  width: 16px;
-  height: 16px;
-  border: 1px solid var(--line-strong);
-  border-radius: 2px;
-  background: transparent;
-  cursor: pointer;
-  transition: background-color 0.2s, border-color 0.2s;
-}
-
-.checkbox:checked {
-  background: var(--indigo-bright);
-  border-color: var(--indigo-bright);
-}
-
 .submit {
   appearance: none;
   background: transparent;
@@ -162,23 +136,24 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Container fills its grid cell; the image itself is the visual element. */
   min-height: 600px;
+  /* Container for the soft purple/blue glow that the image floats in. */
 }
 
 .imageCol::before {
-  /* Soft warm glow behind the device — mimics the "shining through" look
-     in examplecontact.png. */
   content: "";
   position: absolute;
-  inset: 0;
+  /* Glow extends ~20-30% beyond the image bounds — use a wider inset
+     beyond the cell. */
+  inset: -15%;
   background: radial-gradient(
-    circle at 60% 50%,
-    rgba(106, 116, 220, 0.30) 0%,
-    rgba(106, 116, 220, 0.10) 30%,
-    transparent 60%
+    circle at center,
+    rgba(106, 116, 220, 0.40) 0%,
+    rgba(106, 116, 220, 0.20) 25%,
+    rgba(74, 84, 192, 0.08) 50%,
+    transparent 75%
   );
-  filter: blur(50px);
+  filter: blur(60px);
   z-index: 0;
   pointer-events: none;
 }
@@ -187,22 +162,84 @@
   position: relative;
   z-index: 1;
   width: 100%;
-  /* Bigger — fill the grid cell, scale up generously. */
-  max-width: 760px;
+  max-width: 720px;
   height: auto;
-  /* Soft edge fade so the device "emerges" from the dark background instead
-     of having a hard rectangular boundary. */
-  mask-image: radial-gradient(
-    ellipse 75% 80% at center,
-    black 50%,
-    transparent 92%
-  );
-  -webkit-mask-image: radial-gradient(
-    ellipse 75% 80% at center,
-    black 50%,
-    transparent 92%
-  );
-  filter: contrast(1.15) brightness(1.05) drop-shadow(0 24px 80px rgba(0, 0, 0, 0.9));
+  /* No border-radius, no box-shadow, no mask — the transparent PNG already
+     has its content alpha-cut. The image floats anchored in the centre of
+     the radial glow. */
+  filter: none;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 96px;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  color: var(--ink);
+  padding: 8px 0;
+  border-bottom: 1px solid var(--line-strong);
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  background: transparent;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.textarea:focus {
+  border-bottom-color: var(--indigo-bright);
+}
+
+.newsletterInner {
+  max-width: var(--content-w, 1400px);
+  margin: 80px auto 0;
+  padding: 80px 40px 120px;
+  border-top: 1px solid var(--line);
+}
+
+.newsletterEyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--indigo-bright);
+  margin: 0 0 24px;
+}
+
+.newsletterTitle {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(28px, 3vw, 40px);
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin: 0 0 32px;
+}
+
+.newsletterForm {
+  max-width: 480px;
+}
+
+.newsletterRow {
+  display: flex;
+  gap: 16px;
+  align-items: end;
+}
+
+.newsletterInput {
+  flex: 1;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--line-strong);
+  padding: 8px 0;
+  color: var(--ink);
+  font-size: 16px;
+  outline: none;
+  font-family: var(--font-sans);
+}
+
+.newsletterInput:focus {
+  border-bottom-color: var(--indigo-bright);
 }
 
 @media (max-width: 960px) {
@@ -212,4 +249,22 @@
     padding: 80px 24px 60px;
   }
   .imageCol { order: -1; }
+  .imageCol {
+    min-height: 400px;
+  }
+  .imageCol::before {
+    /* Glow shrinks with the image — use percentage inset on a smaller container. */
+    inset: -10%;
+  }
+}
+
+@media (max-width: 720px) {
+  .newsletterInner {
+    padding: 56px 20px 80px;
+  }
+  .newsletterRow {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 24px;
+  }
 }

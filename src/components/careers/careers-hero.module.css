@@ -17,6 +17,12 @@
   object-fit: cover;
   object-position: center 65%;
   filter: contrast(1.05) brightness(0.7);
+  animation: careers-bg-fade-in 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes careers-bg-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .bgOverlay {
