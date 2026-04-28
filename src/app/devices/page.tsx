@@ -1,4 +1,5 @@
 import { AppBlock } from "@/components/devices/app-block";
+import { ApplicationsStrip } from "@/components/devices/applications-strip";
 import { DevicesTabs } from "@/components/devices/devices-tabs";
 import { VeterinaryPanel } from "@/components/devices/veterinary-panel";
 import { StackEntry } from "@/components/stack-entry";
@@ -47,18 +48,17 @@ const TABS = [
 export default function DevicesPage() {
   return (
     <Subpage>
-      <StackEntry index={0}>
-        <SubpageHeader
-          eyebrow="Devices"
-          title={
-            <>
-              Making disease easier to <em>spot</em>, diagnose, and manage.
-            </>
-          }
-          lede="The Mosaic Sensor platform can bring imaging-level insights into primary care — and even earlier. Across all domains of health."
-        />
-      </StackEntry>
-      <StackEntry index={1}>
+      <SubpageHeader
+        eyebrow="Devices"
+        title={
+          <>
+            Making disease easier to <em>spot</em>, diagnose, and manage.
+          </>
+        }
+        lede="The Mosaic Sensor platform can bring imaging-level insights into primary care — and even earlier. Across all domains of health."
+      />
+      <ApplicationsStrip />
+      <StackEntry index={3}>
         <DevicesTabs tabs={TABS} />
       </StackEntry>
     </Subpage>

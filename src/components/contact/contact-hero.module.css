@@ -162,19 +162,23 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  /* Container fills its grid cell; the image itself is the visual element. */
+  min-height: 600px;
 }
 
 .imageCol::before {
+  /* Soft warm glow behind the device — mimics the "shining through" look
+     in examplecontact.png. */
   content: "";
   position: absolute;
-  inset: -10%;
+  inset: 0;
   background: radial-gradient(
     circle at 60% 50%,
-    rgba(74, 84, 192, 0.25) 0%,
-    rgba(74, 84, 192, 0.08) 35%,
-    transparent 65%
+    rgba(106, 116, 220, 0.30) 0%,
+    rgba(106, 116, 220, 0.10) 30%,
+    transparent 60%
   );
-  filter: blur(40px);
+  filter: blur(50px);
   z-index: 0;
   pointer-events: none;
 }
@@ -183,9 +187,22 @@
   position: relative;
   z-index: 1;
   width: 100%;
+  /* Bigger — fill the grid cell, scale up generously. */
+  max-width: 760px;
   height: auto;
-  max-width: 600px;
-  filter: contrast(1.1) saturate(1.15) drop-shadow(0 0 26px rgba(255, 255, 255, 0.12)) drop-shadow(0 24px 70px rgba(0, 0, 0, 0.9));
+  /* Soft edge fade so the device "emerges" from the dark background instead
+     of having a hard rectangular boundary. */
+  mask-image: radial-gradient(
+    ellipse 75% 80% at center,
+    black 50%,
+    transparent 92%
+  );
+  -webkit-mask-image: radial-gradient(
+    ellipse 75% 80% at center,
+    black 50%,
+    transparent 92%
+  );
+  filter: contrast(1.15) brightness(1.05) drop-shadow(0 24px 80px rgba(0, 0, 0, 0.9));
 }
 
 @media (max-width: 960px) {

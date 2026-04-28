@@ -57,9 +57,11 @@ export function ContactHero() {
             <Image
               src="/assets/Polytecks%20Form.png"
               alt="Polytecks Mosaic platform device"
-              width={1920}
-              height={1661}
+              width={1600}
+              height={1600}
               className={styles.image}
+              priority
+              unoptimized
             />
           </StackEntry>
         </div>

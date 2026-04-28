@@ -1,0 +1,51 @@
+.strip {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: clamp(16px, 2vw, 32px);
+  max-width: var(--content-w, 1400px);
+  margin: 56px auto 72px;
+  padding: 0 40px;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 1px solid var(--line-strong);
+  background: rgba(255, 255, 255, 0.02);
+  /* Placeholder — real icons drop in here later */
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  margin: 0;
+  line-height: 1.4;
+}
+
+@media (max-width: 960px) {
+  .strip {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px 16px;
+    margin: 40px auto 56px;
+  }
+}
+
+@media (max-width: 560px) {
+  .strip {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 0 20px;
+  }
+}
