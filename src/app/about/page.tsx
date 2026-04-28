@@ -8,22 +8,20 @@ export default function AboutPage() {
   return (
     <Subpage>
       <HexGradientDefs />
-      <StackEntry index={0}>
-        <SubpageHeader
-          eyebrow="About Us"
-          title={
-            <>
-              We are building the <em>sensing layer</em> for next-generation
-              healthcare.
-            </>
-          }
-          lede="Polytecks is a medical technology start-up developing breakthrough bioelectrical mapping for a novel non-invasive information source into disease."
-        />
-      </StackEntry>
-      <StackEntry index={1}>
+      <SubpageHeader
+        eyebrow="About Us"
+        title={
+          <>
+            We are building the <em>sensing layer</em> for next-generation
+            healthcare.
+          </>
+        }
+        lede="Polytecks is a medical technology start-up developing breakthrough bioelectrical mapping for a novel non-invasive information source into disease."
+      />
+      <StackEntry index={3}>
         <CambridgeSection />
       </StackEntry>
-      <StackEntry index={2}>
+      <StackEntry index={4}>
         <TeamSection />
       </StackEntry>
     </Subpage>

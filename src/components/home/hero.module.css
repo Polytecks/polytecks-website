@@ -43,6 +43,8 @@
   gap: clamp(40px, 5vw, 96px);
   align-items: center;
   grid-template-columns: 1.2fr 1fr;
+  /* Translate the content block upward by --landing-hero-shift (default 0) */
+  transform: translateY(calc(-1 * var(--landing-hero-shift, 0px)));
 }
 
 @media (max-width: 960px) {

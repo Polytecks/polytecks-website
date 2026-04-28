@@ -7,9 +7,9 @@ import { ProofCard, type ProofCardData } from "./proof-card";
 import styles from "./proof-section.module.css";
 
 const STATS: ProofCardData[] = [
-  { number: <>10x</>,  label: "increase in spatial resolution relative to standard electrodes" },
-  { number: <>0</>,     label: "Skin preparation needed — no electrode gel required" },
-  { number: <>Weeks</>, label: "of continuous wear on the body" },
+  { number: <>10x</>,   label: <><strong>increase in spatial resolution</strong> relative to standard electrodes</> },
+  { number: <>0</>,     label: <>Skin preparation needed — <strong>no electrode gel required</strong></> },
+  { number: <>Weeks</>, label: <>of <strong>continuous wear</strong> on the body</> },
 ];
 
 export function ProofSection() {

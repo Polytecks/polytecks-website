@@ -21,7 +21,6 @@ export function MissionPanel() {
       <hr className={styles.divider} aria-hidden="true" />
 
       <div className={styles.teamTease}>
-        <p className={styles.teamEyebrow}>Team</p>
         <h3 className={styles.teamTitle}>
           Brought to you by world-leading researchers, engineers, and scientists{" "}
           <em>united by our mission.</em>

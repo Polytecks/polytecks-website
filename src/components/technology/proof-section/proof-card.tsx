@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  motion,
   useMotionValueEvent,
   useTransform,
   cubicBezier,
@@ -13,7 +12,7 @@ import styles from "./proof-section.module.css";
 
 export type ProofCardData = {
   number: ReactNode;
-  label: string;
+  label: ReactNode;
 };
 
 type EasingMode = "linear" | "eased" | "aggressive";
@@ -28,9 +27,9 @@ const EASE_FN: Record<EasingMode, EasingFunction | undefined> = {
 // Cards land at thirds of the (max-1400px) content area regardless of viewport.
 const SLOT_LEFT_PCT = ["16.67%", "50%", "83.33%"];
 
-// Settled row sits 15vh below the emergence center, so a giant card emerging
-// in the center never visually overlaps already-settled cards in the row.
-const SETTLED_Y_VH = 15;
+// Phase order: card 0 first, card 2 second, card 1 last.
+// Maps [card index] → [phase order slot]
+const PHASE_ORDER = [0, 2, 1];
 
 export function ProofCard({
   data,
@@ -47,7 +46,8 @@ export function ProofCard({
 }) {
   const phaseLen = 1 / 3;
   const overlap = phaseOverlap * phaseLen;
-  const phaseStart = Math.max(0, index * phaseLen - overlap);
+  const order = PHASE_ORDER[index];
+  const phaseStart = Math.max(0, order * phaseLen - overlap);
   // Phase A (emerge) takes 70% of the phase; phase B (slide to slot) takes the rest.
   const emergeEnd = phaseStart + (phaseLen - overlap) * 0.65;
   const slideEnd  = phaseStart + (phaseLen - overlap);
@@ -99,18 +99,6 @@ export function ProofCard({
     easeOpt,
   );
 
-  const y = useTransform(
-    scrollProgress,
-    [phaseStart, emergeEnd, slideEnd, 1],
-    [
-      "-50%",
-      "-50%",
-      `calc(-50% + ${SETTLED_Y_VH}vh)`,
-      `calc(-50% + ${SETTLED_Y_VH}vh)`,
-    ],
-    easeOpt,
-  );
-
   // Framer's <motion.div style={{...motionValues}}> creates WAAPI animations
   // that on this codebase end up running on their own time-based clock instead
   // of being scroll-linked, which means cards advance to opacity 1 within
@@ -132,11 +120,6 @@ export function ProofCard({
   useMotionValueEvent(left, "change", (v) => {
     if (cardRef.current) cardRef.current.style.left = String(v);
   });
-  useMotionValueEvent(y, "change", (v) => {
-    if (cardRef.current) {
-      cardRef.current.style.setProperty("--card-y", String(v));
-    }
-  });
 
   return (
     <div
@@ -147,7 +130,7 @@ export function ProofCard({
         opacity: 0,
         left: "50%",
         ["--card-scale" as string]: 0.4,
-        ["--card-y" as string]: "-50%",
+        ["--card-y" as string]: "-50%",  // permanent center — cards stay on horizontal axis
         filter: "blur(12px)",
       }}
     >

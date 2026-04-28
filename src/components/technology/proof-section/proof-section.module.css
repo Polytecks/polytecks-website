@@ -91,6 +91,11 @@
   max-width: 320px;
 }
 
+.cardLabel strong {
+  font-weight: 600;
+  color: #0a0a0e;
+}
+
 /* Static fallback: triggered by mobile media query OR when the outer
    element has data-static="true" (reduced-motion users on desktop). */
 @media (max-width: 720px) {

@@ -1,4 +1,4 @@
-.section { margin-top: var(--sp-about-team-gap, 80px); }
+.section { margin-top: var(--sp-about-team-gap, 120px); }
 
 .title {
   font-family: var(--font-display);

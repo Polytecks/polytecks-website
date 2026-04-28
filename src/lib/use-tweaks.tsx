@@ -153,9 +153,9 @@ export const TWEAK_DEFAULTS: TweakValues = {
 
   homeMissionMargin: 80,
   homeRibbonMargin: 80,
-  aboutHeaderToCambridge: 320,
-  aboutCambridgeToTeam: 80,
-  aboutTeamGap: 80,
+  aboutHeaderToCambridge: 280,
+  aboutCambridgeToTeam: 160,
+  aboutTeamGap: 120,
   techHeroToPillars: 0,
   techPillarsToProof: 0,
   techProofToPhilosophy: 0,
