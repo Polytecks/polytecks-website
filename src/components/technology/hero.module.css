@@ -12,8 +12,10 @@
 .banner {
   position: relative;
   width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
   height: var(--banner-height, clamp(440px, 60vh, 620px));
-  overflow: hidden;
+  overflow: visible;
 }
 
 .banner img {
@@ -25,18 +27,16 @@
   object-position: center 75%;
   display: block;
   filter: contrast(1.15) brightness(0.85);
-  mask-image: linear-gradient(
-    to right,
-    transparent 0,
-    black calc(50% - var(--banner-w, 1200px) / 2),
-    black calc(50% + var(--banner-w, 1200px) / 2),
+  /* Soft 4-side fade — opaque core covers most of the image; only the very
+     edges fade into the page bg. */
+  mask-image: radial-gradient(
+    ellipse 95% 95% at center,
+    black 75%,
     transparent 100%
   );
-  -webkit-mask-image: linear-gradient(
-    to right,
-    transparent 0,
-    black calc(50% - var(--banner-w, 1200px) / 2),
-    black calc(50% + var(--banner-w, 1200px) / 2),
+  -webkit-mask-image: radial-gradient(
+    ellipse 95% 95% at center,
+    black 75%,
     transparent 100%
   );
 }

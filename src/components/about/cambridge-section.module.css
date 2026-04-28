@@ -63,9 +63,14 @@
 }
 
 .media {
+  /* Image is constrained to a centered "framed photograph" container,
+     not full-bleed. On large screens the rest of the section shows the
+     dark page background — see futurecambridge.png reference. */
   position: relative;
   width: 100%;
-  overflow: hidden;
+  max-width: 1000px;
+  margin: 0 auto;
+  overflow: visible;
 }
 
 .media img {
@@ -73,32 +78,18 @@
   height: auto;
   display: block;
   filter: grayscale(0.2) contrast(1.05) brightness(0.85);
-  mask-image: linear-gradient(
-    to right,
-    transparent 0,
-    black calc(50% - var(--banner-w, 1200px) / 2),
-    black calc(50% + var(--banner-w, 1200px) / 2),
+  /* Soft fade at all four edges — opaque core covers most of the image;
+     only the very edges fade into the page bg. */
+  mask-image: radial-gradient(
+    ellipse 95% 95% at center,
+    black 75%,
     transparent 100%
   );
-  -webkit-mask-image: linear-gradient(
-    to right,
-    transparent 0,
-    black calc(50% - var(--banner-w, 1200px) / 2),
-    black calc(50% + var(--banner-w, 1200px) / 2),
+  -webkit-mask-image: radial-gradient(
+    ellipse 95% 95% at center,
+    black 75%,
     transparent 100%
   );
-}
-
-.media::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 30%;
-  z-index: 2;
-  pointer-events: none;
-  background: linear-gradient(to bottom, transparent 0%, var(--bg) 100%);
 }
 
 .media::after {
