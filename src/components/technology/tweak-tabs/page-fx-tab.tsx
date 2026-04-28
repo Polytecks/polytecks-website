@@ -38,29 +38,15 @@ export function PageFxTab() {
 
       <div className={styles.divider} />
 
-      <div className={styles.row}>
-        <div className={styles.rowLabel}>
-          <span>Topo on white</span>
-          <span className={styles.value}>{values.topoLinesOnWhite ? "ON" : "OFF"}</span>
-        </div>
-        <div className={styles.segmented}>
-          <button type="button" className={styles.segment}
-            data-active={values.topoLinesOnWhite}
-            onClick={() => setValue("topoLinesOnWhite", true)}>On</button>
-          <button type="button" className={styles.segment}
-            data-active={!values.topoLinesOnWhite}
-            onClick={() => setValue("topoLinesOnWhite", false)}>Off</button>
-        </div>
-      </div>
-
-      <div className={styles.divider} />
-
       <Slider label="Stack speed" value={values.stackDurationMs} min={200} max={1500} step={50}
         format={(v) => `${v}ms`}
         onChange={(v) => setValue("stackDurationMs", v)} />
       <Slider label="Stack overlap" value={values.stackOverlapPct} min={0} max={100} step={5}
         format={(v) => `${v}%`}
         onChange={(v) => setValue("stackOverlapPct", v)} />
+      <Slider label="Pillar cards stagger" value={values.pillarCardStaggerMs} min={0} max={500} step={20}
+        format={(v) => `${v}ms`}
+        onChange={(v) => setValue("pillarCardStaggerMs", v)} />
 
       <div className={styles.divider} />
 
@@ -79,6 +65,9 @@ export function PageFxTab() {
       <Slider label="Landing CTA2 delay" value={values.landingCta2DelayMs} min={0} max={3000} step={50}
         format={(v) => `${v}ms`}
         onChange={(v) => setValue("landingCta2DelayMs", v)} />
+      <Slider label="Landing header shift" value={values.landingHeroShiftPx} min={0} max={200} step={4}
+        format={(v) => `${v}px`}
+        onChange={(v) => setValue("landingHeroShiftPx", v)} />
 
       <div className={styles.row}>
         <button
@@ -86,11 +75,11 @@ export function PageFxTab() {
           className={styles.snapshot}
           onClick={() => {
             if (typeof window !== "undefined") {
-              window.dispatchEvent(new Event("polytecks:replay-landing"));
+              window.dispatchEvent(new Event("polytecks:replay-page"));
             }
           }}
         >
-          ▶ Replay landing anim
+          ▶ Replay page anim
         </button>
       </div>
 

@@ -11,7 +11,11 @@ export function Hero() {
   useEffect(() => {
     const handler = () => setReplayKey((k) => k + 1);
     window.addEventListener("polytecks:replay-landing", handler);
-    return () => window.removeEventListener("polytecks:replay-landing", handler);
+    window.addEventListener("polytecks:replay-page", handler);
+    return () => {
+      window.removeEventListener("polytecks:replay-landing", handler);
+      window.removeEventListener("polytecks:replay-page", handler);
+    };
   }, []);
 
   return (

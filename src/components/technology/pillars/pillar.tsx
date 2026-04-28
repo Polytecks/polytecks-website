@@ -62,12 +62,12 @@ export function Pillar({
   // opacity transitions don't carry the entry delay.
   const [entryDone, setEntryDone] = useState(entryIndex === undefined);
 
-  // Read the stack stagger from CSS vars (set by applyToBody in use-tweaks).
+  // Read the pillar-card stagger from CSS vars (set by applyToBody in use-tweaks).
   const [delay, setDelay] = useState(0);
   useEffect(() => {
     const cs = getComputedStyle(document.body);
-    const staggerStr = cs.getPropertyValue("--stack-stagger-ms").trim();
-    const staggerMs = parseFloat(staggerStr) || 80;
+    const staggerStr = cs.getPropertyValue("--pillar-card-stagger-ms").trim();
+    const staggerMs = parseFloat(staggerStr) || 120;
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setDelay((entryIndex ?? 0) * (staggerMs / 1000));
   }, [entryIndex]);

@@ -1,6 +1,6 @@
 "use client";
 
-import { type CSSProperties, type ReactNode } from "react";
+import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
 import styles from "./stack-entry.module.css";
 
 /**
@@ -23,8 +23,16 @@ export function StackEntry({
   index?: number;
   className?: string;
 }) {
+  const [replayKey, setReplayKey] = useState(0);
+  useEffect(() => {
+    const handler = () => setReplayKey((k) => k + 1);
+    window.addEventListener("polytecks:replay-page", handler);
+    return () => window.removeEventListener("polytecks:replay-page", handler);
+  }, []);
+
   return (
     <div
+      key={replayKey}
       className={`${styles.wrap} ${className ?? ""}`.trim()}
       style={{ ["--stack-i" as string]: index } as CSSProperties}
     >

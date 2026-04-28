@@ -2,7 +2,7 @@
   position: relative;
   z-index: 5;
   max-width: 1400px;
-  margin: 0 auto;
+  margin: var(--sp-tech-proof-to-philosophy, 0px) auto 0;
   padding: calc(56px * var(--tw-rhythm, 1)) 40px calc(80px * var(--tw-rhythm, 1));
   display: flex;
   justify-content: center;

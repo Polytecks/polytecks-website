@@ -5,14 +5,16 @@ import { useTweaks } from "@/lib/use-tweaks";
 import { PillarsTab } from "./tweak-tabs/pillars-tab";
 import { ProofTab } from "./tweak-tabs/proof-tab";
 import { PageFxTab } from "./tweak-tabs/page-fx-tab";
+import { SpacingTab } from "./tweak-tabs/spacing-tab";
 import styles from "./tweak-panel.module.css";
 
-type TabId = "pillars" | "proof" | "page-fx";
+type TabId = "pillars" | "proof" | "page-fx" | "spacing";
 
 const TABS: { id: TabId; label: string }[] = [
   { id: "pillars",  label: "Pillars" },
   { id: "proof",    label: "Proof" },
   { id: "page-fx",  label: "Page Fx" },
+  { id: "spacing",  label: "Spacing" },
 ];
 
 const TAB_STORAGE_KEY = "polytecks:tweaks:tab";
@@ -104,6 +106,7 @@ export function TweakPanel() {
         {activeTab === "pillars" && <PillarsTab />}
         {activeTab === "proof"   && <ProofTab />}
         {activeTab === "page-fx" && <PageFxTab />}
+        {activeTab === "spacing" && <SpacingTab />}
 
         <div className={styles.divider} />
         <div className={styles.snapshotRow}>

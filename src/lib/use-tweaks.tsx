@@ -61,6 +61,7 @@ export type TweakValues = {
   topoLinesOnWhite: boolean;
   stackDurationMs: number;     // 200 → 1500
   stackOverlapPct: number;     // 0 → 100 (% overlap with previous element's animation)
+  pillarCardStaggerMs: number; // 0 → 500
 
   // Cambridge callout badge position
   cambridgeCalloutTop: number;   // 8 → 80 (px from top)
@@ -75,6 +76,17 @@ export type TweakValues = {
   landingCta1DelayMs: number;      // 0 → 3000
   landingCta2DelayMs: number;      // 0 → 3000
   landingElemDurationMs: number;   // 200 → 2000
+  landingHeroShiftPx: number;      // 0 → 200, default 0
+
+  // Spacing controls (Tab 4) — vertical gaps in px
+  homeMissionMargin: number;          // 0 → 200, default 80
+  homeRibbonMargin: number;           // 0 → 200, default 80
+  aboutHeaderToCambridge: number;     // 100 → 600, default 320 (matches existing)
+  aboutCambridgeToTeam: number;       // 0 → 300, default 80
+  aboutTeamGap: number;               // 0 → 200, default 80
+  techHeroToPillars: number;          // 0 → 200, default 0
+  techPillarsToProof: number;         // 0 → 200, default 0
+  techProofToPhilosophy: number;      // 0 → 200, default 0
 };
 
 const DEFAULT_IMAGE_TWEAK: ImageTweak = {
@@ -125,17 +137,28 @@ export const TWEAK_DEFAULTS: TweakValues = {
   topoLinesOnWhite: true,
   stackDurationMs: 600,
   stackOverlapPct: 30,
+  pillarCardStaggerMs: 120,
 
   cambridgeCalloutTop: 24,
   cambridgeCalloutRight: 24,
   cambridgeOverlayTop: 32,
   cambridgeOverlayLeft: -40,
 
-  landingArmDelayMs: 1400,
+  landingArmDelayMs: 800,
   landingSubDelayMs: 1600,
   landingCta1DelayMs: 1800,
   landingCta2DelayMs: 1950,
   landingElemDurationMs: 900,
+  landingHeroShiftPx: 0,
+
+  homeMissionMargin: 80,
+  homeRibbonMargin: 80,
+  aboutHeaderToCambridge: 320,
+  aboutCambridgeToTeam: 80,
+  aboutTeamGap: 80,
+  techHeroToPillars: 0,
+  techPillarsToProof: 0,
+  techProofToPhilosophy: 0,
 };
 
 const STORAGE_KEY = "polytecks:tweaks";
@@ -195,6 +218,7 @@ function applyToBody(values: TweakValues) {
   // Stagger = duration * (1 - overlapPct/100). 0% overlap = each starts after previous finishes; 100% = simultaneous.
   const staggerMs = Math.round(values.stackDurationMs * (1 - values.stackOverlapPct / 100));
   body.style.setProperty("--stack-stagger-ms", `${staggerMs}ms`);
+  body.style.setProperty("--pillar-card-stagger-ms", `${values.pillarCardStaggerMs}ms`);
 
   // Cambridge callout badge position
   body.style.setProperty("--tw-cb-callout-top", `${values.cambridgeCalloutTop}px`);
@@ -204,12 +228,23 @@ function applyToBody(values: TweakValues) {
   body.style.setProperty("--tw-cb-overlay-top", `${values.cambridgeOverlayTop}px`);
   body.style.setProperty("--tw-cb-overlay-left", `${values.cambridgeOverlayLeft}px`);
 
+  // Spacing
+  body.style.setProperty("--sp-home-mission", `${values.homeMissionMargin}px`);
+  body.style.setProperty("--sp-home-ribbon", `${values.homeRibbonMargin}px`);
+  body.style.setProperty("--sp-about-header-to-cambridge", `${values.aboutHeaderToCambridge}px`);
+  body.style.setProperty("--sp-about-cambridge-to-team", `${values.aboutCambridgeToTeam}px`);
+  body.style.setProperty("--sp-about-team-gap", `${values.aboutTeamGap}px`);
+  body.style.setProperty("--sp-tech-hero-to-pillars", `${values.techHeroToPillars}px`);
+  body.style.setProperty("--sp-tech-pillars-to-proof", `${values.techPillarsToProof}px`);
+  body.style.setProperty("--sp-tech-proof-to-philosophy", `${values.techProofToPhilosophy}px`);
+
   // Landing entry animation timing
   body.style.setProperty("--landing-arm-delay", `${values.landingArmDelayMs}ms`);
   body.style.setProperty("--landing-sub-delay", `${values.landingSubDelayMs}ms`);
   body.style.setProperty("--landing-cta1-delay", `${values.landingCta1DelayMs}ms`);
   body.style.setProperty("--landing-cta2-delay", `${values.landingCta2DelayMs}ms`);
   body.style.setProperty("--landing-elem-duration", `${values.landingElemDurationMs}ms`);
+  body.style.setProperty("--landing-hero-shift", `${values.landingHeroShiftPx}px`);
 }
 
 function readStored(): TweakValues {

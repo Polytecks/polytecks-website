@@ -2,10 +2,11 @@
    and a floating ECG legacy badge in the top-right corner. */
 
 .section {
-  margin: 320px 0 100px;  /* was 40px 0 100px — more breathing room above */
-  position: relative;
+  margin-top: var(--sp-about-header-to-cambridge, 320px);
+  margin-bottom: var(--sp-about-cambridge-to-team, 100px);
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
+  position: relative;
   width: 100vw;
 }
 

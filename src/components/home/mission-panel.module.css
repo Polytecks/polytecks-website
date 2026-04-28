@@ -1,6 +1,7 @@
 .panel {
   position: relative;
   z-index: 4;
+  margin-top: var(--sp-home-mission, 0px);
   padding: clamp(80px, 12vh, 160px) 40px clamp(80px, 12vh, 140px);
   overflow: hidden;
   background: var(--mission-panel-bg, #000);
@@ -39,10 +40,15 @@
 .eyebrow::before,
 .eyebrow::after {
   content: "";
-  width: 28px;
+  flex: 0 0 60px;
+  width: auto;
   height: 1px;
-  background: #4a54c0;
-  opacity: 0.6;
+  background: linear-gradient(90deg, transparent, rgba(74, 84, 192, 0.5));
+  opacity: 1;
+}
+
+.eyebrow::after {
+  background: linear-gradient(90deg, rgba(74, 84, 192, 0.5), transparent);
 }
 
 .headline {
