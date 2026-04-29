@@ -306,3 +306,68 @@
     display: none;
   }
 }
+
+/* Touch input rebuild per MOBILE_STRATEGY.md §4.21.
+   - 16px+ font-size on inputs to prevent iOS Safari's auto-zoom on focus.
+   - Filled background + visible border so the field reads as tappable
+     (the desktop border-bottom-only style is too subtle on touch).
+   - 2-col field rows (First+Last, Job+Company) collapse to single-col.
+   - Submit becomes full-width with min-height 48px for tap-target
+     compliance. */
+@media (hover: none), (max-width: 720px) {
+  .input,
+  .textarea,
+  .newsletterInput {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-size: 16px;          /* iOS won't zoom on focus at ≥16px */
+    transition: background-color 0.2s, border-color 0.2s;
+  }
+
+  .textarea {
+    padding-top: 12px;
+    min-height: 110px;
+  }
+
+  .input:focus,
+  .textarea:focus,
+  .newsletterInput:focus {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: var(--indigo-bright);
+  }
+
+  .label {
+    font-size: 13px;
+    margin-bottom: 2px;
+  }
+
+  /* Stack 2-col field rows into single column. */
+  .fieldRow {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  /* Newsletter email row stacks vertically; subscribe button full-width. */
+  .newsletterForm {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  .subscribe {
+    width: 100%;
+    min-height: 48px;
+    padding: 14px 26px;
+  }
+
+  /* Submit goes full-width with a comfortable tap-target. */
+  .submit {
+    width: 100%;
+    min-height: 48px;
+    padding: 14px 32px;
+    align-self: stretch;
+    text-align: center;
+  }
+}
