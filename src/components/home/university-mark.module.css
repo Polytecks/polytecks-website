@@ -27,6 +27,17 @@
   filter: grayscale(1);
 }
 
+/* Per MOBILE_STRATEGY.md §4.4 — Imperial's wordmark is dramatically
+   wider than the three shield logos. At the 2×2 grid (≤720px) it
+   would dominate its row. Tighten max-width on mobile so the four
+   logos balance visually within the grid. */
+@media (max-width: 720px) {
+  .logo {
+    max-height: 40px;
+    max-width: 110px;
+  }
+}
+
 .text {
   font-family: var(--font-display);
   font-weight: 500;
