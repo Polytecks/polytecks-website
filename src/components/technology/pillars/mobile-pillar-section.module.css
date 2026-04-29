@@ -1,0 +1,97 @@
+/* MobilePillarSection — vertical stack of three always-expanded cards
+   per MOBILE_STRATEGY.md §4.11. */
+
+.section {
+  position: relative;
+  z-index: 5;
+  padding: clamp(48px, 8vh, 80px) 20px clamp(56px, 10vh, 96px);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(28px, 7vw, 36px);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin: 0 0 32px;
+  text-wrap: balance;
+}
+
+.title em {
+  /* Same indigo-italic accent as desktop — non-negotiable per
+     MOBILE_STRATEGY.md §3 identity preservation. */
+  font-style: italic;
+  font-weight: 500;
+  color: var(--indigo-bright);
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.card {
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Image / video sits full-bleed at the top of the card. Height clamped
+   so cards stay reasonably proportioned on tall and wide phones. */
+.media {
+  position: relative;
+  width: 100%;
+  height: clamp(180px, 28vh, 240px);
+  overflow: hidden;
+  background: #000;
+}
+
+.media img,
+.media video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.copy {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cardTitle {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(22px, 5.5vw, 28px);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  margin: 0;
+}
+
+.cardSubtitle {
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 1.5;
+  /* Subtitles on desktop pillars are white per the recent recolour;
+     keep that here for consistency. */
+  color: var(--ink);
+  margin: 0;
+}
+
+.cardBody {
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink-dim);
+  margin: 8px 0 0;
+}

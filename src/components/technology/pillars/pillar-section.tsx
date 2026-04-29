@@ -2,12 +2,23 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTweaks, type CardId } from "@/lib/use-tweaks";
+import { useIsMobile } from "@/lib/use-is-mobile";
 import { StackEntry } from "@/components/stack-entry";
+import { MobilePillarSection } from "./mobile-pillar-section";
 import { Pillar } from "./pillar";
 import { PILLARS } from "./pillar-data";
 import styles from "./pillar-section.module.css";
 
 export function PillarSection() {
+  // Tier 3 component branching per MOBILE_STRATEGY.md §4.11.
+  // Desktop hover-to-expand has no touch equivalent — render the always-
+  // expanded mobile variant instead of crippling the desktop component.
+  const isMobile = useIsMobile();
+  if (isMobile) return <MobilePillarSection />;
+  return <DesktopPillarSection />;
+}
+
+function DesktopPillarSection() {
   const { values } = useTweaks();
   const [activeId, setActiveId] = useState<string | null>(null);
   const rowRef = useRef<HTMLDivElement>(null);
