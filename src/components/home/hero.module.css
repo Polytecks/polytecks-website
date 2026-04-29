@@ -53,25 +53,6 @@
   }
 }
 
-/* Per MOBILE_STRATEGY.md §4.3:
-   - CTA buttons: cap their width so they don't run off the edge.
-   - Headline word cascade: compress the 110ms-per-word stagger to ~75ms
-     so the unblur completes in ~600ms total instead of ~880ms (eight
-     words × 110ms). The end-result still reads left-to-right but
-     doesn't make the user wait. */
-@media (max-width: 720px) {
-  .ctas {
-    width: 100%;
-    max-width: 360px;
-  }
-  .ctas > * {
-    width: 100%;
-  }
-  .word {
-    animation-delay: calc(var(--wi, 0) * 75ms);
-  }
-}
-
 .headline {
   font-family: var(--font-display);
   font-weight: 300;
@@ -235,4 +216,55 @@
   pointer-events: none;
   background: radial-gradient(ellipse at 45% 55%, rgba(10, 10, 20, 0.85) 0%, rgba(10, 10, 14, 0.55) 45%, transparent 75%);
   filter: blur(20px);
+}
+
+/* Per MOBILE_STRATEGY.md §4.3 — must be at the END of the file so its rules
+   beat the equal-specificity bare declarations earlier in the cascade
+   (e.g. .sub max-width: clamp(520px,...) and .ctas width: clamp(420px,...)).
+   - Sub paragraph: drop the 520px floor — overflows narrow viewports.
+   - CTA buttons: cap their width so they don't run off the edge.
+   - Stack order: heading → sub → arm → CTAs. The inner <div> in hero.tsx
+     wraps heading+sub+CTAs together, with .arm as its sibling. To reorder
+     across that wrapper without editing JSX, promote the wrapper's
+     children to grid items via display:contents and place by named area.
+   - Headline word cascade: compress the 110ms-per-word stagger to ~75ms
+     so the unblur completes in ~600ms total instead of ~880ms. */
+@media (max-width: 720px) {
+  .sub {
+    max-width: 100%;
+    padding-right: 16px;
+    margin-bottom: 32px;
+  }
+  .ctas {
+    width: 100%;
+    max-width: 360px;
+  }
+  .ctas > * {
+    width: 100%;
+  }
+  .content {
+    grid-template-areas:
+      "head"
+      "sub"
+      "arm"
+      "cta";
+  }
+  .content > div:first-of-type {
+    display: contents;
+  }
+  .headline { grid-area: head; }
+  .sub      { grid-area: sub; }
+  .arm      { grid-area: arm; }
+  .ctas     { grid-area: cta; }
+  .word {
+    animation-delay: calc(var(--wi, 0) * 75ms);
+  }
+  /* The headline wraps each line in <span class=nowrap> for desktop. At
+     ≤320 px, "Making the Skin" at 40px is wider than the column, which
+     forces the grid track to min-content and pushes .sub/.ctas past the
+     viewport. Allow these spans to wrap — at 375+ they still fit on one
+     line so the visual rhythm is unchanged. */
+  .nowrap {
+    white-space: normal;
+  }
 }
