@@ -30,6 +30,12 @@ const N = 7;
 export class TopoCanvas {
   private ctx: CanvasRenderingContext2D;
   private field = new Float32Array(GW * GH);
+  // Live grid dimensions — swapped to GH × GW on portrait viewports so
+  // cells stay roughly square. Without this, the 100×60 grid produces
+  // cells 3–4× taller than wide on phones, giving contours an
+  // elongated/stretched look.
+  private gw = GW;
+  private gh = GH;
   private W = 0;
   private H = 0;
   private DPR = 1;
@@ -40,6 +46,7 @@ export class TopoCanvas {
   private raf = 0;
   private mouse = { x: 0.5, y: 0.5, amp: 0, active: false, sx: 0.5, sy: 0.5 };
   private centers: Center[];
+  private ro: ResizeObserver | null = null;
 
   private readonly onResize = () => this.resize();
   private readonly onPointerMove = (e: PointerEvent) => {
@@ -85,7 +92,15 @@ export class TopoCanvas {
     if (this.running) return;
     this.running = true;
     this.resize();
-    window.addEventListener("resize", this.onResize);
+    // ResizeObserver catches layout-box changes window.resize misses on
+    // iOS Safari (URL-bar collapse/expand) and Android Chrome address-bar.
+    if (typeof ResizeObserver !== "undefined") {
+      this.ro = new ResizeObserver(() => this.resize());
+      this.ro.observe(this.canvas);
+    } else {
+      window.addEventListener("resize", this.onResize);
+    }
+    window.addEventListener("orientationchange", this.onResize);
     window.addEventListener("pointermove", this.onPointerMove);
     window.addEventListener("pointerleave", this.onPointerLeave);
     this.raf = requestAnimationFrame((t) => this.draw(t));
@@ -94,7 +109,13 @@ export class TopoCanvas {
   stop() {
     this.running = false;
     cancelAnimationFrame(this.raf);
-    window.removeEventListener("resize", this.onResize);
+    if (this.ro) {
+      this.ro.disconnect();
+      this.ro = null;
+    } else {
+      window.removeEventListener("resize", this.onResize);
+    }
+    window.removeEventListener("orientationchange", this.onResize);
     window.removeEventListener("pointermove", this.onPointerMove);
     window.removeEventListener("pointerleave", this.onPointerLeave);
   }
@@ -107,6 +128,18 @@ export class TopoCanvas {
     this.canvas.width = this.W * this.DPR;
     this.canvas.height = this.H * this.DPR;
     this.ctx.setTransform(this.DPR, 0, 0, this.DPR, 0, 0);
+
+    // Pick grid orientation that keeps cells roughly square. The base
+    // 100×60 was tuned for landscape; on portrait we swap to 60×100 so
+    // contours don't stretch vertically.
+    const portrait = this.W < this.H;
+    const gw = portrait ? GH : GW;
+    const gh = portrait ? GW : GH;
+    if (gw !== this.gw || gh !== this.gh) {
+      this.gw = gw;
+      this.gh = gh;
+      this.field = new Float32Array(gw * gh);
+    }
   }
 
   private mouseContribution(fx: number, fy: number, t: number) {
@@ -141,10 +174,12 @@ export class TopoCanvas {
       if (c.y < -0.2) c.y = 1.2;
       if (c.y > 1.2) c.y = -0.2;
     }
-    for (let j = 0; j < GH; j++) {
-      const fy = j / (GH - 1);
-      for (let i = 0; i < GW; i++) {
-        const fx = i / (GW - 1);
+    const gw = this.gw;
+    const gh = this.gh;
+    for (let j = 0; j < gh; j++) {
+      const fy = j / (gh - 1);
+      for (let i = 0; i < gw; i++) {
+        const fx = i / (gw - 1);
         let s = 0;
         for (const c of this.centers) {
           const dx = fx - c.x;
@@ -159,24 +194,26 @@ export class TopoCanvas {
             Math.cos(fy * 5 + c.wy * time);
         }
         s += this.mouseContribution(fx, fy, time);
-        this.field[j * GW + i] = s;
+        this.field[j * gw + i] = s;
       }
     }
   }
 
   private renderIsolines(thresholds: number[], lineAlpha: number, lineWidth: number) {
-    const cw = this.W / (GW - 1);
-    const ch = this.H / (GH - 1);
+    const gw = this.gw;
+    const gh = this.gh;
+    const cw = this.W / (gw - 1);
+    const ch = this.H / (gh - 1);
     this.ctx.lineWidth = lineWidth;
     this.ctx.strokeStyle = `rgba(255,255,255,${lineAlpha})`;
     this.ctx.beginPath();
     for (const th of thresholds) {
-      for (let j = 0; j < GH - 1; j++) {
-        for (let i = 0; i < GW - 1; i++) {
-          const v00 = this.field[j * GW + i];
-          const v10 = this.field[j * GW + i + 1];
-          const v01 = this.field[(j + 1) * GW + i];
-          const v11 = this.field[(j + 1) * GW + i + 1];
+      for (let j = 0; j < gh - 1; j++) {
+        for (let i = 0; i < gw - 1; i++) {
+          const v00 = this.field[j * gw + i];
+          const v10 = this.field[j * gw + i + 1];
+          const v01 = this.field[(j + 1) * gw + i];
+          const v11 = this.field[(j + 1) * gw + i + 1];
           const c =
             (v00 > th ? 1 : 0) |
             (v10 > th ? 2 : 0) |
