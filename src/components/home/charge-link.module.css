@@ -123,3 +123,51 @@
     transition: none !important;
   }
 }
+
+/* Touch-target rebuild per MOBILE_STRATEGY.md §4.14.
+   The horizontal underline-sweep is a pure :hover effect that never
+   fires on touch. On mobile, render the link as a pill button instead —
+   matches the visual weight of the contact-form Submit button so CTAs
+   read consistently across the site. */
+@media (hover: none), (max-width: 720px) {
+  .link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    min-height: 48px;
+    padding: 14px 32px;
+    border: 1px solid var(--indigo-bright);
+    border-radius: 999px;
+    color: var(--indigo-bright);
+    text-align: center;
+    transition: background-color 0.2s, color 0.2s;
+  }
+  .link:active {
+    background: rgba(106, 116, 220, 0.18);
+  }
+  .label {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--indigo-bright);
+    padding: 0;
+    gap: 10px;
+  }
+  .arrow {
+    color: var(--indigo-bright);
+  }
+  /* The line + sweep are dead on touch — hide them. */
+  .track {
+    display: none;
+  }
+  /* Inline variant inherits the same pill styling. */
+  .link[data-variant="inline"] {
+    display: inline-flex;
+  }
+  .link[data-variant="inline"] .label {
+    justify-content: center;
+  }
+}
