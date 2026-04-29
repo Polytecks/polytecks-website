@@ -57,9 +57,6 @@ export function ProofTab() {
       <Slider label="Vignette" value={values.vignette} min={0} max={0.6} step={0.02}
         format={(v) => `${Math.round(v * 100)}%`}
         onChange={(v) => setValue("vignette", v)} />
-      <Slider label="Proof pulse" value={values.proofPulseIntensity} min={0} max={0.15} step={0.005}
-        format={(v) => `${(v * 100).toFixed(1)}%`}
-        onChange={(v) => setValue("proofPulseIntensity", v)} />
 
       <div className={styles.row}>
         <div className={styles.rowLabel}>

@@ -16,7 +16,7 @@ export default function AboutPage() {
             healthcare.
           </>
         }
-        lede="Polytecks is a medical technology start-up developing breakthrough bioelectrical mapping for a novel non-invasive information source into disease."
+        lede="Polytecks is a medical technology start-up developing bioelectrical mapping for a novel non-invasive information source into disease."
       />
       <StackEntry index={3}>
         <CambridgeSection />

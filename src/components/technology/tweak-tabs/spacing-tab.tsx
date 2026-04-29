@@ -47,6 +47,30 @@ export function SpacingTab() {
       <Slider label="Proof → Philosophy" value={values.techProofToPhilosophy} min={0} max={200} step={4}
         format={(v) => `${v}px`}
         onChange={(v) => setValue("techProofToPhilosophy", v)} />
+
+      <div className={styles.divider} />
+
+      <div className={styles.row}>
+        <div className={styles.rowLabel}><span>DEVICES</span></div>
+      </div>
+      <Slider label="Header → Icons" value={values.devicesHeaderToStrip} min={0} max={160} step={4}
+        format={(v) => `${v}px`}
+        onChange={(v) => setValue("devicesHeaderToStrip", v)} />
+      <Slider label="Icons → Tabs" value={values.devicesStripGapBelow} min={0} max={160} step={4}
+        format={(v) => `${v}px`}
+        onChange={(v) => setValue("devicesStripGapBelow", v)} />
+      <Slider label="Icon ↔ label gap" value={values.devicesIconRowGapY} min={4} max={48} step={2}
+        format={(v) => `${v}px`}
+        onChange={(v) => setValue("devicesIconRowGapY", v)} />
+
+      <div className={styles.divider} />
+
+      <div className={styles.row}>
+        <div className={styles.rowLabel}><span>CAREERS</span></div>
+      </div>
+      <Slider label="Values bottom panel" value={values.careersValuesBottom} min={80} max={480} step={8}
+        format={(v) => `${v}px`}
+        onChange={(v) => setValue("careersValuesBottom", v)} />
     </>
   );
 }

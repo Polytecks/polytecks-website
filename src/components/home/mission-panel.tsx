@@ -10,11 +10,12 @@ export function MissionPanel() {
       <div className="whiteVignette" aria-hidden="true" />
       <div className={styles.inner}>
         <p className={styles.eyebrow}>Our Mission</p>
-        <h2 className={styles.headline}>Make the body legible.</h2>
+        <h2 className={styles.headline}>To redefine how we see disease</h2>
         <p className={styles.lede}>
-          We are turning the skin into a high-resolution interface to the body&apos;s
-          electrical activity — so clinicians can see, earlier and more clearly,
-          what the heart, the muscles, and the nervous system are saying.
+          We are turning the skin into a high-resolution interface to the
+          body&apos;s electrical signals, so clinicians can detect, earlier
+          and more clearly, what the heart, the muscles, and the nervous
+          system are revealing.
         </p>
       </div>
 

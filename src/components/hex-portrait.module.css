@@ -46,15 +46,21 @@
   filter: grayscale(0.1) contrast(1.05);
 }
 
-/* Per-portrait crop tuning — preserved from legacy lines 976-983 */
+/* Per-portrait crop tuning. Advisor portraits used to scale DOWN
+   (transform: scale(0.88)) which left an empty cap at the top of the
+   hex frame. Now scaled UP slightly so the head fills the frame and
+   no blank-space rim is visible in the inactive state. */
 .clip img[src*="team-callan"]            { object-position: center 30%; }
 .clip img[src*="team-ruben"]             { object-position: center 28%; }
 .clip img[src*="team-charlie"]           { object-position: center 28%; }
-.clip img[src*="advisor-malliaras"]      { object-position: center 26%; transform: scale(0.88); transform-origin: center 30%; }
-.clip img[src*="advisor-novo-matos"]     { object-position: center 26%; transform: scale(0.88); transform-origin: center 30%; }
-.clip img[src*="advisor-fairen-jimenez"] { object-position: center 32%; transform: scale(0.86); transform-origin: center 34%; }
-.clip img[src*="advisor-hampton"]        { object-position: center 30%; transform: scale(0.9);  transform-origin: center 32%; }
-.clip img[src*="advisor-richardson"]     { object-position: center 32%; transform: scale(0.88); transform-origin: center 34%; }
+/* First three advisors (Malliaras, Novo Matos, Fairen-Jimenez) — shifted
+   down within the hex so their heads sit slightly lower in the frame,
+   leaving more of the dark hex background visible at the top. */
+.clip img[src*="advisor-malliaras"]      { object-position: center 8%;  transform: scale(1.18); transform-origin: center 16%; }
+.clip img[src*="advisor-novo-matos"]     { object-position: center 8%;  transform: scale(1.18); transform-origin: center 16%; }
+.clip img[src*="advisor-fairen-jimenez"] { object-position: center 14%; transform: scale(1.2);  transform-origin: center 20%; }
+.clip img[src*="advisor-hampton"]        { object-position: center 30%; transform: scale(1.15); transform-origin: center 34%; }
+.clip img[src*="advisor-richardson"]     { object-position: center 32%; transform: scale(1.18); transform-origin: center 36%; }
 
 .card {
   display: flex;
@@ -79,12 +85,14 @@
   transform: scale(var(--hover-zoom, 1.05));
 }
 
-/* Per-portrait hover-zoom — multiplied against base transform */
+/* Per-portrait hover-zoom — replaces (not multiplies) the base scale
+   when hovered, so values >1 actually grow the image. Tuned slightly
+   higher than the base scale set above. */
 .card[data-portrait="advisor-malliaras"] .clip img,
-.card[data-portrait="advisor-novo-matos"] .clip img    { --hover-zoom: 0.97; }
-.card[data-portrait="advisor-fairen-jimenez"] .clip img { --hover-zoom: 0.95; }
-.card[data-portrait="advisor-hampton"] .clip img        { --hover-zoom: 0.99; }
-.card[data-portrait="advisor-richardson"] .clip img     { --hover-zoom: 0.97; }
+.card[data-portrait="advisor-novo-matos"] .clip img    { --hover-zoom: 1.25; }
+.card[data-portrait="advisor-fairen-jimenez"] .clip img { --hover-zoom: 1.27; }
+.card[data-portrait="advisor-hampton"] .clip img        { --hover-zoom: 1.22; }
+.card[data-portrait="advisor-richardson"] .clip img     { --hover-zoom: 1.25; }
 
 @keyframes hex-rotate {
   to { transform: rotate(360deg); }

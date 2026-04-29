@@ -20,7 +20,7 @@ export function CareersHero() {
       <StackEntry index={0} className={styles.content}>
         <div className={styles.eyebrow}>Careers</div>
         <h1 className={styles.title}>
-          Help us revolutionise how we understand the body.
+          Help us build the future of bioelectrical sensing.
         </h1>
         <p className={styles.lede}>
           We&apos;re a highly technical team working across material science,

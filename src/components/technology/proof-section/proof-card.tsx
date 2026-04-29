@@ -123,14 +123,13 @@ export function ProofCard({
     if (cardRef.current && !hasCompleted) cardRef.current.style.left = String(v);
   });
 
-  // When hasCompleted flips true: lock card at final state and enable heartbeat.
+  // When hasCompleted flips true: lock card at final state.
   useEffect(() => {
     if (hasCompleted && cardRef.current) {
       cardRef.current.style.opacity = "1";
       cardRef.current.style.filter = "none";
       cardRef.current.style.left = SLOT_LEFT_PCT[index];
       cardRef.current.style.setProperty("--card-scale", "1");
-      cardRef.current.dataset.settled = "true";
     }
   }, [hasCompleted, index]);
 

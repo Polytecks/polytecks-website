@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { useRef, useState, useEffect, type CSSProperties } from "react";
+import { useRef, useState, type CSSProperties } from "react";
 import type { CardImageTweaks } from "@/lib/use-tweaks";
 import type { PillarContent, PillarVisual } from "./pillar-data";
 import styles from "./pillar.module.css";
@@ -41,6 +41,8 @@ export function Pillar({
   siblingDim,
   animMs,
   entryIndex,
+  staggerMs = 120,
+  baseDelayMs = 0,
   onActivate,
   onDeactivate,
 }: {
@@ -52,8 +54,14 @@ export function Pillar({
   popRatio: number;
   siblingDim: number;
   animMs: number;
-  /** Right-to-left stagger order index (0 = first to appear). If undefined, no entry animation. */
+  /** Left-to-right stagger order index (0 = first to appear). If undefined, no entry animation. */
   entryIndex?: number;
+  /** Per-card stagger in ms (passed from parent so the entry delay is computed
+   *  synchronously at first render, before Framer's animation kicks off). */
+  staggerMs?: number;
+  /** Absolute delay (ms) added to every card's entry — anchors the cascade
+   *  to fire after preceding page elements (hero + section title) finish. */
+  baseDelayMs?: number;
   onActivate: () => void;
   onDeactivate: () => void;
 }) {
@@ -62,15 +70,11 @@ export function Pillar({
   // opacity transitions don't carry the entry delay.
   const [entryDone, setEntryDone] = useState(entryIndex === undefined);
 
-  // Read the pillar-card stagger from CSS vars (set by applyToBody in use-tweaks).
-  const [delay, setDelay] = useState(0);
-  useEffect(() => {
-    const cs = getComputedStyle(document.body);
-    const staggerStr = cs.getPropertyValue("--pillar-card-stagger-ms").trim();
-    const staggerMs = parseFloat(staggerStr) || 120;
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setDelay((entryIndex ?? 0) * (staggerMs / 1000));
-  }, [entryIndex]);
+  // Compute the entry delay synchronously from props so Framer's first-render
+  // transition uses the correct delay. (Reading CSS vars in useEffect was racy
+  // with TweaksProvider's effect timing — the entry animation would start at
+  // delay 0 before the effect ran.)
+  const delay = (baseDelayMs + (entryIndex ?? 0) * staggerMs) / 1000;
 
   const flexGrow = !anyActive ? 1 : isActive ? popRatio : (3 - popRatio) / 2;
   const opacity = !anyActive ? 1 : isActive ? 1 : 1 - siblingDim;

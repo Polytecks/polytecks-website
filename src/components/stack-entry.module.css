@@ -14,7 +14,7 @@
   transform: translateY(28px);
   opacity: 0;
   animation: stackEntryIn var(--stack-duration-ms, 700ms) cubic-bezier(0.16, 1, 0.3, 1) both;
-  animation-delay: calc(var(--stack-i, 0) * var(--stack-stagger-ms, 80ms));
+  animation-delay: var(--stack-delay-ms, calc(var(--stack-i, 0) * var(--stack-stagger-ms, 80ms)));
 }
 
 @keyframes stackEntryIn {

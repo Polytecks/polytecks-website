@@ -1,24 +1,57 @@
+/* Contact page layout
+   ────────────────────
+   Solid black page bg. Two-column grid above 900px: form column left,
+   feature image right. The image fills its column 100%×100% and is fully
+   static (no sticky, no transforms tied to scroll). The "spotlight" is a
+   single soft radial-gradient mask on the <img>. Below 900px the image
+   column is `display: none` and the form spans full width. */
+
 .section {
   position: relative;
   width: 100%;
-  background: var(--bg);
   min-height: calc(100vh - 72px);
+  background: var(--bg, #000);
+  isolation: isolate;
+  /* No overflow clipping here — the feature image is a free-floating
+     overlay that may extend past the right edge of the viewport. The
+     viewport itself (body { overflow-x: clip }) handles the only safe
+     clip plane. */
 }
 
-.inner {
-  max-width: var(--content-w, 1400px);
+.grid {
+  position: relative;
+  width: 100%;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 100px 40px 80px;
+  padding: 64px 40px 96px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(40px, 6vw, 96px);
-  align-items: center;
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+  gap: clamp(40px, 5vw, 80px);
+  align-items: stretch;
+  min-height: calc(100vh - 72px);
 }
 
 .copyCol {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 56px;
+  min-width: 0;
+}
+
+.block {
+  width: 100%;
+}
+
+.contactBlock,
+.newsletterBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.newsletterBlock {
+  padding-top: 28px;
+  border-top: 1px solid var(--line);
 }
 
 .eyebrow {
@@ -31,11 +64,13 @@
   margin: 0;
 }
 
+/* Both the contact and newsletter headings share this exact class — same
+   element, size, weight, font, letter-spacing. */
 .title {
   font-family: var(--font-display);
   font-weight: 300;
-  font-size: clamp(40px, 4.5vw, 56px);
-  line-height: 1.1;
+  font-size: clamp(34px, 4vw, 52px);
+  line-height: 1.08;
   letter-spacing: -0.03em;
   color: var(--ink);
   margin: 0;
@@ -50,36 +85,88 @@
 .lede {
   font-family: var(--font-sans);
   font-weight: 300;
-  font-size: 16px;
-  line-height: 1.6;
+  font-size: 15px;
+  line-height: 1.55;
   color: var(--ink-dim);
-  max-width: 480px;
   margin: 0;
+  max-width: 520px;
+}
+
+/* Forms ───────────────────────────────────────────────────────────────── */
+
+.newsletterForm {
+  display: flex;
+  gap: 12px;
+  align-items: end;
+  margin-top: 8px;
+  max-width: 520px;
+}
+
+.newsletterInput {
+  flex: 1;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--line-strong);
+  padding: 10px 0;
+  color: var(--ink);
+  font-size: 15px;
+  outline: none;
+  font-family: var(--font-sans);
+  min-width: 0;
+  transition: border-color 0.2s;
+}
+
+.newsletterInput:focus {
+  border-bottom-color: var(--indigo-bright);
+}
+
+.subscribe {
+  appearance: none;
+  background: transparent;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  padding: 11px 26px;
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+  white-space: nowrap;
+}
+
+.subscribe:hover {
+  background: var(--indigo-bright);
+  border-color: var(--indigo-bright);
+  color: var(--bg);
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  margin-top: 16px;
-  max-width: 480px;
+  gap: 18px;
+  margin-top: 12px;
+  max-width: 560px;
 }
 
 .fieldRow {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 24px;
+  gap: 18px;
 }
 
 .field {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 5px;
+  min-width: 0;
 }
 
 .label {
   font-family: var(--font-sans);
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 400;
   color: var(--ink-dim);
 }
@@ -92,20 +179,20 @@
   padding: 8px 0;
   color: var(--ink);
   font-family: var(--font-sans);
-  font-size: 16px;
+  font-size: 15px;
   outline: none;
   transition: border-color 0.2s;
+  width: 100%;
 }
 
 .input:focus {
   border-bottom-color: var(--indigo-bright);
 }
 
-.select {
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path fill='none' stroke='%238a8c9a' stroke-width='1.5' d='M1 1l5 5 5-5'/></svg>");
-  background-repeat: no-repeat;
-  background-position: right center;
-  padding-right: 24px;
+.textarea {
+  resize: vertical;
+  min-height: 92px;
+  padding-top: 8px;
 }
 
 .submit {
@@ -113,7 +200,7 @@
   background: transparent;
   border: 1px solid var(--line-strong);
   border-radius: 999px;
-  padding: 14px 36px;
+  padding: 13px 36px;
   color: var(--ink);
   font-family: var(--font-mono);
   font-size: 12px;
@@ -121,8 +208,9 @@
   letter-spacing: 0.2em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: background-color 0.2s, border-color 0.2s;
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
   align-self: flex-start;
+  margin-top: 8px;
 }
 
 .submit:hover {
@@ -131,140 +219,90 @@
   color: var(--bg);
 }
 
-.imageCol {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 600px;
-  /* Container for the soft purple/blue glow that the image floats in. */
-}
-
-.imageCol::before {
-  content: "";
-  position: absolute;
-  /* Glow extends ~20-30% beyond the image bounds — use a wider inset
-     beyond the cell. */
-  inset: -15%;
-  background: radial-gradient(
-    circle at center,
-    rgba(106, 116, 220, 0.40) 0%,
-    rgba(106, 116, 220, 0.20) 25%,
-    rgba(74, 84, 192, 0.08) 50%,
-    transparent 75%
-  );
-  filter: blur(60px);
-  z-index: 0;
-  pointer-events: none;
-}
-
-.image {
-  position: relative;
-  z-index: 1;
+/* RIGHT column — empty placeholder. Reserves grid space so the form
+   column doesn't expand into the image area; the image itself lives in
+   .imageOverlay outside the grid. */
+.imageColPlaceholder {
   width: 100%;
-  max-width: 720px;
-  height: auto;
-  /* No border-radius, no box-shadow, no mask — the transparent PNG already
-     has its content alpha-cut. The image floats anchored in the centre of
-     the radial glow. */
-  filter: none;
+  height: 1px;            /* presence-only; doesn't block grid sizing */
 }
 
-.textarea {
-  resize: vertical;
-  min-height: 96px;
-  font-family: var(--font-sans);
-  font-size: 16px;
-  color: var(--ink);
-  padding: 8px 0;
-  border-bottom: 1px solid var(--line-strong);
-  border-top: 0;
-  border-left: 0;
-  border-right: 0;
-  background: transparent;
-  outline: none;
-  transition: border-color 0.2s;
+/* The image overlay sits in the page flow as an in-flow element of the
+   contact section: it begins where the section begins, ends where the
+   section ends, and scrolls at the same rate as everything else. No
+   position:fixed, no position:sticky, no scroll listeners, no parallax.
+   It just happens to extend off the right edge of the viewport
+   horizontally — vertically it's a normal page element.
+   The spotlight mask lives on THIS wrapper so it scrolls with the
+   image and the form, in lockstep. */
+.imageOverlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;                      /* anchored to the section's right edge */
+  width: 50vw;
+  z-index: 1;                    /* above page bg, below the form */
+  pointer-events: none;
+  /* Single soft radial gradient — large, off-centre to the right.
+     Position and size are anchored to the overlay box (which spans the
+     full section height). */
+  -webkit-mask-image: radial-gradient(
+    ellipse var(--tw-contact-spot-size, 80%) var(--tw-contact-spot-size, 80%) at
+      var(--tw-contact-spot-x, 67%) var(--tw-contact-spot-y, 50%),
+    rgb(0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.85) 35%,
+    rgba(0, 0, 0, 0.5) 65%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  mask-image: radial-gradient(
+    ellipse var(--tw-contact-spot-size, 80%) var(--tw-contact-spot-size, 80%) at
+      var(--tw-contact-spot-x, 67%) var(--tw-contact-spot-y, 50%),
+    rgb(0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.85) 35%,
+    rgba(0, 0, 0, 0.5) 65%,
+    rgba(0, 0, 0, 0) 100%
+  );
 }
 
-.textarea:focus {
-  border-bottom-color: var(--indigo-bright);
+/* The actual image. Anchored to the right edge of its overlay parent.
+   Width is `50vw × scale` — viewport-based and explicit so the scale
+   slider directly controls the rendered element box. (Using
+   `transform: scale` would shrink/grow the spotlight mask along with
+   the image and decouple the spotlight from the viewport — which the
+   user's spec explicitly forbids.)
+   The image offset slider applies translateX, independently of scale. */
+.featureImage {
+  position: absolute;
+  top: 0;
+  /* Anchor the LEFT edge to the overlay's left edge (= viewport's
+     midpoint at default sizing). Width grows the image rightward, so
+     scaling >1 extends past the viewport's right edge — the desired
+     direction. translateX() (offset slider) shifts the image further
+     right; the user-spec offset range is 0–40% so the image can only go
+     off-right, never into the form column on the left. */
+  left: 0;
+  height: 100%;
+  /* Override Tailwind preflight's `img { max-width: 100% }` so the scale
+     slider can grow the image past the overlay's width. */
+  max-width: none;
+  width: calc(50vw * var(--tw-contact-img-scale, 1));
+  object-fit: cover;
+  display: block;
+  transform: translateX(var(--tw-contact-img-offset-x, 0%));
 }
 
-.newsletterInner {
-  max-width: var(--content-w, 1400px);
-  margin: 80px auto 0;
-  padding: 80px 40px 120px;
-  border-top: 1px solid var(--line);
-}
-
-.newsletterEyebrow {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--indigo-bright);
-  margin: 0 0 24px;
-}
-
-.newsletterTitle {
-  font-family: var(--font-display);
-  font-weight: 300;
-  font-size: clamp(28px, 3vw, 40px);
-  letter-spacing: -0.02em;
-  color: var(--ink);
-  margin: 0 0 32px;
-}
-
-.newsletterForm {
-  max-width: 480px;
-}
-
-.newsletterRow {
-  display: flex;
-  gap: 16px;
-  align-items: end;
-}
-
-.newsletterInput {
-  flex: 1;
-  background: transparent;
-  border: 0;
-  border-bottom: 1px solid var(--line-strong);
-  padding: 8px 0;
-  color: var(--ink);
-  font-size: 16px;
-  outline: none;
-  font-family: var(--font-sans);
-}
-
-.newsletterInput:focus {
-  border-bottom-color: var(--indigo-bright);
-}
-
-@media (max-width: 960px) {
-  .inner {
+@media (max-width: 900px) {
+  .grid {
     grid-template-columns: 1fr;
     gap: 40px;
-    padding: 80px 24px 60px;
+    padding: 48px 24px 80px;
+    min-height: 0;
   }
-  .imageCol { order: -1; }
-  .imageCol {
-    min-height: 400px;
+  /* Drop both the placeholder and the floating image overlay below 900px. */
+  .imageColPlaceholder {
+    display: none;
   }
-  .imageCol::before {
-    /* Glow shrinks with the image — use percentage inset on a smaller container. */
-    inset: -10%;
-  }
-}
-
-@media (max-width: 720px) {
-  .newsletterInner {
-    padding: 56px 20px 80px;
-  }
-  .newsletterRow {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 24px;
+  .imageOverlay {
+    display: none;
   }
 }

@@ -54,12 +54,16 @@
 .headline {
   font-family: var(--font-display);
   font-weight: 300;
-  font-size: clamp(40px, 5vw, 88px);
-  line-height: 1.02;
+  /* Capped lower than before so "To redefine how we see disease" fits on
+     one line at the .inner container width. nowrap keeps it on a single
+     line above the cap; the clamp's lower bound shrinks the font with
+     the viewport on narrow screens so it still fits. */
+  font-size: clamp(28px, 4.4vw, 64px);
+  line-height: 1.05;
   letter-spacing: -0.035em;
   color: #0a0a0e;
   margin-bottom: 36px;
-  text-wrap: balance;
+  white-space: nowrap;
 }
 
 /* Mission lede — paragraph inside the white mission panel on the home page.
@@ -144,6 +148,13 @@
 }
 
 @media (max-width: 720px) {
+  .headline {
+    /* On narrow viewports the single-line nowrap headline overflows;
+       allow it to wrap and let `text-wrap: balance` keep the breaks
+       graceful. */
+    white-space: normal;
+    text-wrap: balance;
+  }
   .logos {
     display: grid;
     grid-template-columns: repeat(2, 1fr);

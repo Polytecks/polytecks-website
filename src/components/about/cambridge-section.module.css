@@ -64,32 +64,70 @@
 }
 
 .media {
-  /* Image is constrained to a centered "framed photograph" container,
-     not full-bleed. On large screens the rest of the section shows the
-     dark page background — see futurecambridge.png reference. */
+  /* Container reflows the page around the image; no max-width cap so the
+     scale slider can grow the image past 1400px when desired. The actual
+     dimensions live on the <img> below — the container just centres it. */
   position: relative;
-  width: 100%;
-  max-width: 1200px;
+  display: flex;
+  justify-content: center;
   margin: 0 auto;
   overflow: visible;
 }
 
 .media img {
-  width: 100%;
-  height: auto;
+  /* The image box's SHAPE is locked via aspect-ratio so the same slice
+     of the source pixels is always visible regardless of viewport size.
+     object-fit: cover with object-position: center top clips into a
+     box of fixed shape, so the bottom crop can never drift on resize.
+     ────────────────────────────────────────────────────────────────────
+     Width is responsive: capped at 1400px on wide displays, scales down
+     with the viewport on narrow ones. Multiplied by --tw-cb-scale and
+     reduced by --tw-cb-crop-sides.
+     Aspect ratio is locked at 1100 / 619 (the source's natural ratio)
+     and WIDENED by the bottom-crop slider — increasing crop_bottom
+     shortens the box in proportion to its width, which is what
+     "cropping more of the bottom" means. Height is computed from
+     width via aspect-ratio. */
   display: block;
-  filter: grayscale(0.2) contrast(1.05) brightness(0.85);
-  /* Soft fade just at the edges — most of the image stays sharp. */
-  mask-image: radial-gradient(
-    ellipse 100% 100% at center,
-    black 80%,
-    transparent 100%
+  width: calc(
+    min(1400px, 92vw)
+    * var(--tw-cb-scale, 1)
+    * (1 - var(--tw-cb-crop-sides, 0))
   );
-  -webkit-mask-image: radial-gradient(
-    ellipse 100% 100% at center,
-    black 80%,
-    transparent 100%
-  );
+  aspect-ratio: 1100 / calc(619 * (1 - var(--tw-cb-crop-bottom, 0)));
+  height: auto;
+  object-fit: cover;
+  object-position: center top;
+  /* Linear-gradient mask compositing — three soft fades (left, right,
+     bottom) with a hard top edge.
+       Layer A: horizontal fade — fades the left and right edges.
+       Layer B: vertical (bottom→top) fade — fades the bottom only;
+                "black 100%" at the top end means no fade up there.
+     mask-composite: intersect (and the webkit equivalent source-in)
+     show the image where BOTH masks say "show," so the three fades
+     stack cleanly instead of summing. */
+  -webkit-mask-image:
+    linear-gradient(to right,
+      transparent 0%,
+      black var(--tw-cb-side-fade, 8%),
+      black calc(100% - var(--tw-cb-side-fade, 8%)),
+      transparent 100%),
+    linear-gradient(to top,
+      transparent 0%,
+      black var(--tw-cb-bottom-fade, 15%),
+      black 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to right,
+      transparent 0%,
+      black var(--tw-cb-side-fade, 8%),
+      black calc(100% - var(--tw-cb-side-fade, 8%)),
+      transparent 100%),
+    linear-gradient(to top,
+      transparent 0%,
+      black var(--tw-cb-bottom-fade, 15%),
+      black 100%);
+  mask-composite: intersect;
 }
 
 
@@ -108,45 +146,70 @@
   z-index: 2;
 }
 
-.calloutBadge {
-  position: absolute;
-  top: var(--tw-cb-callout-top, 24px);
-  right: var(--tw-cb-callout-right, 24px);
-  max-width: 320px;
-  z-index: 3;
-  background: rgba(15, 16, 22, 0.78);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(168, 176, 243, 0.25);
-  /* (no border-left override — uniform 1px all around) */
-  padding: 16px 18px;
-  border-radius: 4px;
-}
-
-.calloutBadge p {
+/* "Polytecks grew out of..." — sits as a normal paragraph between the
+   section title and the image, left-aligned to the same edge as the title.
+   Same display-font/size as the SubpageHeader lede so the section's
+   typographic rhythm matches the page hero. Wide max-width so the line
+   breaks land naturally near the right margin instead of mid-clause. */
+.bodyText {
+  /* Same font-family as the SubpageHeader lede so the section reads as
+     a continuation of the subpage's typographic system. */
   font-family: var(--font-sans);
   font-weight: 300;
-  font-size: 13px;
+  font-size: clamp(18px, 1.6vw, 26px);
   line-height: 1.55;
   color: var(--ink);
-  margin: 0;
+  margin: 0 max(40px, calc(50vw - 530px)) 32px;
+  max-width: min(960px, calc(100vw - 80px));
+  text-wrap: pretty;
 }
 
-.imageOverlayText {
+/* ECG callout — plain white text floating over the image; no chrome.
+   Position is relative to the image (.media) so it tracks the image as
+   it scales/crops. Font size scales with the Cambridge image scale so the
+   callout stays visually proportional. Wider max-width keeps the copy on
+   ~2 lines instead of stacking 4 narrow ones. */
+.calloutText {
   position: absolute;
-  top: var(--tw-cb-overlay-top, 32px);
-  /* Position relative to the image content area (banner-w 1200px centered
-     in viewport). The slider value (px) offsets from the image's left edge:
-     0 = right at the image edge, positive = into the image, negative = into
-     the page margin to the left of the image. Outer max() guards narrow
-     viewports so the overlay never goes negative-left of the viewport. */
-  left: max(20px, calc(50vw - var(--banner-w, 1200px) / 2 + var(--tw-cb-overlay-left, 0px)));
+  top: var(--tw-cb-callout-top, 32px);
+  left: var(--tw-cb-callout-left, 65vw);
   max-width: 480px;
   z-index: 3;
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-size: clamp(18px, 1.6vw, 24px);
-  line-height: 1.4;
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: calc(13px * var(--tw-cb-scale, 1));
+  line-height: 1.5;
   color: var(--ink);
   margin: 0;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.55);
+  pointer-events: none;
+}
+
+@media (max-width: 720px) {
+  .section {
+    /* Tighten the section's bleed margins so it doesn't push past nav padding. */
+    margin-top: clamp(120px, 20vh, 200px);
+    margin-bottom: clamp(80px, 12vh, 140px);
+  }
+  .title {
+    /* Use viewport-relative gutters on mobile so the title doesn't get
+       max(40px, …) which over-pads at small widths. */
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+  .bodyText {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    font-size: clamp(15px, 4.4vw, 18px);
+  }
+  .calloutText {
+    /* Pull the callout in tight to the image's right side instead of
+       hanging at 65vw which over-pads on a 390px viewport. */
+    left: auto;
+    right: 16px;
+    top: 12px;
+    max-width: 60vw;
+    font-size: calc(11px * var(--tw-cb-scale, 1));
+  }
 }

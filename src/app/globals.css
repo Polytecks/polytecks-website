@@ -202,6 +202,13 @@
   body {
     @apply bg-background text-foreground;
     -webkit-font-smoothing: antialiased;
+    /* Clip horizontal overflow so free-floating fixed/absolute layers
+       (e.g. the contact-page feature image when offset off-right) don't
+       trigger a horizontal scrollbar.
+       `overflow-x: clip` (vs hidden) does NOT create a scroll container,
+       so position:sticky descendants (proof section) remain anchored to
+       the viewport. */
+    overflow-x: clip;
   }
 }
 

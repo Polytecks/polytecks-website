@@ -62,13 +62,26 @@ export type TweakValues = {
   stackDurationMs: number;     // 200 → 1500
   stackOverlapPct: number;     // 0 → 100 (% overlap with previous element's animation)
   pillarCardStaggerMs: number; // 0 → 500
+  devicesIconStaggerMs: number; // 20 → 250 (ms between each icon entry)
 
-  // Cambridge callout badge position
-  cambridgeCalloutTop: number;   // 8 → 80 (px from top)
-  cambridgeCalloutRight: number; // 8 → 120 (px from right)
-  // Cambridge overlay text position
-  cambridgeOverlayTop: number;   // 0 → 120 (px from top of image)
-  cambridgeOverlayLeft: number;  // -100 → 100 (px from left of image)
+  // Cambridge callout text position (relative to the image)
+  // Wider ranges so the callout can be placed anywhere over/around the image.
+  cambridgeCalloutTopVh: number;   // 0 → 100 (vh — top offset from image top)
+  cambridgeCalloutLeftVw: number;  // 0 → 100 (vw — left offset from image left)
+  // Cambridge image fade controls
+  cambridgeImgScale: number;     // 0.4 → 1.5, default 1 (multiplier on base size)
+  cambridgeCropBottom: number;   // 0 → 0.6, default 0 (fraction trimmed from bottom)
+  cambridgeCropSides: number;    // 0 → 0.4, default 0 (fraction trimmed from sides)
+  cambridgeSideFadePct: number;  // 0 → 30, default 8 (% reach inward from each side)
+  cambridgeBottomFadePct: number;// 0 → 50, default 15 (% reach upward from bottom)
+
+
+  // Contact image — independent: image scale, offset, spotlight position, spotlight size
+  contactImgScale: number;       // 0.5 → 2.0, default 1 (multiplier on rendered width/height)
+  contactImgOffsetXPct: number;  // 0 → 40, default 0 (% of image width shifted right, off-screen)
+  contactSpotXPct: number;       // 30 → 100, default 67 (X centre of spotlight, viewport-anchored)
+  contactSpotYPct: number;       // 20 → 80, default 50 (Y centre of spotlight, viewport-anchored)
+  contactSpotSizePct: number;    // 30 → 120, default 80 (radial-gradient size, both axes)
 
   // Landing entry animation timing
   landingArmDelayMs: number;       // 0 → 3000
@@ -78,7 +91,7 @@ export type TweakValues = {
   landingElemDurationMs: number;   // 200 → 2000
   landingHeroShiftPx: number;      // 0 → 200, default 0
 
-  proofPulseIntensity: number;         // 0 → 0.15, default 0.04
+  proofPulseIntensity: number;         // 0 → 0.15, default 0.04 (legacy — kept for backward compat with stored snapshots; no longer used)
 
   // Spacing controls (Tab 4) — vertical gaps in px
   homeMissionMargin: number;          // 0 → 200, default 80
@@ -89,6 +102,10 @@ export type TweakValues = {
   techHeroToPillars: number;          // 0 → 200, default 0
   techPillarsToProof: number;         // 0 → 200, default 0
   techProofToPhilosophy: number;      // 0 → 200, default 0
+  devicesHeaderToStrip: number;       // 0 → 160, default 32 (px above icon strip)
+  devicesStripGapBelow: number;       // 0 → 160, default 32 (px below icon strip, before tabs)
+  devicesIconRowGapY: number;         // 12 → 64, default 12 (px between icon and label inside strip)
+  careersValuesBottom: number;        // 80 → 480, default 200 (px black-panel padding under values grid before fade)
 };
 
 const DEFAULT_IMAGE_TWEAK: ImageTweak = {
@@ -141,11 +158,22 @@ export const TWEAK_DEFAULTS: TweakValues = {
   stackDurationMs: 600,
   stackOverlapPct: 30,
   pillarCardStaggerMs: 120,
+  devicesIconStaggerMs: 80,
 
-  cambridgeCalloutTop: 24,
-  cambridgeCalloutRight: 24,
-  cambridgeOverlayTop: 32,
-  cambridgeOverlayLeft: -40,
+  cambridgeCalloutTopVh: 4,
+  cambridgeCalloutLeftVw: 60,
+  cambridgeImgScale: 1,
+  cambridgeCropBottom: 0,
+  cambridgeCropSides: 0,
+  cambridgeSideFadePct: 8,
+  cambridgeBottomFadePct: 15,
+
+
+  contactImgScale: 1,
+  contactImgOffsetXPct: 0,
+  contactSpotXPct: 67,
+  contactSpotYPct: 50,
+  contactSpotSizePct: 80,
 
   landingArmDelayMs: 800,
   landingSubDelayMs: 1600,
@@ -162,6 +190,10 @@ export const TWEAK_DEFAULTS: TweakValues = {
   techHeroToPillars: 0,
   techPillarsToProof: 0,
   techProofToPhilosophy: 0,
+  devicesHeaderToStrip: 32,
+  devicesStripGapBelow: 32,
+  devicesIconRowGapY: 12,
+  careersValuesBottom: 200,
 };
 
 const STORAGE_KEY = "polytecks:tweaks";
@@ -223,14 +255,26 @@ function applyToBody(values: TweakValues) {
   const staggerMs = Math.round(values.stackDurationMs * (1 - values.stackOverlapPct / 100));
   body.style.setProperty("--stack-stagger-ms", `${staggerMs}ms`);
   body.style.setProperty("--pillar-card-stagger-ms", `${values.pillarCardStaggerMs}ms`);
+  body.style.setProperty("--devices-icon-stagger-ms", `${values.devicesIconStaggerMs}ms`);
 
-  // Cambridge callout badge position
-  body.style.setProperty("--tw-cb-callout-top", `${values.cambridgeCalloutTop}px`);
-  body.style.setProperty("--tw-cb-callout-right", `${values.cambridgeCalloutRight}px`);
+  // Cambridge callout text position — vh / vw so the slider scales with viewport.
+  body.style.setProperty("--tw-cb-callout-top", `${values.cambridgeCalloutTopVh}vh`);
+  body.style.setProperty("--tw-cb-callout-left", `${values.cambridgeCalloutLeftVw}vw`);
 
-  // Cambridge overlay text position
-  body.style.setProperty("--tw-cb-overlay-top", `${values.cambridgeOverlayTop}px`);
-  body.style.setProperty("--tw-cb-overlay-left", `${values.cambridgeOverlayLeft}px`);
+  // Cambridge image — single source of truth: the box.
+  body.style.setProperty("--tw-cb-scale", String(values.cambridgeImgScale));
+  body.style.setProperty("--tw-cb-crop-bottom", String(values.cambridgeCropBottom));
+  body.style.setProperty("--tw-cb-crop-sides", String(values.cambridgeCropSides));
+  body.style.setProperty("--tw-cb-side-fade", `${values.cambridgeSideFadePct}%`);
+  body.style.setProperty("--tw-cb-bottom-fade", `${values.cambridgeBottomFadePct}%`);
+
+
+  // Contact image — scale, offset, spotlight (all independent)
+  body.style.setProperty("--tw-contact-img-scale", String(values.contactImgScale));
+  body.style.setProperty("--tw-contact-img-offset-x", `${values.contactImgOffsetXPct}%`);
+  body.style.setProperty("--tw-contact-spot-x", `${values.contactSpotXPct}%`);
+  body.style.setProperty("--tw-contact-spot-y", `${values.contactSpotYPct}%`);
+  body.style.setProperty("--tw-contact-spot-size", `${values.contactSpotSizePct}%`);
 
   // Spacing
   body.style.setProperty("--sp-home-mission", `${values.homeMissionMargin}px`);
@@ -241,6 +285,10 @@ function applyToBody(values: TweakValues) {
   body.style.setProperty("--sp-tech-hero-to-pillars", `${values.techHeroToPillars}px`);
   body.style.setProperty("--sp-tech-pillars-to-proof", `${values.techPillarsToProof}px`);
   body.style.setProperty("--sp-tech-proof-to-philosophy", `${values.techProofToPhilosophy}px`);
+  body.style.setProperty("--sp-devices-header-to-strip", `${values.devicesHeaderToStrip}px`);
+  body.style.setProperty("--sp-devices-strip-gap-below", `${values.devicesStripGapBelow}px`);
+  body.style.setProperty("--sp-devices-icon-row-gap", `${values.devicesIconRowGapY}px`);
+  body.style.setProperty("--sp-careers-values-bottom", `${values.careersValuesBottom}px`);
 
   // Landing entry animation timing
   body.style.setProperty("--landing-arm-delay", `${values.landingArmDelayMs}ms`);

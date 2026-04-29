@@ -3,6 +3,12 @@
   bottom: 24px;
   right: 24px;
   width: 280px;
+  /* Cap the panel at the visible viewport (minus a small breathing margin)
+     so the body scroll area stays inside the screen even when many sliders
+     are added. */
+  max-height: calc(100vh - 48px);
+  display: flex;
+  flex-direction: column;
   z-index: 999;
   background: rgba(15, 16, 22, 0.85);
   backdrop-filter: blur(12px);
@@ -12,6 +18,7 @@
   font-family: var(--font-mono);
   color: var(--ink);
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
 }
 
 .bar {
@@ -45,8 +52,27 @@
 
 .toggle:hover, .reset:hover { color: var(--ink); }
 
-.body { padding: 14px; display: grid; gap: 14px; }
+.body {
+  padding: 14px;
+  display: grid;
+  gap: 14px;
+  /* Scroll the slider list when it overflows the panel's max-height. */
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  /* Thin webkit scrollbar so it doesn't clash with the panel chrome. */
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-strong) transparent;
+}
 .body[data-collapsed="true"] { display: none; }
+
+.body::-webkit-scrollbar { width: 8px; }
+.body::-webkit-scrollbar-thumb {
+  background: var(--line-strong);
+  border-radius: 4px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+.body::-webkit-scrollbar-track { background: transparent; }
 
 .row { display: grid; gap: 6px; }
 

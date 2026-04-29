@@ -5,20 +5,33 @@ import { Philosophy } from "@/components/technology/philosophy";
 import { PillarSection } from "@/components/technology/pillars/pillar-section";
 import { ProofSection } from "@/components/technology/proof-section/proof-section";
 
+/* Top-down page sequence (absolute delays in ms):
+ *   Hero eyebrow:    0    (SubpageHeader internal index 0)
+ *   Hero title:      ~stack-stagger-ms  (index 1)
+ *   Hero lede:       ~2*stack-stagger-ms (index 2)
+ *   Pillar title:    1500
+ *   Pillar cards:    1750 + i × pillar-card-stagger-ms  (handled in PillarSection)
+ *   Proof section:   2700
+ *   Philosophy:      3000
+ *   Charge link:     3300
+ *
+ * Each section anchors itself to a fixed clock offset so the visual order
+ * is strict top-down regardless of the global stack-stagger setting. */
 export default function TechnologyPage() {
   return (
     <>
-      {/* TechnologyHero wraps its SubpageHeader in StackEntry index={0} internally */}
+      {/* TechnologyHero contains the SubpageHeader (eyebrow/title/lede at
+          internal indices 0/1/2). No outer StackEntry wrapper — those
+          internal indices already provide the staggered entry. */}
       <TechnologyHero />
-      {/* PillarSection handles its own per-card stagger (right-to-left, indices 1–3) */}
       <PillarSection />
-      <StackEntry index={4}>
+      <StackEntry delayMs={2700}>
         <ProofSection />
       </StackEntry>
-      <StackEntry index={5}>
+      <StackEntry delayMs={3000}>
         <Philosophy />
       </StackEntry>
-      <StackEntry index={6}>
+      <StackEntry delayMs={3300}>
         <section
           style={{
             maxWidth: 1400,

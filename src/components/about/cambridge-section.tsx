@@ -8,10 +8,12 @@ export function CambridgeSection() {
         From Origins at the <em>University of Cambridge</em>
       </h2>
 
+      <p className={styles.bodyText}>
+        Polytecks grew out of the Cambridge ecosystem, and maintains strong
+        research links with the university.
+      </p>
+
       <div className={styles.body}>
-        <p className={styles.imageOverlayText}>
-          Polytecks grew out of the Cambridge ecosystem, and maintains strong research links with the university.
-        </p>
         <div className={styles.media}>
           <Image
             src="/assets/cambridge.png"
@@ -21,9 +23,10 @@ export function CambridgeSection() {
             sizes="100vw"
             priority
           />
-          <div className={styles.calloutBadge}>
-            <p>The ECG was first made in Cambridge over a century ago. The next chapter starts here too.</p>
-          </div>
+          <p className={styles.calloutText}>
+            The ECG was first made in Cambridge over a century ago. The next
+            chapter starts here too.
+          </p>
         </div>
       </div>
     </section>

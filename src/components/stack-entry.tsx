@@ -17,10 +17,16 @@ import styles from "./stack-entry.module.css";
 export function StackEntry({
   children,
   index = 0,
+  delayMs,
   className,
 }: {
   children: ReactNode;
   index?: number;
+  /** Absolute delay (ms) before the entry animation begins. Overrides
+   *  the default index × --stack-stagger-ms calculation when provided.
+   *  Use this when ordering elements globally across components, where
+   *  index×stagger doesn't compose cleanly. */
+  delayMs?: number;
   className?: string;
 }) {
   const [replayKey, setReplayKey] = useState(0);
@@ -30,11 +36,16 @@ export function StackEntry({
     return () => window.removeEventListener("polytecks:replay-page", handler);
   }, []);
 
+  const style: CSSProperties = { ["--stack-i" as string]: index };
+  if (delayMs !== undefined) {
+    style["--stack-delay-ms" as keyof CSSProperties] = `${delayMs}ms` as never;
+  }
+
   return (
     <div
       key={replayKey}
       className={`${styles.wrap} ${className ?? ""}`.trim()}
-      style={{ ["--stack-i" as string]: index } as CSSProperties}
+      style={style}
     >
       <div className={styles.inner}>{children}</div>
     </div>

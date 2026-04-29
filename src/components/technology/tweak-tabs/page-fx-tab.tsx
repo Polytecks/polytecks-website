@@ -47,6 +47,9 @@ export function PageFxTab() {
       <Slider label="Pillar cards stagger" value={values.pillarCardStaggerMs} min={0} max={500} step={20}
         format={(v) => `${v}ms`}
         onChange={(v) => setValue("pillarCardStaggerMs", v)} />
+      <Slider label="Devices icons stagger" value={values.devicesIconStaggerMs} min={20} max={250} step={10}
+        format={(v) => `${v}ms`}
+        onChange={(v) => setValue("devicesIconStaggerMs", v)} />
 
       <div className={styles.divider} />
 
@@ -85,18 +88,50 @@ export function PageFxTab() {
 
       <div className={styles.divider} />
 
-      <Slider label="Cambridge cb top" value={values.cambridgeCalloutTop} min={8} max={80} step={2}
-        format={(v) => `${v}px`}
-        onChange={(v) => setValue("cambridgeCalloutTop", v)} />
-      <Slider label="Cambridge cb right" value={values.cambridgeCalloutRight} min={8} max={120} step={2}
-        format={(v) => `${v}px`}
-        onChange={(v) => setValue("cambridgeCalloutRight", v)} />
-      <Slider label="Cambridge cp top" value={values.cambridgeOverlayTop} min={0} max={120} step={2}
-        format={(v) => `${v}px`}
-        onChange={(v) => setValue("cambridgeOverlayTop", v)} />
-      <Slider label="Cambridge cp left" value={values.cambridgeOverlayLeft} min={-100} max={100} step={2}
-        format={(v) => `${v}px`}
-        onChange={(v) => setValue("cambridgeOverlayLeft", v)} />
+      <Slider label="Cambridge callout top" value={values.cambridgeCalloutTopVh} min={0} max={100} step={1}
+        format={(v) => `${v}vh`}
+        onChange={(v) => setValue("cambridgeCalloutTopVh", v)} />
+      <Slider label="Cambridge callout left" value={values.cambridgeCalloutLeftVw} min={0} max={100} step={1}
+        format={(v) => `${v}vw`}
+        onChange={(v) => setValue("cambridgeCalloutLeftVw", v)} />
+      <Slider label="Cambridge scale" value={values.cambridgeImgScale} min={0.4} max={1.5} step={0.02}
+        format={(v) => `${v.toFixed(2)}×`}
+        onChange={(v) => setValue("cambridgeImgScale", v)} />
+      <Slider label="Cambridge crop bottom" value={values.cambridgeCropBottom} min={0} max={0.6} step={0.02}
+        format={(v) => `${Math.round(v * 100)}%`}
+        onChange={(v) => setValue("cambridgeCropBottom", v)} />
+      <Slider label="Cambridge crop sides" value={values.cambridgeCropSides} min={0} max={0.4} step={0.02}
+        format={(v) => `${Math.round(v * 100)}%`}
+        onChange={(v) => setValue("cambridgeCropSides", v)} />
+      <Slider label="Cambridge side fade" value={values.cambridgeSideFadePct} min={0} max={30} step={1}
+        format={(v) => `${v}%`}
+        onChange={(v) => setValue("cambridgeSideFadePct", v)} />
+      <Slider label="Cambridge bottom fade" value={values.cambridgeBottomFadePct} min={0} max={50} step={1}
+        format={(v) => `${v}%`}
+        onChange={(v) => setValue("cambridgeBottomFadePct", v)} />
+
+
+      <div className={styles.divider} />
+
+      {/* Contact image — scale, offset, and spotlight are fully independent. */}
+      <div className={styles.row}>
+        <div className={styles.rowLabel}><span>CONTACT IMAGE</span></div>
+      </div>
+      <Slider label="Image scale" value={values.contactImgScale} min={0.5} max={2} step={0.05}
+        format={(v) => `${v.toFixed(2)}×`}
+        onChange={(v) => setValue("contactImgScale", v)} />
+      <Slider label="Image offset X" value={values.contactImgOffsetXPct} min={0} max={40} step={1}
+        format={(v) => `${v}%`}
+        onChange={(v) => setValue("contactImgOffsetXPct", v)} />
+      <Slider label="Spotlight X" value={values.contactSpotXPct} min={30} max={100} step={1}
+        format={(v) => `${v}%`}
+        onChange={(v) => setValue("contactSpotXPct", v)} />
+      <Slider label="Spotlight Y" value={values.contactSpotYPct} min={20} max={80} step={1}
+        format={(v) => `${v}%`}
+        onChange={(v) => setValue("contactSpotYPct", v)} />
+      <Slider label="Spotlight size" value={values.contactSpotSizePct} min={30} max={120} step={1}
+        format={(v) => `${v}%`}
+        onChange={(v) => setValue("contactSpotSizePct", v)} />
     </>
   );
 }

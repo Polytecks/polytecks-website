@@ -15,8 +15,15 @@
 }
 
 .logo {
-  height: 40px;
+  /* Constrain in BOTH dimensions so logos with wildly different aspect
+     ratios (Cambridge crest, IMPERIAL wordmark, UCL shield, Durham
+     crest) all read as the same visual unit on the row. The shorter
+     constraint wins per-logo. */
+  max-height: 52px;
+  max-width: 160px;
+  height: auto;
   width: auto;
+  object-fit: contain;
   filter: grayscale(1);
 }
 

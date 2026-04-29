@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const NAV_ITEMS = [
   { href: "/about", label: "About Us" },
@@ -14,6 +15,22 @@ const NAV_ITEMS = [
 
 export function TopNav() {
   const pathname = usePathname();
+  const [open, setOpen] = useState(false);
+
+  // Close the menu whenever the route changes (link click).
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
+
+  // Lock body scroll while the menu is open so the user can't scroll
+  // the page underneath the overlay.
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
 
   return (
     <header
@@ -32,7 +49,9 @@ export function TopNav() {
             style={{ width: "auto" }}
           />
         </Link>
-        <ul className="flex items-center gap-1">
+
+        {/* Desktop link list — hidden below 720px. */}
+        <ul className="hidden items-center gap-1 [@media(min-width:720px)]:flex">
           {NAV_ITEMS.map(({ href, label }) => {
             const active =
               pathname === href || pathname.startsWith(`${href}/`);
@@ -50,7 +69,61 @@ export function TopNav() {
             );
           })}
         </ul>
+
+        {/* Mobile hamburger button — visible below 720px. */}
+        <button
+          type="button"
+          aria-expanded={open}
+          aria-controls="mobile-nav-overlay"
+          aria-label={open ? "Close menu" : "Open menu"}
+          onClick={() => setOpen((v) => !v)}
+          className="flex h-9 w-9 flex-col items-center justify-center gap-[5px] rounded-md text-ink hover:text-ink [@media(min-width:720px)]:hidden"
+        >
+          <span
+            className="block h-[1.5px] w-[22px] origin-center bg-current transition-transform duration-200"
+            style={{ transform: open ? "translateY(6.5px) rotate(45deg)" : "" }}
+          />
+          <span
+            className="block h-[1.5px] w-[22px] bg-current transition-opacity duration-200"
+            style={{ opacity: open ? 0 : 1 }}
+          />
+          <span
+            className="block h-[1.5px] w-[22px] origin-center bg-current transition-transform duration-200"
+            style={{ transform: open ? "translateY(-6.5px) rotate(-45deg)" : "" }}
+          />
+        </button>
       </nav>
+
+      {/* Full-viewport mobile menu overlay */}
+      <div
+        id="mobile-nav-overlay"
+        aria-hidden={!open}
+        className="fixed inset-x-0 top-[72px] bottom-0 z-40 bg-bg/95 backdrop-blur-md transition-[opacity,transform] duration-250 [@media(min-width:720px)]:hidden"
+        style={{
+          opacity: open ? 1 : 0,
+          transform: open ? "translateY(0)" : "translateY(-8px)",
+          pointerEvents: open ? "auto" : "none",
+        }}
+      >
+        <ul className="flex flex-col px-6 pt-10">
+          {NAV_ITEMS.map(({ href, label }) => {
+            const active =
+              pathname === href || pathname.startsWith(`${href}/`);
+            return (
+              <li key={href}>
+                <Link
+                  href={href}
+                  className={`block border-b border-line py-5 font-display text-[28px] font-light tracking-[-0.01em] transition-colors hover:text-ink ${
+                    active ? "text-ink" : "text-ink-dim"
+                  }`}
+                >
+                  {label}
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
     </header>
   );
 }

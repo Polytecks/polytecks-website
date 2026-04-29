@@ -40,9 +40,14 @@ export function PillarSection() {
     return () => window.removeEventListener("keydown", handleEscape);
   }, [handleEscape]);
 
+  // Title fires after the hero's lede (~1500ms with default timing).
+  // Cards cascade left-to-right starting after the title is mid-fade.
+  const TITLE_DELAY_MS = 1500;
+  const CARDS_BASE_DELAY_MS = 1750;
+
   return (
     <section className={styles.section} aria-label="Three pillars of the technology">
-      <StackEntry index={0}>
+      <StackEntry delayMs={TITLE_DELAY_MS}>
         <h2 className={styles.title}>
           The electrode. <em>Reimagined from first principles.</em>
         </h2>
@@ -66,6 +71,8 @@ export function PillarSection() {
             animMs={values.animMs}
             // Left-to-right stagger: leftmost card (i=0) appears first (entryIndex=0).
             entryIndex={i}
+            staggerMs={values.pillarCardStaggerMs}
+            baseDelayMs={CARDS_BASE_DELAY_MS}
             onActivate={() => setActiveId(p.id)}
             onDeactivate={() => {
               setActiveId((curr) => (curr === p.id ? null : curr));

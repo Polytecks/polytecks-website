@@ -1,8 +1,31 @@
 .section {
   position: relative;
+  z-index: 1;                          /* sits above the open-roles panel */
   width: 100%;
   background: var(--bg);
-  padding: clamp(80px, 10vh, 140px) 0;
+  /* Bottom padding tweakable so the user can dial how much black panel
+     sits below the values grid before the white open-roles panel. The
+     fade strip itself is fixed at 120px on top of this. */
+  padding-top: clamp(80px, 10vh, 140px);
+  padding-bottom: var(--sp-careers-values-bottom, 200px);
+  /* Symmetric ~120-pixel fade at the BOTTOM, mirroring the soft fade
+     where the careers-hero overlay meets the top of this panel. The
+     fade is set in fixed CSS pixels (not a percentage of section height)
+     so the falloff distance stays constant regardless of how tall the
+     section grows with content. The white open-roles panel below uses
+     a matching negative margin so its surface shows through here. */
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    rgb(0, 0, 0) 0,
+    rgb(0, 0, 0) calc(100% - 120px),
+    rgba(0, 0, 0, 0) 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    rgb(0, 0, 0) 0,
+    rgb(0, 0, 0) calc(100% - 120px),
+    rgba(0, 0, 0, 0) 100%
+  );
 }
 
 .inner {
@@ -34,11 +57,10 @@
 }
 
 .icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  border: 1px solid var(--line-strong);
-  background: rgba(255, 255, 255, 0.02);
+  display: block;
+  width: clamp(64px, 6vw, 96px);
+  height: auto;
+  object-fit: contain;
 }
 
 .valueTitle {

@@ -83,7 +83,7 @@
   font-weight: 300;
   font-size: clamp(14px, 1.1vw, 16px);
   line-height: 1.5;
-  color: var(--ink-dim);
+  color: var(--ink);
   margin: 0;
 }
 

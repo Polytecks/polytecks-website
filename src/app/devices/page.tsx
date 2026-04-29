@@ -1,8 +1,8 @@
 import { AppBlock } from "@/components/devices/app-block";
 import { ApplicationsStrip } from "@/components/devices/applications-strip";
 import { DevicesTabs } from "@/components/devices/devices-tabs";
+import { TabsEntry } from "@/components/devices/tabs-entry";
 import { VeterinaryPanel } from "@/components/devices/veterinary-panel";
-import { StackEntry } from "@/components/stack-entry";
 import { Subpage, SubpageHeader } from "@/components/subpage";
 
 const ClinicalPanel = () => (
@@ -55,12 +55,12 @@ export default function DevicesPage() {
             Making disease easier to <em>spot</em>, diagnose, and manage.
           </>
         }
-        lede="The Mosaic Sensor platform can bring imaging-level insights into primary care — and even earlier. Across all domains of health."
+        lede="The Mosaic Sensor platform can bring imaging-level insights into primary care, and even earlier. Across all domains of health."
       />
       <ApplicationsStrip />
-      <StackEntry index={9}>
+      <TabsEntry>
         <DevicesTabs tabs={TABS} />
-      </StackEntry>
+      </TabsEntry>
     </Subpage>
   );
 }
