@@ -267,4 +267,12 @@
   .nowrap {
     white-space: normal;
   }
+  /* Retime entry animations to match the mobile visual order
+     (heading → sub → arm → CTAs). Desktop fades arm before sub, which
+     is the wrong direction on mobile because arm now sits below sub.
+     Cascade top-to-bottom; last element starts at 1450ms. */
+  .sub                   { animation-delay: 750ms; }
+  .arm                   { animation-delay: 1000ms; }
+  .ctas > *:nth-child(1) { animation-delay: 1300ms; }
+  .ctas > *:nth-child(2) { animation-delay: 1450ms; }
 }
