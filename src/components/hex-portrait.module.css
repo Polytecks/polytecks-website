@@ -102,6 +102,15 @@
   .card:hover .ring { animation: none; }
 }
 
+/* Touch devices never fire :hover, so the rotation animation is dead
+   code on mobile — disable it explicitly so the keyframe is never even
+   registered. Same for the hover-zoom transform. (MOBILE_STRATEGY.md §4.23) */
+@media (hover: none) {
+  .card:hover .ring { animation: none; }
+  .card:hover .clip img { transform: none; }
+  .card:hover .frame { filter: drop-shadow(0 0 10px rgba(106, 116, 220, 0.4)); }
+}
+
 .name {
   font-family: var(--font-display);
   font-size: 18px;
