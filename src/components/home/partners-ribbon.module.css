@@ -62,6 +62,23 @@
   animation: slidePx var(--ribbon-loop-duration, 32s) linear infinite;
 }
 
+/* Per MOBILE_STRATEGY.md §4.5 — the loop offset (half-set width) doesn't
+   shrink much with viewport because the partner items aren't fluid, but
+   a 32s sweep on a phone feels glacial. Compress duration on smaller
+   viewports so the perceived scroll-through-frame speed stays roughly
+   constant. */
+@media (max-width: 720px) {
+  .track {
+    --ribbon-loop-duration: 16s;
+  }
+}
+
+@media (max-width: 560px) {
+  .track {
+    --ribbon-loop-duration: 11s;
+  }
+}
+
 @keyframes slidePx {
   from { transform: translateX(0); }
   to   { transform: translateX(calc(-1 * var(--ribbon-loop-offset, 50%))); }
