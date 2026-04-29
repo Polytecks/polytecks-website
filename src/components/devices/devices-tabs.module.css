@@ -56,7 +56,11 @@
 }
 
 @media (max-width: 720px) {
-  .tab { padding: 10px 18px; font-size: 13px; }
+  /* Touch-target compliance per MOBILE_STRATEGY.md §4.16 / §5.5 — 44px
+     minimum tap height. Desktop tab uses padding 11px×28px → ~38px tall
+     including font, which is below threshold. Bump padding so each tab
+     pill is ≥44px tall. */
+  .tab { padding: 14px 22px; font-size: 13px; min-height: 44px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
