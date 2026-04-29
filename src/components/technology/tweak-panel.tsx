@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useTweaks } from "@/lib/use-tweaks";
+import { useIsMobile } from "@/lib/use-is-mobile";
 import { PillarsTab } from "./tweak-tabs/pillars-tab";
 import { ProofTab } from "./tweak-tabs/proof-tab";
 import { PageFxTab } from "./tweak-tabs/page-fx-tab";
@@ -25,6 +26,10 @@ export function TweakPanel() {
   const [activeTab, setActiveTab] = useState<TabId>("pillars");
   const [snapshotMsg, setSnapshotMsg] = useState<string | null>(null);
   const { values, reset } = useTweaks();
+  // Hide the dev panel on touch / narrow viewports per MOBILE_STRATEGY.md
+  // §4.22 — tweaking is desktop-only and the panel occupies a large
+  // fraction of a phone viewport.
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const check = () => {
@@ -50,7 +55,7 @@ export function TweakPanel() {
     try { window.localStorage.setItem(TAB_STORAGE_KEY, activeTab); } catch { /* ignore */ }
   }, [activeTab]);
 
-  if (!enabled) return null;
+  if (!enabled || isMobile) return null;
 
   const saveSnapshot = async () => {
     setSnapshotMsg("Saving…");
