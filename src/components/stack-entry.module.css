@@ -31,3 +31,13 @@
     opacity: 1;
   }
 }
+
+/* Per MOBILE_STRATEGY.md §4.24 — compress the entry cascade on mobile.
+   The desktop default of 420ms per index step looks deliberate at wide
+   viewports but feels slow on a phone where the user has already
+   scrolled past elements before they finish settling. */
+@media (max-width: 720px) {
+  .wrap {
+    --stack-stagger-ms: 280ms;
+  }
+}
