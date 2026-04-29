@@ -1,0 +1,87 @@
+/* MobileProofSection — horizontal scroll-snap row of three white cards
+   per MOBILE_STRATEGY.md §4.12. */
+
+.section {
+  /* Same warm-white surface that the desktop proof panel uses, so the
+     visual identity (dark page → bright proof moment → dark page) is
+     preserved on mobile. */
+  background: #ffffff;
+  position: relative;
+  padding: clamp(56px, 9vh, 96px) 0;
+  /* Subtle top + bottom mask fade so the white panel dissolves into the
+     dark page surfaces above and below — keeps the mask-fade dissolve
+     identity on mobile per §3 of the strategy doc. */
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    rgb(0, 0, 0) 6%,
+    rgb(0, 0, 0) 94%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    rgb(0, 0, 0) 6%,
+    rgb(0, 0, 0) 94%,
+    transparent 100%
+  );
+}
+
+.scroller {
+  display: flex;
+  gap: 16px;
+  /* Horizontal scroll with snap. Padding pushes the first / last card
+     into a centered start position. */
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 10vw;
+  padding: 8px 10vw;
+  /* Hide the scrollbar but keep wheel/touch scroll active. */
+  scrollbar-width: none;
+}
+
+.scroller::-webkit-scrollbar {
+  display: none;
+}
+
+.card {
+  flex: 0 0 80vw;
+  /* Each card a tall portrait so the number reads as a big visual anchor.
+     Clamped so very tall phones (1024+) don't render an absurd card. */
+  min-height: clamp(360px, 56vh, 520px);
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 32px 24px;
+  /* No card chrome — the numbers are the visual; let the white panel
+     itself be the surface. */
+}
+
+.number {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(80px, 22vw, 140px);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: #0a0a0e;
+  margin: 0 0 16px;
+}
+
+.label {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(16px, 4.6vw, 20px);
+  line-height: 1.4;
+  color: #0a0a0e;
+  max-width: 320px;
+  margin: 0;
+}
+
+.label strong {
+  font-weight: 600;
+}

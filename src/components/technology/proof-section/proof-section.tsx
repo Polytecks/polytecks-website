@@ -1,8 +1,9 @@
 "use client";
 
-import { motion, useScroll, useReducedMotion, useMotionValueEvent } from "framer-motion";
+import { useScroll, useReducedMotion, useMotionValueEvent } from "framer-motion";
 import { useRef, useState, useSyncExternalStore } from "react";
 import { useTweaks } from "@/lib/use-tweaks";
+import { MobileProofSection } from "./mobile-proof-section";
 import { ProofCard, type ProofCardData } from "./proof-card";
 import styles from "./proof-section.module.css";
 
@@ -61,32 +62,12 @@ export function ProofSection() {
     }
   });
 
-  // Mobile or reduced motion: render a non-pinned stack with simple
-  // whileInView reveals. data-static makes the static layout fire even on
-  // wide viewports for reduced-motion users.
+  // Mobile (≤720px) or reduced motion: render the dedicated horizontal
+  // scroll-snap component. Per MOBILE_STRATEGY.md §4.12, the scroll-pinned
+  // 100vh experience is desktop-only and the previous in-line static
+  // fallback (vertical stack inside a tall white panel) felt empty.
   if (isMobile || reducedMotion) {
-    return (
-      <section className={styles.outer} data-static="true">
-        <div className={styles.sticky}>
-          <div className={styles.panel}>
-            <div className="whiteVignette" aria-hidden="true" />
-            {STATS.map((stat, i) => (
-              <motion.div
-                key={i}
-                className={styles.card}
-                initial={{ opacity: 0, scale: 0.85 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true, amount: 0.4 }}
-                transition={{ duration: 0.6, ease: [0.2, 0.7, 0.2, 1] }}
-              >
-                <p className={styles.cardNumber}>{stat.number}</p>
-                <p className={styles.cardLabel}>{stat.label}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-    );
+    return <MobileProofSection />;
   }
 
   return (
