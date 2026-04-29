@@ -76,11 +76,24 @@
 }
 .legalLink:hover { color: var(--ink-dim); }
 
-@media (max-width: 720px) {
+/* Per MOBILE_STRATEGY.md §4.2 — collapse to 2-col at ≤960 px (logo +
+   Explore in one row, Company + Connect in the next; or auto-flow as
+   browser sees fit) and 1-col at ≤560 px. The intermediate 2-col stage
+   keeps the column-label rhythm intact rather than slamming straight to
+   a single column. */
+@media (max-width: 960px) {
+  .top {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+    padding: 56px 24px 24px;
+  }
+}
+
+@media (max-width: 560px) {
   .top {
     grid-template-columns: 1fr;
-    gap: 48px;
-    padding: 56px 20px 24px;
+    gap: 36px;
+    padding: 48px 20px 20px;
   }
   .bottom {
     flex-direction: column;
