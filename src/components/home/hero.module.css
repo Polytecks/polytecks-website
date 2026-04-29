@@ -53,6 +53,25 @@
   }
 }
 
+/* Per MOBILE_STRATEGY.md §4.3:
+   - CTA buttons: cap their width so they don't run off the edge.
+   - Headline word cascade: compress the 110ms-per-word stagger to ~75ms
+     so the unblur completes in ~600ms total instead of ~880ms (eight
+     words × 110ms). The end-result still reads left-to-right but
+     doesn't make the user wait. */
+@media (max-width: 720px) {
+  .ctas {
+    width: 100%;
+    max-width: 360px;
+  }
+  .ctas > * {
+    width: 100%;
+  }
+  .word {
+    animation-delay: calc(var(--wi, 0) * 75ms);
+  }
+}
+
 .headline {
   font-family: var(--font-display);
   font-weight: 300;
