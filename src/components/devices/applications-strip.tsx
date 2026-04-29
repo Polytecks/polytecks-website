@@ -35,7 +35,14 @@ function readHeaderEndMs(): number {
 function readIconStaggerMs(): number {
   if (typeof window === "undefined") return 80;
   const cs = getComputedStyle(document.body);
-  return parseFloat(cs.getPropertyValue("--devices-icon-stagger-ms")) || 80;
+  const tweakStagger = parseFloat(cs.getPropertyValue("--devices-icon-stagger-ms")) || 80;
+  // Per MOBILE_STRATEGY.md §4.15: compress the icon cascade on touch
+  // viewports. Six icons at 150ms each = 900ms of waiting; on a phone
+  // that feels deliberate-slow. Cap at 80ms below 720px.
+  if (typeof window !== "undefined" && window.matchMedia("(max-width: 720px)").matches) {
+    return Math.min(tweakStagger, 80);
+  }
+  return tweakStagger;
 }
 
 export function ApplicationsStrip() {
