@@ -33,6 +33,7 @@ export function TopNav() {
   }, [open]);
 
   return (
+    <>
     <header
       className="fixed inset-x-0 top-0 z-50 h-[72px] border-b border-line bg-bg/70 backdrop-blur-md"
       style={{ ["--nav-h" as string]: "72px" }}
@@ -93,13 +94,20 @@ export function TopNav() {
           />
         </button>
       </nav>
+    </header>
 
-      {/* Full-viewport mobile menu overlay */}
+    {/* Full-viewport mobile menu overlay — rendered as a SIBLING of <header>,
+        not a child. The header has backdrop-filter (bg-bg/70 backdrop-blur-md)
+        which makes it a containing block for any position:fixed descendant,
+        forcing the overlay's top:72px / bottom:0 to resolve against the 72px
+        header → height collapses to 0. Hoisting the overlay out of <header>
+        restores the viewport as its containing block. */}
       <div
         id="mobile-nav-overlay"
         aria-hidden={!open}
-        className="fixed inset-x-0 top-[72px] bottom-0 z-40 bg-bg/95 backdrop-blur-md transition-[opacity,transform] duration-250 [@media(min-width:720px)]:hidden"
+        className="fixed inset-x-0 top-[72px] bottom-0 z-40 transition-[opacity,transform] duration-250 [@media(min-width:720px)]:hidden"
         style={{
+          background: "var(--bg)",
           opacity: open ? 1 : 0,
           transform: open ? "translateY(0)" : "translateY(-8px)",
           pointerEvents: open ? "auto" : "none",
@@ -124,6 +132,6 @@ export function TopNav() {
           })}
         </ul>
       </div>
-    </header>
+    </>
   );
 }
