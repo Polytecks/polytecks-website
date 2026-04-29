@@ -1,0 +1,100 @@
+/* MobileCambridgeSection — flow-positioned mobile variant of the
+   Cambridge section per MOBILE_STRATEGY.md §4.7. */
+
+.section {
+  /* Full-bleed: matches the desktop section's negative-margin breakout
+     so the image can extend to the viewport edges. */
+  position: relative;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  margin-top: clamp(120px, 20vh, 200px);
+  margin-bottom: clamp(80px, 12vh, 140px);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(28px, 7vw, 36px);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin: 0 20px 20px;
+  text-wrap: balance;
+}
+
+.title em {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--indigo-bright);
+}
+
+.body {
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: clamp(15px, 4.4vw, 18px);
+  line-height: 1.55;
+  color: var(--ink);
+  margin: 0 20px 28px;
+  text-wrap: pretty;
+}
+
+.media {
+  position: relative;
+  width: calc(100% - 24px);
+  margin: 0 12px;
+  /* Locked aspect ratio — more square than desktop's 16:9 so the photo
+     doesn't dominate the scroll on tall phones. */
+  aspect-ratio: 4 / 3;
+}
+
+.media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  /* Preserve the desktop side + bottom mask fades. Top stays hard so the
+     building tops cut clean. (MOBILE_STRATEGY.md §3 identity preservation:
+     mask-fade dissolves at panel boundaries.) */
+  -webkit-mask-image:
+    linear-gradient(to right,
+      transparent 0%,
+      black 8%,
+      black 92%,
+      transparent 100%),
+    linear-gradient(to top,
+      transparent 0%,
+      black 18%,
+      black 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to right,
+      transparent 0%,
+      black 8%,
+      black 92%,
+      transparent 100%),
+    linear-gradient(to top,
+      transparent 0%,
+      black 18%,
+      black 100%);
+  mask-composite: intersect;
+}
+
+.callout {
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: clamp(14px, 4vw, 16px);
+  line-height: 1.55;
+  color: var(--ink);
+  margin: 24px 20px 0;
+  text-wrap: pretty;
+}
+
+.callout em {
+  /* Indigo-bright accent on the lead phrase — same treatment as
+     <em>Mosaic</em> across the site. Preserves the identity per §3. */
+  font-style: italic;
+  font-weight: 500;
+  color: var(--indigo-bright);
+}
