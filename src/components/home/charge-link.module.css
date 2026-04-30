@@ -139,12 +139,18 @@
     padding: 14px 32px;
     border: 1px solid var(--indigo-bright);
     border-radius: 999px;
+    /* Faint indigo tint (T3) — needed so the pill reads against the
+       moving topo lines that flow behind the hero. Active state lifts
+       a notch. -webkit-backdrop-filter for older iOS. */
+    background: rgba(106, 116, 220, 0.08);
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
     color: var(--indigo-bright);
     text-align: center;
     transition: background-color 0.2s, color 0.2s;
   }
   .link:active {
-    background: rgba(106, 116, 220, 0.18);
+    background: rgba(106, 116, 220, 0.16);
   }
   .label {
     font-family: var(--font-mono);
