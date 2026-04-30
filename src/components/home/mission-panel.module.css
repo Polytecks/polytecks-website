@@ -35,6 +35,11 @@
   display: inline-flex;
   align-items: center;
   gap: 14px;
+  /* WebKit shrinks this inline-flex's preferred size below the text's
+     natural width, then wraps "OUR MISSION" at the space (rendering as
+     two lines, hairlines flanking each). nowrap pins the text together
+     so the flex container sizes around it on every engine. */
+  white-space: nowrap;
 }
 
 .eyebrow::before,
