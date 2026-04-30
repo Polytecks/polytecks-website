@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
 import { TopNav } from "@/components/top-nav";
 import { Footer } from "@/components/footer/footer";
@@ -31,6 +31,16 @@ export const metadata: Metadata = {
   title: "Polytecks — Making the Skin a Window into the Body",
   description:
     "Polytecks is a Cambridge-based medical technology company developing bioelectrical mapping for enhanced diagnostics.",
+};
+
+// Without initial-scale=1, iOS Safari falls back to a wider implied
+// layout viewport (often 980 px), which makes mobile @media queries
+// miss and pushes fixed/full-width content off the right edge of the
+// visual viewport — exactly the "panel extends past the viewport,
+// content reads off-centre" symptom we saw on real devices.
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({

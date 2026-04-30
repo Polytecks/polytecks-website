@@ -32,13 +32,21 @@
   letter-spacing: 0.3em;
   color: #4a54c0;
   margin-bottom: 28px;
-  display: inline-flex;
+  /* Block-level flex (was inline-flex) plus width: 100%. Real iOS
+     Safari sizes the inline-flex container's bbox to text-only width —
+     ignoring the 60 px flex-basis on the empty ::before/::after pseudo-
+     elements — then renders the pseudos at their full 60 px anyway,
+     overflowing the bbox to the right. text-align: center on the parent
+     then centres the (incorrect) narrow bbox at viewport centre, leaving
+     the visible text 50-60 px right of where it should sit. Filling the
+     inner width and letting justify-content place items removes the
+     shrink-to-fit ambiguity. nowrap stays as a defensive backstop
+     against the same engine wrapping the text mid-word. */
+  display: flex;
+  width: 100%;
+  justify-content: center;
   align-items: center;
   gap: 14px;
-  /* WebKit shrinks this inline-flex's preferred size below the text's
-     natural width, then wraps "OUR MISSION" at the space (rendering as
-     two lines, hairlines flanking each). nowrap pins the text together
-     so the flex container sizes around it on every engine. */
   white-space: nowrap;
 }
 
