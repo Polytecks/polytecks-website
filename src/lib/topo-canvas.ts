@@ -39,6 +39,14 @@ export class TopoCanvas {
   private W = 0;
   private H = 0;
   private DPR = 1;
+  // Aspect-ratio scale factors for the field-distance metric. Recomputed
+  // in resize() as W/min and H/min. With these, bump squared-distance
+  // r² = (dx·sx)² + (dy·sy)² is in min-dimension units, which makes
+  // each bump render as a circle in screen pixels regardless of viewport
+  // aspect — the prior grid-orientation swap fixed cell shape but bumps
+  // were still circular in [0,1]² space (= tall ellipse on portrait).
+  private scaleX = 1;
+  private scaleY = 1;
   private mode: Mode = "flow";
   private intensity = 0.7;
   private density = 14;
@@ -140,11 +148,16 @@ export class TopoCanvas {
       this.gh = gh;
       this.field = new Float32Array(gw * gh);
     }
+
+    // Update field-distance scaling so bumps render as screen circles.
+    const ref = Math.min(this.W, this.H);
+    this.scaleX = this.W / ref;
+    this.scaleY = this.H / ref;
   }
 
   private mouseContribution(fx: number, fy: number, t: number) {
-    const dx = fx - this.mouse.sx;
-    const dy = fy - this.mouse.sy;
+    const dx = (fx - this.mouse.sx) * this.scaleX;
+    const dy = (fy - this.mouse.sy) * this.scaleY;
     const r2 = dx * dx + dy * dy;
     const r = Math.sqrt(r2);
     const sigma = 0.2;
@@ -176,14 +189,16 @@ export class TopoCanvas {
     }
     const gw = this.gw;
     const gh = this.gh;
+    const sx = this.scaleX;
+    const sy = this.scaleY;
     for (let j = 0; j < gh; j++) {
       const fy = j / (gh - 1);
       for (let i = 0; i < gw; i++) {
         const fx = i / (gw - 1);
         let s = 0;
         for (const c of this.centers) {
-          const dx = fx - c.x;
-          const dy = fy - c.y;
+          const dx = (fx - c.x) * sx;
+          const dy = (fy - c.y) * sy;
           const r2 = dx * dx + dy * dy;
           const s2 = c.sigma * c.sigma;
           const bump = Math.exp(-r2 / s2);
