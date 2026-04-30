@@ -230,10 +230,32 @@
    - Headline word cascade: compress the 110ms-per-word stagger to ~75ms
      so the unblur completes in ~600ms total instead of ~880ms. */
 @media (max-width: 720px) {
+  /* Drop the inherited `gap: clamp(40px, 5vw, 96px)` row-spacing — at
+     mobile the 40 px floor stacks on top of every per-element margin
+     and made the head→sub visual gap balloon to ~58 px. Switch to
+     row-gap: 0 + explicit per-element margins so each row separator
+     has its own value. Column-gap stays inherited from the shorthand
+     (irrelevant in single-column anyway). */
+  .content {
+    row-gap: 0;
+  }
+  .headline {
+    /* head → sub gap. 18 px sits in the user's 16-20 px target range. */
+    margin-bottom: 18px;
+  }
   .sub {
     max-width: 100%;
     padding-right: 16px;
-    margin-bottom: 32px;
+    /* sub → arm gap. Down from 72 px (32 mb + 40 grid gap) to 48 — the
+       headline-to-sub tightening implied a tighter overall mobile
+       rhythm; preserves clear separation without wasted space. */
+    margin-bottom: 48px;
+  }
+  .arm {
+    /* arm → cta gap. Was 40 px (grid gap only); keep 36 here so the
+       new explicit-margin layout matches the prior visual rhythm
+       below the sub. */
+    margin-bottom: 36px;
   }
   .ctas {
     width: 100%;
