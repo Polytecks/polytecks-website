@@ -149,11 +149,18 @@
 
 @media (max-width: 720px) {
   .headline {
-    /* On narrow viewports the single-line nowrap headline overflows;
-       allow it to wrap and let `text-wrap: balance` keep the breaks
-       graceful. */
+    /* Allow the two-line split below to take effect (parent's nowrap
+       would otherwise prevent any wrap at the space between spans). */
     white-space: normal;
-    text-wrap: balance;
+  }
+  /* Fixed two-line break controlled by the markup, not text-wrap:balance.
+     balance picks different split points across engines (Blink vs WebKit);
+     on iOS Safari it sometimes lands on an unbalanced split (e.g.
+     "To redefine how we" / "see disease"), which reads as the headline
+     being shifted right and makes the panel feel off-centre even though
+     every container box is geometrically centred. */
+  .line {
+    display: block;
   }
   .logos {
     display: grid;
