@@ -240,10 +240,19 @@
     row-gap: 0;
   }
   .headline {
+    /* T4: site-wide clamp(40px, 5.4vw, 120px) bottoms out at 40 px on
+       every mobile viewport (5.4vw = 17 px at 320, 22 px at 414 — well
+       under the 40 px floor). Mobile override ramps 44 px @320 → 64 px
+       @720 via clamp(44, 28+5vw, 64). */
+    font-size: clamp(44px, calc(28px + 5vw), 64px);
     /* head → sub gap. 18 px sits in the user's 16-20 px target range. */
     margin-bottom: 18px;
   }
   .sub {
+    /* T4: desktop clamp(19, 1.4vw, 28) bottoms out at 19 px until a
+       very wide viewport. Mobile ramps 20 px @320 → 22 px @414, capped
+       at 22 to keep the jump back to desktop (19 px at 720+) minor. */
+    font-size: clamp(20px, calc(13.2px + 2.1vw), 22px);
     max-width: 100%;
     padding-right: 16px;
     /* sub → arm gap. Down from 72 px (32 mb + 40 grid gap) to 48 — the
