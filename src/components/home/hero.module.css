@@ -277,16 +277,25 @@
     margin-bottom: 48px;
   }
   .arm {
-    /* arm → cta gap. Was 40 px (grid gap only); keep 36 here so the
-       new explicit-margin layout matches the prior visual rhythm
-       below the sub. */
-    margin-bottom: 36px;
+    /* arm → cta gap, tightened to bring the buttons up close to the
+       arm. With the .hero flex-center pattern, the saved 24 px of
+       internal height also adds breathing room above + below the
+       stack — so the second button no longer hugs the viewport
+       bottom on a real phone. */
+    margin-bottom: 12px;
   }
   .ctas {
     width: 100%;
     max-width: 360px;
+    /* Counterpart to the arm.mb cut — adds space below the second CTA
+       so it isn't flush with the bottom edge of the hero / the white
+       mission panel that follows. */
+    margin-bottom: 24px;
   }
   .ctas > * {
+    /* Defensive: also forces 100% via the inner pill itself in
+       charge-link.module.css. iOS Safari was reportedly rendering the
+       two buttons at slightly different widths despite this rule. */
     width: 100%;
   }
   .content {

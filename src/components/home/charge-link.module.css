@@ -131,10 +131,17 @@
    read consistently across the site. */
 @media (hover: none), (max-width: 720px) {
   .link {
-    display: inline-flex;
+    /* Block-level flex with explicit width:100%. Was inline-flex +
+       width:auto which let the pill shrink to content; under the home
+       hero's .ctas (max-width 360 px) this should still be overridden
+       to 100 % via .ctas > * — but on real iOS Safari the two pills
+       still rendered at slightly different widths because each pill's
+       inline-flex was sizing to its own label intrinsic. Block-flex
+       removes the inline shrink-to-fit ambiguity. */
+    display: flex;
+    width: 100%;
     align-items: center;
     justify-content: center;
-    width: auto;
     min-height: 48px;
     padding: 14px 32px;
     border: 1px solid var(--indigo-bright);
