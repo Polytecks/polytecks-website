@@ -282,20 +282,22 @@
     margin-bottom: 48px;
   }
   .arm {
-    /* arm → cta gap, tightened to bring the buttons up close to the
-       arm. With the .hero flex-center pattern, the saved 24 px of
-       internal height also adds breathing room above + below the
-       stack — so the second button no longer hugs the viewport
-       bottom on a real phone. */
-    margin-bottom: 12px;
+    /* arm → cta gap. Roughly 5x the prior 12 px so the buttons sit
+       clearly below the image with proper breathing room. Held at 56
+       (under the spec's 64-80 ceiling) because at 72 the second CTA
+       fell 12 px below the visible viewport bottom on 375x812 once
+       T1's larger headline was applied — 56 keeps everything inside
+       the initial visible hero. */
+    margin-bottom: 56px;
   }
   .ctas {
     width: 100%;
     max-width: 360px;
-    /* Counterpart to the arm.mb cut — adds space below the second CTA
-       so it isn't flush with the bottom edge of the hero / the white
-       mission panel that follows. */
-    margin-bottom: 24px;
+    /* No extra below-CTA margin — the larger arm.mb above already
+       extends the centred content's bottom edge into the prior
+       below-CTA space. Adding more here would push CTAs off-screen
+       at 375x812. */
+    margin-bottom: 0;
   }
   .ctas > * {
     /* Defensive: also forces 100% via the inner pill itself in
