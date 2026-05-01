@@ -40,9 +40,13 @@
 }
 
 .media {
+  /* Full-bleed image — touches the viewport edges left + right while
+     title / body / callout keep their 20 px gutter. The parent .section
+     is already 100vw via negative-margin breakout; dropping the prior
+     12 px gutter on .media lets the image span the whole width. */
   position: relative;
-  width: calc(100% - 24px);
-  margin: 0 12px;
+  width: 100%;
+  margin: 0;
   /* Locked aspect ratio — more square than desktop's 16:9 so the photo
      doesn't dominate the scroll on tall phones. */
   aspect-ratio: 4 / 3;
