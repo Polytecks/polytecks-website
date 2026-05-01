@@ -12,9 +12,6 @@ const STATS: ProofStat[] = [
   { number: <>Weeks</>, label: <>of <strong>continuous wear</strong> on the body</> },
 ];
 
-const PEEK_PX = 60;
-const PEEK_DELAY_MS = 400;
-
 /**
  * Mobile rebuild of the proof section per MOBILE_STRATEGY.md §4.12.
  *
@@ -25,11 +22,12 @@ const PEEK_DELAY_MS = 400;
  *
  *  - A 3-dot scroll-position indicator below the row (active dot tracks
  *    the most-visible card via IntersectionObserver, threshold 0.6).
- *  - A peek animation on mount: scroll-left starts with ~60 px of card 2
- *    visible, then animates back to 0 after 400 ms — telegraphs scroll-
- *    ability without forcing the user to discover it. Skipped under
- *    prefers-reduced-motion.
  *  - Tap-to-scroll on each dot (smooth scrollIntoView with inline:center).
+ *
+ * No peek animation — card 1 always loads centred. (The peek-on-first-
+ * visibility pattern was removed: the user perceived the smooth scroll
+ * back to 0 as "card 1 loading off-centre then drifting in", which read
+ * as a layout glitch rather than a scrollability hint.)
  */
 export function MobileProofSection() {
   const scrollerRef = useRef<HTMLDivElement>(null);
@@ -56,59 +54,6 @@ export function MobileProofSection() {
 
     for (const card of cards) observer.observe(card);
     return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const scroller = scrollerRef.current;
-    const card2 = cardRefs.current[1];
-    if (!scroller || !card2) return;
-
-    // Defer the peek until the section actually enters the viewport.
-    // Mount fires while the section is well below the fold (the proof
-    // section sits halfway down /technology); peeking at mount means the
-    // user never sees it. Fire on first 30 % visibility instead, then
-    // disconnect so it never re-fires.
-    let hasPeeked = false;
-    let scrollBackTimer = 0;
-    let restoreSnapTimer = 0;
-    const visObserver = new IntersectionObserver(
-      (entries) => {
-        const entry = entries[0];
-        if (!entry || !entry.isIntersecting || hasPeeked) return;
-        hasPeeked = true;
-        const peekScrollLeft = Math.max(
-          0,
-          card2.offsetLeft - scroller.clientWidth + PEEK_PX,
-        );
-        // Disable snap during the peek — `scroll-snap-type: x mandatory`
-        // snaps scrollLeft back to the nearest snap point (0) the
-        // moment we try to set it to a between-snap value like 39.
-        scroller.style.scrollSnapType = "none";
-        scroller.scrollLeft = peekScrollLeft;
-        scrollBackTimer = window.setTimeout(() => {
-          scroller.scrollTo({ left: 0, behavior: "smooth" });
-          // Restore snap after the smooth scroll-back completes
-          // (~600 ms is the platform default for behavior:'smooth').
-          // Restoring sooner would re-snap mid-animation.
-          restoreSnapTimer = window.setTimeout(() => {
-            scroller.style.scrollSnapType = "";
-          }, 700);
-        }, PEEK_DELAY_MS);
-        visObserver.disconnect();
-      },
-      { threshold: 0.3 },
-    );
-    visObserver.observe(scroller);
-
-    return () => {
-      visObserver.disconnect();
-      if (scrollBackTimer) window.clearTimeout(scrollBackTimer);
-      if (restoreSnapTimer) window.clearTimeout(restoreSnapTimer);
-      // Defensive: if peek was mid-flight, restore snap immediately.
-      scroller.style.scrollSnapType = "";
-    };
   }, []);
 
   const scrollToCard = (i: number) => {
