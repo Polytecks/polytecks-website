@@ -248,15 +248,15 @@
     row-gap: 0;
   }
   .headline {
-    /* Sized so the headline wraps cleanly to three phrase-bounded
-       lines on every mobile viewport:
-         "Making the Skin"
-         "a Window into"
-         "the Body"
-       The previous 44-64 px ramp was visually larger but produced 4-5
-       lines with "into" orphaning to its own line. 36 px is the
-       largest size that still lets "a Window into" fit at 320. */
-    font-size: clamp(36px, 8.5vw, 50px);
+    /* Largest floor that still keeps "a Window into" together on the
+       same line at 320 px (i.e., no "into" orphan). At 44 px @320 the
+       headline wraps 4 lines (Making / the Skin / a Window into /
+       the Body) — phrase boundaries clean, no orphan. At 375+ it
+       resolves to 3 lines (Making the Skin / a Window into / the Body).
+       Pushing the floor to 46 px reintroduces the "into" orphan at 320,
+       so 44 is the max. The 12vw ramp catches 414+ at ~50 px which
+       reads big without further wrap regression. */
+    font-size: clamp(44px, 12vw, 64px);
     /* head → sub gap. 18 px sits in the user's 16-20 px target range. */
     margin-bottom: 18px;
   }
@@ -271,6 +271,11 @@
     font-size: clamp(17px, calc(11.7px + 1.6vw), 19px);
     max-width: 100%;
     text-wrap: balance;
+    /* Indigo-bright to match the brand's italic-accent treatment
+       (italic "Window" in the headline above, the eyebrow + lede
+       across subpages). Desktop sub stays var(--ink) — the dark hero
+       background gives indigo-bright less contrast on a wide viewport. */
+    color: var(--indigo-bright);
     /* sub → arm gap. Down from 72 px (32 mb + 40 grid gap) to 48 — the
        headline-to-sub tightening implied a tighter overall mobile
        rhythm; preserves clear separation without wasted space. */
