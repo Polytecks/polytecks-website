@@ -230,6 +230,14 @@
    - Headline word cascade: compress the 110ms-per-word stagger to ~75ms
      so the unblur completes in ~600ms total instead of ~880ms. */
 @media (max-width: 720px) {
+  /* Tighter side padding (was 40 px from the base rule). Gives the
+     headline ~40 px more usable width per viewport, which is what
+     lets "Making the Skin" and "a Window into" each fit on one line
+     at 320 px even at 36 px headline. Without this, the headline
+     fragments to 4-5 lines on narrow viewports. */
+  .hero {
+    padding: 20px;
+  }
   /* Drop the inherited `gap: clamp(40px, 5vw, 96px)` row-spacing — at
      mobile the 40 px floor stacks on top of every per-element margin
      and made the head→sub visual gap balloon to ~58 px. Switch to
@@ -240,21 +248,29 @@
     row-gap: 0;
   }
   .headline {
-    /* T4: site-wide clamp(40px, 5.4vw, 120px) bottoms out at 40 px on
-       every mobile viewport (5.4vw = 17 px at 320, 22 px at 414 — well
-       under the 40 px floor). Mobile override ramps 44 px @320 → 64 px
-       @720 via clamp(44, 28+5vw, 64). */
-    font-size: clamp(44px, calc(28px + 5vw), 64px);
+    /* Sized so the headline wraps cleanly to three phrase-bounded
+       lines on every mobile viewport:
+         "Making the Skin"
+         "a Window into"
+         "the Body"
+       The previous 44-64 px ramp was visually larger but produced 4-5
+       lines with "into" orphaning to its own line. 36 px is the
+       largest size that still lets "a Window into" fit at 320. */
+    font-size: clamp(36px, 8.5vw, 50px);
     /* head → sub gap. 18 px sits in the user's 16-20 px target range. */
     margin-bottom: 18px;
   }
   .sub {
-    /* T4: desktop clamp(19, 1.4vw, 28) bottoms out at 19 px until a
-       very wide viewport. Mobile ramps 20 px @320 → 22 px @414, capped
-       at 22 to keep the jump back to desktop (19 px at 720+) minor. */
-    font-size: clamp(20px, calc(13.2px + 2.1vw), 22px);
+    /* Sized so the sub wraps to two balanced lines:
+         "Advanced bioelectrical mapping"
+         "for enhanced diagnostics"
+       text-wrap: balance forces the same break across engines (verified
+       in WebKit + Chromium at 320/375/414). padding-right removed —
+       the prior asymmetric padding was costing 16 px of usable line
+       width and pushing "for" to orphan at the right viewports. */
+    font-size: clamp(17px, calc(11.7px + 1.6vw), 19px);
     max-width: 100%;
-    padding-right: 16px;
+    text-wrap: balance;
     /* sub → arm gap. Down from 72 px (32 mb + 40 grid gap) to 48 — the
        headline-to-sub tightening implied a tighter overall mobile
        rhythm; preserves clear separation without wasted space. */
