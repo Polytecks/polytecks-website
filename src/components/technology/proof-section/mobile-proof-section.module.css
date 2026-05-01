@@ -28,6 +28,10 @@
 }
 
 .scroller {
+  /* position: relative so each card's offsetLeft resolves against the
+     scroller (used by the peek-on-mount logic to compute card 2's
+     starting scroll-left). Without this, offsetLeft walks up to body. */
+  position: relative;
   display: flex;
   gap: 16px;
   /* Horizontal scroll with snap. Padding pushes the first / last card
@@ -84,4 +88,44 @@
 
 .label strong {
   font-weight: 600;
+}
+
+/* Scroll-position indicator dots — sit on the white panel beneath the
+   card row. Three dots, dark on white. Active dot is bigger and solid;
+   inactive dots are translucent. Each is wrapped in a 32 px tap target. */
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.dot {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  /* 8 px visual + 12 px padding × 2 = 32 px tap area. */
+  padding: 12px;
+  margin: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.dot::after {
+  content: "";
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(10, 10, 14, 0.25);
+  transition: background 200ms ease, width 200ms ease, height 200ms ease;
+}
+
+.dotActive::after {
+  width: 10px;
+  height: 10px;
+  background: #0a0a0e;
 }
