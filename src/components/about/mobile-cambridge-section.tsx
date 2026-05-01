@@ -44,8 +44,8 @@ export function MobileCambridgeSection() {
       </div>
 
       <p className={styles.callout}>
-        <em>The ECG was first made in Cambridge</em> over a century ago.
-        The next chapter starts here too.
+        The ECG was first made in Cambridge over a century ago.{" "}
+        <em>The next chapter starts here too.</em>
       </p>
     </section>
   );
