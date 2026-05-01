@@ -74,6 +74,18 @@
   }
 }
 
+@media (max-width: 720px) {
+  /* Bump the icon-strip → tabs gap on phones from 32 px (TWEAK_DEFAULT
+     for --sp-devices-strip-gap-below) to 72 px so the icon section
+     reads as visually distinct from the tab section below. The 32 px
+     spacing was tuned for desktop where horizontal density is high
+     and 32 px reads as ample; on a phone the icon row and tab strip
+     blur into one block. */
+  .strip {
+    margin-bottom: 72px;
+  }
+}
+
 @media (max-width: 560px) {
   .strip {
     grid-template-columns: repeat(2, 1fr);
