@@ -1,7 +1,10 @@
 .ribbon {
   position: relative;
   z-index: 4;
-  padding: 80px 0 64px;
+  /* padding-top dropped from 80 → 40. Combined with TWEAK_DEFAULT
+     homeRibbonMargin now 0 (was 80), the gap mission-bottom → label
+     is 41 px on every viewport — within the spec's 40-60 ceiling. */
+  padding: 40px 0 64px;
   margin-top: var(--sp-home-ribbon, 0px);
   border-top: 1px solid var(--line);
   background: var(--bg);
@@ -68,17 +71,6 @@
    viewports so the perceived scroll-through-frame speed stays roughly
    constant. */
 @media (max-width: 720px) {
-  /* Trim the mission-panel-bottom → ribbon-label gap from ~160 px to
-     ~40 px on mobile. Baked TWEAK_DEFAULTS set --sp-home-ribbon to
-     80 px (margin-top above the ribbon) and the .ribbon's padding-top
-     is another 80 px — together they leave too much black between the
-     white mission panel and "AFFILIATIONS AND PARTNERS" on a phone.
-     Tweak panel is desktop-only so hardcoding zero here doesn't lose
-     a knob anyone would touch. */
-  .ribbon {
-    margin-top: 0;
-    padding-top: 40px;
-  }
   .track {
     --ribbon-loop-duration: 16s;
   }

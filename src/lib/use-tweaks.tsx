@@ -183,7 +183,11 @@ export const TWEAK_DEFAULTS: TweakValues = {
   landingHeroShiftPx: 0,
 
   homeMissionMargin: 80,
-  homeRibbonMargin: 80,
+  // Aligned with WEBSITE_REFERENCE.md §3.3 default (0 px). Was 80 px,
+  // which stacked on top of .ribbon's 80 px padding-top to put 161 px
+  // of dead black space between the white mission panel and the
+  // "AFFILIATIONS AND PARTNERS" eyebrow on every viewport.
+  homeRibbonMargin: 0,
   aboutHeaderToCambridge: 280,
   aboutCambridgeToTeam: 160,
   aboutTeamGap: 120,
