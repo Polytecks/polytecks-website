@@ -67,4 +67,10 @@
    that fill the row width. */
 @media (max-width: 720px) {
   .advisorsRow { grid-template-columns: repeat(2, 1fr); max-width: 360px; }
+  /* Centre the lone fifth advisor on its row (was 2-2-1 with the
+     5th sitting in column 1, empty right). Now: 2-2-1-centred. */
+  .advisorsRow > *:nth-child(5) {
+    grid-column: 1 / -1;
+    justify-self: center;
+  }
 }
