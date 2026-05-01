@@ -58,31 +58,21 @@
   height: 100%;
   object-fit: cover;
   object-position: center top;
-  /* Preserve the desktop side + bottom mask fades. Top stays hard so the
-     building tops cut clean. (MOBILE_STRATEGY.md §3 identity preservation:
-     mask-fade dissolves at panel boundaries.) */
-  -webkit-mask-image:
-    linear-gradient(to right,
-      transparent 0%,
-      black 8%,
-      black 92%,
-      transparent 100%),
-    linear-gradient(to top,
-      transparent 0%,
-      black 18%,
-      black 100%);
-  -webkit-mask-composite: source-in;
-  mask-image:
-    linear-gradient(to right,
-      transparent 0%,
-      black 8%,
-      black 92%,
-      transparent 100%),
-    linear-gradient(to top,
-      transparent 0%,
-      black 18%,
-      black 100%);
-  mask-composite: intersect;
+  /* Bottom-only fade (Layer B). With the image now full-bleed at 100vw
+     (margin-x: calc(50% - 50vw) on .section + width:100% on .media),
+     the desktop's left/right Layer A fade made the image look inset
+     from the viewport edges instead of touching them. Bottom Layer B
+     stays — it dissolves the photo into the dark page beneath, which
+     is the desktop identity treatment per WEBSITE_REFERENCE.md §5.2.2.
+     Top stays hard so the King's College spires cut clean. */
+  -webkit-mask-image: linear-gradient(to top,
+    transparent 0%,
+    black 18%,
+    black 100%);
+  mask-image: linear-gradient(to top,
+    transparent 0%,
+    black 18%,
+    black 100%);
 }
 
 .callout {
