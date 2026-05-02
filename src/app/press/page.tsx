@@ -3,6 +3,7 @@ import { FeaturedCarousel } from "@/components/press/featured-carousel";
 import { PressSection } from "@/components/press/press-section";
 import { PublicationsSection } from "@/components/press/publications-section";
 import { PressContact } from "@/components/press/press-contact";
+import { StackEntry } from "@/components/stack-entry";
 import styles from "./page.module.css";
 
 export const metadata = {
@@ -25,19 +26,31 @@ export default function PressPage() {
   return (
     <>
       <section className={styles.head}>
-        <div className={styles.eyebrow}>Press &amp; Publications</div>
-        <h1 className={styles.headline}>
-          Capturing signals from the body. <em>Generating signals in the world.</em>
-        </h1>
+        <StackEntry index={0}>
+          <div className={styles.eyebrow}>Press &amp; Publications</div>
+        </StackEntry>
+        <StackEntry index={1}>
+          <h1 className={styles.headline}>
+            Capturing signals from the body. <em>Generating signals in the world.</em>
+          </h1>
+        </StackEntry>
       </section>
 
-      <FeaturedCarousel items={PRESS_ITEMS} />
+      <StackEntry index={2}>
+        <FeaturedCarousel items={PRESS_ITEMS} />
+      </StackEntry>
 
-      <PressSection />
+      <StackEntry index={3}>
+        <PressSection />
+      </StackEntry>
 
-      <PublicationsSection />
+      <StackEntry index={4}>
+        <PublicationsSection />
+      </StackEntry>
 
-      <PressContact />
+      <StackEntry index={5}>
+        <PressContact />
+      </StackEntry>
     </>
   );
 }
