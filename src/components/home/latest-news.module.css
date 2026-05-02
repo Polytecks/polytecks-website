@@ -1,0 +1,197 @@
+/* White-panel surface inversion. Same near-white as the mission panel
+   (#f4f4f1) so the home page rhythm reads as one continuous treatment.
+   Sits flush below partners-ribbon — no border-top, no margin. The ribbon's
+   dark surface stops, the white panel begins. */
+.section {
+  background: #f4f4f1;
+  padding: clamp(80px, 12vh, 140px) clamp(40px, 6vw, 96px);
+  color: #0a0a0e;
+}
+
+.inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header {
+  text-align: center;
+  /* The cards sit ~64–80 px below the title; spec'd via the .cards
+     margin-top, not this header. */
+}
+
+/* "LATEST NEWS" eyebrow. Plain mono — NO flanking hairlines (different
+   from the line-flanked mission/section eyebrows used elsewhere on /press
+   and the mission panel). */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--indigo-bright);
+  margin: 0 0 20px;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(28px, 4vw, 56px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: #0a0a0e;
+  margin: 0 auto;
+  max-width: 900px;
+  text-wrap: balance;
+}
+
+.title em {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--indigo-bright);
+}
+
+/* ---------- Cards row ---------- */
+.cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0;
+  margin-top: clamp(48px, 6vh, 72px);
+}
+
+/* The grid cell owns the inter-card hairline. Padding lives on .card so
+   the hairline sits at the column boundary while the card content keeps
+   a generous gutter from it. */
+.slot {
+  min-width: 0;
+}
+
+/* Vertical hairline between adjacent columns on desktop — only on the 2nd
+   and 3rd columns so the row doesn't have leading/trailing rules. */
+@media (min-width: 720px) {
+  .slot + .slot {
+    border-left: 1px solid rgba(10, 10, 14, 0.12);
+  }
+}
+
+/* StackEntry wraps the link inside .slot. Make sure the wrap div spans the
+   full slot width so the link's padded clickable area fills the column. */
+.slot > * {
+  width: 100%;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  padding: 0 28px;
+  text-decoration: none;
+  color: inherit;
+  /* No transform, no shadow on hover — only the title colour shifts. */
+}
+
+/* Slot 1 has no left hairline so its card doesn't need the right-side gutter
+   that the others use to clear the rule. Slim the left padding back to 0. */
+.slot:first-child .card {
+  padding-left: 0;
+}
+
+.slot:last-child .card {
+  padding-right: 0;
+}
+
+.outlet {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--indigo-bright);
+}
+
+.cardTitle {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(18px, 1.4vw, 22px);
+  line-height: 1.3;
+  color: #0a0a0e;
+  margin: 14px 0 0;
+  /* Cap to 3 lines on very long titles — keeps the row of cards visually
+     even without forcing identical content lengths. */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  transition: color 0.2s ease;
+  text-wrap: pretty;
+}
+
+.card:hover .cardTitle {
+  color: var(--indigo-bright);
+}
+
+.date {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 13px;
+  color: rgba(10, 10, 14, 0.5);
+  margin-top: 20px;
+}
+
+/* ---------- View all news link ---------- */
+.viewAllWrap {
+  display: flex;
+  justify-content: center;
+  margin-top: clamp(48px, 6vh, 64px);
+}
+
+.viewAll {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 14px;
+  color: #0a0a0e;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.2s ease;
+}
+
+.viewArrow {
+  transition: transform 0.2s ease;
+  display: inline-block;
+}
+
+.viewAll:hover {
+  color: var(--indigo-bright);
+}
+
+.viewAll:hover .viewArrow {
+  transform: translateX(4px);
+}
+
+/* ---------- Mobile (≤ 720 px, the primary site breakpoint) ---------- */
+@media (max-width: 720px) {
+  .section {
+    padding: clamp(60px, 8vh, 100px) 24px;
+  }
+
+  .cards {
+    grid-template-columns: 1fr;
+  }
+
+  /* Switch the inter-card rule to a horizontal hairline above each card
+     after the first. */
+  .slot + .slot {
+    border-top: 1px solid rgba(10, 10, 14, 0.12);
+  }
+
+  .card,
+  .slot:first-child .card,
+  .slot:last-child .card {
+    padding: 24px 0 0;
+  }
+
+  /* First card has no leading rule, so kill its top padding too. */
+  .slot:first-child .card {
+    padding-top: 0;
+  }
+}
