@@ -25,6 +25,7 @@
   --font-display: var(--font-space-grotesk);
   --font-sans: var(--font-inter);
   --font-mono: var(--font-jetbrains-mono);
+  --font-serif: var(--font-source-serif-4);
   --font-heading: var(--font-space-grotesk);
 
   --color-sidebar-ring: var(--sidebar-ring);

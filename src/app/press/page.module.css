@@ -1,0 +1,56 @@
+/* Page header — centered eyebrow + display headline. The container is
+   1280px because the headline is allowed to fill more horizontal space
+   than the section bodies below (which cap at 1100px). */
+.head {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 96px 32px 48px;
+  text-align: center;
+}
+
+/* Eyebrow on the page header is the existing pill-style "badge" eyebrow
+   (mission-panel.tsx → .eyebrow), not the line-flanked SectionEyebrow.
+   This matches the prototype's `.page-head .eyebrow` rule which uses the
+   pill treatment. */
+.eyebrow {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--indigo-lightest);
+  background: rgba(74, 84, 192, 0.18);
+  border: 1px solid rgba(168, 176, 243, 0.4);
+  padding: 6px 14px;
+  border-radius: 999px;
+  box-shadow: 0 0 16px rgba(106, 116, 220, 0.25);
+  margin-bottom: 24px;
+}
+
+.headline {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(40px, 5vw, 68px);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin: 0 auto 28px;
+  max-width: 1180px;
+  color: var(--ink);
+  text-wrap: pretty;
+}
+
+/* Italic-indigo emphasis on the entire second sentence — not just one
+   word. This is the existing "italic-em-indigo" pattern from the rest
+   of the site. */
+.headline em {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--indigo-bright);
+}
+
+@media (max-width: 720px) {
+  .head {
+    padding: 80px 20px 32px;
+  }
+}

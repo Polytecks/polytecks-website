@@ -1,0 +1,182 @@
+.section {
+  border-top: 1px solid var(--line);
+  background: var(--bg);
+  padding-bottom: 80px;
+}
+
+.head {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 80px 32px 32px;
+}
+
+/* The head's first child is the eyebrow span — give it bottom margin so
+   the title row drops the spec'd 32px below it. */
+.head > span:first-child {
+  margin-bottom: 32px;
+}
+
+/* Section title row: title left, pager arrows right. */
+.titleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(40px, 4.6vw, 60px);
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  margin: 0 0 16px;
+  color: var(--ink);
+}
+
+.title em {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--indigo-bright);
+}
+
+/* List container — the top hairline matches the row width (1100px + 32px
+   padding) rather than running edge-to-edge across the section. */
+.list {
+  max-width: 1100px;
+  margin: 24px auto 0;
+  padding: 0 32px;
+}
+
+.list::before {
+  content: "";
+  display: block;
+  height: 1px;
+  background: var(--line);
+}
+
+/* ---------- Press row (one item) ---------- */
+.row {
+  display: grid;
+  grid-template-columns: 200px 1fr 32px;
+  gap: 32px;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--line);
+  text-decoration: none;
+  color: inherit;
+  align-items: baseline;
+  transition: padding-left 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.row:hover {
+  padding-left: 16px;
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 4px;
+}
+
+.date {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.outlet {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--indigo-lightest);
+}
+
+.mid {
+  min-width: 0;
+}
+
+/* PressRow's <h3 className={styles.title}> is the same .title class as the
+   section's <h2 className={styles.title}> above. The nested selector here
+   makes the row-title rule more specific so it wins for h3-inside-row
+   without affecting the section title. */
+.row .title {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(20px, 2vw, 26px);
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  margin: 0;
+  color: var(--ink);
+  text-wrap: pretty;
+  transition: color 0.2s ease;
+}
+
+.row:hover .title {
+  color: var(--indigo-light);
+}
+
+/* Tag pill — Article (cool) is default, Podcast (warm) is the override. */
+.tag {
+  display: inline-block;
+  margin-top: 10px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  padding: 3px 8px;
+  color: var(--indigo-lightest);
+  border: 1px solid rgba(168, 176, 243, 0.3);
+  background: rgba(168, 176, 243, 0.06);
+}
+
+.tagPodcast {
+  color: #f0d59a;
+  border-color: rgba(240, 213, 154, 0.3);
+  background: rgba(240, 213, 154, 0.06);
+}
+
+.arrow {
+  font-family: var(--font-mono);
+  color: var(--ink-faint);
+  align-self: center;
+  transition: color 0.25s, transform 0.25s;
+}
+
+.row:hover .arrow {
+  color: var(--indigo-light);
+  transform: translateX(4px);
+}
+
+/* "FAB" placeholder marker for fabricated content — small warm pill */
+.fabTag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: rgba(255, 180, 100, 0.85);
+  border: 1px solid rgba(255, 180, 100, 0.3);
+  border-radius: 3px;
+  padding: 1px 5px;
+  margin-right: 8px;
+  vertical-align: 2px;
+}
+
+@media (max-width: 720px) {
+  .row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .left {
+    flex-direction: row;
+    gap: 12px;
+  }
+  .arrow {
+    display: none;
+  }
+}

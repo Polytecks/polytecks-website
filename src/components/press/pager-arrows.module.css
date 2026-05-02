@@ -1,0 +1,45 @@
+.row {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.btn {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--line-strong);
+  background: transparent;
+  color: var(--ink);
+  border-radius: 999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+  padding: 0;
+}
+
+.btn:hover:not(:disabled) {
+  border-color: var(--indigo-bright);
+  color: var(--indigo-light);
+  background: rgba(74, 84, 192, 0.08);
+}
+
+.btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* Light variant for the publications section. The dark-on-light hairline is
+   subtler than the white-on-dark version above, so the hover bg is also
+   pulled down to match. */
+.btnLight {
+  border-color: rgba(0, 0, 0, 0.15);
+  color: #1a1a22;
+}
+
+.btnLight:hover:not(:disabled) {
+  border-color: var(--indigo);
+  color: var(--indigo);
+  background: rgba(74, 84, 192, 0.06);
+}

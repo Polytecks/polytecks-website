@@ -1,0 +1,48 @@
+/* Line-flanked indigo eyebrow. Mirrors mission-panel.module.css → .eyebrow.
+   The flanks are 60px gradient lines that fade in toward the text on the
+   left and out away from it on the right. */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: var(--indigo);
+  margin: 0 0 24px;
+  /* Block flex with width: 100% — see mission-panel.module.css for the
+     iOS Safari shrink-to-fit caveat that makes inline-flex unreliable here. */
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  white-space: nowrap;
+}
+
+.eyebrow::before,
+.eyebrow::after {
+  content: "";
+  flex: 0 0 60px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(74, 84, 192, 0.5));
+}
+
+.eyebrow::after {
+  background: linear-gradient(90deg, rgba(74, 84, 192, 0.5), transparent);
+}
+
+/* Light variant — used on the publications paper-tone surface. The indigo
+   reads fine on either background; only the gradient flank opacity is
+   nudged up so the line registers against the warmer paper tone. */
+.light {
+  color: var(--indigo);
+}
+
+.light::before,
+.light::after {
+  background: linear-gradient(90deg, transparent, rgba(74, 84, 192, 0.55));
+}
+
+.light::after {
+  background: linear-gradient(90deg, rgba(74, 84, 192, 0.55), transparent);
+}

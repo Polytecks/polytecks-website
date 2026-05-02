@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
+import { Space_Grotesk, Inter, JetBrains_Mono, Source_Serif_4 } from "next/font/google";
 import { TopNav } from "@/components/top-nav";
 import { Footer } from "@/components/footer/footer";
 import { TweakPanel } from "@/components/technology/tweak-panel";
@@ -27,6 +27,17 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
+// Used by the publications section on /press — Source Serif 4 signals the
+// "scholarly record" register and is intentionally distinct from the
+// display sans used everywhere else.
+const sourceSerif = Source_Serif_4({
+  variable: "--font-source-serif-4",
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  style: ["normal", "italic"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "Polytecks — Making the Skin a Window into the Body",
   description:
@@ -49,7 +60,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`dark ${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable}`}
+      className={`dark ${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable} ${sourceSerif.variable}`}
     >
       <body className="min-h-screen bg-background text-foreground antialiased">
         <Providers>

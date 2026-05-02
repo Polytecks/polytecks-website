@@ -1,0 +1,76 @@
+.section {
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: var(--bg);
+}
+
+.inner {
+  max-width: var(--content-w);
+  margin: 0 auto;
+  padding: 56px 32px;
+}
+
+.eyebrowWrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+}
+
+.headline {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(28px, 2.4vw, 38px);
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin: 0;
+  color: var(--ink);
+}
+
+.headline em {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--indigo-bright);
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-end;
+}
+
+/* Email anchor at the same display size as the headline — no underline. */
+.email {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(28px, 2.4vw, 38px);
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: var(--ink);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.email:hover {
+  color: var(--indigo-light);
+}
+
+@media (max-width: 720px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .inner {
+    padding: 40px 20px;
+  }
+  .actions {
+    align-items: flex-start;
+  }
+}
