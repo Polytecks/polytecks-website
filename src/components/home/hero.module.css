@@ -143,7 +143,10 @@
   font-weight: 400;
   font-size: clamp(19px, 1.4vw, 28px);
   line-height: 1.5;
-  color: #e8e9f0;
+  /* Indigo-bright at all viewport widths — was previously white at desktop
+     and indigo only on mobile; the unified treatment matches the brand's
+     italic-accent vocabulary. */
+  color: var(--indigo-bright);
   max-width: clamp(520px, 60vw, 900px);
   margin-bottom: 64px;
   /* Same omnidirectional black halo pattern as .headline — was a
@@ -285,11 +288,6 @@
     font-size: clamp(17px, calc(11.7px + 1.6vw), 19px);
     max-width: 100%;
     text-wrap: balance;
-    /* Indigo-bright to match the brand's italic-accent treatment
-       (italic "Window" in the headline above, the eyebrow + lede
-       across subpages). Desktop sub stays var(--ink) — the dark hero
-       background gives indigo-bright less contrast on a wide viewport. */
-    color: var(--indigo-bright);
     /* sub → arm gap. Down from 72 px (32 mb + 40 grid gap) to 48 — the
        headline-to-sub tightening implied a tighter overall mobile
        rhythm; preserves clear separation without wasted space. */
