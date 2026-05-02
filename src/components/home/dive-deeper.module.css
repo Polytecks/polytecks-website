@@ -1,0 +1,169 @@
+/* Dark panel — flush below Latest News (white). The white panel ends,
+   the dark panel begins. No border, no margin, no separator. */
+.section {
+  background: var(--bg);
+  padding: clamp(80px, 12vh, 140px) clamp(40px, 6vw, 96px);
+  color: var(--ink);
+}
+
+.inner {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.header {
+  text-align: center;
+}
+
+/* Plain mono "EXPLORE" — NO flanking hairlines (matches Latest News
+   eyebrow language; different from the line-flanked mission/section
+   eyebrows used elsewhere). */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--indigo-bright);
+  margin: 0 0 20px;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(32px, 4.4vw, 64px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin: 0;
+  text-wrap: balance;
+}
+
+.title em {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--indigo-bright);
+}
+
+/* ---------- Tiles grid ---------- */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(24px, 3vw, 40px);
+  margin-top: clamp(56px, 7vh, 80px);
+}
+
+@media (max-width: 720px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- Tile (image or video) ---------- */
+.tile {
+  position: relative;
+  display: block;
+  aspect-ratio: 5 / 4;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  overflow: hidden;
+  /* Background while media loads — keeps the rounded box visible
+     instead of flashing pure black against the page bg. */
+  background: var(--bg-2);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.3s ease;
+}
+
+.tile:hover {
+  border-color: var(--line-strong);
+}
+
+/* Wrapper for the media (image OR the dual-video pair). The hover-scale
+   transform applies HERE so both videos scale together and stay aligned;
+   scaling each <video> independently would let them drift apart on the
+   crossfade frame. */
+.media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  transition: transform 600ms ease-out;
+  /* Defensive: if a child paints outside its box (rounded-corner aliasing
+     on retina displays under transform), keep it inside the rounded
+     wrapper. */
+  overflow: hidden;
+}
+
+.tile:hover .media {
+  transform: scale(1.04);
+}
+
+/* next/image fill mode places an absolutely positioned <img> inside its
+   parent — `.media` already has `position: absolute; inset: 0`, which
+   satisfies that requirement. */
+.imageEl {
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Both <video> elements inside the dual-video crossfade wrapper. The
+   500 ms opacity transition is what produces the soft loop seam — the
+   crossfade-video.tsx component swaps which video is visible by toggling
+   inline `opacity: 0` / `opacity: 1`. */
+.video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 500ms ease-in-out;
+}
+
+.videoWrap {
+  /* Just a marker class for clarity; structural rules live on .media */
+}
+
+/* Label-legibility gradient. Sits above media, below label + arrow. */
+.gradient {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(
+    to top,
+    rgba(10, 10, 14, 0.75) 0%,
+    rgba(10, 10, 14, 0.4) 35%,
+    transparent 70%
+  );
+}
+
+.label {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 3;
+  padding: clamp(24px, 3vw, 32px);
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(20px, 2.4vw, 32px);
+  color: var(--ink);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.arrow {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: 3;
+  padding: clamp(24px, 3vw, 32px);
+  color: var(--indigo-bright);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 300ms ease-out;
+}
+
+.tile:hover .arrow {
+  transform: translateX(8px);
+}

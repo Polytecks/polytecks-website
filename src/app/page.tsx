@@ -2,6 +2,7 @@ import { Hero } from "@/components/home/hero";
 import { MissionPanel } from "@/components/home/mission-panel";
 import { PartnersRibbon } from "@/components/home/partners-ribbon";
 import { LatestNews } from "@/components/home/latest-news";
+import { DiveDeeper } from "@/components/home/dive-deeper";
 import { TopoBackground } from "@/components/home/topo-canvas";
 
 export default function HomePage() {
@@ -12,6 +13,7 @@ export default function HomePage() {
       <MissionPanel />
       <PartnersRibbon />
       <LatestNews />
+      <DiveDeeper />
     </>
   );
 }
