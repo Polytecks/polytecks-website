@@ -197,7 +197,7 @@ export const TWEAK_DEFAULTS: TweakValues = {
   devicesHeaderToStrip: 32,
   devicesStripGapBelow: 90,
   devicesIconRowGapY: 12,
-  careersValuesBottom: 200,
+  careersValuesBottom: 240,
 };
 
 const STORAGE_KEY = "polytecks:tweaks";

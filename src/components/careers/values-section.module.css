@@ -5,9 +5,14 @@
   background: var(--bg);
   /* Bottom padding tweakable so the user can dial how much black panel
      sits below the values grid before the white open-roles panel. The
-     fade strip itself is fixed at 120px on top of this. */
-  padding-top: clamp(80px, 10vh, 140px);
-  padding-bottom: var(--sp-careers-values-bottom, 200px);
+     fade strip itself is fixed at 120 px on top of this; effective solid
+     black below the last value = padding-bottom − 120.
+
+     Top padding floor bumped 80 → 100 so the breathing room above the
+     "Values" heading roughly matches the post-fade solid space below
+     the grid (default ~120 px). */
+  padding-top: clamp(100px, 12vh, 140px);
+  padding-bottom: var(--sp-careers-values-bottom, 240px);
   /* Symmetric ~120-pixel fade at the BOTTOM, mirroring the soft fade
      where the careers-hero overlay meets the top of this panel. The
      fade is set in fixed CSS pixels (not a percentage of section height)
