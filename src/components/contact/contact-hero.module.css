@@ -219,6 +219,31 @@
   color: var(--bg);
 }
 
+/* Plain mailto fallback below the submit button. The "Or email us:"
+   text inherits the form's ink colour; the email itself is indigo with
+   a hairline underline that brightens on hover. */
+.emailFallback {
+  margin: 20px 0 0;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ink-dim);
+}
+
+.emailFallbackLink {
+  color: var(--indigo-bright);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(106, 116, 220, 0.4);
+  padding-bottom: 1px;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.emailFallbackLink:hover {
+  color: var(--indigo-light);
+  border-bottom-color: var(--indigo-light);
+}
+
 /* RIGHT column — empty placeholder. Reserves grid space so the form
    column doesn't expand into the image area; the image itself lives in
    .imageOverlay outside the grid. */

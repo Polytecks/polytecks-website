@@ -37,6 +37,15 @@ export function ContactHero() {
                 <button type="submit" className={styles.submit}>
                   Submit
                 </button>
+                <p className={styles.emailFallback}>
+                  Or email us:{" "}
+                  <a
+                    className={styles.emailFallbackLink}
+                    href="mailto:contact@polytecks.com"
+                  >
+                    contact@polytecks.com
+                  </a>
+                </p>
               </form>
             </div>
           </StackEntry>
@@ -84,7 +93,6 @@ export function ContactHero() {
           alt=""
           width={1200}
           height={1200}
-          priority
           className={styles.featureImage}
         />
       </div>
