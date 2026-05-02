@@ -32,11 +32,11 @@ function DesktopCambridgeSection() {
             width={2400}
             height={1350}
             sizes="100vw"
-            priority
+            preload
           />
           <p className={styles.calloutText}>
-            The ECG was first made in Cambridge over a century ago. The next
-            chapter starts here too.
+            The ECG was first made in Cambridge over a century ago.{" "}
+            <em>The next chapter starts here too.</em>
           </p>
         </div>
       </div>

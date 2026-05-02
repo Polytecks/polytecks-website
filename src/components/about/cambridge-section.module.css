@@ -185,6 +185,15 @@
   pointer-events: none;
 }
 
+/* Italic-indigo accent on the closing sentence only — matches the
+   identical treatment used in mobile-cambridge-section.module.css so
+   desktop and mobile read consistently. */
+.calloutText em {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--indigo-bright);
+}
+
 @media (max-width: 720px) {
   .section {
     /* Tighten the section's bleed margins so it doesn't push past nav padding. */
