@@ -42,6 +42,10 @@ export const metadata: Metadata = {
   title: "Polytecks — Making the Skin a Window into the Body",
   description:
     "Polytecks is a Cambridge-based medical technology company developing bioelectrical mapping for enhanced diagnostics.",
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+  },
 };
 
 // Without initial-scale=1, iOS Safari falls back to a wider implied
