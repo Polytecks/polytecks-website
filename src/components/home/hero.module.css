@@ -54,6 +54,7 @@
 }
 
 .headline {
+  position: relative;
   font-family: var(--font-display);
   font-weight: 300;
   font-size: clamp(40px, 5.4vw, 120px);
@@ -69,6 +70,24 @@
     0 0 6px rgba(0, 0, 0, 0.65),
     0 0 16px rgba(0, 0, 0, 0.45),
     0 0 32px rgba(0, 0, 0, 0.3);
+}
+
+/* Discrete radial vignette anchoring the headline against the moving
+   topo lines. Tall ellipse covering all (potentially multi-line) words,
+   fading to fully transparent before the bounding-box edges so the
+   topo lines remain visible in the gaps between the three glows. */
+.headline::before {
+  content: "";
+  position: absolute;
+  inset: -20% -10%;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(10, 10, 14, 0.65) 0%,
+    rgba(10, 10, 14, 0.4) 35%,
+    rgba(10, 10, 14, 0) 75%
+  );
 }
 
 .nowrap {
@@ -139,6 +158,7 @@
 }
 
 .sub {
+  position: relative;
   font-family: var(--font-sans);
   /* Bumped to 600 to read with appropriate emphasis against the
      display-300 headline above. */
@@ -161,6 +181,23 @@
   will-change: transform, opacity, filter;
   animation: hl-unblur-elem var(--landing-elem-duration, 900ms) cubic-bezier(0.2, 0.8, 0.2, 1) both;
   animation-delay: var(--landing-sub-delay, 1600ms);
+}
+
+/* Discrete radial vignette anchoring the subtitle. Wider extension than
+   the headline (subtitle is shorter, so the glow needs more horizontal
+   reach to read as a halo rather than a hard rectangle). */
+.sub::before {
+  content: "";
+  position: absolute;
+  inset: -30%;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(10, 10, 14, 0.65) 0%,
+    rgba(10, 10, 14, 0.4) 35%,
+    rgba(10, 10, 14, 0) 75%
+  );
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -227,13 +264,23 @@
   filter: blur(30px);
 }
 
+/* Discrete radial vignette anchoring the arm image. Slightly less intense
+   at centre than the text halos because the photographic content already
+   carries dark tones — the glow is just enough to anchor the image
+   against the topo-line motion behind it. Negative inset extends the
+   halo ~15-20% past the image's box on all sides. */
 .arm::after {
   content: "";
   position: absolute;
-  inset: 5% 8%;
+  inset: -15% -20%;
   z-index: -1;
   pointer-events: none;
-  background: radial-gradient(ellipse at 45% 55%, rgba(10, 10, 20, 0.85) 0%, rgba(10, 10, 14, 0.55) 45%, transparent 75%);
+  background: radial-gradient(
+    ellipse at center,
+    rgba(10, 10, 14, 0.45) 0%,
+    rgba(10, 10, 14, 0.4) 35%,
+    rgba(10, 10, 14, 0) 75%
+  );
   filter: blur(20px);
 }
 
