@@ -59,26 +59,30 @@
 
 .track {
   display: flex;
-  gap: clamp(56px, 8vw, 120px);
+  gap: clamp(40px, 6vw, 80px);
   width: max-content;
-  align-items: center;
-  animation: slidePx var(--ribbon-loop-duration, 32s) linear infinite;
+  /* flex-start so all logos align by their top edge regardless of how
+     many lines the caption below wraps to. */
+  align-items: flex-start;
+  /* Default duration scales with the new 11-logo set so px/sec stays
+     close to the previous 8-text-item ribbon. */
+  animation: slidePx var(--ribbon-loop-duration, 44s) linear infinite;
 }
 
 /* Per MOBILE_STRATEGY.md §4.5 — the loop offset (half-set width) doesn't
    shrink much with viewport because the partner items aren't fluid, but
-   a 32s sweep on a phone feels glacial. Compress duration on smaller
+   a long sweep on a phone feels glacial. Compress duration on smaller
    viewports so the perceived scroll-through-frame speed stays roughly
    constant. */
 @media (max-width: 720px) {
   .track {
-    --ribbon-loop-duration: 16s;
+    --ribbon-loop-duration: 22s;
   }
 }
 
 @media (max-width: 560px) {
   .track {
-    --ribbon-loop-duration: 11s;
+    --ribbon-loop-duration: 15s;
   }
 }
 
@@ -89,42 +93,85 @@
 
 .item {
   flex: 0 0 auto;
-  height: 80px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  filter: grayscale(1) brightness(1.6) contrast(0.9);
-  opacity: 0.55;
-  transition: opacity 0.4s, filter 0.4s, transform 0.4s;
+  gap: 10px;
+  /* Fixed-but-fluid item width keeps logos at a consistent visual size
+     and gives captions a stable wrap context across the row. */
+  width: clamp(120px, 14vw, 160px);
+  transition: transform 0.4s;
 }
 
 .item:hover {
-  opacity: 1;
-  filter: grayscale(0) brightness(1) contrast(1);
   transform: scale(1.08);
 }
 
-.text {
-  font-family: var(--font-display);
+/* Logo container — fixed height, contains the asset via object-fit. The
+   grayscale/dim treatment lives on this wrapper (not on .item) so the
+   caption text below stays at its intended --ink-dim color and doesn't
+   get brightness-pumped by the filter chain.
+
+   No brightness multiplier — the previous text-based ribbon used
+   brightness(1.6) for visual punch, but that clips light-grey backgrounds
+   to pure white and kills internal contrast on assets that have white
+   type on a light grey card (e.g. afil_5050, afil_21towatch, afil_SPARK). */
+.logoBox {
+  height: 52px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: grayscale(1) contrast(0.95);
+  opacity: 0.7;
+  transition: opacity 0.4s, filter 0.4s;
+}
+
+.logo {
+  width: auto !important;
+  height: auto !important;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.caption {
+  font-family: var(--font-mono);
   font-weight: 500;
-  font-size: clamp(18px, 1.6vw, 24px);
-  letter-spacing: -0.01em;
-  color: #d8dae5;
-  white-space: nowrap;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  text-align: center;
+  line-height: 1.35;
+  max-width: 100%;
+  /* Allow long names to wrap to multiple lines rather than clipping —
+     the row uses align-items: flex-start so logos still align by top
+     even when one item's caption is taller. */
+  text-wrap: balance;
 }
 
-.text em {
-  font-style: italic;
-  font-weight: 300;
-  color: #a0a4b5;
-}
-
-.isCenter {
+.item:hover .logoBox {
   opacity: 1;
-  filter: grayscale(0) brightness(1) contrast(1);
+  filter: grayscale(0) contrast(1);
 }
 
-.isNear {
-  opacity: 0.8;
-  filter: grayscale(0.3) brightness(1.2) contrast(0.95);
+.item.isCenter .logoBox {
+  opacity: 1;
+  filter: grayscale(0) contrast(1);
+}
+
+.item.isNear .logoBox {
+  opacity: 0.85;
+  filter: grayscale(0.4) contrast(0.95);
+}
+
+@media (max-width: 720px) {
+  .item {
+    width: clamp(108px, 28vw, 140px);
+    gap: 8px;
+  }
+  .logoBox {
+    height: 44px;
+  }
 }

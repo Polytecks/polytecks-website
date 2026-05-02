@@ -1,17 +1,21 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef } from "react";
 import styles from "./partners-ribbon.module.css";
 
-const PARTNERS: { name: string; styled: React.ReactNode }[] = [
-  { name: "University of Cambridge", styled: <>University of <em>Cambridge</em></> },
-  { name: "NHS",                     styled: <><em>NHS</em> Innovation</> },
-  { name: "Innovate UK",             styled: <>Innovate <em>UK</em></> },
-  { name: "Royal Veterinary College",styled: <>Royal <em>Veterinary</em> College</> },
-  { name: "EPSRC",                   styled: <>EPSRC</> },
-  { name: "Wellcome Trust",          styled: <><em>Wellcome</em> Trust</> },
-  { name: "Cambridge Enterprise",    styled: <>Cambridge <em>Enterprise</em></> },
-  { name: "BHF",                     styled: <>British Heart <em>Foundation</em></> },
+const PARTNERS: { name: string; src: string }[] = [
+  { name: "Innovate UK",                                              src: "/assets/afil_UKRI.png" },
+  { name: "Cambridge Enterprise",                                     src: "/assets/afil_CE.png" },
+  { name: "EPSRC Photonic & Electronic Systems CDT",                  src: "/assets/afil_EPSRC.png" },
+  { name: "King's E-Lab",                                             src: "/assets/afil_elab (1).png" },
+  { name: "5050",                                                     src: "/assets/afil_5050 (1).png" },
+  { name: "SPARK",                                                    src: "/assets/afil_SPARK (1).png" },
+  { name: "Royce Institute",                                          src: "/assets/afil_royce (1).png" },
+  { name: "University of Cambridge",                                  src: "/assets/afil_cambridge.png" },
+  { name: "Worshipful Company of Scientific Instrument Makers",       src: "/assets/afil_worshipful.png" },
+  { name: "21toWatch",                                                src: "/assets/afil_21towatch.png" },
+  { name: "Bioelectronics Lab",                                       src: "/assets/afil_bioelectronics.png" },
 ];
 
 export function PartnersRibbon() {
@@ -109,7 +113,17 @@ export function PartnersRibbon() {
         <div ref={trackRef} className={styles.track}>
           {items.map((p, i) => (
             <div key={`${p.name}-${i}`} className={styles.item}>
-              <span className={styles.text}>{p.styled}</span>
+              <div className={styles.logoBox}>
+                <Image
+                  src={p.src}
+                  alt={p.name}
+                  width={400}
+                  height={160}
+                  className={styles.logo}
+                  unoptimized
+                />
+              </div>
+              <span className={styles.caption}>{p.name}</span>
             </div>
           ))}
         </div>
