@@ -70,6 +70,29 @@
   cursor: default;
 }
 
+/* When the portrait is wrapped in an external-profile link, the link
+   element becomes the hover/focus target. Existing .card:hover rules
+   still trigger because the link is a descendant of .card. */
+.frameLink {
+  display: inline-block;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  /* Slight brightness lift on the underlying portrait when the link is
+     hovered, supplementing the existing ring rotation + glow. */
+  transition: filter 0.2s ease;
+}
+
+.frameLink:hover {
+  filter: brightness(1.06);
+}
+
+.frameLink:focus-visible {
+  outline: 2px solid var(--indigo-bright);
+  outline-offset: 6px;
+  border-radius: 4px;
+}
+
 /* Hover — rotate ring, glow, scale image. Move ring behind image so zoom isn't clipped. */
 .card:hover .ring {
   z-index: 0;
