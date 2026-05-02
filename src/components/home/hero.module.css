@@ -57,7 +57,11 @@
   position: relative;
   font-family: var(--font-display);
   font-weight: 300;
-  font-size: clamp(40px, 5.4vw, 120px);
+  /* Bumped from clamp(40, 5.4vw, 120) so the headline scales up on larger
+     desktops (≥ 1600 px) without losing presence relative to the
+     viewport. At 1920 px the resolved size is ~134 px; at 2560 px it
+     hits the 160 px ceiling. Mobile keeps its own override below. */
+  font-size: clamp(40px, 7vw, 160px);
   line-height: 1.02;
   letter-spacing: -0.035em;
   margin-bottom: 28px;
