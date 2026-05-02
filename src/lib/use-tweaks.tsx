@@ -195,7 +195,7 @@ export const TWEAK_DEFAULTS: TweakValues = {
   techPillarsToProof: 0,
   techProofToPhilosophy: 0,
   devicesHeaderToStrip: 32,
-  devicesStripGapBelow: 32,
+  devicesStripGapBelow: 90,
   devicesIconRowGapY: 12,
   careersValuesBottom: 200,
 };

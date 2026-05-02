@@ -8,7 +8,11 @@
   width: min(94vw, 1700px);
   max-width: none;
   margin-top: var(--sp-devices-header-to-strip, 32px);
-  margin-bottom: var(--sp-devices-strip-gap-below, 32px);
+  /* Bumped from 32 → 90 so the icon row reads as a complete grouping
+     visually distinct from the Clinical/Veterinary tab switch beneath
+     it. Applies at ≥ 720 px (the @media (max-width: 720px) block below
+     hardcodes 72 px and wins on mobile). */
+  margin-bottom: var(--sp-devices-strip-gap-below, 90px);
   margin-left: 50%;
   transform: translateX(-50%);
   padding: 0 24px;
@@ -64,7 +68,7 @@
        inside the Subpage's max-width like the rest of the page. */
     width: auto;
     margin: var(--sp-devices-header-to-strip, 24px) 0
-            var(--sp-devices-strip-gap-below, 24px);
+            var(--sp-devices-strip-gap-below, 90px);
     transform: none;
     padding: 0 20px;
   }
