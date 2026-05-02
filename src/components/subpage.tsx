@@ -11,10 +11,14 @@ export function SubpageHeader({
   eyebrow,
   title,
   lede,
+  boldLede = false,
 }: {
   eyebrow: string;
   title: ReactNode;
   lede?: ReactNode;
+  /** Opt-in heavier (600) lede weight. Used on about + devices where the
+   *  lede should read with more emphasis than the default 300. */
+  boldLede?: boolean;
 }) {
   return (
     <>
@@ -26,7 +30,9 @@ export function SubpageHeader({
       </StackEntry>
       {lede ? (
         <StackEntry index={2}>
-          <p className={styles.lede}>{lede}</p>
+          <p className={`${styles.lede} ${boldLede ? styles.ledeBold : ""}`.trim()}>
+            {lede}
+          </p>
         </StackEntry>
       ) : null}
     </>

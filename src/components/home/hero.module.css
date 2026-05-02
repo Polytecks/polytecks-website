@@ -140,7 +140,9 @@
 
 .sub {
   font-family: var(--font-sans);
-  font-weight: 400;
+  /* Bumped to 600 to read with appropriate emphasis against the
+     display-300 headline above. */
+  font-weight: 600;
   font-size: clamp(19px, 1.4vw, 28px);
   line-height: 1.5;
   /* Indigo-bright at all viewport widths — was previously white at desktop

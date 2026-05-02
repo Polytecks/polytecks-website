@@ -17,6 +17,7 @@ export default function AboutPage() {
           </>
         }
         lede="Polytecks is a medical technology start-up developing bioelectrical mapping for a novel non-invasive information source into disease."
+        boldLede
       />
       <StackEntry index={3}>
         <CambridgeSection />

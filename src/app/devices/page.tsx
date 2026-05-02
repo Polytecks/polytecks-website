@@ -56,6 +56,7 @@ export default function DevicesPage() {
           </>
         }
         lede="The Mosaic Sensor platform can bring imaging-level insights into primary care, and even earlier. Across all domains of health."
+        boldLede
       />
       <ApplicationsStrip />
       <TabsEntry>
