@@ -22,7 +22,7 @@ export function PublicationsSection() {
   const items = PUBLICATIONS.slice(start, start + PAGE_SIZE);
 
   return (
-    <section className={styles.section}>
+    <section id="publications" className={styles.section}>
       <div className={styles.head}>
         <SectionEyebrow variant="light">Publications</SectionEyebrow>
         <div className={styles.titleRow}>

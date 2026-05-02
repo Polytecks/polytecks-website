@@ -28,6 +28,23 @@ export default function TechnologyPage() {
       <StackEntry delayMs={2700}>
         <ProofSection />
       </StackEntry>
+      <StackEntry delayMs={2900}>
+        <section
+          style={{
+            maxWidth: 1400,
+            margin: "0 auto",
+            padding: "calc(24px * var(--tw-rhythm, 1)) 40px calc(40px * var(--tw-rhythm, 1))",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <ChargeLink
+            href="/press#publications"
+            label="Read our peer-reviewed work"
+            variant="inline"
+          />
+        </section>
+      </StackEntry>
       <StackEntry delayMs={3000}>
         <Philosophy />
       </StackEntry>
