@@ -1,0 +1,62 @@
+/* Background image behind the about page hero (eyebrow + title + lede).
+   Renders as the first child of <Subpage>, positioned absolutely.
+   On desktop the image extends past Subpage's max-width:1100px container
+   to the viewport's right edge; on mobile it spans full viewport width.
+   The bottom 30% fades to transparent so the image dissolves cleanly
+   into the dark page background before the Cambridge section starts. */
+.wrap {
+  position: absolute;
+  top: 0;
+  /* Reach the viewport's right edge regardless of the centred 1100 px
+     Subpage. (50vw - 50%) is the gap between subpage right edge and
+     viewport right edge — negate it to extend past. */
+  right: calc(50% - 50vw);
+  width: 60vw;
+  height: 720px;
+  z-index: 0;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 70%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 0%, black 70%, transparent 100%);
+}
+
+.image {
+  object-fit: cover;
+  object-position: right center;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  /* Horizontal-gradient overlay: heavier on the left where the lede
+     can overlap the brightest indigo strands at narrower desktops
+     (≤1280), fading to a light wash at the right so the indigo
+     silhouette retains its intensity. */
+  background: linear-gradient(
+    90deg,
+    rgba(10, 10, 14, 0.55) 0%,
+    rgba(10, 10, 14, 0.35) 40%,
+    rgba(10, 10, 14, 0.2) 100%
+  );
+}
+
+@media (max-width: 720px) {
+  .wrap {
+    /* Span the viewport — the image now sits behind the text rather
+       than alongside it, so width must match the page bg. Both edges
+       extended past Subpage's 20 px padding to fill the screen. */
+    left: calc(50% - 50vw);
+    right: calc(50% - 50vw);
+    width: 100vw;
+    height: 600px;
+  }
+  .image {
+    object-position: center center;
+  }
+  .overlay {
+    /* Stronger overlay because the title and lede now sit directly on
+       top of the image. Calibrated so the indigo silhouette still
+       reads as a presence, but neither the white display title nor
+       the indigo-bright lede compete with the image's own indigo. */
+    background: rgba(10, 10, 14, 0.6);
+  }
+}

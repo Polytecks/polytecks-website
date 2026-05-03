@@ -1,3 +1,4 @@
+import { AboutHeaderBackground } from "@/components/about/about-header-background";
 import { CambridgeSection } from "@/components/about/cambridge-section";
 import { TeamSection } from "@/components/about/team-section";
 import { HexGradientDefs } from "@/components/hex-portrait";
@@ -7,6 +8,7 @@ import { Subpage, SubpageHeader } from "@/components/subpage";
 export default function AboutPage() {
   return (
     <Subpage>
+      <AboutHeaderBackground />
       <HexGradientDefs />
       <SubpageHeader
         eyebrow="About Us"
