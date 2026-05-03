@@ -40,8 +40,58 @@ async function probeNews(w) {
   return data;
 }
 
+async function probeTeam(w) {
+  const ctx = await browser.newContext({ viewport: { width: w, height: 800 } });
+  const page = await ctx.newPage();
+  await page.goto(`${BASE}/about`, { waitUntil: "networkidle" });
+  await page.waitForTimeout(2500);
+  await page.evaluate(() => {
+    document.querySelector("#team")?.scrollIntoView({ block: "start" });
+  });
+  await page.waitForTimeout(400);
+
+  const data = await page.evaluate(() => {
+    const link = document.querySelector("a[class*='hex-portrait-module'][class*='__frameLink']");
+    const clip = link?.querySelector("[class*='__clip']");
+    const after = clip ? getComputedStyle(clip, "::after") : null;
+    return {
+      linkFound: !!link,
+      clipFound: !!clip,
+      afterContent: after?.content,
+      afterOpacity: after?.opacity,
+      afterBg: after?.backgroundColor,
+    };
+  });
+
+  // Simulate :active by mouse-down on the first portrait
+  const link = await page.$("a[class*='hex-portrait-module'][class*='__frameLink']");
+  if (link) {
+    const box = await link.boundingBox();
+    if (box) {
+      await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+      await page.mouse.down();
+      await page.waitForTimeout(150);
+      const activeData = await page.evaluate(() => {
+        const link = document.querySelector("a[class*='hex-portrait-module'][class*='__frameLink']");
+        const clip = link?.querySelector("[class*='__clip']");
+        return clip ? { activeOpacity: getComputedStyle(clip, "::after").opacity } : null;
+      });
+      data.activeOpacity = activeData?.activeOpacity;
+      await page.mouse.up();
+    }
+  }
+  await ctx.close();
+  return data;
+}
+
 for (const w of VIEWPORTS) {
   const data = await probeNews(w);
-  console.log(`${w}px:`, JSON.stringify(data));
+  console.log(`news ${w}px:`, JSON.stringify(data));
 }
+console.log();
+for (const w of VIEWPORTS) {
+  const data = await probeTeam(w);
+  console.log(`team ${w}px:`, JSON.stringify(data));
+}
+
 await browser.close();

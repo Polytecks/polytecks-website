@@ -134,6 +134,49 @@
   .card:hover .frame { filter: drop-shadow(0 0 10px rgba(106, 116, 220, 0.4)); }
 }
 
+/* Mobile (≤ 720) — kill any residual desktop hover transformations that
+   could fire during a tap. Specifically the ring's z-index swap (which
+   moves the SVG layer behind the portrait on hover and was producing a
+   visible flicker on tap) needs to be reset along with the rotation
+   animation and frame glow. The :active indigo wash below is the ONLY
+   visual feedback during a tap on this breakpoint.
+
+   The tap-feedback overlay sits inside .clip (which has clip-path to a
+   hex), so the wash is hex-shaped not rectangular. 0.4 opacity solid
+   fill of --indigo-bright over the portrait — clearly visible without
+   being garish. Faster fade-in (100 ms) than fade-out (200 ms) so the
+   feedback feels responsive on press but settles gradually on release.
+   Scoped to mobile only so desktop mouse clicks don't flash indigo. */
+@media (max-width: 720px) {
+  .card:hover .ring {
+    animation: none;
+    z-index: 2;
+    filter: drop-shadow(0 0 10px rgba(106, 116, 220, 0.4));
+  }
+  .card:hover .frame {
+    filter: drop-shadow(0 0 10px rgba(106, 116, 220, 0.4));
+  }
+  .card:hover .clip img {
+    transform: none;
+  }
+
+  .clip::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--indigo-bright);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1;
+    transition: opacity 200ms ease-out;
+  }
+
+  .frameLink:active .clip::after {
+    opacity: 0.4;
+    transition: opacity 100ms ease-in;
+  }
+}
+
 .name {
   font-family: var(--font-display);
   font-size: 18px;
