@@ -1,20 +1,18 @@
-/* Background "hero band" behind the about page header. Composed of two
-   absolutely-positioned children inside a full-viewport-width wrap:
-     1. .blackPanel — opaque black to the LEFT of the image, fills the
-        empty space behind the title and lede so the band reads as a
-        deliberate panel rather than the bare page surface.
-     2. .imageWrap — the bg image (indigo vasculature figure) anchored
-        to the viewport's right edge, capped width on very large screens
-        so it doesn't dominate the layout.
-   The wrap carries the shared linear-gradient mask so both children
-   fade out together at the bottom into the dark page background. */
+/* Background image (indigo vasculature figure on transparent bg) behind
+   the about page header. With the asset's bg now transparent, the page
+   surface shows through directly — no panel chrome or darkening overlay
+   needed; the figure is the only visual contribution. The bottom 30%
+   fades to transparent via mask-image so the figure dissolves into the
+   dark page bg before the Cambridge section starts. */
 .wrap {
   position: absolute;
   top: 0;
-  /* Reach both viewport edges regardless of the centred 1100 px Subpage. */
-  left: calc(50% - 50vw);
+  /* Anchored to the viewport's right edge regardless of the centred
+     1100 px Subpage container. */
   right: calc(50% - 50vw);
-  width: 100vw;
+  /* Capped at 1100 px so very wide screens (>1833 px) don't let the
+     image dominate the page. Below that it scales as 60vw. */
+  width: min(60vw, 1100px);
   height: 720px;
   z-index: 0;
   pointer-events: none;
@@ -22,79 +20,28 @@
   mask-image: linear-gradient(to bottom, black 0%, black 70%, transparent 100%);
 }
 
-/* Pure black so the hero band reads slightly darker than the page bg
-   (#0a0a0e — near-black but tinted), giving the panel a clean opaque
-   edge before it fades. */
-.blackPanel {
-  position: absolute;
-  top: 0;
-  left: 0;
-  /* Right edge meets where the image starts — image is min(60vw,1100px)
-     pinned to the viewport's right, so the panel ends min(60vw,1100px)
-     from the right. */
-  right: min(60vw, 1100px);
-  height: 100%;
-  background: #000;
-}
-
-.imageWrap {
-  position: absolute;
-  top: 0;
-  right: 0;
-  /* Capped at 1100 px so very wide screens (>1833 px viewport) don't let
-     the image dominate the page. Below that it scales as 60vw. */
-  width: min(60vw, 1100px);
-  height: 100%;
-}
-
 .image {
   object-fit: cover;
   /* Anchor to top-right so when the image is taller than the box (e.g.
      at very wide screens where width is capped but height stays 720),
-     cropping happens from the BOTTOM rather than splitting top/bottom. */
+     cropping happens from the BOTTOM rather than splitting the head off
+     the top. */
   object-position: right top;
-}
-
-.overlay {
-  position: absolute;
-  inset: 0;
-  /* Horizontal-gradient overlay: heavier on the left where the lede
-     can overlap the brightest indigo strands at narrower desktops
-     (≤1280), fading to a light wash at the right so the indigo
-     silhouette retains its intensity. */
-  background: linear-gradient(
-    90deg,
-    rgba(10, 10, 14, 0.55) 0%,
-    rgba(10, 10, 14, 0.35) 40%,
-    rgba(10, 10, 14, 0.2) 100%
-  );
 }
 
 @media (max-width: 720px) {
   .wrap {
-    height: 600px;
-  }
-  /* Image takes the full mobile viewport, so the left panel collapses
-     to zero — keep the node in the DOM but make it disappear behind
-     the imageWrap. */
-  .blackPanel {
-    display: none;
-  }
-  .imageWrap {
+    /* Span the viewport — the figure now sits behind the text rather
+       than alongside it. Both edges extended past Subpage's 20 px
+       padding to fill the screen. */
+    left: calc(50% - 50vw);
+    right: calc(50% - 50vw);
     width: 100vw;
-    left: 0;
-    right: 0;
+    height: 600px;
   }
   .image {
     /* Centred horizontally; top-anchored so any height-overflow crops
        from the bottom (matches desktop behavior). */
     object-position: center top;
-  }
-  .overlay {
-    /* Stronger overlay because the title and lede now sit directly on
-       top of the image. Calibrated so the indigo silhouette still
-       reads as a presence, but neither the white display title nor
-       the indigo-bright lede compete with the image's own indigo. */
-    background: rgba(10, 10, 14, 0.6);
   }
 }
