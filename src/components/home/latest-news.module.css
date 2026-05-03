@@ -1,8 +1,14 @@
 /* White-panel surface inversion. Same near-white as the mission panel
    (#f4f4f1) so the home page rhythm reads as one continuous treatment.
    Sits flush below partners-ribbon — no border-top, no margin. The ribbon's
-   dark surface stops, the white panel begins. */
+   dark surface stops, the white panel begins.
+
+   `position: relative; z-index: 4` matches mission-panel + partners-ribbon
+   so the fixed-position topo canvas (z-index 0) stays behind this panel
+   and doesn't bleed through. */
 .section {
+  position: relative;
+  z-index: 4;
   background: #f4f4f1;
   padding: clamp(80px, 12vh, 140px) clamp(40px, 6vw, 96px);
   color: #0a0a0e;
@@ -19,9 +25,10 @@
      margin-top, not this header. */
 }
 
-/* "LATEST NEWS" eyebrow. Plain mono — NO flanking hairlines (different
-   from the line-flanked mission/section eyebrows used elsewhere on /press
-   and the mission panel). */
+/* "LATEST NEWS" eyebrow with the same line-flanked treatment as the
+   partners ribbon's "Affiliations and Partners" label. The flank colour
+   uses --indigo at 50% opacity (the darker indigo) which reads well on
+   the white surface. */
 .eyebrow {
   font-family: var(--font-mono);
   font-size: 11px;
@@ -30,6 +37,22 @@
   text-transform: uppercase;
   color: var(--indigo-bright);
   margin: 0 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.eyebrow::before,
+.eyebrow::after {
+  content: "";
+  flex: 0 0 60px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(74, 84, 192, 0.5));
+}
+
+.eyebrow::after {
+  background: linear-gradient(90deg, rgba(74, 84, 192, 0.5), transparent);
 }
 
 .title {
@@ -184,14 +207,32 @@
     border-top: 1px solid rgba(10, 10, 14, 0.12);
   }
 
+  /* Each card sits 24 px below the hairline above it, 28 px above the
+     hairline below it (extra breathing room so the rule reads as a clear
+     separator instead of butting against the date). The first card has
+     no leading hairline, so kill its top padding; the last card has no
+     trailing hairline, so kill its bottom padding (the section's own
+     bottom padding handles the gap to the next section). */
   .card,
   .slot:first-child .card,
   .slot:last-child .card {
-    padding: 24px 0 0;
+    padding: 24px 0 28px;
   }
 
-  /* First card has no leading rule, so kill its top padding too. */
   .slot:first-child .card {
     padding-top: 0;
+  }
+
+  .slot:last-child .card {
+    padding-bottom: 0;
+  }
+
+  /* Title → date: tight (~6 px, was 20) so the date reads as a small
+     timestamp attached to the title above. Right-aligned so it visually
+     anchors to the row's trailing edge rather than competing with the
+     left-aligned outlet + title above. */
+  .date {
+    margin-top: 6px;
+    text-align: right;
   }
 }
