@@ -20,6 +20,13 @@
   animation: careers-bg-fade-in 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
+/* Wide-aspect viewports (ultrawides, 21:9, short browser windows). The
+   65% bias drops the frame far enough that seated speakers' heads start
+   to clip off the top — reframe higher to keep faces in view. */
+@media (min-aspect-ratio: 19 / 10) {
+  .bgImage { object-position: center 40%; }
+}
+
 @keyframes careers-bg-fade-in {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -70,6 +77,12 @@
   max-width: 920px;
   color: var(--ink);
   text-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+}
+
+.title em {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--indigo-bright);
 }
 
 .lede {

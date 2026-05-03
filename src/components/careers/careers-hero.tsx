@@ -11,7 +11,7 @@ export function CareersHero() {
           src="/assets/Careers.png"
           alt="Polytecks team"
           fill
-          priority
+          preload
           sizes="100vw"
           className={styles.bgImage}
         />
@@ -20,7 +20,7 @@ export function CareersHero() {
       <StackEntry index={0} className={styles.content}>
         <div className={styles.eyebrow}>Careers</div>
         <h1 className={styles.title}>
-          Help us build the future of bioelectrical sensing.
+          Help us build the future of <em>bioelectrical sensing.</em>
         </h1>
         <p className={styles.lede}>
           We&apos;re a highly technical team working across material science,
