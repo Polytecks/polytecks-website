@@ -39,6 +39,18 @@ export function PublicationBlock({ pub, n }: Props) {
           </a>
         </div>
         <div className={styles.aff}>{pub.affiliation}</div>
+        {/* Mobile-only arrow that mirrors the press list's bottom-right
+            chevron, also routing to the DOI. Hidden on desktop where the
+            inline DOI text link in .foot above is the affordance. */}
+        <a
+          className={styles.mobileArrow}
+          href={`https://doi.org/${pub.doi}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`Open DOI for ${pub.title}`}
+        >
+          →
+        </a>
       </div>
     </article>
   );

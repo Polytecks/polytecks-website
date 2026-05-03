@@ -153,6 +153,12 @@
   color: rgba(0, 0, 0, 0.4);
 }
 
+/* Mobile-only arrow link to the DOI. Hidden on desktop (the inline DOI
+   text link in .foot is the desktop affordance). */
+.mobileArrow {
+  display: none;
+}
+
 /* "FAB" marker, light-surface variant */
 .fabTag {
   display: inline-block;
@@ -173,5 +179,35 @@
   .block {
     grid-template-columns: 1fr;
     gap: 8px;
+  }
+  /* Title centred. NOT line-clamped — bibliographic titles must remain
+     fully readable; truncating with an ellipsis would lose essential
+     scholarly information. They wrap to 3-5 lines naturally. */
+  .body .title {
+    text-align: center;
+  }
+  .authors,
+  .foot,
+  .aff {
+    text-align: center;
+  }
+  .foot {
+    justify-content: center;
+  }
+  /* Show the mobile DOI arrow at the bottom-right of the block. */
+  .mobileArrow {
+    display: block;
+    text-align: right;
+    margin-top: 12px;
+    font-family: var(--font-mono);
+    font-size: 22px;
+    line-height: 1;
+    color: var(--indigo);
+    text-decoration: none;
+    transition: transform 0.25s ease, color 0.2s ease;
+  }
+  .mobileArrow:active {
+    transform: translateX(4px);
+    color: var(--indigo-bright);
   }
 }
