@@ -169,11 +169,20 @@
   font-weight: 600;
   font-size: clamp(20px, 1.8vw, 36px);
   line-height: 1.5;
+  /* Slight optical tightening so the full sub copy fits on one line at
+     every desktop breakpoint ≥1280. Without this, 1280/1440/1600 are
+     each ~10-15 px shy of natural width and force a wrap. */
+  letter-spacing: -0.02em;
   /* Indigo-bright at all viewport widths — was previously white at desktop
      and indigo only on mobile; the unified treatment matches the brand's
      italic-accent vocabulary. */
   color: var(--indigo-bright);
-  max-width: clamp(520px, 60vw, 900px);
+  /* No fixed cap — let the grid column be the line-length authority. The
+     prior 900 px clamp prematurely wrapped the sub at 1920+ even though
+     the left column had room. Below ~1100 px viewport the 1.2fr column
+     is genuinely too narrow for the full string at this size, and the
+     sub wraps to two lines naturally. */
+  max-width: 100%;
   margin-bottom: 64px;
   /* Same omnidirectional black halo pattern as .headline — was a
      single Y-offset drop shadow, swapped to multi-layer halo so the
