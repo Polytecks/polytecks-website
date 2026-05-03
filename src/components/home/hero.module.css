@@ -167,7 +167,7 @@
   /* Bumped to 600 to read with appropriate emphasis against the
      display-300 headline above. */
   font-weight: 600;
-  font-size: clamp(19px, 1.4vw, 28px);
+  font-size: clamp(20px, 1.8vw, 36px);
   line-height: 1.5;
   /* Indigo-bright at all viewport widths — was previously white at desktop
      and indigo only on mobile; the unified treatment matches the brand's
