@@ -71,6 +71,14 @@
   animation: slidePx var(--ribbon-loop-duration, 44s) linear infinite;
 }
 
+/* Pause the marquee while the user is hovering over a logo, so the hover
+   glow stays anchored to the item the user is interacting with rather
+   than flicking on and off as the marquee carries items under the
+   cursor. */
+.track:has(.item:hover) {
+  animation-play-state: paused;
+}
+
 /* Per MOBILE_STRATEGY.md §4.5 — the loop offset (half-set width) doesn't
    shrink much with viewport because the partner items aren't fluid, but
    a long sweep on a phone feels glacial. Compress duration on smaller
@@ -101,12 +109,41 @@
   flex: 0 0 auto;
   width: clamp(160px, 18vw, 220px);
   height: 80px;
+  position: relative;
+  isolation: isolate;
   display: flex;
   align-items: center;
   justify-content: center;
   filter: grayscale(1) contrast(0.95);
   opacity: 0.7;
-  transition: opacity 0.4s, filter 0.4s, transform 0.4s;
+  transition: opacity 0.3s ease, filter 0.3s ease, transform 0.3s ease;
+}
+
+/* Hover halo — a soft indigo radial gradient anchored to the item box
+   itself (not a drop-shadow). The gradient is fully contained within
+   the item: it fades to transparent before the box edge, so the glow
+   can't be clipped by the trackWrap's horizontal overflow-clip or
+   bleed into neighbouring items. The marquee pauses on hover
+   (.track:has(.item:hover)) so the glow stays anchored where the
+   cursor is rather than flickering as items pass under it. */
+.item::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 65% 75% at center,
+    rgba(106, 116, 220, 0.55),
+    rgba(106, 116, 220, 0.15) 65%,
+    transparent 100%
+  );
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.item:hover::before {
+  opacity: 1;
 }
 
 /* Variant for square logos (e.g. 5050) which need a taller box than the
@@ -119,10 +156,11 @@
 
 .item:hover {
   opacity: 1;
-  /* Hover is the only state with the indigo halo — the rAF centre
-     detection now restores colour/opacity but does not glow. */
-  filter: grayscale(0) contrast(1) drop-shadow(0 0 18px rgba(106, 116, 220, 0.45));
-  transform: scale(1.08);
+  filter: grayscale(0) contrast(1);
+  /* A modest scale so the hovered logo grows just enough to feel
+     active without colliding with the halo's edges or the trackWrap's
+     horizontal mask. */
+  transform: scale(1.04);
 }
 
 /* As each logo passes the centre of the viewport the rAF loop tags it

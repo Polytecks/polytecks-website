@@ -10,7 +10,7 @@ import styles from "./partners-ribbon.module.css";
 // which would otherwise be vertically constrained against wide wordmarks.
 type Partner = { name: string; src: string; scale?: number; square?: boolean };
 const PARTNERS: Partner[] = [
-  { name: "Innovate UK",                                              src: "/assets/afil_UKRI.png" },
+  { name: "Innovate UK",                                              src: "/assets/afil_UKRI.png", scale: 0.92 },
   { name: "Cambridge Enterprise",                                     src: "/assets/afil_CE.png", scale: 1.4 },
   { name: "EPSRC Photonic & Electronic Systems CDT",                  src: "/assets/afil_EPSRC.png" },
   { name: "King's E-Lab",                                             src: "/assets/afil_elab (1).png" },
