@@ -51,7 +51,12 @@
 
 .trackWrap {
   position: relative;
-  overflow: hidden;
+  /* Clip horizontally only so scaled logos can overflow vertically into
+     the ribbon's top/bottom padding without being cut off. `overflow:
+     clip` (vs hidden) avoids the axis-coupling rule that would force
+     overflow-y to auto when overflow-x is hidden. */
+  overflow-x: clip;
+  overflow-y: visible;
   mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
 }
@@ -104,9 +109,19 @@
   transition: opacity 0.4s, filter 0.4s, transform 0.4s;
 }
 
+/* Variant for square logos (e.g. 5050) which need a taller box than the
+   wider wordmarks; their content fills more vertical space and would
+   otherwise read smaller. The track is `align-items: center`, so this
+   item sits centred against its 80 px neighbours. */
+.itemSquare {
+  height: 110px;
+}
+
 .item:hover {
   opacity: 1;
-  filter: grayscale(0) contrast(1);
+  /* Hover is the only state with the indigo halo — the rAF centre
+     detection now restores colour/opacity but does not glow. */
+  filter: grayscale(0) contrast(1) drop-shadow(0 0 18px rgba(106, 116, 220, 0.45));
   transform: scale(1.08);
 }
 
@@ -141,19 +156,10 @@
     width: clamp(140px, 32vw, 180px);
     height: 64px;
   }
+  .itemSquare {
+    height: 88px;
+  }
   .label {
     margin-bottom: 40px;
-  }
-  /* Mobile-only: the rAF centre-detection adds the scale + indigo halo
-     to whichever logo is passing through the viewport centre. There is
-     no hover state on touch, so this is the only affordance signalling
-     the focal logo. */
-  .item.isCenter {
-    filter: grayscale(0) contrast(1) drop-shadow(0 0 18px rgba(106, 116, 220, 0.45));
-    transform: scale(1.08);
-  }
-  .item.isNear {
-    filter: grayscale(0.4) contrast(0.95) drop-shadow(0 0 8px rgba(106, 116, 220, 0.18));
-    transform: scale(1.03);
   }
 }

@@ -1,18 +1,24 @@
-/* Background image (indigo vasculature figure on transparent bg) behind
-   the about page header. With the asset's bg now transparent, the page
-   surface shows through directly — no panel chrome or darkening overlay
-   needed; the figure is the only visual contribution. The bottom 30%
-   fades to transparent via mask-image so the figure dissolves into the
-   dark page bg before the Cambridge section starts. */
+/* Background figure (indigo vasculature anatomical bust on a transparent
+   PNG) behind the about page header. The source asset is tall and narrow
+   (429×941, aspect ~0.456) — cover-fitting it into a wide box stretched
+   the figure unnaturally. We now size the wrap to match the source's
+   natural aspect and use object-fit: contain so the figure renders at
+   its true proportions. The wrap sits to the centre-right of the screen,
+   inset from the viewport edge so the figure clearly stays to the right
+   of the title column. The bottom 30% fades to transparent so the
+   figure dissolves into the dark page bg before the Cambridge section. */
 .wrap {
   position: absolute;
   top: 0;
-  /* Anchored to the viewport's right edge regardless of the centred
-     1100 px Subpage container. */
-  right: calc(50% - 50vw);
-  /* Capped at 1100 px so very wide screens (>1833 px) don't let the
-     image dominate the page. Below that it scales as 60vw. */
-  width: min(60vw, 1100px);
+  /* Inset from the viewport's right edge by ~6vw so the figure reads as
+     centre-right rather than flush against the page edge. `calc(50% -
+     50vw + ...)` escapes the centred Subpage container and re-anchors
+     to the viewport. */
+  right: calc(50% - 50vw + 6vw);
+  /* Width tracks the source aspect at the wrap's height: at 720 tall,
+     natural width ≈ 330. Clamp scales gracefully on narrow desktops
+     while keeping the figure clear of the title column. */
+  width: clamp(240px, 24vw, 360px);
   height: 720px;
   z-index: 0;
   pointer-events: none;
@@ -21,27 +27,26 @@
 }
 
 .image {
-  object-fit: cover;
-  /* Anchor to top-right so when the image is taller than the box (e.g.
-     at very wide screens where width is capped but height stays 720),
-     cropping happens from the BOTTOM rather than splitting the head off
-     the top. */
-  object-position: right top;
+  /* Contain (not cover) so the figure renders at its true aspect and
+     isn't horizontally stretched by a wider container. */
+  object-fit: contain;
+  object-position: center top;
 }
 
 @media (max-width: 720px) {
   .wrap {
-    /* Span the viewport — the figure now sits behind the text rather
-       than alongside it. Both edges extended past Subpage's 20 px
-       padding to fill the screen. */
+    /* On mobile the figure sits behind the text rather than alongside
+       it. Span the viewport, edges extended past the 20 px Subpage
+       padding to reach the screen edge. */
     left: calc(50% - 50vw);
     right: calc(50% - 50vw);
     width: 100vw;
     height: 600px;
   }
   .image {
-    /* Centred horizontally; top-anchored so any height-overflow crops
-       from the bottom (matches desktop behavior). */
+    /* Mobile keeps cover so the figure fills the full-width band
+       behind the text. */
+    object-fit: cover;
     object-position: center top;
   }
 }

@@ -4,28 +4,22 @@ import Image from "next/image";
 import { useEffect, useRef } from "react";
 import styles from "./partners-ribbon.module.css";
 
-// `scale` boosts logos whose source PNG has heavy intrinsic padding so they
-// don't read smaller than their neighbours after object-fit: contain. The
-// item box stays the same size — only the rendered logo grows.
-//
-// Note on afil_5050.png: the original `afil_5050 (1).png` has a solid
-// off-white background with the "50" rendered as transparent holes —
-// designed for a light page bg. On our dark ribbon it rendered as a
-// white rectangle with the page bg showing through the holes. The
-// version used here was inverted (white-on-transparent) by
-// `compare/fix-5050-asset.mjs` so the mark reads correctly.
-type Partner = { name: string; src: string; scale?: number };
+// `scale` boosts logos whose source PNG has heavy intrinsic padding so
+// they don't read smaller than their neighbours after object-fit: contain.
+// `square: true` swaps to a taller item box for square logos (e.g. 5050)
+// which would otherwise be vertically constrained against wide wordmarks.
+type Partner = { name: string; src: string; scale?: number; square?: boolean };
 const PARTNERS: Partner[] = [
   { name: "Innovate UK",                                              src: "/assets/afil_UKRI.png" },
-  { name: "Cambridge Enterprise",                                     src: "/assets/afil_CE.png" },
+  { name: "Cambridge Enterprise",                                     src: "/assets/afil_CE.png", scale: 1.4 },
   { name: "EPSRC Photonic & Electronic Systems CDT",                  src: "/assets/afil_EPSRC.png" },
   { name: "King's E-Lab",                                             src: "/assets/afil_elab (1).png" },
-  { name: "5050",                                                     src: "/assets/afil_5050.png", scale: 1.35 },
+  { name: "5050",                                                     src: "/assets/afil_5050 (1).png", square: true },
   { name: "SPARK",                                                    src: "/assets/afil_SPARK.png" },
-  { name: "Royce Institute",                                          src: "/assets/afil_royce (1).png" },
+  { name: "Royce Institute",                                          src: "/assets/afil_royce (1).png", scale: 1.25 },
   { name: "Impulse Maxwell Centre",                                   src: "/assets/afil_impulse.png", scale: 1.12 },
   { name: "University of Cambridge",                                  src: "/assets/afil_cambridge.png" },
-  { name: "Worshipful Company of Scientific Instrument Makers",       src: "/assets/afil_worshipful.png" },
+  { name: "Worshipful Company of Scientific Instrument Makers",       src: "/assets/afil_worshipful.png", scale: 1.2 },
   { name: "21toWatch",                                                src: "/assets/afil_21towatch.webp" },
   { name: "Bioelectronics Lab",                                       src: "/assets/afil_bioelectronics.png" },
 ];
@@ -124,7 +118,10 @@ export function PartnersRibbon() {
       <div className={styles.trackWrap}>
         <div ref={trackRef} className={styles.track}>
           {items.map((p, i) => (
-            <div key={`${p.name}-${i}`} className={styles.item}>
+            <div
+              key={`${p.name}-${i}`}
+              className={p.square ? `${styles.item} ${styles.itemSquare}` : styles.item}
+            >
               <Image
                 src={p.src}
                 alt={p.name}
