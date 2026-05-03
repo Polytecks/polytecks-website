@@ -94,7 +94,7 @@
     * var(--tw-cb-scale, 1)
     * (1 - var(--tw-cb-crop-sides, 0))
   );
-  aspect-ratio: 1100 / calc(619 * (1 - var(--tw-cb-crop-bottom, 0)));
+  aspect-ratio: 1100 / calc(619 * (1 - var(--tw-cb-crop-bottom, 0.18)));
   height: auto;
   object-fit: cover;
   object-position: center top;
@@ -171,8 +171,8 @@
    ~2 lines instead of stacking 4 narrow ones. */
 .calloutText {
   position: absolute;
-  top: var(--tw-cb-callout-top, 32px);
-  left: var(--tw-cb-callout-left, 65vw);
+  top: var(--tw-cb-callout-top, 10vh);
+  left: var(--tw-cb-callout-left, 54vw);
   max-width: 480px;
   z-index: 3;
   font-family: var(--font-sans);

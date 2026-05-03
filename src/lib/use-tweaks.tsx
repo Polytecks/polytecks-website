@@ -160,10 +160,10 @@ export const TWEAK_DEFAULTS: TweakValues = {
   pillarCardStaggerMs: 120,
   devicesIconStaggerMs: 80,
 
-  cambridgeCalloutTopVh: 4,
-  cambridgeCalloutLeftVw: 60,
+  cambridgeCalloutTopVh: 10,
+  cambridgeCalloutLeftVw: 54,
   cambridgeImgScale: 1,
-  cambridgeCropBottom: 0,
+  cambridgeCropBottom: 0.18,
   cambridgeCropSides: 0,
   cambridgeSideFadePct: 8,
   cambridgeBottomFadePct: 15,
