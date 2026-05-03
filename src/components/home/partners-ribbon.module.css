@@ -1,10 +1,7 @@
 .ribbon {
   position: relative;
   z-index: 4;
-  /* padding-top dropped from 80 → 40. Combined with TWEAK_DEFAULT
-     homeRibbonMargin now 0 (was 80), the gap mission-bottom → label
-     is 41 px on every viewport — within the spec's 40-60 ceiling. */
-  padding: 40px 0 64px;
+  padding: 60px 0 96px;
   margin-top: var(--sp-home-ribbon, 0px);
   border-top: 1px solid var(--line);
   background: var(--bg);
@@ -31,7 +28,9 @@
   text-transform: uppercase;
   letter-spacing: 0.3em;
   text-align: center;
-  margin-bottom: 32px;
+  /* Pushes the logo row further down inside the ribbon panel so the
+     label and logos breathe more separately. */
+  margin-bottom: 56px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -61,9 +60,7 @@
   display: flex;
   gap: clamp(40px, 6vw, 80px);
   width: max-content;
-  /* flex-start so all logos align by their top edge regardless of how
-     many lines the caption below wraps to. */
-  align-items: flex-start;
+  align-items: center;
   /* Default duration scales with the new 11-logo set so px/sec stays
      close to the previous 8-text-item ribbon. */
   animation: slidePx var(--ribbon-loop-duration, 44s) linear infinite;
@@ -76,13 +73,13 @@
    constant. */
 @media (max-width: 720px) {
   .track {
-    --ribbon-loop-duration: 22s;
+    --ribbon-loop-duration: 32s;
   }
 }
 
 @media (max-width: 560px) {
   .track {
-    --ribbon-loop-duration: 15s;
+    --ribbon-loop-duration: 22s;
   }
 }
 
@@ -91,40 +88,44 @@
   to   { transform: translateX(calc(-1 * var(--ribbon-loop-offset, 50%))); }
 }
 
+/* Each item is a fixed-size box. Logos with wildly different intrinsic
+   aspect ratios (square crests, very wide wordmarks, tall coats of arms)
+   all read as the same visual unit because object-fit: contain scales
+   each one inside the same width × height. */
 .item {
   flex: 0 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  /* Fixed-but-fluid item width keeps logos at a consistent visual size
-     and gives captions a stable wrap context across the row. */
-  width: clamp(120px, 14vw, 160px);
-  transition: transform 0.4s;
-}
-
-.item:hover {
-  transform: scale(1.08);
-}
-
-/* Logo container — fixed height, contains the asset via object-fit. The
-   grayscale/dim treatment lives on this wrapper (not on .item) so the
-   caption text below stays at its intended --ink-dim color and doesn't
-   get brightness-pumped by the filter chain.
-
-   No brightness multiplier — the previous text-based ribbon used
-   brightness(1.6) for visual punch, but that clips light-grey backgrounds
-   to pure white and kills internal contrast on assets that have white
-   type on a light grey card (e.g. afil_5050, afil_21towatch, afil_SPARK). */
-.logoBox {
-  height: 52px;
-  width: 100%;
+  width: clamp(160px, 18vw, 220px);
+  height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
   filter: grayscale(1) contrast(0.95);
   opacity: 0.7;
-  transition: opacity 0.4s, filter 0.4s;
+  transition: opacity 0.4s, filter 0.4s, transform 0.4s;
+}
+
+.item:hover {
+  opacity: 1;
+  filter: grayscale(0) contrast(1);
+  transform: scale(1.08);
+}
+
+/* As each logo passes the centre of the viewport the rAF loop tags it
+   .isCenter — full colour, full opacity, and a subtle scale-up so the
+   logo currently being read grows briefly. .isNear is the smaller bump
+   on the two adjacent items so the transition into/out of centre feels
+   continuous rather than a hard pop. Important on mobile, where there
+   is no hover state to provide the same affordance. */
+/* Desktop: centre item is just full-colour + full-opacity. No scale,
+   no glow — desktop already has the hover affordance for that. */
+.item.isCenter {
+  opacity: 1;
+  filter: grayscale(0) contrast(1);
+}
+
+.item.isNear {
+  opacity: 0.85;
+  filter: grayscale(0.4) contrast(0.95);
 }
 
 .logo {
@@ -135,43 +136,24 @@
   object-fit: contain;
 }
 
-.caption {
-  font-family: var(--font-mono);
-  font-weight: 500;
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--ink-dim);
-  text-align: center;
-  line-height: 1.35;
-  max-width: 100%;
-  /* Allow long names to wrap to multiple lines rather than clipping —
-     the row uses align-items: flex-start so logos still align by top
-     even when one item's caption is taller. */
-  text-wrap: balance;
-}
-
-.item:hover .logoBox {
-  opacity: 1;
-  filter: grayscale(0) contrast(1);
-}
-
-.item.isCenter .logoBox {
-  opacity: 1;
-  filter: grayscale(0) contrast(1);
-}
-
-.item.isNear .logoBox {
-  opacity: 0.85;
-  filter: grayscale(0.4) contrast(0.95);
-}
-
 @media (max-width: 720px) {
   .item {
-    width: clamp(108px, 28vw, 140px);
-    gap: 8px;
+    width: clamp(140px, 32vw, 180px);
+    height: 64px;
   }
-  .logoBox {
-    height: 44px;
+  .label {
+    margin-bottom: 40px;
+  }
+  /* Mobile-only: the rAF centre-detection adds the scale + indigo halo
+     to whichever logo is passing through the viewport centre. There is
+     no hover state on touch, so this is the only affordance signalling
+     the focal logo. */
+  .item.isCenter {
+    filter: grayscale(0) contrast(1) drop-shadow(0 0 18px rgba(106, 116, 220, 0.45));
+    transform: scale(1.08);
+  }
+  .item.isNear {
+    filter: grayscale(0.4) contrast(0.95) drop-shadow(0 0 8px rgba(106, 116, 220, 0.18));
+    transform: scale(1.03);
   }
 }
