@@ -16,6 +16,14 @@
   background-repeat: no-repeat;
   display: flex;
   align-items: center;
+  /* Hero is height: 100vh and starts at y=72 (the fixed-nav offset on
+     <main>). align-items: center alone would centre the content at
+     heroTop + heroHeight/2 = 72 + 50vh — that's 72 px BELOW the
+     visual midpoint of the visible viewport. Bottom padding equal to
+     2x nav-h shrinks the cross-axis area at the bottom by 2*nav-h,
+     which shifts the centred content up by exactly nav-h, landing
+     the header on the visual midpoint when the page loads. */
+  padding-bottom: calc(var(--nav-h, 72px) * 2);
   /* Below this the dark page panel begins. */
   background-color: #0a0a0e;
 }
@@ -110,15 +118,6 @@
 }
 
 @media (max-width: 720px) {
-  /* Hero is height: 100vh and starts at y=72 (the fixed-nav offset on
-     <main>). align-items: center then centres content at heroTop +
-     heroHeight/2 = 72 + 50vh, which is 36 px BELOW the visual midpoint
-     of the visible viewport (50vh). Bottom padding equal to 2x the
-     nav height shifts the centred content up by exactly nav-h, putting
-     the header on the visual midpoint when the page loads. */
-  .hero {
-    padding-bottom: calc(var(--nav-h, 72px) * 2);
-  }
   .header {
     padding: 0 20px;
   }
