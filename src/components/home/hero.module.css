@@ -38,7 +38,15 @@
   position: relative;
   z-index: 4;
   width: 100%;
-  max-width: 1600px;
+  /* Hero breaks out of the standard ~1400-1600 content rail used by the
+     other home sections so on wide screens (≥1920) it occupies more of
+     the frame. With grid `1.2fr 1fr` the left track auto-sizes to the
+     headline's min-content (955px at 1920, 1140px at 2560 with the
+     7vw/160px clamp), which under the prior 1600 cap left the arm
+     column at just 549/367 px — a thumbnail. Widening the rail to
+     2000 gives the arm 789/764 px while still letting both elements
+     stay centred on a 4K monitor. */
+  max-width: 2000px;
   display: grid;
   gap: clamp(40px, 5vw, 96px);
   align-items: center;
@@ -260,7 +268,10 @@
 
 .arm img {
   width: 100%;
-  max-width: clamp(520px, 48vw, 860px);
+  /* Ceiling raised from 860 alongside the wider 2000-px content cap so
+     on 1920+ viewports the arm can fill its enlarged column instead of
+     being capped before reaching it. */
+  max-width: clamp(520px, 50vw, 940px);
   height: auto;
   /* arm "natural" treatment from legacy lines 801-803 */
   filter: contrast(1.1) saturate(1.15)
