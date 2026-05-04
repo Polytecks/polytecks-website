@@ -79,6 +79,25 @@
   border-color: var(--line-strong);
 }
 
+/* Darken overlay on hover — sits above the media and below the
+   legibility gradient/label (z-index ordering: media 0, darken 1,
+   gradient 2, label/arrow 3). pointer-events: none keeps the
+   surrounding <Link> as the click target. */
+.tile::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: rgba(10, 10, 14, 0.45);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.tile:hover::after {
+  opacity: 1;
+}
+
 /* Wrapper for the media (image OR the dual-video pair). The hover-scale
    transform applies HERE so both videos scale together and stay aligned;
    scaling each <video> independently would let them drift apart on the
