@@ -68,16 +68,15 @@
   padding: 0 40px;
 }
 
-/* The technology hero's title is the page's statement piece — sized
-   dramatically larger than the default subpage heading so it reads as
-   a typographic poster rather than a header. The 9vw ramp resolves to
-   ~115px at 1280, ~173px at 1920, and hits the 200px ceiling at
-   ~2222+. The line wraps to "The Mosaic™" / "Platform" at every
-   desktop breakpoint, which is the intended composition for this
-   scale. max-width override removes the 900px cap inherited from
-   subpage.module.css so the title has room before the natural break. */
+/* Technology title — sized so "The Mosaic™ Platform" fits on one line
+   at every desktop width. Natural width per em ≈ 9.66x font-size, and
+   the .header content area is 1072px at 1280 / 1520px at ≥1875 (after
+   90vw cap binds). 8vw with a 150 ceiling resolves to ~102px at 1280
+   (natural 989, buffer 83) and 150px at 1875+ (natural 1449, buffer
+   71). max-width: none overrides the 900px cap inherited from
+   subpage.module.css. */
 .header [class*="__title"] {
-  font-size: clamp(48px, 9vw, 200px);
+  font-size: clamp(48px, 8vw, 150px);
   line-height: 1.05;
   max-width: none;
 }
@@ -100,6 +99,34 @@
    word's indigo accent. */
 .tm {
   color: var(--indigo-bright);
+}
+
+/* Wide chevron under the title that gently floats up and down — a
+   visual cue to scroll past the hero. Indigo, with a soft glow that
+   matches the brand's italic-em-indigo vocabulary. The wrapper is a
+   flex container that centres the SVG horizontally; translateY on
+   the wrapper drifts the whole element rather than just the path. */
+.scrollHint {
+  display: flex;
+  justify-content: center;
+  margin-top: clamp(40px, 5vw, 80px);
+  color: var(--indigo-bright);
+  animation: scroll-hint-float 2.4s ease-in-out infinite;
+}
+
+.scrollHint svg {
+  width: clamp(96px, 10vw, 160px);
+  height: auto;
+  filter: drop-shadow(0 0 14px rgba(106, 116, 220, 0.45));
+}
+
+@keyframes scroll-hint-float {
+  0%, 100% { transform: translateY(0); }
+  50%     { transform: translateY(10px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scrollHint { animation: none; }
 }
 
 @media (max-width: 720px) {

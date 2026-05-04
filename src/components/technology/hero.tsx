@@ -20,6 +20,17 @@ export function TechnologyHero() {
             </>
           }
         />
+        <div className={styles.scrollHint} aria-hidden="true">
+          <svg viewBox="0 0 140 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M6 6 L70 26 L134 6"
+              stroke="currentColor"
+              strokeWidth="4"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </div>
       </div>
     </section>
   );
