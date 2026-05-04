@@ -19,7 +19,6 @@ export function TechnologyHero() {
               <sup className={styles.tm}>™</sup> Platform
             </>
           }
-          lede="A new frontier in bioelectrical mapping."
         />
       </div>
     </section>

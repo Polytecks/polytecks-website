@@ -56,27 +56,37 @@
   position: relative;
   z-index: 2;
   width: 100%;
-  max-width: 1100px;
+  /* Title is now the dominant typographic statement (clamp(48,9vw,200)
+     below) and at 1920+ "The Mosaic™" alone is ~930-1080px, so the
+     prior 1100 cap left no room for the natural break before
+     "Platform". Clamped fluid cap sized so 1920+ has at least 1520px
+     of usable inner width. */
+  max-width: clamp(1100px, 90vw, 1600px);
   /* Centred horizontally; vertical centring comes from the .hero flex
      parent's `align-items: center`. */
   margin: 0 auto;
   padding: 0 40px;
 }
 
-/* Bolder lede on the tech hero so it reads against the photographic
-   background. Targets the SubpageHeader's .lede paragraph by hashed
-   class substring (CSS Modules generate names like
-   `subpage-module___HASH__lede`). */
-.header [class*="__lede"] {
-  font-weight: 500;
+/* The technology hero's title is the page's statement piece — sized
+   dramatically larger than the default subpage heading so it reads as
+   a typographic poster rather than a header. The 9vw ramp resolves to
+   ~115px at 1280, ~173px at 1920, and hits the 200px ceiling at
+   ~2222+. The line wraps to "The Mosaic™" / "Platform" at every
+   desktop breakpoint, which is the intended composition for this
+   scale. max-width override removes the 900px cap inherited from
+   subpage.module.css so the title has room before the natural break. */
+.header [class*="__title"] {
+  font-size: clamp(48px, 9vw, 200px);
+  line-height: 1.05;
+  max-width: none;
 }
 
-/* Heavy black halo around the heading and subheading so they pop off
-   the photographic background. Five layered text-shadows: tight inner
-   shadows for crisp legibility, wide outer shadows for the dark glow,
-   and a subtle drop for grounding. */
-.header [class*="__title"],
-.header [class*="__lede"] {
+/* Heavy black halo around the heading so it pops off the photographic
+   background. Five layered text-shadows: tight inner shadows for crisp
+   legibility, wide outer shadows for the dark glow, and a subtle drop
+   for grounding. */
+.header [class*="__title"] {
   text-shadow:
     0 0 8px rgba(0, 0, 0, 0.95),
     0 0 18px rgba(0, 0, 0, 0.9),
@@ -105,20 +115,13 @@
   .header {
     padding: 0 20px;
   }
-  /* Slightly smaller heading + lede so they fit comfortably on a phone
+  /* Smaller heading on mobile so it fits comfortably on a phone
      viewport without breaking dramatically across multiple lines. The
-     dark glow above is also dialed back so it doesn't overwhelm the
+     dark glow above is also dialled back so it doesn't overwhelm the
      smaller text size. */
   .header [class*="__title"] {
     font-size: clamp(34px, 9vw, 44px);
     line-height: 1.1;
-  }
-  .header [class*="__lede"] {
-    font-size: clamp(15px, 4.4vw, 19px);
-    margin-bottom: 0;
-  }
-  .header [class*="__title"],
-  .header [class*="__lede"] {
     text-shadow:
       0 0 6px rgba(0, 0, 0, 0.95),
       0 0 14px rgba(0, 0, 0, 0.9),
