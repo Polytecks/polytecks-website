@@ -1,6 +1,12 @@
 /* Dark panel — flush below Latest News (white). The white panel ends,
-   the dark panel begins. No border, no margin, no separator. */
+   the dark panel begins. No border, no margin, no separator.
+   `position: relative; z-index: 4` matches the mission, ribbon, and
+   latest-news panels so the fixed-position topo canvas (z-index 0)
+   stays behind this panel — without it, the topo's contour lines
+   bleed through the dark bg. */
 .section {
+  position: relative;
+  z-index: 4;
   background: var(--bg);
   padding: clamp(80px, 12vh, 140px) clamp(40px, 6vw, 96px);
   color: var(--ink);
