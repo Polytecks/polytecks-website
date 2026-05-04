@@ -192,13 +192,15 @@
    breaks land naturally near the right margin instead of mid-clause. */
 .bodyText {
   /* Same font-family as the SubpageHeader lede so the section reads as
-     a continuation of the subpage's typographic system. */
+     a continuation of the subpage's typographic system. Sits under
+     the image, so the top margin is the gap between image bottom
+     and copy. */
   font-family: var(--font-sans);
   font-weight: 300;
   font-size: clamp(18px, 1.6vw, 26px);
   line-height: 1.55;
   color: var(--ink);
-  margin: 0 max(40px, calc(50vw - 530px)) 32px;
+  margin: 48px max(40px, calc(50vw - 530px)) 0;
   max-width: min(960px, calc(100vw - 80px));
   text-wrap: pretty;
 }
@@ -216,7 +218,7 @@
   z-index: 3;
   font-family: var(--font-sans);
   font-weight: 300;
-  font-size: calc(13px * var(--tw-cb-scale, 1));
+  font-size: calc(15px * var(--tw-cb-scale, 1));
   line-height: 1.5;
   color: var(--ink);
   margin: 0;

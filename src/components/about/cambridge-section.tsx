@@ -19,11 +19,6 @@ function DesktopCambridgeSection() {
         From Origins at the <em>University of Cambridge</em>
       </h2>
 
-      <p className={styles.bodyText}>
-        Polytecks grew out of the Cambridge ecosystem, and maintains strong
-        research links with the university.
-      </p>
-
       <div className={styles.body}>
         <div className={styles.media}>
           <Image
@@ -40,6 +35,11 @@ function DesktopCambridgeSection() {
           </p>
         </div>
       </div>
+
+      <p className={styles.bodyText}>
+        Polytecks grew out of the Cambridge ecosystem, and maintains strong
+        research links with the university.
+      </p>
     </section>
   );
 }
