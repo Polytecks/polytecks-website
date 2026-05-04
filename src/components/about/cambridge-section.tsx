@@ -29,17 +29,16 @@ function DesktopCambridgeSection() {
             sizes="100vw"
             preload
           />
+          <p className={styles.bodyText}>
+            Polytecks grew out of the Cambridge ecosystem, and maintains strong
+            research links with the university.
+          </p>
           <p className={styles.calloutText}>
             The ECG was first made in Cambridge over a century ago.{" "}
             <em>The next chapter starts here too.</em>
           </p>
         </div>
       </div>
-
-      <p className={styles.bodyText}>
-        Polytecks grew out of the Cambridge ecosystem, and maintains strong
-        research links with the university.
-      </p>
     </section>
   );
 }

@@ -185,24 +185,25 @@
   z-index: 2;
 }
 
-/* "Polytecks grew out of..." — sits as a normal paragraph between the
-   section title and the image, left-aligned to the same edge as the title.
-   Same display-font/size as the SubpageHeader lede so the section's
-   typographic rhythm matches the page hero. Wide max-width so the line
-   breaks land naturally near the right margin instead of mid-clause. */
+/* "Polytecks grew out of..." — promoted to a callout overlaid on the
+   image, mirroring the ECG callout treatment (same font-family,
+   weight, size, line-height, max-width, halo, and pointer-events).
+   Position is independently controlled via its own CSS vars so the
+   tweak panel can drag it around without touching the ECG callout. */
 .bodyText {
-  /* Same font-family as the SubpageHeader lede so the section reads as
-     a continuation of the subpage's typographic system. Sits under
-     the image, so the top margin is the gap between image bottom
-     and copy. */
+  position: absolute;
+  top: var(--tw-cb-body-callout-top, 10vh);
+  left: var(--tw-cb-body-callout-left, 8vw);
+  max-width: 480px;
+  z-index: 3;
   font-family: var(--font-sans);
   font-weight: 300;
-  font-size: clamp(18px, 1.6vw, 26px);
-  line-height: 1.55;
+  font-size: calc(15px * var(--tw-cb-scale, 1));
+  line-height: 1.5;
   color: var(--ink);
-  margin: 48px max(40px, calc(50vw - 530px)) 0;
-  max-width: min(960px, calc(100vw - 80px));
-  text-wrap: pretty;
+  margin: 0;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.55);
+  pointer-events: none;
 }
 
 /* ECG callout — plain white text floating over the image; no chrome.
@@ -246,12 +247,6 @@
        max(40px, …) which over-pads at small widths. */
     margin-left: 20px;
     margin-right: 20px;
-  }
-  .bodyText {
-    margin-left: 20px;
-    margin-right: 20px;
-    margin-bottom: 20px;
-    font-size: clamp(15px, 4.4vw, 18px);
   }
   .calloutText {
     /* Pull the callout in tight to the image's right side instead of

@@ -68,6 +68,10 @@ export type TweakValues = {
   // Wider ranges so the callout can be placed anywhere over/around the image.
   cambridgeCalloutTopVh: number;   // 0 → 100 (vh — top offset from image top)
   cambridgeCalloutLeftVw: number;  // 0 → 100 (vw — left offset from image left)
+  // Cambridge body callout ("Polytecks grew out of…") — positioned
+  // independently from the ECG callout so the two can sit side-by-side.
+  cambridgeBodyCalloutTopVh: number;   // 0 → 100 (vh)
+  cambridgeBodyCalloutLeftVw: number;  // 0 → 100 (vw)
   // Cambridge image fade controls
   cambridgeImgScale: number;     // 0.4 → 1.5, default 1 (multiplier on base size)
   cambridgeCropBottom: number;   // 0 → 0.6, default 0 (fraction trimmed from bottom)
@@ -162,6 +166,8 @@ export const TWEAK_DEFAULTS: TweakValues = {
 
   cambridgeCalloutTopVh: 10,
   cambridgeCalloutLeftVw: 54,
+  cambridgeBodyCalloutTopVh: 10,
+  cambridgeBodyCalloutLeftVw: 8,
   cambridgeImgScale: 1,
   cambridgeCropBottom: 0.18,
   cambridgeCropSides: 0,
@@ -264,6 +270,8 @@ function applyToBody(values: TweakValues) {
   // Cambridge callout text position — vh / vw so the slider scales with viewport.
   body.style.setProperty("--tw-cb-callout-top", `${values.cambridgeCalloutTopVh}vh`);
   body.style.setProperty("--tw-cb-callout-left", `${values.cambridgeCalloutLeftVw}vw`);
+  body.style.setProperty("--tw-cb-body-callout-top", `${values.cambridgeBodyCalloutTopVh}vh`);
+  body.style.setProperty("--tw-cb-body-callout-left", `${values.cambridgeBodyCalloutLeftVw}vw`);
 
   // Cambridge image — single source of truth: the box.
   body.style.setProperty("--tw-cb-scale", String(values.cambridgeImgScale));
