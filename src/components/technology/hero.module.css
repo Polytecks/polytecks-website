@@ -72,11 +72,6 @@
      parent's `align-items: center`. */
   margin: 0 auto;
   padding: 0 40px;
-  /* Eyebrow + title both centre as a symmetric stacked composition —
-     the badge sits directly above the "T" of "The" because both the
-     inline-block eyebrow and the (block + text-align: center) title
-     centre on the same axis. */
-  text-align: center;
 }
 
 /* Technology title — sized so "The Mosaic™ Platform" fits on one line
@@ -85,14 +80,12 @@
    ≥1875. 7vw with a 130 ceiling resolves to ~90px at 1280 (natural
    866, buffer 206) and 130px at 1857+ (natural 1255, buffer 265).
    max-width: none overrides the 900px cap inherited from
-   subpage.module.css; margin: 0 auto centres the now-block title
-   so its left edge no longer sits at the header's left padding. */
+   subpage.module.css; left-aligned within the header by default
+   (block flow, no auto margins). */
 .header [class*="__title"] {
   font-size: clamp(40px, 7vw, 130px);
   line-height: 1.05;
   max-width: none;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 /* Heavy black halo around the heading so it pops off the photographic
