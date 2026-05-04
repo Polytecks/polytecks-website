@@ -73,4 +73,12 @@
   .actions {
     align-items: flex-start;
   }
+  /* On mobile, drop "Get in touch." to its own line so the question
+     and the CTA read as two distinct phrases. The em's existing
+     italic-indigo styling (incl. the indigo fullstop) is preserved
+     because we only change its `display` property, not its colour. */
+  .headline em {
+    display: block;
+    margin-top: 6px;
+  }
 }
