@@ -106,7 +106,7 @@
   justify-content: center;
   filter: grayscale(1) contrast(0.95);
   opacity: 0.7;
-  transition: opacity 0.3s ease, filter 0.3s ease;
+  transition: opacity 0.3s ease, filter 0.3s ease, transform 0.3s ease;
 }
 
 /* Variant for square logos (e.g. 5050) which need a taller box than the
@@ -151,5 +151,19 @@
   }
   .label {
     margin-bottom: 40px;
+  }
+  /* On mobile drop the .isCenter / .isNear brightness boost — that
+     full-colour-against-grayscale-neighbours treatment reads as a
+     glow on small screens. Replace it with a subtle scale on the
+     centre item, which is more legible on a phone where the row
+     occupies most of the visible width and the focus cue should be
+     proportional rather than tonal. */
+  .item.isCenter,
+  .item.isNear {
+    opacity: 0.7;
+    filter: grayscale(1) contrast(0.95);
+  }
+  .item.isCenter {
+    transform: scale(1.12);
   }
 }
