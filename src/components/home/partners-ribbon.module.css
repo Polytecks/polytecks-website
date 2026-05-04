@@ -63,7 +63,10 @@
 
 .track {
   display: flex;
-  gap: clamp(40px, 6vw, 80px);
+  /* Bumped from clamp(40,6vw,80) so logos read as more visually
+     separated — under the prior gap, narrow square crests sat
+     close to neighbouring wordmarks and the row felt crowded. */
+  gap: clamp(64px, 9vw, 140px);
   width: max-content;
   align-items: center;
   /* Default duration scales with the new 11-logo set so px/sec stays
@@ -93,17 +96,14 @@
   to   { transform: translateX(calc(-1 * var(--ribbon-loop-offset, 50%))); }
 }
 
-/* Each item sizes to its rendered logo's width — height is the layout
-   anchor (80 px base, multiplied by the per-logo --logo-scale CSS
-   var), and the image inside renders at 100% of that height with
-   width auto, so the item width equals the rendered logo width.
-   This keeps the visible black space between adjacent logos equal
-   to the .track gap; under the prior fixed-width-box approach,
-   narrow logos like 5050 left ~55 px of empty padding inside their
-   box on each side, so the visible gap varied wildly per pair. */
+/* Each item is a fixed-size box. Logos with wildly different intrinsic
+   aspect ratios (square crests, very wide wordmarks, tall coats of arms)
+   all read as the same visual unit because object-fit: contain scales
+   each one inside the same width × height. */
 .item {
   flex: 0 0 auto;
-  height: calc(80px * var(--logo-scale, 1));
+  width: clamp(160px, 18vw, 220px);
+  height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -112,12 +112,12 @@
   transition: opacity 0.3s ease, filter 0.3s ease, transform 0.3s ease;
 }
 
-/* Variant for square logos (e.g. 5050) which need a taller anchor —
-   square crests at 80 px tall would render visibly smaller than the
-   wide wordmarks beside them; bumping to 110 px brings their
-   rendered area into balance. */
+/* Variant for square logos (e.g. 5050) which need a taller box than the
+   wider wordmarks; their content fills more vertical space and would
+   otherwise read smaller. The track is `align-items: center`, so this
+   item sits centred against its 80 px neighbours. */
 .itemSquare {
-  height: calc(110px * var(--logo-scale, 1));
+  height: 110px;
 }
 
 /* As each logo passes the centre of the viewport the rAF loop tags it
@@ -137,23 +137,20 @@
 }
 
 .logo {
-  /* Logo fills the item's height (driven by --logo-scale on .item)
-     and lets width follow its intrinsic aspect ratio. The item then
-     auto-sizes to that width, so each logo's layout box matches its
-     rendered footprint and no internal padding accumulates. */
-  height: 100% !important;
   width: auto !important;
-  max-width: none;
+  height: auto !important;
+  max-width: 100%;
   max-height: 100%;
   object-fit: contain;
 }
 
 @media (max-width: 720px) {
   .item {
-    height: calc(64px * var(--logo-scale, 1));
+    width: clamp(140px, 32vw, 180px);
+    height: 64px;
   }
   .itemSquare {
-    height: calc(88px * var(--logo-scale, 1));
+    height: 88px;
   }
   .label {
     margin-bottom: 40px;
