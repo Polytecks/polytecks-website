@@ -80,9 +80,11 @@
      object-fit: cover with object-position: center top clips into a
      box of fixed shape, so the bottom crop can never drift on resize.
      ────────────────────────────────────────────────────────────────────
-     Width is responsive: capped at 1400px on wide displays, scales down
-     with the viewport on narrow ones. Multiplied by --tw-cb-scale and
-     reduced by --tw-cb-crop-sides.
+     Width fills the viewport up to a 1400 px ceiling — on average
+     laptops (≤1400 px wide) the image is full-bleed, on wider
+     displays it's capped and the surrounding page bg shows on either
+     side. Multiplied by --tw-cb-scale and reduced by
+     --tw-cb-crop-sides.
      Aspect ratio is locked at 1100 / 619 (the source's natural ratio)
      and WIDENED by the bottom-crop slider — increasing crop_bottom
      shortens the box in proportion to its width, which is what
@@ -90,7 +92,7 @@
      width via aspect-ratio. */
   display: block;
   width: calc(
-    min(1400px, 92vw)
+    min(1400px, 100vw)
     * var(--tw-cb-scale, 1)
     * (1 - var(--tw-cb-crop-sides, 0))
   );
@@ -98,36 +100,65 @@
   height: auto;
   object-fit: cover;
   object-position: center top;
-  /* Linear-gradient mask compositing — three soft fades (left, right,
-     bottom) with a hard top edge.
-       Layer A: horizontal fade — fades the left and right edges.
-       Layer B: vertical (bottom→top) fade — fades the bottom only;
-                "black 100%" at the top end means no fade up there.
-     mask-composite: intersect (and the webkit equivalent source-in)
-     show the image where BOTH masks say "show," so the three fades
-     stack cleanly instead of summing. */
-  -webkit-mask-image:
-    linear-gradient(to right,
-      transparent 0%,
-      black var(--tw-cb-side-fade, 8%),
-      black calc(100% - var(--tw-cb-side-fade, 8%)),
-      transparent 100%),
-    linear-gradient(to top,
-      transparent 0%,
-      black var(--tw-cb-bottom-fade, 15%),
-      black 100%);
-  -webkit-mask-composite: source-in;
-  mask-image:
-    linear-gradient(to right,
-      transparent 0%,
-      black var(--tw-cb-side-fade, 8%),
-      black calc(100% - var(--tw-cb-side-fade, 8%)),
-      transparent 100%),
-    linear-gradient(to top,
-      transparent 0%,
-      black var(--tw-cb-bottom-fade, 15%),
-      black 100%);
-  mask-composite: intersect;
+  /* Default mask: bottom fade only — no side fade because on average
+     laptop viewports the image runs edge-to-edge, so a side fade
+     would just dim the leftmost/rightmost slice of the image against
+     the page bg, not produce a soft dissolve. Side fade is re-added
+     in the @media (min-width: 1600px) block below where the image
+     genuinely floats inside the viewport. */
+  -webkit-mask-image: linear-gradient(
+    to top,
+    transparent 0%,
+    black var(--tw-cb-bottom-fade, 15%),
+    black 100%
+  );
+  mask-image: linear-gradient(
+    to top,
+    transparent 0%,
+    black var(--tw-cb-bottom-fade, 15%),
+    black 100%
+  );
+}
+
+/* Wide-display variant — viewport ≥1600 px puts at least 100 px of bg
+   on each side of the (capped at 1400 px) image, which is enough room
+   for the side fade to read as a soft dissolve into the page bg
+   rather than as a strip of dimmed image. mask-composite: intersect
+   (and the webkit source-in equivalent) shows the image where BOTH
+   masks say "show," so the three fades stack cleanly. */
+@media (min-width: 1600px) {
+  .media img {
+    -webkit-mask-image:
+      linear-gradient(
+        to right,
+        transparent 0%,
+        black var(--tw-cb-side-fade, 8%),
+        black calc(100% - var(--tw-cb-side-fade, 8%)),
+        transparent 100%
+      ),
+      linear-gradient(
+        to top,
+        transparent 0%,
+        black var(--tw-cb-bottom-fade, 15%),
+        black 100%
+      );
+    -webkit-mask-composite: source-in;
+    mask-image:
+      linear-gradient(
+        to right,
+        transparent 0%,
+        black var(--tw-cb-side-fade, 8%),
+        black calc(100% - var(--tw-cb-side-fade, 8%)),
+        transparent 100%
+      ),
+      linear-gradient(
+        to top,
+        transparent 0%,
+        black var(--tw-cb-bottom-fade, 15%),
+        black 100%
+      );
+    mask-composite: intersect;
+  }
 }
 
 
