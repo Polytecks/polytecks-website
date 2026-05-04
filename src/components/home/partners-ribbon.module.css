@@ -96,13 +96,20 @@
   to   { transform: translateX(calc(-1 * var(--ribbon-loop-offset, 50%))); }
 }
 
-/* Each item is a fixed-size box. Logos with wildly different intrinsic
-   aspect ratios (square crests, very wide wordmarks, tall coats of arms)
-   all read as the same visual unit because object-fit: contain scales
-   each one inside the same width × height. */
+/* Each item's WIDTH is content-sized (= the rendered logo's width),
+   capped at the original visual extent (clamp × --logo-scale). This
+   makes the visible black space between logos equal to the .track
+   gap on every pair — under a fixed-width box, narrow crests like
+   5050 left ~55 px of empty padding inside their box that varied
+   per logo and made the visible gaps look uneven.
+   HEIGHT stays the layout anchor (80 px / 110 px square) so each
+   logo reads at the same scale as before; the image inside fills
+   that height and lets width follow its intrinsic aspect, capped
+   by the item's max-width. */
 .item {
   flex: 0 0 auto;
-  width: clamp(160px, 18vw, 220px);
+  width: max-content;
+  max-width: calc(clamp(160px, 18vw, 220px) * var(--logo-scale, 1));
   height: 80px;
   display: flex;
   align-items: center;
@@ -112,10 +119,10 @@
   transition: opacity 0.3s ease, filter 0.3s ease, transform 0.3s ease;
 }
 
-/* Variant for square logos (e.g. 5050) which need a taller box than the
-   wider wordmarks; their content fills more vertical space and would
-   otherwise read smaller. The track is `align-items: center`, so this
-   item sits centred against its 80 px neighbours. */
+/* Variant for square logos (e.g. 5050) which need a taller anchor —
+   square crests at 80 px tall would render visibly smaller than the
+   wide wordmarks beside them; bumping to 110 px brings their
+   rendered area into balance. */
 .itemSquare {
   height: 110px;
 }
@@ -137,16 +144,24 @@
 }
 
 .logo {
+  /* Height fills the item box, then multiplied by --logo-scale so
+     narrow logos that previously relied on a transform: scale boost
+     keep their visual size (image renders taller, width auto then
+     follows its intrinsic aspect at the new height). The item's
+     max-width caps width-runaway for very wide aspects (e.g.
+     Cambridge Enterprise's 5:1 wordmark) — at the cap, height
+     auto-shrinks to maintain aspect, which matches what the prior
+     fixed-box + transform produced. */
+  height: calc(100% * var(--logo-scale, 1)) !important;
   width: auto !important;
-  height: auto !important;
   max-width: 100%;
-  max-height: 100%;
+  max-height: none;
   object-fit: contain;
 }
 
 @media (max-width: 720px) {
   .item {
-    width: clamp(140px, 32vw, 180px);
+    max-width: calc(clamp(140px, 32vw, 180px) * var(--logo-scale, 1));
     height: 64px;
   }
   .itemSquare {

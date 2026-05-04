@@ -121,6 +121,7 @@ export function PartnersRibbon() {
             <div
               key={`${p.name}-${i}`}
               className={p.square ? `${styles.item} ${styles.itemSquare}` : styles.item}
+              style={p.scale ? { ["--logo-scale" as string]: p.scale } : undefined}
             >
               <Image
                 src={p.src}
@@ -128,7 +129,6 @@ export function PartnersRibbon() {
                 width={400}
                 height={160}
                 className={styles.logo}
-                style={p.scale ? { transform: `scale(${p.scale})` } : undefined}
                 unoptimized
               />
             </div>
