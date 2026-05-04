@@ -11,7 +11,12 @@
    .lede margin-bottom is 72 px (subpage.module.css), which collapsed
    with the strip's 32 px margin-top to leave a 72 px gap. Targeting
    the hashed __lede substring is necessary because CSS Modules
-   rewrites class names. */
+   rewrites class names.
+
+   Also widen the lede to match the title's 900 px max-width so the
+   sub-line wraps naturally across two lines on a typical laptop
+   instead of three under the default 680 px cap. */
 .subpage [class*="__lede"] {
   margin-bottom: 40px;
+  max-width: 900px;
 }
