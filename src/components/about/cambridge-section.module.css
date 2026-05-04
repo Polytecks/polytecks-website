@@ -92,7 +92,7 @@
      width via aspect-ratio. */
   display: block;
   width: calc(
-    min(1400px, 100vw)
+    100vw
     * var(--tw-cb-scale, 1)
     * (1 - var(--tw-cb-crop-sides, 0))
   );
@@ -128,6 +128,14 @@
    masks say "show," so the three fades stack cleanly. */
 @media (min-width: 1600px) {
   .media img {
+    /* On wide displays cap the image at 1400 px so it stops growing
+       with the viewport — at this size the side fade has room to
+       read as a soft dissolve rather than dimming the photo's edge. */
+    width: calc(
+      min(1400px, 100vw)
+      * var(--tw-cb-scale, 1)
+      * (1 - var(--tw-cb-crop-sides, 0))
+    );
     -webkit-mask-image:
       linear-gradient(
         to right,
