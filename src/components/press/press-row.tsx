@@ -30,7 +30,8 @@ export function PressRow({ item }: Props) {
         </span>
       </div>
       <div className={styles.arrow} aria-hidden="true">
-        →
+        <span className={styles.readText}>Read article</span>
+        <span className={styles.readArrow}>→</span>
       </div>
     </a>
   );

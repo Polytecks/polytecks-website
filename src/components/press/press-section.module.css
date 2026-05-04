@@ -155,6 +155,13 @@
   transition: color 0.25s, transform 0.25s;
 }
 
+/* "Read article" text reveal — hidden on desktop where the bare arrow
+   glyph in the right column is the affordance; shown on mobile where
+   the row collapses and we want explicit "READ ARTICLE →" copy. */
+.readText {
+  display: none;
+}
+
 .row:hover .arrow {
   color: var(--indigo-light);
   transform: translateX(4px);
@@ -185,41 +192,82 @@
     margin-top: 32px;
     padding: 0 20px;
   }
+  /* Mobile press row uses grid-template-areas to lay out:
+     [date] [outlet]
+     [   title    ]
+     [   read →   ]
+     The .left and .mid wrappers collapse to display: contents so
+     their children become direct grid items of .row, addressable by
+     area name. Desktop wrapper rules above stay untouched. */
   .row {
-    grid-template-columns: 1fr;
-    gap: 12px;
+    grid-template-columns: auto 1fr;
+    grid-template-areas:
+      "date outlet"
+      "title title"
+      "read read";
+    column-gap: 16px;
+    row-gap: 16px;
+    align-items: start;
+    padding: 24px 0;
   }
-  .left {
-    flex-direction: row;
-    gap: 12px;
+  .left,
+  .mid {
+    display: contents;
   }
-  /* Title centred and capped to 2 lines on mobile per spec — long
-     headlines (e.g. the Cambridge Engineering one) ellipsis at line 2. */
-  .row .title {
-    text-align: center;
+  .date {
+    grid-area: date;
+    white-space: nowrap;
+  }
+  .outlet {
+    grid-area: outlet;
+    text-align: right;
+    color: var(--indigo-bright);
+    /* Allow long outlet names ("DEPARTMENT OF ENGINEERING, CAMBRIDGE")
+       to wrap to a second line, but no further. */
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
     overflow: hidden;
   }
-  /* Tag pill centred under the (centred) title. */
-  .mid {
+  .row .title {
+    grid-area: title;
+    text-align: left;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(16px, 4vw, 20px);
+    line-height: 1.3;
+    /* Truncate at 3 lines so a very long headline doesn't dominate
+       the card vertically. */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+  }
+  /* Tag pill is omitted on mobile — the explicit "Read article →"
+     copy below already signals the type of destination, and the
+     pill crowds the three-row card. */
+  .tag {
+    display: none;
+  }
+  .arrow {
+    grid-area: read;
     display: flex;
-    flex-direction: column;
+    justify-content: flex-end;
     align-items: center;
     gap: 8px;
-  }
-  .tag {
-    margin-top: 0;
-  }
-  /* Arrow moves out of its desktop right-column slot to a full-width
-     row at the bottom of the card, right-aligned. The :active state
-     supplies the +4 px nudge previously fired only on desktop hover. */
-  .arrow {
-    display: block;
-    text-align: right;
-    align-self: stretch;
+    color: var(--indigo-bright);
     margin-top: 4px;
+  }
+  .readText {
+    display: inline;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+  .readArrow {
+    font-family: var(--font-mono);
   }
   .row:active .arrow {
     color: var(--indigo-light);
