@@ -64,29 +64,35 @@
   position: relative;
   z-index: 2;
   width: 100%;
-  /* Title is now the dominant typographic statement (clamp(48,9vw,200)
-     below) and at 1920+ "The Mosaic™" alone is ~930-1080px, so the
-     prior 1100 cap left no room for the natural break before
-     "Platform". Clamped fluid cap sized so 1920+ has at least 1520px
-     of usable inner width. */
+  /* Title is now the dominant typographic statement (clamp(40,7vw,130)
+     below). Header is sized so the title has comfortable headroom
+     before its 1255 px natural width at the cap binds. */
   max-width: clamp(1100px, 90vw, 1600px);
   /* Centred horizontally; vertical centring comes from the .hero flex
      parent's `align-items: center`. */
   margin: 0 auto;
   padding: 0 40px;
+  /* Eyebrow + title both centre as a symmetric stacked composition —
+     the badge sits directly above the "T" of "The" because both the
+     inline-block eyebrow and the (block + text-align: center) title
+     centre on the same axis. */
+  text-align: center;
 }
 
 /* Technology title — sized so "The Mosaic™ Platform" fits on one line
-   at every desktop width. Natural width per em ≈ 9.66x font-size, and
-   the .header content area is 1072px at 1280 / 1520px at ≥1875 (after
-   90vw cap binds). 8vw with a 150 ceiling resolves to ~102px at 1280
-   (natural 989, buffer 83) and 150px at 1875+ (natural 1449, buffer
-   71). max-width: none overrides the 900px cap inherited from
-   subpage.module.css. */
+   at every desktop width. Natural width per em ≈ 9.66x font-size and
+   the .header content area runs from 1072px at 1280 to 1520px at
+   ≥1875. 7vw with a 130 ceiling resolves to ~90px at 1280 (natural
+   866, buffer 206) and 130px at 1857+ (natural 1255, buffer 265).
+   max-width: none overrides the 900px cap inherited from
+   subpage.module.css; margin: 0 auto centres the now-block title
+   so its left edge no longer sits at the header's left padding. */
 .header [class*="__title"] {
-  font-size: clamp(48px, 8vw, 150px);
+  font-size: clamp(40px, 7vw, 130px);
   line-height: 1.05;
   max-width: none;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Heavy black halo around the heading so it pops off the photographic
