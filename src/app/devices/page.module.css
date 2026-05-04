@@ -4,7 +4,7 @@
    Without these overrides, the icon strip ends ~14 px below 768 px
    on the default subpage rhythm. */
 .subpage {
-  padding-top: 60px;
+  padding-top: 32px;
 }
 
 /* Compress the gap between the lede and the icon strip. The default
