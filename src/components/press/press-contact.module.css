@@ -81,4 +81,12 @@
     display: block;
     margin-top: 6px;
   }
+  /* "contact@polytecks.com" is a single unbreakable token at the
+     existing 28-38 px display size; on a 320 px viewport it
+     measures ~325 px and would push the page horizontally if not
+     allowed to wrap on character boundaries. */
+  .email,
+  .headline {
+    overflow-wrap: anywhere;
+  }
 }
