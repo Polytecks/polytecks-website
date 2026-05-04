@@ -152,6 +152,8 @@ export function CrossfadeVideo({ src, className }: Props) {
           muted
           playsInline
           preload="metadata"
+          disablePictureInPicture
+          controlsList="nodownload noremoteplayback nofullscreen"
           className={styles.video}
           aria-hidden="true"
         />
@@ -167,6 +169,8 @@ export function CrossfadeVideo({ src, className }: Props) {
         muted
         playsInline
         preload="metadata"
+        disablePictureInPicture
+        controlsList="nodownload noremoteplayback nofullscreen"
         className={styles.video}
         aria-hidden="true"
         style={{ opacity: aVisible ? 1 : 0, zIndex: 0 }}
@@ -177,6 +181,8 @@ export function CrossfadeVideo({ src, className }: Props) {
         muted
         playsInline
         preload="metadata"
+        disablePictureInPicture
+        controlsList="nodownload noremoteplayback nofullscreen"
         className={styles.video}
         aria-hidden="true"
         style={{ opacity: aVisible ? 0 : 1, zIndex: 1 }}
