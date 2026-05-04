@@ -123,6 +123,25 @@
   margin-bottom: 8px;
 }
 
+/* Wraps "{Journal Name}, {Year}" as a single citation unit so the
+   year never separates from the journal title across a wrap. The
+   comma+space sits inline between the two child spans. */
+.citation {
+  display: inline-flex;
+  align-items: baseline;
+  flex-wrap: nowrap;
+}
+
+/* Year sits beside the journal name, inheriting the journal's
+   italic + indigo styling on desktop so the citation reads as one
+   visual unit. */
+.year {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 18px;
+  color: var(--indigo);
+}
+
 .journal {
   font-family: var(--font-serif);
   font-style: italic;
@@ -193,29 +212,87 @@
     margin-top: 32px;
     padding: 0 20px;
   }
+  /* Mobile publication block stacks: number (centred at top),
+     authors, title, journal+year, DOI, affiliation, arrow. The
+     desktop 80px / 1fr two-column layout collapses to a single
+     column so the .num grid-item naturally falls to the top row. */
   .block {
     grid-template-columns: 1fr;
-    gap: 8px;
+    gap: 14px;
+    padding: 28px 0;
   }
-  /* Title centred. NOT line-clamped — bibliographic titles must remain
-     fully readable; truncating with an ellipsis would lose essential
-     scholarly information. They wrap to 3-5 lines naturally. */
+  .num {
+    text-align: center;
+    padding-top: 0;
+    margin-bottom: -2px;
+  }
+  /* Authors row — left-aligned, line-clamped to 2 so very long
+     author lists don't dominate the card. */
+  .authors {
+    text-align: left;
+    font-size: 13px;
+    margin-bottom: 0;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+  /* Title — left-aligned, full visibility (no line-clamp). The
+     bibliographic title must remain fully readable; truncating
+     with an ellipsis would lose essential scholarly information. */
   .body .title {
-    text-align: center;
+    text-align: left;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(16px, 4vw, 20px);
+    line-height: 1.3;
+    margin-bottom: 0;
   }
-  .authors,
-  .foot,
-  .aff {
-    text-align: center;
-  }
+  /* Citation row stacks vertically on mobile: journal+year on its
+     own line, DOI on the next, affiliation continues below DOI in
+     the .aff element. The original .vol (volume + pages) is hidden
+     — at this scale the journal+year is the salient citation; the
+     full bibliographic detail stays available on desktop. */
   .foot {
-    justify-content: center;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    margin-bottom: 0;
   }
-  /* Show the mobile DOI arrow at the bottom-right of the block. */
+  .citation {
+    font-style: italic;
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.85);
+  }
+  /* Override desktop indigo on the journal+year on mobile per spec —
+     "ink (full opacity)" for the citation row. Italic-indigo is
+     still present on the section heading "And in the record." so
+     the brand accent vocabulary is preserved. */
+  .citation .journal,
+  .citation .year {
+    color: rgba(0, 0, 0, 0.85);
+    font-size: 14px;
+  }
+  .vol {
+    display: none;
+  }
+  .doi {
+    align-self: flex-start;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.55);
+  }
+  .aff {
+    text-align: left;
+    margin-top: 0;
+  }
+  /* Bottom-right DOI arrow — same mobile-only affordance as before. */
   .mobileArrow {
     display: block;
     text-align: right;
-    margin-top: 12px;
+    margin-top: 16px;
     font-family: var(--font-mono);
     font-size: 22px;
     line-height: 1;

@@ -25,9 +25,12 @@ export function PublicationBlock({ pub, n }: Props) {
         </div>
         <h3 className={styles.title}>{pub.title}</h3>
         <div className={styles.foot}>
-          <em className={styles.journal}>{pub.journal}</em>
+          <span className={styles.citation}>
+            <em className={styles.journal}>{pub.journal}</em>
+            <span className={styles.year}>, {pub.year}</span>
+          </span>
           <span className={styles.vol}>
-            Vol. {pub.volume} · {pub.pages} · {pub.year}
+            Vol. {pub.volume} · {pub.pages}
           </span>
           <a
             className={styles.doi}
