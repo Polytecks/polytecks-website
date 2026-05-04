@@ -3,8 +3,18 @@ import { AnimatedTitle } from "./animated-title";
 import { StackEntry } from "./stack-entry";
 import styles from "./subpage.module.css";
 
-export function Subpage({ children }: { children: ReactNode }) {
-  return <section className={styles.subpage}>{children}</section>;
+export function Subpage({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <section className={`${styles.subpage} ${className ?? ""}`.trim()}>
+      {children}
+    </section>
+  );
 }
 
 export function SubpageHeader({

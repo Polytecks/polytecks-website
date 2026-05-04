@@ -1,0 +1,17 @@
+/* Devices-specific subpage overrides — pull the heading/lede/icon
+   strip up so the whole eyebrow+title+lede+6 icons sequence is
+   visible above the fold on common laptop viewports (≤768 px tall).
+   Without these overrides, the icon strip ends ~14 px below 768 px
+   on the default subpage rhythm. */
+.subpage {
+  padding-top: 60px;
+}
+
+/* Compress the gap between the lede and the icon strip. The default
+   .lede margin-bottom is 72 px (subpage.module.css), which collapsed
+   with the strip's 32 px margin-top to leave a 72 px gap. Targeting
+   the hashed __lede substring is necessary because CSS Modules
+   rewrites class names. */
+.subpage [class*="__lede"] {
+  margin-bottom: 40px;
+}

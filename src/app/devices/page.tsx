@@ -4,6 +4,7 @@ import { DevicesTabs } from "@/components/devices/devices-tabs";
 import { TabsEntry } from "@/components/devices/tabs-entry";
 import { VeterinaryPanel } from "@/components/devices/veterinary-panel";
 import { Subpage, SubpageHeader } from "@/components/subpage";
+import styles from "./page.module.css";
 
 const ClinicalPanel = () => (
   <>
@@ -47,7 +48,7 @@ const TABS = [
 
 export default function DevicesPage() {
   return (
-    <Subpage>
+    <Subpage className={styles.subpage}>
       <SubpageHeader
         eyebrow="Devices"
         title={
