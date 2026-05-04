@@ -101,32 +101,13 @@
   color: var(--indigo-bright);
 }
 
-/* Wide chevron under the title that gently floats up and down — a
-   visual cue to scroll past the hero. Indigo, with a soft glow that
-   matches the brand's italic-em-indigo vocabulary. The wrapper is a
-   flex container that centres the SVG horizontally; translateY on
-   the wrapper drifts the whole element rather than just the path. */
-.scrollHint {
-  display: flex;
-  justify-content: center;
-  margin-top: clamp(40px, 5vw, 80px);
-  color: var(--indigo-bright);
-  animation: scroll-hint-float 2.4s ease-in-out infinite;
-}
-
-.scrollHint svg {
-  width: clamp(96px, 10vw, 160px);
-  height: auto;
-  filter: drop-shadow(0 0 14px rgba(106, 116, 220, 0.45));
-}
-
-@keyframes scroll-hint-float {
-  0%, 100% { transform: translateY(0); }
-  50%     { transform: translateY(10px); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .scrollHint { animation: none; }
+/* Manual kern for the "tf" pair in "Platform" — Space Grotesk's
+   default kerning leaves a visible gap between the t and f
+   crossbars at this poster scale; negative letter-spacing on the
+   wrapping span tightens just that one inter-glyph slot so the two
+   glyphs read as joined up. */
+.kernT {
+  letter-spacing: -0.08em;
 }
 
 @media (max-width: 720px) {
