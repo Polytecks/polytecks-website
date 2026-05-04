@@ -1,11 +1,10 @@
-/* Page header — centered eyebrow + display headline. The container is
-   1280px because the headline is allowed to fill more horizontal space
-   than the section bodies below (which cap at 1100px). */
+/* Page header — left-aligned eyebrow + display headline. The container
+   is 1280px because the headline is allowed to fill more horizontal
+   space than the section bodies below (which cap at 1100px). */
 .head {
   max-width: 1280px;
   margin: 0 auto;
   padding: 96px 32px 48px;
-  text-align: center;
 }
 
 /* Eyebrow on the page header is the existing pill-style "badge" eyebrow
@@ -38,7 +37,7 @@
   font-size: clamp(40px, 5vw, 68px);
   letter-spacing: -0.03em;
   line-height: 1.1;
-  margin: 0 auto 28px;
+  margin: 0 0 28px;
   max-width: 1180px;
   color: var(--ink);
   text-wrap: pretty;

@@ -31,7 +31,9 @@ export default function PressPage() {
         </StackEntry>
         <StackEntry index={1}>
           <h1 className={styles.headline}>
-            Capturing signals from the body. <em>Generating signals in the world.</em>
+            Capturing signals from the body.
+            <br />
+            <em>Generating signals in the world.</em>
           </h1>
         </StackEntry>
       </section>
