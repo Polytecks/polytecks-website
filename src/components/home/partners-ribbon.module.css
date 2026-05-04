@@ -127,6 +127,14 @@
   height: 110px;
 }
 
+/* Adds a small side margin so this logo's neighbours sit a little
+   further away than the default .track gap. Used on King's E-Lab
+   and 5050, both of which read tight against their wider
+   neighbours when separated by only the standard gap. */
+.itemExtraGap {
+  margin-inline: 24px;
+}
+
 /* As each logo passes the centre of the viewport the rAF loop tags it
    .isCenter (full colour + full opacity) and the two adjacent items
    .isNear (a smaller bump in colour/opacity) so the transition

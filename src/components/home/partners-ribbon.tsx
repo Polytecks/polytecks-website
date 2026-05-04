@@ -8,16 +8,24 @@ import styles from "./partners-ribbon.module.css";
 // they don't read smaller than their neighbours after object-fit: contain.
 // `square: true` swaps to a taller item box for square logos (e.g. 5050)
 // which would otherwise be vertically constrained against wide wordmarks.
-type Partner = { name: string; src: string; scale?: number; square?: boolean };
+// `extraGap: true` adds a little side margin for logos that read tight
+// against their neighbours under the default track gap.
+type Partner = {
+  name: string;
+  src: string;
+  scale?: number;
+  square?: boolean;
+  extraGap?: boolean;
+};
 const PARTNERS: Partner[] = [
   { name: "Innovate UK",                                              src: "/assets/afil_UKRI.png", scale: 0.92 },
-  { name: "Cambridge Enterprise",                                     src: "/assets/afil_CE.png", scale: 1.4 },
+  { name: "Cambridge Enterprise",                                     src: "/assets/afil_CE.png", scale: 1.5 },
   { name: "EPSRC Photonic & Electronic Systems CDT",                  src: "/assets/afil_EPSRC.png" },
-  { name: "King's E-Lab",                                             src: "/assets/afil_elab (1).png" },
-  { name: "5050",                                                     src: "/assets/afil_5050 (1).png", square: true },
+  { name: "King's E-Lab",                                             src: "/assets/afil_elab (1).png", extraGap: true },
+  { name: "5050",                                                     src: "/assets/afil_5050 (1).png", square: true, extraGap: true },
   { name: "SPARK",                                                    src: "/assets/afil_SPARK.png" },
-  { name: "Royce Institute",                                          src: "/assets/afil_royce (1).png", scale: 1.25 },
-  { name: "Impulse Maxwell Centre",                                   src: "/assets/afil_impulse.png", scale: 1.12 },
+  { name: "Royce Institute",                                          src: "/assets/afil_royce (1).png", scale: 1.4 },
+  { name: "Impulse Maxwell Centre",                                   src: "/assets/afil_impulse.png", scale: 1.25 },
   { name: "University of Cambridge",                                  src: "/assets/afil_cambridge.png" },
   { name: "Worshipful Company of Scientific Instrument Makers",       src: "/assets/afil_worshipful.png", scale: 1.2 },
   { name: "21toWatch",                                                src: "/assets/afil_21towatch.webp" },
@@ -120,7 +128,13 @@ export function PartnersRibbon() {
           {items.map((p, i) => (
             <div
               key={`${p.name}-${i}`}
-              className={p.square ? `${styles.item} ${styles.itemSquare}` : styles.item}
+              className={[
+                styles.item,
+                p.square && styles.itemSquare,
+                p.extraGap && styles.itemExtraGap,
+              ]
+                .filter(Boolean)
+                .join(" ")}
               style={p.scale ? { ["--logo-scale" as string]: p.scale } : undefined}
             >
               <Image
