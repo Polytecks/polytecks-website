@@ -29,18 +29,28 @@ export function PublicationsSection() {
           <h2 className={styles.title}>
             And in the <em>record.</em>
           </h2>
-          <PagerArrows
-            page={page}
-            totalPages={totalPages}
-            onChange={setPage}
-            variant="light"
-          />
+          <div className={styles.pagerDesktop}>
+            <PagerArrows
+              page={page}
+              totalPages={totalPages}
+              onChange={setPage}
+              variant="light"
+            />
+          </div>
         </div>
       </div>
       <div className={styles.list}>
         {items.map((pub, i) => (
           <PublicationBlock key={pub.id} pub={pub} n={start + i + 1} />
         ))}
+      </div>
+      <div className={styles.pagerMobile}>
+        <PagerArrows
+          page={page}
+          totalPages={totalPages}
+          onChange={setPage}
+          variant="light"
+        />
       </div>
     </section>
   );

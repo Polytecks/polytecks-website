@@ -28,13 +28,18 @@ export function PressSection() {
           <h2 className={styles.title}>
             In the <em>conversation.</em>
           </h2>
-          <PagerArrows page={page} totalPages={totalPages} onChange={setPage} />
+          <div className={styles.pagerDesktop}>
+            <PagerArrows page={page} totalPages={totalPages} onChange={setPage} />
+          </div>
         </div>
       </div>
       <div className={styles.list}>
         {items.map((item) => (
           <PressRow key={item.id} item={item} />
         ))}
+      </div>
+      <div className={styles.pagerMobile}>
+        <PagerArrows page={page} totalPages={totalPages} onChange={setPage} />
       </div>
     </section>
   );

@@ -24,6 +24,14 @@
   gap: 24px;
 }
 
+/* Two pager renders — desktop sits in the title row (next to the
+   heading, right-aligned). Mobile sits below the list, centred.
+   display:none on the inactive variant keeps duplicate buttons out
+   of the accessibility tree. */
+.pagerMobile {
+  display: none;
+}
+
 .title {
   font-family: var(--font-display);
   font-weight: 300;
@@ -168,6 +176,15 @@
 }
 
 @media (max-width: 720px) {
+  .pagerDesktop {
+    display: none;
+  }
+  .pagerMobile {
+    display: flex;
+    justify-content: center;
+    margin-top: 32px;
+    padding: 0 20px;
+  }
   .row {
     grid-template-columns: 1fr;
     gap: 12px;

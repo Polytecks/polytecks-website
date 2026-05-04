@@ -43,3 +43,15 @@
   color: var(--indigo);
   background: rgba(74, 84, 192, 0.06);
 }
+
+@media (max-width: 720px) {
+  /* Mobile pager — bump tap target to ≥44 px per MOBILE_STRATEGY §5.5
+     and widen the gap so the two arrows read as a discrete control. */
+  .row {
+    gap: 16px;
+  }
+  .btn {
+    width: 44px;
+    height: 44px;
+  }
+}

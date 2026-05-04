@@ -221,11 +221,34 @@
 @media (max-width: 720px) {
   .fc {
     padding: 0 20px 40px;
+    /* Stack the children so we can reorder via `order` — moves the
+       pagination arrows from beside the (non-existent on mobile)
+       title to below the carousel viewport. */
+    display: flex;
+    flex-direction: column;
   }
   .card {
     flex-basis: 100%;
   }
   .track {
     gap: 16px;
+  }
+  /* Move the .head (containing the prev/next buttons) below viewport
+     and progress so the pagination control sits below the items it
+     paginates. */
+  .head {
+    order: 99;
+    justify-content: center;
+    margin: 24px 0 0;
+  }
+  /* Touch-target minimum per MOBILE_STRATEGY §5.5 + a wider gap so
+     the two buttons read as a discrete pagination control rather
+     than two adjacent icons. */
+  .nav {
+    gap: 16px;
+  }
+  .btn {
+    width: 44px;
+    height: 44px;
   }
 }
