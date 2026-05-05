@@ -79,6 +79,13 @@
   text-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
 }
 
+/* Light theme — the careers hero keeps its dark photographic overlay
+   so the title needs to STAY white-ish; var(--ink) flips to black on
+   light theme and would vanish into the dark photo otherwise. */
+:global([data-theme="light"]) .title {
+  color: #e8e9f0;
+}
+
 .title em {
   font-style: italic;
   font-weight: 500;

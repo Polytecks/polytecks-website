@@ -214,9 +214,6 @@
   line-height: 1.5;
   color: var(--ink);
   margin: 0;
-  padding: calc(14px * var(--tw-cb-scale, 1)) calc(20px * var(--tw-cb-scale, 1));
-  background: rgba(10, 10, 14, 0.88);
-  border-radius: 4px;
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.55);
   pointer-events: none;
 }
@@ -238,9 +235,6 @@
   line-height: 1.5;
   color: var(--ink);
   margin: 0;
-  padding: calc(14px * var(--tw-cb-scale, 1)) calc(20px * var(--tw-cb-scale, 1));
-  background: rgba(10, 10, 14, 0.88);
-  border-radius: 4px;
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.55);
   pointer-events: none;
 }

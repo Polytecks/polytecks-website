@@ -59,11 +59,20 @@ export function Hero() {
 
         <div className={styles.arm}>
           <Image
+            className="themeDarkOnly"
             src="/assets/polytecks-arm-v2.png"
             alt="Polytecks hexagonal electrode array on forearm"
             width={1920}
             height={1661}
             priority
+            sizes="(max-width: 960px) 100vw, 48vw"
+          />
+          <Image
+            className="themeLightOnly"
+            src="/assets/polytecks%20armblack.png"
+            alt="Polytecks hexagonal electrode array on forearm"
+            width={1920}
+            height={1661}
             sizes="(max-width: 960px) 100vw, 48vw"
           />
         </div>

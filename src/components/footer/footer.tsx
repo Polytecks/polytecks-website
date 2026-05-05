@@ -31,7 +31,14 @@ export function Footer() {
             alt="Polytecks"
             width={2500}
             height={720}
-            className={styles.logo}
+            className={`themeDarkOnly ${styles.logo}`}
+          />
+          <Image
+            src="/assets/Polytecksblack.png"
+            alt="Polytecks"
+            width={2500}
+            height={720}
+            className={`themeLightOnly ${styles.logo}`}
           />
         </Link>
         <FooterColumn label="Explore" links={EXPLORE} />

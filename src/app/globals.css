@@ -274,6 +274,17 @@
   display: none;
 }
 
+/* Theme-conditional visibility — pair two elements (one dark variant,
+   one light variant) and tag each so only the matching one is visible.
+   Used for asset swaps that can't be expressed via CSS variables (logo
+   PNGs, arm photo). Anti-FOUC inline script in layout.tsx applies
+   data-theme="light" to <html> before paint, so the swap never
+   flashes. */
+.themeDarkOnly { display: block; }
+.themeLightOnly { display: none; }
+[data-theme="light"] .themeDarkOnly { display: none; }
+[data-theme="light"] .themeLightOnly { display: block; }
+
 /* Light theme: thin grey hairline between adjacent top-level sections
    in <main>. With most surfaces now near-white, sections previously
    demarcated by dark/light contrast lose their visual boundary; a

@@ -48,7 +48,16 @@ export function TopNav() {
             width={2500}
             height={720}
             priority
-            className="h-10"
+            className="themeDarkOnly h-10"
+            style={{ width: "auto" }}
+          />
+          <Image
+            src="/assets/Polytecksblack.png"
+            alt="Polytecks"
+            width={2500}
+            height={720}
+            priority
+            className="themeLightOnly h-10"
             style={{ width: "auto" }}
           />
         </Link>

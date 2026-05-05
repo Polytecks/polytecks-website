@@ -62,8 +62,15 @@ export function TeamSection() {
       <h2 className={styles.title}>
         The Team Behind
         <Image
-          className={styles.titleLogo}
+          className={`themeDarkOnly ${styles.titleLogo}`}
           src="/assets/polytecks-logo-white.png"
+          alt="Polytecks"
+          width={2500}
+          height={720}
+        />
+        <Image
+          className={`themeLightOnly ${styles.titleLogo}`}
+          src="/assets/Polytecksblack.png"
           alt="Polytecks"
           width={2500}
           height={720}

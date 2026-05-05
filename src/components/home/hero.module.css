@@ -308,24 +308,56 @@
   filter: blur(20px);
 }
 
-/* Light-theme: drop every dark-bg-tuned halo / vignette on the hero.
-   Headline & sub text-shadows, the .headline::before / .sub::before /
-   .arm::before / .arm::after radial vignettes, and the white-glow
-   filter on the arm image are all designed to lift content off a
-   dark page bg + the topo's pale contour lines. On the light page bg
-   they read as muddy smudges; clearing them gives the hero a clean
-   light surface. */
+/* Light-theme: re-tint the hero's halos to WHITE so the headline,
+   sub, and arm read against the dark topo lines instead of being
+   swallowed by them — the dark-version uses black halos to lift
+   content off the dark page bg + pale topo lines; on light the
+   inversion is identical, just colour-flipped. */
 :global([data-theme="light"]) .headline,
 :global([data-theme="light"]) .sub {
-  text-shadow: none;
+  text-shadow:
+    0 0 6px rgba(255, 255, 255, 0.95),
+    0 0 16px rgba(255, 255, 255, 0.85),
+    0 0 32px rgba(255, 255, 255, 0.65);
 }
+
+/* Radial vignettes behind the headline / sub / arm — same shape
+   as the dark version, rgba(255,255,255) instead of rgba(10,10,14). */
 :global([data-theme="light"]) .headline::before,
-:global([data-theme="light"]) .sub::before,
-:global([data-theme="light"]) .arm::before,
-:global([data-theme="light"]) .arm::after,
-:global([data-theme="light"]) .vignette {
-  display: none;
+:global([data-theme="light"]) .sub::before {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 255, 255, 0.75) 0%,
+    rgba(255, 255, 255, 0.5) 35%,
+    rgba(255, 255, 255, 0) 75%
+  );
 }
+
+:global([data-theme="light"]) .arm::after {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 255, 255, 0.55) 0%,
+    rgba(255, 255, 255, 0.4) 35%,
+    rgba(255, 255, 255, 0) 75%
+  );
+}
+
+/* Hero's full-section vignette (.vignette) is the hero's own white
+   halo — lightens the centre / dims to transparent at the edges so
+   the topo lines fade out under the content rail. Dark version
+   does the inverse (transparent centre, dark corners). */
+:global([data-theme="light"]) .vignette {
+  background: radial-gradient(
+    ellipse 90% 70% at 50% 50%,
+    rgba(250, 250, 248, 0.85) 30%,
+    transparent 100%
+  );
+}
+
+/* Drop the white-glow drop-shadow on the arm img — it was a
+   bright halo tuned to pop against the dark page bg; on light it
+   reads as a fog. Keep contrast/saturate so the arm photo doesn't
+   look washed out. */
 :global([data-theme="light"]) .arm img {
   filter: contrast(1.05) saturate(1.05);
 }
