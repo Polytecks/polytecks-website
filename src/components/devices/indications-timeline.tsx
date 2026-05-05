@@ -44,8 +44,12 @@ const INDICATIONS: Indication[] = [
     descriptor: "Continuous · maternal abdomen",
     body: "Monitoring fetal health is limited by access, intermittency, and the difficulty of separating maternal and fetal signals. Polytecks supports continuous, non-invasive abdominal measurement for earlier and more longitudinal insight during pregnancy.",
     side: "right",
+    /* 4 sinusoidal cycles over 0..400 viewBox units, starting and
+       ending at y=38 so the duplicate-path tile loops seamlessly.
+       Prior path ended at (400, 22), creating a 16 px vertical
+       discontinuity at the seam where the two tiles met. */
     wavePath:
-      "M0 38 C 30 38, 40 22, 60 22 C 80 22, 90 38, 110 38 C 130 38, 140 22, 160 22 C 180 22, 190 38, 220 38 C 250 38, 260 22, 280 22 C 300 22, 310 38, 340 38 C 370 38, 380 22, 400 22",
+      "M0 38 C 25 38, 25 22, 50 22 C 75 22, 75 38, 100 38 C 125 38, 125 22, 150 22 C 175 22, 175 38, 200 38 C 225 38, 225 22, 250 22 C 275 22, 275 38, 300 38 C 325 38, 325 22, 350 22 C 375 22, 375 38, 400 38",
     begin: "-3s",
     screenLabel: "03 Fetal Monitoring",
   },
