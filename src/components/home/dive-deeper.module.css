@@ -24,6 +24,9 @@
 /* Plain mono "EXPLORE" — NO flanking hairlines (matches Latest News
    eyebrow language; different from the line-flanked mission/section
    eyebrows used elsewhere). */
+/* Match the Latest News eyebrow's line-flanked treatment so the
+   home-page section eyebrows read as one set across Affiliations /
+   Latest News / Explore. */
 .eyebrow {
   font-family: var(--font-mono);
   font-size: 11px;
@@ -32,6 +35,22 @@
   text-transform: uppercase;
   color: var(--indigo-bright);
   margin: 0 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.eyebrow::before,
+.eyebrow::after {
+  content: "";
+  flex: 0 0 60px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(74, 84, 192, 0.5));
+}
+
+.eyebrow::after {
+  background: linear-gradient(90deg, rgba(74, 84, 192, 0.5), transparent);
 }
 
 .title {

@@ -102,9 +102,18 @@
 }
 
 /* Trademark glyph in "The Mosaic™ Platform" — match the italic Mosaic
-   word's indigo accent. */
+   word's indigo accent. The default <sup> rendering uses
+   vertical-align: super which at the title's 130 px font size lifts
+   the glyph far enough that it clips above the line-box top
+   (especially with line-height: 1.05). Replace with explicit
+   smaller font-size + a bounded relative top, so the trademark
+   glyph stays inside the typographic frame on every viewport. */
 .tm {
   color: var(--indigo-bright);
+  font-size: 0.4em;
+  vertical-align: baseline;
+  position: relative;
+  top: -0.7em;
 }
 
 /* Manual kern for the "tf" pair in "Platform" — Space Grotesk's

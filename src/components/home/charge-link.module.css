@@ -30,6 +30,23 @@
   --cl-line: rgba(0, 0, 0, 0.18);
 }
 
+/* Light theme: same white halo treatment as the hero headline / sub
+   so the CTA labels and arrows lift cleanly off the dark topo lines
+   moving behind them. text-shadow on the label, filter: drop-shadow
+   on the SVG arrow (text-shadow doesn't apply to SVG strokes). */
+:global([data-theme="light"]) .label {
+  text-shadow:
+    0 0 6px rgba(255, 255, 255, 0.95),
+    0 0 16px rgba(255, 255, 255, 0.85),
+    0 0 32px rgba(255, 255, 255, 0.65);
+}
+
+:global([data-theme="light"]) .arrow svg {
+  filter:
+    drop-shadow(0 0 6px rgba(255, 255, 255, 0.95))
+    drop-shadow(0 0 14px rgba(255, 255, 255, 0.7));
+}
+
 .label {
   display: flex;
   align-items: center;
