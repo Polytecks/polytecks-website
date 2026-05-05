@@ -5,7 +5,11 @@
   justify-content: center;
   padding: 18px 32px;
   min-width: 140px;
-  min-height: 60px;
+  /* Fixed height so the corner-bracket frame is the same vertical
+     extent on every mark (Cambridge / Imperial / Durham / UCL).
+     The logos render at their natural sizes and centre vertically
+     inside via the flex alignment above. */
+  height: 88px;
 }
 
 .content {
@@ -32,6 +36,11 @@
    would dominate its row. Tighten max-width on mobile so the four
    logos balance visually within the grid. */
 @media (max-width: 720px) {
+  .mark {
+    /* Mobile: smaller fixed height matched to the tighter logo cap
+       above (40 + 18 + 18 = 76). Equal across all four marks. */
+    height: 76px;
+  }
   .logo {
     max-height: 40px;
     max-width: 110px;
