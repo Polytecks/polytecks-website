@@ -14,6 +14,15 @@
   background: transparent;
 }
 
+/* Light theme: the proof panel is the same near-white surface as the
+   page below it, so without an explicit boundary it bleeds into the
+   surrounding sections. Add hairlines top + bottom on the .panel
+   (which IS the painted surface — .outer is transparent). */
+:global([data-theme="light"]) .panel {
+  border-top: 1px solid rgba(0, 0, 0, 0.10);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.10);
+}
+
 /* Once all three cards have settled (data-locked="true"), collapse the outer
    to a single viewport. Cards are already pinned at their final positions via
    inline styles set by the hasCompleted effect, so scrolling back up no

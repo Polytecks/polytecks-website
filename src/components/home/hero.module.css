@@ -342,16 +342,15 @@
   );
 }
 
-/* Hero's full-section vignette (.vignette) is the hero's own white
-   halo — lightens the centre / dims to transparent at the edges so
-   the topo lines fade out under the content rail. Dark version
-   does the inverse (transparent centre, dark corners). */
+/* Hero's full-section .vignette is the dark-mode trick that fades
+   the corners to black to anchor the white text. On light mode it
+   created a fixed-position centre-bright halo that sat between the
+   headline column and the arm column — read as a "background
+   smudge" that didn't scroll with the elements. Drop it; the per-
+   element radial halos and text-shadow above already lift each
+   piece off the topo lines. */
 :global([data-theme="light"]) .vignette {
-  background: radial-gradient(
-    ellipse 90% 70% at 50% 50%,
-    rgba(250, 250, 248, 0.85) 30%,
-    transparent 100%
-  );
+  display: none;
 }
 
 /* Drop the white-glow drop-shadow on the arm img — it was a

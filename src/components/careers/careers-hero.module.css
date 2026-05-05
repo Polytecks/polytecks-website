@@ -79,11 +79,30 @@
   text-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
 }
 
-/* Light theme — the careers hero keeps its dark photographic overlay
-   so the title needs to STAY white-ish; var(--ink) flips to black on
-   light theme and would vanish into the dark photo otherwise. */
+/* Light theme: brighten the photographic overlay (was 0.6→0.85
+   black to lift white text; now a much lighter wash so the photo
+   reads almost natural), flip the title to black so it sits cleanly
+   on the brightened photo, and fade into white at the bottom so the
+   hero dissolves into the light page below. */
+:global([data-theme="light"]) .bgOverlay {
+  background: linear-gradient(
+    180deg,
+    rgba(250, 250, 248, 0.15) 0%,
+    rgba(250, 250, 248, 0.10) 40%,
+    rgba(250, 250, 248, 0.5) 75%,
+    rgba(250, 250, 248, 0.9) 92%,
+    #fafaf8 100%
+  );
+}
+
 :global([data-theme="light"]) .title {
-  color: #e8e9f0;
+  color: #14141a;
+  text-shadow: 0 2px 16px rgba(255, 255, 255, 0.9);
+}
+
+:global([data-theme="light"]) .lede {
+  color: rgba(0, 0, 0, 0.7);
+  text-shadow: 0 2px 12px rgba(255, 255, 255, 0.85);
 }
 
 .title em {

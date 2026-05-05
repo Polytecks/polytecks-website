@@ -116,6 +116,26 @@
   letter-spacing: -0.08em;
 }
 
+/* Light theme overrides — the photographic background is still dark
+   here (mosaic array on body), so the title needs to STAY white;
+   var(--ink) flips to black on light theme and would vanish into
+   the photo. The bottom fade dissolves into the page bg below, so
+   it tints to #fafaf8 (light page bg) instead of #0a0a0e. */
+:global([data-theme="light"]) .header [class*="__title"] {
+  color: #fff;
+}
+
+:global([data-theme="light"]) .bottomFade {
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent 55%,
+    rgba(250, 250, 248, 0.4) 72%,
+    rgba(250, 250, 248, 0.85) 90%,
+    #fafaf8 100%
+  );
+}
+
 @media (max-width: 720px) {
   .header {
     padding: 0 20px;

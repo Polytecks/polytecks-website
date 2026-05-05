@@ -7,21 +7,11 @@
   background: var(--bg);
 }
 
-/* Light-theme override — keep this section a black band even when the
-   rest of the page is light. Re-defines the polytecks design tokens
-   inside this scope so descendants (label colour, hairlines, item
-   filters) all inherit the dark values without per-element overrides.
-   Indigo stays as-is — it reads on both surfaces. */
-:global([data-theme="light"]) .ribbon {
-  --bg: #0a0a0e;
-  --bg-2: #0f1016;
-  --ink: #e8e9f0;
-  --ink-dim: #8a8c9a;
-  --ink-faint: #4a4c5a;
-  --line: rgba(255, 255, 255, 0.08);
-  --line-strong: rgba(255, 255, 255, 0.16);
-  background: var(--bg);
-  color: var(--ink);
+/* Light theme: invert each logo so the existing white-on-transparent
+   marks render dark on the now-white ribbon bg. grayscale + invert
+   keeps the contrast-flattened look while flipping luminance. */
+:global([data-theme="light"]) .item img {
+  filter: invert(1) grayscale(1) contrast(0.95);
 }
 
 /* Extend the ribbon bg upward to cover the gap introduced by --sp-home-ribbon,

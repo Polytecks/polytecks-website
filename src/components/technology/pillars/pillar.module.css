@@ -25,20 +25,12 @@
   background-color: rgba(255, 255, 255, 0.012);
 }
 
-/* Light theme — pin pillar cards as dark islands on the light page so
-   the existing white-text typography keeps reading. Re-defines the
-   polytecks tokens locally; descendants (title/body/image/active
-   background gradient) all inherit the dark values. */
+/* Light theme: pillar cards are LIGHT surfaces in light mode (the
+   dark-island treatment turned out to clash with the page rhythm).
+   Strong white-to-transparent top fade above the image so the card
+   title reads against the photographic image with black text. */
 :global([data-theme="light"]) .pillar {
-  --bg: #0a0a0e;
-  --bg-2: #0f1016;
-  --ink: #e8e9f0;
-  --ink-dim: #8a8c9a;
-  --ink-faint: #4a4c5a;
-  --line: rgba(255, 255, 255, 0.08);
-  --line-strong: rgba(255, 255, 255, 0.16);
-  background-color: var(--bg);
-  color: var(--ink);
+  background-color: rgba(255, 255, 255, 0.6);
 
   /* Smooth width (flex-grow) + height (min-height) morph via CSS instead of
      Framer's `layout` prop, which mis-measured the rect when both dimensions
@@ -223,6 +215,19 @@
     rgba(10, 10, 14, 0.0) 100%
   );
   border-radius: 8px 8px 0 0;
+}
+
+/* Light theme: top-fade is white instead of black so the (now-black)
+   title reads against the bright fade rather than a dark one. Pulled
+   to slightly higher opacity at the top so the title stays legible
+   against any image content underneath. */
+:global([data-theme="light"]) .pillar[data-active="false"][data-style="background"]::before {
+  background: linear-gradient(
+    to bottom,
+    rgba(250, 250, 248, 0.96) 0%,
+    rgba(250, 250, 248, 0.8) 35%,
+    rgba(250, 250, 248, 0.0) 100%
+  );
 }
 
 /* Active card grows vertically — the active pillar's min-height extends
