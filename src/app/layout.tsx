@@ -66,6 +66,18 @@ export default function RootLayout({
       lang="en"
       className={`dark ${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable} ${sourceSerif.variable}`}
     >
+      <head>
+        {/* Anti-FOUC theme bootstrap. Reads the persisted theme from
+            localStorage and writes data-theme="light" onto <html> before
+            paint so the page never flashes the wrong palette on reload.
+            Default (no attribute) = the dark site. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "(function(){try{var t=localStorage.getItem('polytecks:theme');if(t==='light'){document.documentElement.setAttribute('data-theme','light');}}catch(e){}})();",
+          }}
+        />
+      </head>
       <body className="min-h-screen bg-background text-foreground antialiased">
         <Providers>
           <TopNav />

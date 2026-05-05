@@ -157,6 +157,41 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+
+  /* Topo canvas line colour, expressed as raw RGB triplets so the
+     canvas class can compose the rgba() string per-frame. Dark theme
+     paints near-white lines on the dark page bg. */
+  --topo-line-rgb: 255, 255, 255;
+}
+
+/* ============================================================
+   LIGHT THEME — applied via [data-theme="light"] on <html>.
+   Activated by ThemeToggle / persisted to localStorage. The inline
+   script in layout.tsx sets the attribute before first paint to
+   avoid FOUC. Dark remains the default — omitting data-theme is
+   the dark site.
+   ============================================================ */
+[data-theme="light"] {
+  --bg: #fafaf8;
+  --bg-2: #f4f1ea;
+  --ink: #14141a;
+  --ink-dim: rgba(0, 0, 0, 0.58);
+  --ink-faint: rgba(0, 0, 0, 0.35);
+  --line: rgba(0, 0, 0, 0.08);
+  --line-strong: rgba(0, 0, 0, 0.18);
+
+  /* Indigo brand — pulled darker by one step on light theme so
+     mid-weight body copy and small-text accents still meet ~AA on
+     #fafaf8. The role names (light → lightest) are preserved; only
+     their lightness flips because they're used as foreground accents
+     against a different surface. */
+  --indigo: #3a44b0;
+  --indigo-bright: #4a54c0;
+  --indigo-light: #5763d4;
+  --indigo-lightest: #6a74dc;
+
+  /* Topo canvas paints dark lines on the light page bg. */
+  --topo-line-rgb: 10, 10, 14;
 }
 
 .dark {

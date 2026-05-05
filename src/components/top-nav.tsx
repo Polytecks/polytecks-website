@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { ThemeToggle } from "./theme-toggle";
 
 const NAV_ITEMS = [
   { href: "/about", label: "About Us" },
@@ -52,25 +53,30 @@ export function TopNav() {
           />
         </Link>
 
-        {/* Desktop link list — hidden below 720px. */}
-        <ul className="hidden items-center gap-1 [@media(min-width:720px)]:flex">
-          {NAV_ITEMS.map(({ href, label }) => {
-            const active =
-              pathname === href || pathname.startsWith(`${href}/`);
-            return (
-              <li key={href}>
-                <Link
-                  href={href}
-                  className={`rounded-md px-3 py-2 font-mono text-[11px] uppercase tracking-[0.18em] transition-colors hover:text-ink ${
-                    active ? "text-ink" : "text-ink-dim"
-                  }`}
-                >
-                  {label}
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
+        {/* Desktop link list — hidden below 720px. ThemeToggle sits at
+            the right end of the row as the last item so it doesn't
+            disrupt the existing nav rhythm. */}
+        <div className="hidden items-center gap-2 [@media(min-width:720px)]:flex">
+          <ul className="flex items-center gap-1">
+            {NAV_ITEMS.map(({ href, label }) => {
+              const active =
+                pathname === href || pathname.startsWith(`${href}/`);
+              return (
+                <li key={href}>
+                  <Link
+                    href={href}
+                    className={`rounded-md px-3 py-2 font-mono text-[11px] uppercase tracking-[0.18em] transition-colors hover:text-ink ${
+                      active ? "text-ink" : "text-ink-dim"
+                    }`}
+                  >
+                    {label}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+          <ThemeToggle />
+        </div>
 
         {/* Mobile hamburger button — visible below 720px. */}
         <button
@@ -132,6 +138,12 @@ export function TopNav() {
             );
           })}
         </ul>
+        <div className="mt-6 flex items-center gap-3 px-6">
+          <ThemeToggle />
+          <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-dim">
+            Theme
+          </span>
+        </div>
       </div>
     </>
   );

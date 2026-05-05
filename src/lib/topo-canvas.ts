@@ -220,7 +220,17 @@ export class TopoCanvas {
     const cw = this.W / (gw - 1);
     const ch = this.H / (gh - 1);
     this.ctx.lineWidth = lineWidth;
-    this.ctx.strokeStyle = `rgba(255,255,255,${lineAlpha})`;
+    // Line colour is read from the CSS custom property `--topo-line-rgb`
+    // (set in globals.css per theme). Lets the topo paint dark lines on
+    // the light theme and white lines on the dark theme without the
+    // canvas component knowing anything about the theme system.
+    const rgb =
+      typeof window !== "undefined"
+        ? getComputedStyle(document.documentElement)
+            .getPropertyValue("--topo-line-rgb")
+            .trim() || "255, 255, 255"
+        : "255, 255, 255";
+    this.ctx.strokeStyle = `rgba(${rgb},${lineAlpha})`;
     this.ctx.beginPath();
     for (const th of thresholds) {
       for (let j = 0; j < gh - 1; j++) {
