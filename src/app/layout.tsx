@@ -74,7 +74,7 @@ export default function RootLayout({
         <script
           dangerouslySetInnerHTML={{
             __html:
-              "(function(){try{var t=localStorage.getItem('polytecks:theme');if(t==='light'||t==='hybrid'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();",
+              "(function(){try{var t=localStorage.getItem('polytecks:theme');if(t==='light'){document.documentElement.setAttribute('data-theme','light');}}catch(e){}})();",
           }}
         />
       </head>

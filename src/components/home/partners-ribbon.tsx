@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { useEffect, useRef } from "react";
-import { ThemeScope } from "@/components/theme-scope";
 import styles from "./partners-ribbon.module.css";
 
 // `scale` boosts logos whose source PNG has heavy intrinsic padding so
@@ -122,7 +121,6 @@ export function PartnersRibbon() {
   const items = [...PARTNERS, ...PARTNERS];
 
   return (
-    <ThemeScope>
     <div ref={ribbonRef} className={styles.ribbon}>
       <div className={styles.label}>Affiliations and Partners</div>
       <div className={styles.trackWrap}>
@@ -152,6 +150,5 @@ export function PartnersRibbon() {
         </div>
       </div>
     </div>
-    </ThemeScope>
   );
 }

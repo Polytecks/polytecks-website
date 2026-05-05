@@ -2,30 +2,13 @@
 
 import { useEffect, useState } from "react";
 
-/**
- * Theme values:
- *   dark    — default, no data-theme attribute on <html>.
- *   light   — full light; data-theme="light" on <html>.
- *   hybrid  — mostly dark, but specific scopes (partners ribbon + the
- *             devices page) opt into light via <ThemeScope>. <html>
- *             carries data-theme="hybrid"; CSS rules for [data-theme=
- *             "light"] do NOT match the html itself, so the rest of
- *             the site behaves as dark.
- */
-export type Theme = "dark" | "light" | "hybrid";
+export type Theme = "dark" | "light";
 
 const STORAGE_KEY = "polytecks:theme";
 
-function readDocumentTheme(): Theme {
-  const v = document.documentElement.dataset.theme;
-  if (v === "light") return "light";
-  if (v === "hybrid") return "hybrid";
-  return "dark";
-}
-
 /**
- * Source of truth is `document.documentElement.dataset.theme`, set first
- * by the inline anti-FOUC script in layout.tsx, then mutated by
+ * Theme hook. Source of truth is `document.documentElement.dataset.theme`,
+ * set first by the inline anti-FOUC script in layout.tsx, then mutated by
  * `setTheme` and persisted to localStorage.
  *
  * Initial state is "dark" to match SSR (which has no localStorage and so
@@ -38,10 +21,12 @@ export function useTheme(): [Theme, (next: Theme) => void] {
   const [theme, setThemeState] = useState<Theme>("dark");
 
   useEffect(() => {
-    setThemeState(readDocumentTheme());
+    const current = document.documentElement.dataset.theme === "light" ? "light" : "dark";
+    setThemeState(current);
     // Keep in sync if anything else (inline script, cross-tab) mutates the attr.
     const observer = new MutationObserver(() => {
-      setThemeState(readDocumentTheme());
+      const next = document.documentElement.dataset.theme === "light" ? "light" : "dark";
+      setThemeState(next);
     });
     observer.observe(document.documentElement, {
       attributes: true,
@@ -54,7 +39,7 @@ export function useTheme(): [Theme, (next: Theme) => void] {
     if (next === "dark") {
       delete document.documentElement.dataset.theme;
     } else {
-      document.documentElement.dataset.theme = next;
+      document.documentElement.dataset.theme = "light";
     }
     try {
       localStorage.setItem(STORAGE_KEY, next);
