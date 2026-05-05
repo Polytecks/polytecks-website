@@ -10,11 +10,15 @@
 .wrap {
   position: absolute;
   top: 0;
-  /* Inset from the viewport's right edge by ~6vw so the figure reads as
-     centre-right rather than flush against the page edge. `calc(50% -
-     50vw + ...)` escapes the centred Subpage container and re-anchors
-     to the viewport. */
-  right: calc(50% - 50vw + 6vw);
+  /* Anchor relative to the centred Subpage container's right edge, NOT
+     the viewport. Under the prior `calc(50% - 50vw + 6vw)` trick, the
+     figure was glued to the viewport right edge and drifted further
+     and further away from the title column as the viewport widened —
+     at 1920+ it sat noticeably "too far right" relative to the title.
+     A static -84 px offset from the Subpage right keeps the figure
+     in the same relative position next to the title at every desktop
+     width. */
+  right: -84px;
   /* Width tracks the source aspect at the wrap's height: at 720 tall,
      natural width ≈ 330. Clamp scales gracefully on narrow desktops
      while keeping the figure clear of the title column. */

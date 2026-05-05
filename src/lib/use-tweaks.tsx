@@ -194,7 +194,7 @@ export const TWEAK_DEFAULTS: TweakValues = {
   // of dead black space between the white mission panel and the
   // "AFFILIATIONS AND PARTNERS" eyebrow on every viewport.
   homeRibbonMargin: 0,
-  aboutHeaderToCambridge: 280,
+  aboutHeaderToCambridge: 380,
   aboutCambridgeToTeam: 160,
   aboutTeamGap: 120,
   techHeroToPillars: 0,

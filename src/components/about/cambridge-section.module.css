@@ -2,7 +2,13 @@
    and a floating ECG legacy badge in the top-right corner. */
 
 .section {
-  margin-top: var(--sp-about-header-to-cambridge, 280px);
+  /* Pushed down so the title sits further from the AboutHeader/lede.
+     Hardcoded rather than `var(--sp-about-header-to-cambridge, …)`
+     so the design value lives in code; users with the old 280 px
+     value cached in localStorage would otherwise still see the
+     pre-bump spacing. The tweak slider for this still writes to the
+     var on body but no longer reads here. */
+  margin-top: 380px;
   margin-bottom: var(--sp-about-cambridge-to-team, 160px);
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
@@ -27,7 +33,10 @@
   font-size: clamp(28px, 3vw, 44px);
   line-height: 1.15;
   letter-spacing: -0.02em;
-  margin-bottom: 28px;
+  /* Tightened so the title sits close to the image below; the
+     extra space requested above the title comes from the section's
+     top margin (--sp-about-header-to-cambridge in use-tweaks.tsx). */
+  margin-bottom: 8px;
   margin-left: max(40px, calc(50vw - 530px));
   margin-right: max(40px, calc(50vw - 530px));
   max-width: none;
@@ -189,7 +198,10 @@
    image, mirroring the ECG callout treatment (same font-family,
    weight, size, line-height, max-width, halo, and pointer-events).
    Position is independently controlled via its own CSS vars so the
-   tweak panel can drag it around without touching the ECG callout. */
+   tweak panel can drag it around without touching the ECG callout.
+   An opaque black background sits behind the text so the callout
+   always reads against the photographic image — the box wraps the
+   text via padding so it scales with the type. */
 .bodyText {
   position: absolute;
   top: var(--tw-cb-body-callout-top, 10vh);
@@ -202,6 +214,9 @@
   line-height: 1.5;
   color: var(--ink);
   margin: 0;
+  padding: calc(14px * var(--tw-cb-scale, 1)) calc(20px * var(--tw-cb-scale, 1));
+  background: rgba(10, 10, 14, 0.88);
+  border-radius: 4px;
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.55);
   pointer-events: none;
 }
@@ -223,6 +238,9 @@
   line-height: 1.5;
   color: var(--ink);
   margin: 0;
+  padding: calc(14px * var(--tw-cb-scale, 1)) calc(20px * var(--tw-cb-scale, 1));
+  background: rgba(10, 10, 14, 0.88);
+  border-radius: 4px;
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.55);
   pointer-events: none;
 }
