@@ -1,0 +1,260 @@
+/* Section heading shared between this section and "Future indications".
+   Patent-schematic / proprietary-research-lab register: monospace
+   uppercase kicker, light-weight display headline, italic-indigo
+   emphasis. */
+.sectionHead {
+  margin: 0 0 56px;
+  max-width: 720px;
+}
+
+.kicker {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  margin-bottom: 18px;
+}
+
+.heading {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(32px, 3.4vw, 48px);
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  margin: 0;
+  color: var(--ink);
+}
+
+.heading em {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--indigo-bright);
+}
+
+/* ---------- First device — Veterinary cardiac staging ---------- */
+.firstDevice {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: clamp(40px, 5vw, 80px);
+  align-items: stretch;
+  margin-bottom: 140px;
+}
+
+.deviceVisual {
+  position: relative;
+  border: 1px solid var(--line);
+  background:
+    linear-gradient(135deg, rgba(74, 84, 192, 0.10), rgba(10, 10, 14, 0.6)),
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.018) 0 2px, transparent 2px 14px);
+  overflow: hidden;
+  min-height: 540px;
+}
+
+.placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 18px;
+  color: var(--ink-faint);
+}
+
+.glyph {
+  width: 120px;
+  height: 120px;
+  border: 1px solid var(--line-strong);
+  position: relative;
+  opacity: 0.55;
+}
+
+.glyph::before {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border: 1px dashed var(--line-strong);
+}
+
+.phLabel {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  color: var(--ink-faint);
+}
+
+.deviceCopy {
+  display: flex;
+  flex-direction: column;
+}
+
+.deviceCopy p {
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: 16.5px;
+  line-height: 1.7;
+  color: var(--ink-dim);
+  margin: 0 0 20px;
+  max-width: 560px;
+}
+
+.deviceCopy p.lead {
+  color: var(--ink);
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.deviceSummary {
+  margin-top: 28px;
+  padding-top: 28px;
+  border-top: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  max-width: 560px;
+}
+
+.cell {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.k {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--ink-faint);
+  font-weight: 400;
+}
+
+.v {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+
+/* Trial-ongoing status block — patent-schematic, premium without being loud. */
+.statusBlock {
+  margin-top: 36px;
+  padding: 22px 24px;
+  border: 1px solid rgba(168, 176, 243, 0.28);
+  background:
+    radial-gradient(ellipse 60% 200% at 0% 50%, rgba(74, 84, 192, 0.18), transparent 70%),
+    rgba(255, 255, 255, 0.015);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  max-width: 560px;
+}
+
+.statusRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.statusPulse {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--indigo-bright);
+  box-shadow: 0 0 0 0 rgba(106, 116, 220, 0.55);
+  animation: status-pulse 2.4s ease-out infinite;
+  flex-shrink: 0;
+}
+
+@keyframes status-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(106, 116, 220, 0.55); }
+  70%  { box-shadow: 0 0 0 14px rgba(106, 116, 220, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(106, 116, 220, 0); }
+}
+
+.statusText {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.statusText .top {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--indigo-lightest);
+}
+
+.statusText .bot {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: var(--ink-dim);
+}
+
+/* Buttons — preserved from the handoff template (intentionally distinct
+   from the site's ChargeLink). The patent-schematic register: indigo
+   gradient with a soft glow for primary, hairline border for secondary. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 13.5px;
+  letter-spacing: 0.02em;
+  padding: 12px 20px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.btnPrimary {
+  background: linear-gradient(135deg, rgba(106, 116, 220, 0.55), rgba(74, 84, 192, 0.85));
+  border-color: rgba(160, 175, 255, 0.4);
+  color: #fff;
+  box-shadow: 0 0 18px rgba(106, 116, 220, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.btnPrimary:hover {
+  transform: translateY(-1px);
+}
+
+.arrow {
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+@media (max-width: 960px) {
+  .firstDevice {
+    grid-template-columns: 1fr;
+  }
+  .deviceVisual {
+    min-height: 320px;
+  }
+}
+
+@media (max-width: 560px) {
+  .deviceSummary {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .statusBlock {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .statusPulse {
+    animation: none;
+  }
+}

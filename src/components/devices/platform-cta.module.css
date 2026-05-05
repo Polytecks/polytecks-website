@@ -1,0 +1,145 @@
+/* ---------- Platform — track ends here ---------- */
+.platform {
+  border-top: 1px solid var(--line);
+  padding: 80px 0 0;
+  margin-bottom: 96px;
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 64px;
+  align-items: start;
+}
+
+.kicker {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  margin-bottom: 18px;
+}
+
+.platform h2 {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(28px, 2.8vw, 40px);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin: 0;
+  color: var(--ink);
+}
+
+.platformBody p {
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--ink-dim);
+  margin: 0 0 18px;
+  max-width: 640px;
+}
+
+.platformBody p:first-child {
+  color: var(--ink);
+  font-weight: 400;
+  font-size: 19px;
+}
+
+/* ---------- CTA ---------- */
+.cta {
+  display: grid;
+  grid-template-columns: 1.2fr auto;
+  gap: 48px;
+  align-items: center;
+  padding: 56px 56px;
+  border: 1px solid var(--line);
+  background:
+    radial-gradient(ellipse 80% 120% at 0% 50%, rgba(74, 84, 192, 0.10), transparent 60%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.012), transparent);
+  margin-bottom: 24px;
+}
+
+.cta h3 {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(26px, 2.6vw, 34px);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin: 0 0 12px;
+  max-width: 22ch;
+  color: var(--ink);
+}
+
+.cta p {
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--ink-dim);
+  margin: 0;
+  max-width: 56ch;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Buttons — same patent-schematic register as FirstDevice (re-declared
+   here for module isolation; visual rule matches). */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  padding: 16px 28px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.btnPrimary {
+  background: linear-gradient(135deg, rgba(106, 116, 220, 0.55), rgba(74, 84, 192, 0.85));
+  border-color: rgba(160, 175, 255, 0.4);
+  color: #fff;
+  box-shadow: 0 0 18px rgba(106, 116, 220, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.btnPrimary:hover {
+  transform: translateY(-1px);
+}
+
+.btnSecondary {
+  background: transparent;
+  border-color: var(--line-strong);
+  color: var(--ink);
+}
+
+.btnSecondary:hover {
+  border-color: var(--indigo-light);
+  color: var(--indigo-lightest);
+}
+
+.arrow {
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+@media (max-width: 960px) {
+  .platform {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding-top: 56px;
+  }
+  .cta {
+    grid-template-columns: 1fr;
+    padding: 40px 28px;
+    gap: 24px;
+  }
+}

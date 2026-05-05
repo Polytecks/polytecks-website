@@ -1,0 +1,336 @@
+/* Section heading shared with FirstDevice (re-defined here for module
+   isolation; same visual rule). */
+.sectionHead {
+  margin: 0 0 56px;
+  max-width: 720px;
+}
+
+.kicker {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  margin-bottom: 18px;
+}
+
+.heading {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(32px, 3.4vw, 48px);
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  margin: 0;
+  color: var(--ink);
+}
+
+.heading em {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--indigo-bright);
+}
+
+.support {
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--ink-dim);
+  margin: 18px 0 0;
+  max-width: 640px;
+}
+
+/* ---------- Scroll-driven vertical timeline ---------- */
+.timeline {
+  position: relative;
+  margin: 0 0 140px;
+  /* Break out of the Subpage 1100 px content rail so the track has
+     room to breathe; centre via 50% / translateX so the inner column
+     stays aligned with the rest of the page. */
+  width: min(96vw, 1240px);
+  margin-left: 50%;
+  transform: translateX(-50%);
+  padding: 0 24px;
+}
+
+.track {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  margin-left: -2px;
+  width: 4px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+/* Illuminated portion — height set by JS each frame (no CSS transition). */
+.fill {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  margin-left: -2px;
+  width: 4px;
+  height: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.85) 0%,
+    rgba(168, 176, 243, 0.95) 100%
+  );
+  border-radius: 2px;
+  box-shadow: 0 0 14px rgba(168, 176, 243, 0.45);
+  pointer-events: none;
+  will-change: height;
+}
+
+/* Dot — top updated by JS using transform: translateY (GPU, no jank). */
+.dot {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 18px;
+  height: 18px;
+  margin-left: -9px;
+  margin-top: -9px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--indigo-bright);
+  box-shadow:
+    0 0 0 5px rgba(10, 10, 14, 1),
+    0 0 18px rgba(168, 176, 243, 0.6);
+  pointer-events: none;
+  z-index: 3;
+  will-change: transform;
+}
+
+/* One indication row on the timeline. */
+.indication {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  align-items: center;
+  margin-bottom: 60px;
+  min-height: 280px;
+  opacity: 0.35;
+  transition: opacity 0.7s ease;
+}
+
+.indication.isActive {
+  opacity: 1;
+}
+
+.indication.isActive .card {
+  border-color: rgba(168, 176, 243, 0.32);
+  background:
+    linear-gradient(180deg, rgba(106, 116, 220, 0.06), transparent 70%),
+    rgba(255, 255, 255, 0.012);
+}
+
+.card {
+  border: 1px solid var(--line);
+  padding: 32px 32px 36px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.012), transparent 60%);
+  transition: border-color 0.6s ease, background 0.6s ease, transform 0.6s ease;
+  max-width: 460px;
+}
+
+/* Alternating-side layout via grid columns. */
+.indicationLeft .card {
+  grid-column: 1;
+  margin-left: auto;
+  margin-right: 56px;
+}
+
+.indicationRight .card {
+  grid-column: 2;
+  margin-left: 56px;
+  margin-right: auto;
+}
+
+.indicationLeft .spacer {
+  grid-column: 2;
+}
+
+.indicationRight .spacer {
+  grid-column: 1;
+}
+
+/* Connector line from the dot to the card. */
+.connector {
+  position: absolute;
+  top: 50%;
+  height: 1px;
+  background: linear-gradient(to right, rgba(168, 176, 243, 0.5), rgba(255, 255, 255, 0));
+  width: 56px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.7s ease;
+}
+
+.indication.isActive .connector {
+  opacity: 1;
+}
+
+.indicationLeft .connector {
+  right: 50%;
+  transform: scaleX(-1);
+  margin-right: 2px;
+}
+
+.indicationRight .connector {
+  left: 50%;
+  margin-left: 2px;
+}
+
+.cardTitle {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 24px;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  margin: 0 0 6px;
+  color: var(--ink);
+}
+
+.descriptor {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--indigo-light);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  margin-bottom: 22px;
+}
+
+/* ECG-style continuous-scroll waveform.
+   Each .wave SVG contains a <g class="waveScroll"> with the wave path
+   duplicated end-to-end (drawn twice, offset by 400 viewBox units).
+   The whole group translates left forever in a perfect loop, producing
+   a continuous horizontal trace like a paper ECG. The lighter "ghost"
+   trace is the SAME path translated by a small vertical+horizontal
+   offset so it mirrors the bright trace exactly. */
+.wave {
+  height: 64px;
+  margin: 0 0 22px;
+  overflow: hidden;
+  display: block;
+  /* Soft fade at the edges so the wave doesn't hard-cut. */
+  -webkit-mask-image: linear-gradient(to right, transparent 0, black 6%, black 94%, transparent 100%);
+          mask-image: linear-gradient(to right, transparent 0, black 6%, black 94%, transparent 100%);
+}
+
+.wave svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  color: var(--indigo-light);
+  overflow: visible;
+}
+
+.wavePath {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.wavePath.lead {
+  opacity: 0.95;
+}
+
+/* Ghost trace — same geometry, lower opacity, drawn inside the same
+   scrolling <g> so it mirrors the bright trace 1:1 by construction. */
+.wavePath.ghost {
+  opacity: 0.22;
+  stroke-width: 1.1;
+}
+
+.body {
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--ink-dim);
+  margin: 0;
+}
+
+/* "And many more" — sits BELOW the timeline (after the dot's final
+   stop), so its appearance signals end-of-timeline. */
+.coda {
+  text-align: center;
+  margin: 56px auto 0;
+  max-width: 720px;
+  padding: 0 32px;
+}
+
+.coda p {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(22px, 2.2vw, 30px);
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin: 0;
+}
+
+.coda p em {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--indigo-bright);
+}
+
+/* Responsive — at <960px the track moves to the left edge and all
+   cards collapse into a single column to its right. */
+@media (max-width: 960px) {
+  .timeline {
+    width: auto;
+    margin-left: 0;
+    transform: none;
+    padding: 0;
+  }
+  .track,
+  .fill {
+    left: 24px;
+    margin-left: -2px;
+  }
+  .dot {
+    left: 24px;
+    margin-left: -9px;
+  }
+  .indication {
+    grid-template-columns: 1fr;
+    padding-left: 56px;
+    min-height: 0;
+    margin-bottom: 36px;
+  }
+  .indicationLeft .card,
+  .indicationRight .card {
+    grid-column: 1;
+    margin: 0;
+    max-width: none;
+  }
+  .spacer {
+    display: none;
+  }
+  .connector {
+    width: 24px;
+    left: 24px !important;
+    right: auto !important;
+    transform: none !important;
+    margin: 0 !important;
+  }
+  .coda {
+    padding-left: 56px;
+    text-align: left;
+  }
+}
+
+/* prefers-reduced-motion: kill decorative animations; the dot's lerp
+   tracking is functional and stays. */
+@media (prefers-reduced-motion: reduce) {
+  .wave .waveScroll {
+    animation: none;
+  }
+}

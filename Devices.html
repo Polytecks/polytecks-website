@@ -1,0 +1,1060 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Devices — Polytecks</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #0a0a0e;
+    --bg-2: #0f1016;
+    --ink: #e8e9f0;
+    --ink-dim: #8a8c9a;
+    --ink-faint: #4a4c5a;
+    --line: rgba(255, 255, 255, 0.08);
+    --line-strong: rgba(255, 255, 255, 0.16);
+    --indigo: #4a54c0;
+    --indigo-bright: #6a74dc;
+    --indigo-light: #8e98ee;
+    --indigo-lightest: #a8b0f3;
+    --font-display: "Space Grotesk", system-ui, sans-serif;
+    --font-sans: "Inter", system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, monospace;
+    --content-w: 1100px;
+  }
+  * { box-sizing: border-box; }
+  html, body { background: var(--bg); color: var(--ink); }
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-weight: 300;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+  }
+  a { color: inherit; text-decoration: none; }
+
+  /* ---------- Top nav ---------- */
+  .nav {
+    position: sticky; top: 0; z-index: 50;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    background: rgba(10, 10, 14, 0.6);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner {
+    max-width: 1400px; margin: 0 auto;
+    padding: 18px 40px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .logo { display: flex; align-items: center; gap: 10px; }
+  .logo img { height: 22px; width: auto; }
+  .nav-links {
+    display: flex; gap: 36px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+  }
+  .nav-links a.active { color: var(--ink); }
+  .nav-links a:hover { color: var(--ink); }
+
+  /* ---------- Subpage ---------- */
+  .subpage {
+    max-width: var(--content-w);
+    margin: 0 auto;
+    padding: 80px 40px 80px;
+    position: relative;
+    z-index: 5;
+  }
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--indigo-lightest);
+    background: rgba(74, 84, 192, 0.18);
+    border: 1px solid rgba(168, 176, 243, 0.4);
+    padding: 6px 14px;
+    border-radius: 999px;
+    display: inline-block;
+    box-shadow: 0 0 16px rgba(106, 116, 220, 0.3);
+    margin-bottom: 20px;
+  }
+  .h1 {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: clamp(40px, 5vw, 64px);
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    margin: 0 0 24px;
+    max-width: 900px;
+    color: var(--ink);
+  }
+  .h1 em { font-style: italic; font-weight: 500; color: var(--indigo-bright); }
+  .lede {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: clamp(18px, 1.6vw, 26px);
+    line-height: 1.55;
+    color: var(--indigo-bright);
+    max-width: 900px;
+    margin: 0 0 40px;
+  }
+
+  /* ---------- Icon strip (kept) ---------- */
+  .strip {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: clamp(20px, 2.5vw, 48px);
+    width: min(94vw, 1700px);
+    max-width: none;
+    margin: 32px 50% 120px;
+    transform: translateX(-50%);
+    padding: 0 24px;
+  }
+  .strip-item { display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; }
+  .strip-icon { width: clamp(128px, 11vw, 180px); height: clamp(128px, 11vw, 180px); display: flex; align-items: center; justify-content: center; }
+  .strip-icon img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .strip-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin: 0;
+    line-height: 1.45;
+    min-height: 2.9em;
+  }
+
+  /* =================================================================
+     LOWER HALF — REDESIGNED (editorial, restrained, story-led)
+     ================================================================= */
+
+  /* Section heading — clean, editorial, no micro-labels */
+  .section-head {
+    margin: 0 0 56px;
+    max-width: 720px;
+  }
+  .section-head .kicker {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    margin-bottom: 18px;
+  }
+  .section-head h2 {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: clamp(32px, 3.4vw, 48px);
+    letter-spacing: -0.025em;
+    line-height: 1.15;
+    margin: 0;
+    color: var(--ink);
+  }
+  .section-head h2 em { font-style: italic; font-weight: 500; color: var(--indigo-bright); }
+  .section-head p {
+    font-family: var(--font-sans);
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--ink-dim);
+    margin: 18px 0 0;
+    max-width: 640px;
+  }
+
+  /* ---------- 1. FIRST DEVICE — Veterinary cardiac staging ---------- */
+  .first-device {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: clamp(40px, 5vw, 80px);
+    align-items: stretch;
+    margin-bottom: 140px;
+  }
+  .device-visual {
+    position: relative;
+    border: 1px solid var(--line);
+    background:
+      linear-gradient(135deg, rgba(74, 84, 192, 0.10), rgba(10, 10, 14, 0.6)),
+      repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.018) 0 2px, transparent 2px 14px);
+    overflow: hidden;
+    min-height: 540px;
+  }
+  .device-visual .placeholder {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; gap: 18px;
+    color: var(--ink-faint);
+  }
+  .device-visual .placeholder .glyph {
+    width: 120px; height: 120px;
+    border: 1px solid var(--line-strong);
+    position: relative;
+    opacity: 0.55;
+  }
+  .device-visual .placeholder .glyph::before {
+    content: ""; position: absolute; inset: 12px;
+    border: 1px dashed var(--line-strong);
+  }
+  .device-visual .placeholder .ph-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    color: var(--ink-faint);
+  }
+
+  .device-copy { display: flex; flex-direction: column; }
+  .device-copy h3 {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: clamp(30px, 3.2vw, 44px);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin: 0 0 28px;
+    max-width: 14ch;
+    color: var(--ink);
+  }
+  .device-copy h3 em { font-style: italic; font-weight: 500; color: var(--indigo-bright); }
+  .device-copy p {
+    font-family: var(--font-sans);
+    font-weight: 300;
+    font-size: 16.5px;
+    line-height: 1.7;
+    color: var(--ink-dim);
+    margin: 0 0 20px;
+    max-width: 560px;
+  }
+  .device-copy p.lead {
+    color: var(--ink);
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 24px;
+  }
+
+  .device-summary {
+    margin-top: 28px;
+    padding-top: 28px;
+    border-top: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    max-width: 560px;
+  }
+  .device-summary .cell { display: flex; flex-direction: column; gap: 8px; }
+  .device-summary .k {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    color: var(--ink-faint);
+    font-weight: 400;
+  }
+  .device-summary .v {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+
+  /* Trial-ongoing status block — premium and noticeable, not loud */
+  .status-block {
+    margin-top: 36px;
+    padding: 22px 24px;
+    border: 1px solid rgba(168, 176, 243, 0.28);
+    background:
+      radial-gradient(ellipse 60% 200% at 0% 50%, rgba(74, 84, 192, 0.18), transparent 70%),
+      rgba(255, 255, 255, 0.015);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+    max-width: 560px;
+  }
+  .status-row { display: flex; align-items: center; gap: 14px; }
+  .status-pulse {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--indigo-bright);
+    box-shadow: 0 0 0 0 rgba(106, 116, 220, 0.55);
+    animation: status-pulse 2.4s ease-out infinite;
+    flex-shrink: 0;
+  }
+  @keyframes status-pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(106, 116, 220, 0.55); }
+    70%  { box-shadow: 0 0 0 14px rgba(106, 116, 220, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(106, 116, 220, 0); }
+  }
+  .status-text {
+    display: flex; flex-direction: column; gap: 3px;
+  }
+  .status-text .top {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--indigo-lightest);
+  }
+  .status-text .bot {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    color: var(--ink-dim);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 13.5px;
+    letter-spacing: 0.02em;
+    padding: 12px 20px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+    border: 1px solid transparent;
+    white-space: nowrap;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, rgba(106, 116, 220, 0.55), rgba(74, 84, 192, 0.85));
+    border-color: rgba(160, 175, 255, 0.4);
+    color: #fff;
+    box-shadow: 0 0 18px rgba(106, 116, 220, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  }
+  .btn-primary:hover { transform: translateY(-1px); }
+  .btn-secondary {
+    background: transparent;
+    border-color: var(--line-strong);
+    color: var(--ink);
+  }
+  .btn-secondary:hover { border-color: var(--indigo-light); color: var(--indigo-lightest); }
+  .btn .arrow { font-family: var(--font-mono); font-size: 13px; }
+
+  /* ---------- 2. SCROLL-DRIVEN VERTICAL TIMELINE ---------- */
+  .timeline {
+    position: relative;
+    margin: 0 0 140px;
+    /* Break out of subpage max-width so the track has room to breathe.
+       Centered via 50%/translateX so the inner column still aligns. */
+    width: min(96vw, 1240px);
+    margin-left: 50%;
+    transform: translateX(-50%);
+    padding: 0 24px;
+  }
+  .timeline-track {
+    position: absolute;
+    top: 0; bottom: 0;
+    left: 50%;
+    margin-left: -2px;
+    width: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 2px;
+    pointer-events: none;
+  }
+  /* The illuminated portion — height set via JS each frame (no CSS transition) */
+  .timeline-fill {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    margin-left: -2px;
+    width: 4px;
+    height: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.85) 0%,
+      rgba(168, 176, 243, 0.95) 100%
+    );
+    border-radius: 2px;
+    box-shadow: 0 0 14px rgba(168, 176, 243, 0.45);
+    pointer-events: none;
+    will-change: height;
+  }
+  /* The dot — top is updated via JS using transform: translateY (GPU, no jank) */
+  .timeline-dot {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 18px;
+    height: 18px;
+    margin-left: -9px;
+    margin-top: -9px;
+    border-radius: 50%;
+    background: #fff;
+    border: 2px solid var(--indigo-bright);
+    box-shadow:
+      0 0 0 5px rgba(10, 10, 14, 1),
+      0 0 18px rgba(168, 176, 243, 0.6);
+    pointer-events: none;
+    z-index: 3;
+    will-change: transform;
+  }
+
+  /* Indication card on the timeline */
+  .indication {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    align-items: center;
+    margin-bottom: 60px;
+    min-height: 280px;
+    opacity: 0.35;
+    transition: opacity 0.7s ease;
+  }
+  .indication.is-active { opacity: 1; }
+  .indication.is-active .indi-card {
+    border-color: rgba(168, 176, 243, 0.32);
+    background:
+      linear-gradient(180deg, rgba(106, 116, 220, 0.06), transparent 70%),
+      rgba(255, 255, 255, 0.012);
+  }
+
+  .indi-card {
+    border: 1px solid var(--line);
+    padding: 32px 32px 36px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.012), transparent 60%);
+    transition: border-color 0.6s ease, background 0.6s ease, transform 0.6s ease;
+    max-width: 460px;
+  }
+  /* Left card: sits in left column, hugs right edge of column */
+  .indication.left .indi-card {
+    grid-column: 1;
+    margin-left: auto;
+    margin-right: 56px;
+  }
+  .indication.right .indi-card {
+    grid-column: 2;
+    margin-left: 56px;
+    margin-right: auto;
+  }
+  .indication.left .indi-spacer { grid-column: 2; }
+  .indication.right .indi-spacer { grid-column: 1; }
+
+  /* Connector line from dot to card */
+  .indi-connector {
+    position: absolute;
+    top: 50%;
+    height: 1px;
+    background: linear-gradient(to right, rgba(168, 176, 243, 0.5), rgba(255, 255, 255, 0));
+    width: 56px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.7s ease;
+  }
+  .indication.is-active .indi-connector { opacity: 1; }
+  .indication.left  .indi-connector { right: 50%; transform: scaleX(-1); margin-right: 2px; }
+  .indication.right .indi-connector { left:  50%; margin-left: 2px; }
+
+  .indi-card h3 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 24px;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+    margin: 0 0 6px;
+    color: var(--ink);
+  }
+  .indi-card .descriptor {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    color: var(--indigo-light);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    margin-bottom: 22px;
+  }
+
+  /* ECG-style continuous-scroll waveform.
+     Each .indi-wave SVG contains a <g class="wave-scroll"> with the wave
+     path duplicated end-to-end (drawn twice, offset by 400 viewBox units).
+     The whole group translates left forever in a perfect loop, producing a
+     continuous horizontal trace like a paper ECG. The lighter "ghost" trace
+     is the SAME path translated by a small vertical+horizontal offset so it
+     mirrors the bright trace exactly. */
+  .indi-wave {
+    height: 64px;
+    margin: 0 0 22px;
+    overflow: hidden;
+    display: block;
+    /* Soft fade at the leading edge so the wave doesn't hard-cut at the right */
+    -webkit-mask-image: linear-gradient(to right, transparent 0, black 6%, black 94%, transparent 100%);
+            mask-image: linear-gradient(to right, transparent 0, black 6%, black 94%, transparent 100%);
+  }
+  .indi-wave svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    color: var(--indigo-light);
+    overflow: visible;
+  }
+  .indi-wave .wave-scroll { /* animation provided by inline SMIL animateTransform */ }
+  .indi-wave .wave-path {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .indi-wave .wave-path.lead { opacity: 0.95; }
+  /* Ghost trace: same path geometry, just rendered at lower opacity and
+     offset slightly. Because it's a duplicate of the same <path d> drawn
+     inside the same scrolling <g>, it mirrors the bright trace 1:1. */
+  .indi-wave .wave-path.ghost {
+    opacity: 0.22;
+    stroke-width: 1.1;
+  }
+  /* The animation translates by exactly -400 viewBox units (one wave period)
+     so the duplicated path slides into place seamlessly at loop end. */
+  @keyframes wave-scroll { from { transform: translateX(0); } to { transform: translateX(-400px); } }
+
+  .indi-card p {
+    font-family: var(--font-sans);
+    font-weight: 300;
+    font-size: 14.5px;
+    line-height: 1.65;
+    color: var(--ink-dim);
+    margin: 0;
+  }
+
+  /* "And many more" — sits BELOW the timeline (after the dot's final stop) */
+  .indi-coda {
+    text-align: center;
+    margin: 56px auto 0;
+    max-width: 720px;
+    padding: 0 32px;
+  }
+  .indi-coda p {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: clamp(22px, 2.2vw, 30px);
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin: 0;
+  }
+  .indi-coda p em { font-style: italic; font-weight: 500; color: var(--indigo-bright); }
+
+  /* ---------- 3. PLATFORM SECTION (track ends here) ---------- */
+  .platform {
+    border-top: 1px solid var(--line);
+    padding: 80px 0 0;
+    margin-bottom: 96px;
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 64px;
+    align-items: start;
+  }
+  .platform .kicker {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    margin-bottom: 18px;
+  }
+  .platform h2 {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: clamp(28px, 2.8vw, 40px);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin: 0;
+    color: var(--ink);
+  }
+  .platform .body p {
+    font-family: var(--font-sans);
+    font-weight: 300;
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--ink-dim);
+    margin: 0 0 18px;
+    max-width: 640px;
+  }
+  .platform .body p:first-child { color: var(--ink); font-weight: 400; font-size: 19px; }
+
+  /* ---------- 4. CTA ---------- */
+  .cta {
+    display: grid;
+    grid-template-columns: 1.2fr auto;
+    gap: 48px;
+    align-items: center;
+    padding: 56px 56px;
+    border: 1px solid var(--line);
+    background:
+      radial-gradient(ellipse 80% 120% at 0% 50%, rgba(74, 84, 192, 0.10), transparent 60%),
+      linear-gradient(180deg, rgba(255,255,255,0.012), transparent);
+    margin-bottom: 24px;
+  }
+  .cta h3 {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: clamp(26px, 2.6vw, 34px);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin: 0 0 12px;
+    max-width: 22ch;
+    color: var(--ink);
+  }
+  .cta p {
+    font-family: var(--font-sans);
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--ink-dim);
+    margin: 0;
+    max-width: 56ch;
+  }
+  .cta-actions { display: flex; flex-direction: column; gap: 12px; }
+  .btn-cta { padding: 16px 28px; font-size: 14px; }
+
+  /* Footer */
+  .footer {
+    border-top: 1px solid var(--line);
+    margin-top: 80px;
+    padding: 40px 40px 56px;
+  }
+  .footer-inner {
+    max-width: 1400px; margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 960px) {
+    .strip { grid-template-columns: repeat(3, 1fr); width: auto; transform: none; margin: 24px 0 90px; }
+    .first-device { grid-template-columns: 1fr; }
+    .device-visual { min-height: 320px; }
+
+    /* Timeline: collapse to single column on left, track moves to far left */
+    .timeline { width: auto; margin-left: 0; transform: none; padding: 0; }
+    .timeline-track, .timeline-fill { left: 24px; margin-left: -2px; }
+    .timeline-dot { left: 24px; margin-left: -9px; }
+    .indication { grid-template-columns: 1fr; padding-left: 56px; min-height: 0; margin-bottom: 36px; }
+    .indication.left .indi-card,
+    .indication.right .indi-card {
+      grid-column: 1;
+      margin: 0;
+      max-width: none;
+    }
+    .indi-spacer { display: none; }
+    .indi-connector {
+      width: 24px;
+      left: 24px !important;
+      right: auto !important;
+      transform: none !important;
+      margin: 0 !important;
+    }
+    .indi-coda { padding-left: 56px; text-align: left; }
+
+    .platform { grid-template-columns: 1fr; gap: 24px; padding-top: 56px; }
+    .cta { grid-template-columns: 1fr; padding: 40px 28px; gap: 24px; }
+    .nav-links { display: none; }
+  }
+  @media (max-width: 560px) {
+    .strip { grid-template-columns: repeat(2, 1fr); }
+    .device-summary { grid-template-columns: 1fr; gap: 16px; }
+    .subpage { padding: 60px 20px; }
+    .status-block { flex-direction: column; align-items: flex-start; }
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .indi-wave .wave-scroll,
+    .status-pulse { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="logo" href="#"><img src="assets/polytecks-logo-white.png" alt="Polytecks" /></a>
+    <div class="nav-links">
+      <a>Technology</a>
+      <a class="active">Devices</a>
+      <a>About</a>
+      <a>Careers</a>
+      <a>Press</a>
+      <a>Contact</a>
+    </div>
+  </div>
+</nav>
+
+<main class="subpage">
+
+  <!-- ============ HERO (kept) ============ -->
+  <div class="eyebrow">Devices</div>
+  <h1 class="h1">Making disease easier to <em>spot</em>, diagnose, and manage.</h1>
+  <p class="lede">The Mosaic Sensor platform can bring imaging-level insights into primary care, and even earlier. Across all domains of health.</p>
+
+  <!-- ============ ICON STRIP (kept) ============ -->
+  <div class="strip">
+    <div class="strip-item"><div class="strip-icon"><img src="assets/heartpoly.png" alt="" /></div><p class="strip-label">Cardiac<br/>Signals</p></div>
+    <div class="strip-item"><div class="strip-icon"><img src="assets/brainpoly.png" alt="" /></div><p class="strip-label">Neural<br/>Activity</p></div>
+    <div class="strip-item"><div class="strip-icon"><img src="assets/musclepoly.png" alt="" /></div><p class="strip-label">Muscle<br/>Function</p></div>
+    <div class="strip-item"><div class="strip-icon"><img src="assets/gutpoly.png" alt="" /></div><p class="strip-label">Gut<br/>Electrophysiology</p></div>
+    <div class="strip-item"><div class="strip-icon"><img src="assets/autonomicpoly.png" alt="" /></div><p class="strip-label">Autonomic<br/>Control</p></div>
+    <div class="strip-item"><div class="strip-icon"><img src="assets/ribbonpoly.png" alt="" /></div><p class="strip-label">Oncological<br/>Signatures</p></div>
+  </div>
+
+  <!-- ============ 1. FIRST DEVICE — VETERINARY CARDIAC STAGING ============ -->
+  <div class="section-head">
+    <div class="kicker">Our first device</div>
+    <h2>Veterinary cardiac staging at the <em>point of care</em>.</h2>
+  </div>
+
+  <section class="first-device" data-screen-label="01 First device — Veterinary">
+    <div class="device-visual" aria-hidden="true">
+      <div class="placeholder">
+        <div class="glyph"></div>
+        <div class="ph-label">Image · Device on canine patient</div>
+      </div>
+    </div>
+
+    <div class="device-copy">
+      <p class="lead">
+        Our first device is designed for veterinary cardiovascular staging at the point of care, where early and accurate classification determines whether a dog should be monitored, referred, or treated.
+      </p>
+      <p>
+        In canine heart disease — and mitral valve disease in particular — this decision often depends on referral imaging: costly, capacity-limited, and not always immediately accessible in primary care.
+      </p>
+      <p>
+        Polytecks enables a short, non-invasive measurement to be taken directly in the clinic, capturing spatial patterns of cardiac bioelectrical activity that are not accessible through standard tools alone.
+      </p>
+      <p>
+        These signals are reconstructed into a structured output that supports earlier clinical decision-making, without requiring specialist imaging at the first step.
+      </p>
+
+      <div class="device-summary">
+        <div class="cell"><span class="k">Format</span><span class="v">Non-invasive</span></div>
+        <div class="cell"><span class="k">Measurement time</span><span class="v">~2 min</span></div>
+        <div class="cell"><span class="k">Setting</span><span class="v">Point of care</span></div>
+      </div>
+
+      <!-- Trial ongoing + Follow Updates -->
+      <div class="status-block">
+        <div class="status-row">
+          <span class="status-pulse" aria-hidden="true"></span>
+          <div class="status-text">
+            <span class="top">Trial ongoing</span>
+            <span class="bot">Active in-clinic study with first-opinion veterinary partners.</span>
+          </div>
+        </div>
+        <a class="btn btn-primary" href="contact.html#newsletter">Follow updates <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 2. FUTURE INDICATIONS — SCROLL TIMELINE ============ -->
+  <div class="section-head">
+    <div class="kicker">Future indications</div>
+    <h2>The same platform, applied across <em>adjacent</em> areas of health.</h2>
+    <p>A look at the directions we are exploring beyond the first device — across cardiology, neurophysiology, and other domains where high-resolution surface electrophysiology can change what is possible at the point of care.</p>
+  </div>
+
+  <div class="timeline" id="timeline">
+    <div class="timeline-track" aria-hidden="true"></div>
+    <div class="timeline-fill" id="timelineFill" aria-hidden="true"></div>
+    <div class="timeline-dot" id="timelineDot" aria-hidden="true"></div>
+
+    <!-- Card 1 — left -->
+    <article class="indication left" data-screen-label="02 Arrhythmia Mapping">
+      <div class="indi-card">
+        <h3>Arrhythmia Mapping</h3>
+        <div class="descriptor">Cardiac · spatial reconstruction</div>
+        <div class="indi-wave" aria-hidden="true">
+          <svg viewBox="0 0 400 64" preserveAspectRatio="none">
+            <g class="wave-scroll">
+              <path class="wave-path ghost" d="M0 36 L60 36 L72 26 L82 50 L94 30 L108 42 L122 36 L180 36 L196 14 L210 56 L222 28 L240 46 L252 36 L320 36 L334 22 L348 50 L360 32 L400 36" transform="translate(0 4)" />
+              <path class="wave-path lead"  d="M0 36 L60 36 L72 26 L82 50 L94 30 L108 42 L122 36 L180 36 L196 14 L210 56 L222 28 L240 46 L252 36 L320 36 L334 22 L348 50 L360 32 L400 36" />
+              <path class="wave-path ghost" d="M0 36 L60 36 L72 26 L82 50 L94 30 L108 42 L122 36 L180 36 L196 14 L210 56 L222 28 L240 46 L252 36 L320 36 L334 22 L348 50 L360 32 L400 36" transform="translate(400 4)" />
+              <path class="wave-path lead"  d="M0 36 L60 36 L72 26 L82 50 L94 30 L108 42 L122 36 L180 36 L196 14 L210 56 L222 28 L240 46 L252 36 L320 36 L334 22 L348 50 L360 32 L400 36" transform="translate(400 0)" />
+            <animateTransform attributeName="transform" type="translate" from="0 0" to="-400 0" dur="9s" begin="-1.5s" repeatCount="indefinite" additive="replace"/></g>
+          </svg>
+        </div>
+        <p>Detecting arrhythmias often requires extended monitoring or specialist investigation. Polytecks enables high-resolution reconstruction of how cardiac electrical activity propagates across the chest, supporting earlier and more accessible rhythm assessment.</p>
+      </div>
+      <div class="indi-spacer"></div>
+      <div class="indi-connector" aria-hidden="true"></div>
+    </article>
+
+    <!-- Card 2 — right -->
+    <article class="indication right" data-screen-label="03 Fetal Monitoring">
+      <div class="indi-spacer"></div>
+      <div class="indi-card">
+        <h3>Fetal Monitoring</h3>
+        <div class="descriptor">Continuous · maternal abdomen</div>
+        <div class="indi-wave" aria-hidden="true">
+          <svg viewBox="0 0 400 64" preserveAspectRatio="none">
+            <g class="wave-scroll">
+              <path class="wave-path ghost" d="M0 38 C 30 38, 40 22, 60 22 C 80 22, 90 38, 110 38 C 130 38, 140 22, 160 22 C 180 22, 190 38, 220 38 C 250 38, 260 22, 280 22 C 300 22, 310 38, 340 38 C 370 38, 380 22, 400 22" transform="translate(0 4)" />
+              <path class="wave-path lead"  d="M0 38 C 30 38, 40 22, 60 22 C 80 22, 90 38, 110 38 C 130 38, 140 22, 160 22 C 180 22, 190 38, 220 38 C 250 38, 260 22, 280 22 C 300 22, 310 38, 340 38 C 370 38, 380 22, 400 22" />
+              <path class="wave-path ghost" d="M0 38 C 30 38, 40 22, 60 22 C 80 22, 90 38, 110 38 C 130 38, 140 22, 160 22 C 180 22, 190 38, 220 38 C 250 38, 260 22, 280 22 C 300 22, 310 38, 340 38 C 370 38, 380 22, 400 22" transform="translate(400 4)" />
+              <path class="wave-path lead"  d="M0 38 C 30 38, 40 22, 60 22 C 80 22, 90 38, 110 38 C 130 38, 140 22, 160 22 C 180 22, 190 38, 220 38 C 250 38, 260 22, 280 22 C 300 22, 310 38, 340 38 C 370 38, 380 22, 400 22" transform="translate(400 0)" />
+            <animateTransform attributeName="transform" type="translate" from="0 0" to="-400 0" dur="9s" begin="-3s" repeatCount="indefinite" additive="replace"/></g>
+          </svg>
+        </div>
+        <p>Monitoring fetal health is limited by access, intermittency, and the difficulty of separating maternal and fetal signals. Polytecks supports continuous, non-invasive abdominal measurement for earlier and more longitudinal insight during pregnancy.</p>
+      </div>
+      <div class="indi-connector" aria-hidden="true"></div>
+    </article>
+
+    <!-- Card 3 — left -->
+    <article class="indication left" data-screen-label="04 Neuromuscular & Autonomic">
+      <div class="indi-card">
+        <h3>Neuromuscular &amp; Autonomic</h3>
+        <div class="descriptor">Surface electrophysiology · longitudinal</div>
+        <div class="indi-wave" aria-hidden="true">
+          <svg viewBox="0 0 400 64" preserveAspectRatio="none">
+            <g class="wave-scroll">
+              <path class="wave-path ghost" d="M0 36 L40 36 L48 28 L54 44 L60 30 L68 42 L76 36 L120 36 L128 24 L136 48 L142 32 L150 40 L158 36 L210 36 L218 28 L226 44 L234 32 L242 40 L250 36 L300 36 L308 26 L316 46 L324 32 L334 40 L344 36 L400 36" transform="translate(0 4)" />
+              <path class="wave-path lead"  d="M0 36 L40 36 L48 28 L54 44 L60 30 L68 42 L76 36 L120 36 L128 24 L136 48 L142 32 L150 40 L158 36 L210 36 L218 28 L226 44 L234 32 L242 40 L250 36 L300 36 L308 26 L316 46 L324 32 L334 40 L344 36 L400 36" />
+              <path class="wave-path ghost" d="M0 36 L40 36 L48 28 L54 44 L60 30 L68 42 L76 36 L120 36 L128 24 L136 48 L142 32 L150 40 L158 36 L210 36 L218 28 L226 44 L234 32 L242 40 L250 36 L300 36 L308 26 L316 46 L324 32 L334 40 L344 36 L400 36" transform="translate(400 4)" />
+              <path class="wave-path lead"  d="M0 36 L40 36 L48 28 L54 44 L60 30 L68 42 L76 36 L120 36 L128 24 L136 48 L142 32 L150 40 L158 36 L210 36 L218 28 L226 44 L234 32 L242 40 L250 36 L300 36 L308 26 L316 46 L324 32 L334 40 L344 36 L400 36" transform="translate(400 0)" />
+            <animateTransform attributeName="transform" type="translate" from="0 0" to="-400 0" dur="9s" begin="-4.5s" repeatCount="indefinite" additive="replace"/></g>
+          </svg>
+        </div>
+        <p>Many disorders of the nervous system and muscles are difficult to quantify outside specialist settings. Polytecks opens a path to higher-resolution surface electrophysiology for monitoring neuromuscular and autonomic function over time.</p>
+      </div>
+      <div class="indi-spacer"></div>
+      <div class="indi-connector" aria-hidden="true"></div>
+    </article>
+
+    <!-- Card 4 — right -->
+    <article class="indication right" data-screen-label="05 EEG Research">
+      <div class="indi-spacer"></div>
+      <div class="indi-card">
+        <h3>EEG Research</h3>
+        <div class="descriptor">Neural · high-density acquisition</div>
+        <div class="indi-wave" aria-hidden="true">
+          <svg viewBox="0 0 400 64" preserveAspectRatio="none">
+            <g class="wave-scroll">
+              <path class="wave-path ghost" d="M0 36 Q 12 18 24 36 T 48 36 T 72 36 T 96 36 T 120 36 T 144 36 T 168 36 T 192 36 T 216 36 T 240 36 T 264 36 T 288 36 T 312 36 T 336 36 T 360 36 T 400 36" transform="translate(0 4)" />
+              <path class="wave-path lead"  d="M0 36 Q 12 18 24 36 T 48 36 T 72 36 T 96 36 T 120 36 T 144 36 T 168 36 T 192 36 T 216 36 T 240 36 T 264 36 T 288 36 T 312 36 T 336 36 T 360 36 T 400 36" />
+              <path class="wave-path ghost" d="M0 36 Q 12 18 24 36 T 48 36 T 72 36 T 96 36 T 120 36 T 144 36 T 168 36 T 192 36 T 216 36 T 240 36 T 264 36 T 288 36 T 312 36 T 336 36 T 360 36 T 400 36" transform="translate(400 4)" />
+              <path class="wave-path lead"  d="M0 36 Q 12 18 24 36 T 48 36 T 72 36 T 96 36 T 120 36 T 144 36 T 168 36 T 192 36 T 216 36 T 240 36 T 264 36 T 288 36 T 312 36 T 336 36 T 360 36 T 400 36" transform="translate(400 0)" />
+            <animateTransform attributeName="transform" type="translate" from="0 0" to="-400 0" dur="9s" begin="-6s" repeatCount="indefinite" additive="replace"/></g>
+          </svg>
+        </div>
+        <p>Current EEG workflows can be cumbersome, sparse, or difficult to scale outside dedicated environments. Polytecks offers a route toward more flexible, high-density neural signal capture for research settings.</p>
+      </div>
+      <div class="indi-connector" aria-hidden="true"></div>
+    </article>
+
+    <!-- Card 5 — left -->
+    <article class="indication left" data-screen-label="06 GI Disease">
+      <div class="indi-card">
+        <h3>GI Disease Diagnostics &amp; Monitoring</h3>
+        <div class="descriptor">Gastrointestinal · functional measurement</div>
+        <div class="indi-wave" aria-hidden="true">
+          <svg viewBox="0 0 400 64" preserveAspectRatio="none">
+            <g class="wave-scroll">
+              <path class="wave-path ghost" d="M0 36 C 50 36, 70 18, 110 18 C 150 18, 170 50, 220 50 C 270 50, 290 22, 330 22 C 370 22, 390 36, 400 36" transform="translate(0 4)" />
+              <path class="wave-path lead"  d="M0 36 C 50 36, 70 18, 110 18 C 150 18, 170 50, 220 50 C 270 50, 290 22, 330 22 C 370 22, 390 36, 400 36" />
+              <path class="wave-path ghost" d="M0 36 C 50 36, 70 18, 110 18 C 150 18, 170 50, 220 50 C 270 50, 290 22, 330 22 C 370 22, 390 36, 400 36" transform="translate(400 4)" />
+              <path class="wave-path lead"  d="M0 36 C 50 36, 70 18, 110 18 C 150 18, 170 50, 220 50 C 270 50, 290 22, 330 22 C 370 22, 390 36, 400 36" transform="translate(400 0)" />
+            <animateTransform attributeName="transform" type="translate" from="0 0" to="-400 0" dur="9s" begin="-7.5s" repeatCount="indefinite" additive="replace"/></g>
+          </svg>
+        </div>
+        <p>Many gastrointestinal disorders lack simple tools for functional measurement over time. Polytecks could support new approaches to capturing electrophysiological signatures linked to GI disease and motility.</p>
+      </div>
+      <div class="indi-spacer"></div>
+      <div class="indi-connector" aria-hidden="true"></div>
+    </article>
+
+    <!-- Card 6 — right -->
+    <article class="indication right" data-screen-label="07 Prosthetic Control">
+      <div class="indi-spacer"></div>
+      <div class="indi-card">
+        <h3>Prosthetic Control</h3>
+        <div class="descriptor">Human-machine interface</div>
+        <div class="indi-wave" aria-hidden="true">
+          <svg viewBox="0 0 400 64" preserveAspectRatio="none">
+            <g class="wave-scroll">
+              <path class="wave-path ghost" d="M0 36 L40 36 L52 18 L62 50 L72 26 L86 44 L98 36 L150 36 L162 16 L172 52 L184 28 L198 46 L212 36 L260 36 L272 20 L284 50 L296 30 L310 44 L322 36 L400 36" transform="translate(0 4)" />
+              <path class="wave-path lead"  d="M0 36 L40 36 L52 18 L62 50 L72 26 L86 44 L98 36 L150 36 L162 16 L172 52 L184 28 L198 46 L212 36 L260 36 L272 20 L284 50 L296 30 L310 44 L322 36 L400 36" />
+              <path class="wave-path ghost" d="M0 36 L40 36 L52 18 L62 50 L72 26 L86 44 L98 36 L150 36 L162 16 L172 52 L184 28 L198 46 L212 36 L260 36 L272 20 L284 50 L296 30 L310 44 L322 36 L400 36" transform="translate(400 4)" />
+              <path class="wave-path lead"  d="M0 36 L40 36 L52 18 L62 50 L72 26 L86 44 L98 36 L150 36 L162 16 L172 52 L184 28 L198 46 L212 36 L260 36 L272 20 L284 50 L296 30 L310 44 L322 36 L400 36" transform="translate(400 0)" />
+            <animateTransform attributeName="transform" type="translate" from="0 0" to="-400 0" dur="9s" begin="-9s" repeatCount="indefinite" additive="replace"/></g>
+          </svg>
+        </div>
+        <p>Advanced prosthetic control depends on reliable acquisition of muscular and neural intent. Polytecks could help capture richer surface bioelectrical data to support more responsive human-machine interfaces.</p>
+      </div>
+      <div class="indi-connector" aria-hidden="true"></div>
+    </article>
+
+    <!-- Card 7 — left -->
+    <article class="indication left" data-screen-label="08 Cancer Screening">
+      <div class="indi-card">
+        <h3>Cancer Screening</h3>
+        <div class="descriptor">Bioelectrical signatures · early signal</div>
+        <div class="indi-wave" aria-hidden="true">
+          <svg viewBox="0 0 400 64" preserveAspectRatio="none">
+            <g class="wave-scroll">
+              <path class="wave-path ghost" d="M0 38 L80 38 L100 28 L120 38 L200 38 L220 16 L240 38 L320 38 L340 30 L360 38 L400 38" transform="translate(0 4)" />
+              <path class="wave-path lead"  d="M0 38 L80 38 L100 28 L120 38 L200 38 L220 16 L240 38 L320 38 L340 30 L360 38 L400 38" />
+              <path class="wave-path ghost" d="M0 38 L80 38 L100 28 L120 38 L200 38 L220 16 L240 38 L320 38 L340 30 L360 38 L400 38" transform="translate(400 4)" />
+              <path class="wave-path lead"  d="M0 38 L80 38 L100 28 L120 38 L200 38 L220 16 L240 38 L320 38 L340 30 L360 38 L400 38" transform="translate(400 0)" />
+            <animateTransform attributeName="transform" type="translate" from="0 0" to="-400 0" dur="9s" begin="-10.5s" repeatCount="indefinite" additive="replace"/></g>
+          </svg>
+        </div>
+        <p>Certain cancers may present measurable bioelectrical signatures before symptoms become obvious. Polytecks is exploring how high-resolution sensing may contribute to new non-invasive screening approaches.</p>
+      </div>
+      <div class="indi-spacer"></div>
+      <div class="indi-connector" aria-hidden="true"></div>
+    </article>
+
+    <!-- Card 8 — right -->
+    <article class="indication right" data-screen-label="09 Epilepsy Monitoring">
+      <div class="indi-spacer"></div>
+      <div class="indi-card">
+        <h3>Epilepsy Monitoring</h3>
+        <div class="descriptor">Neural · continuous, episodic capture</div>
+        <div class="indi-wave" aria-hidden="true">
+          <svg viewBox="0 0 400 64" preserveAspectRatio="none">
+            <g class="wave-scroll">
+              <path class="wave-path ghost" d="M0 36 L60 36 L66 32 L74 40 L82 32 L92 40 L100 36 L160 36 L168 16 L176 56 L184 18 L192 54 L200 22 L210 50 L220 36 L280 36 L288 30 L296 42 L304 30 L312 42 L320 36 L400 36" transform="translate(0 4)" />
+              <path class="wave-path lead"  d="M0 36 L60 36 L66 32 L74 40 L82 32 L92 40 L100 36 L160 36 L168 16 L176 56 L184 18 L192 54 L200 22 L210 50 L220 36 L280 36 L288 30 L296 42 L304 30 L312 42 L320 36 L400 36" />
+              <path class="wave-path ghost" d="M0 36 L60 36 L66 32 L74 40 L82 32 L92 40 L100 36 L160 36 L168 16 L176 56 L184 18 L192 54 L200 22 L210 50 L220 36 L280 36 L288 30 L296 42 L304 30 L312 42 L320 36 L400 36" transform="translate(400 4)" />
+              <path class="wave-path lead"  d="M0 36 L60 36 L66 32 L74 40 L82 32 L92 40 L100 36 L160 36 L168 16 L176 56 L184 18 L192 54 L200 22 L210 50 L220 36 L280 36 L288 30 L296 42 L304 30 L312 42 L320 36 L400 36" transform="translate(400 0)" />
+            <animateTransform attributeName="transform" type="translate" from="0 0" to="-400 0" dur="9s" begin="-12s" repeatCount="indefinite" additive="replace"/></g>
+          </svg>
+        </div>
+        <p>Epileptic activity can be episodic and difficult to characterise in everyday settings. Polytecks could support more continuous and accessible monitoring of neural activity over time.</p>
+      </div>
+      <div class="indi-connector" aria-hidden="true"></div>
+    </article>
+
+  </div>
+
+  <!-- "And many more" — sits BELOW the timeline, after the dot's final stop -->
+  <div class="indi-coda" data-screen-label="10 And many more">
+    <p>And <em>many more</em>, across cardiology, neurophysiology, autonomic systems, and musculoskeletal health.</p>
+  </div>
+
+  <!-- ============ 3. PLATFORM — track ends here ============ -->
+  <section class="platform" data-screen-label="11 Platform">
+    <div>
+      <div class="kicker">Platform</div>
+      <h2>One sensing platform, applied across many physiological systems.</h2>
+    </div>
+    <div class="body">
+      <p>These applications are not isolated devices, but expressions of a single sensing platform applied across different physiological systems.</p>
+      <p>The same underlying approach extends from cardiac and fetal monitoring to neural, muscular, and autonomic domains — and toward the broader set of indications above.</p>
+    </div>
+  </section>
+
+  <!-- ============ 4. CTA ============ -->
+  <section class="cta" data-screen-label="12 CTA">
+    <div>
+      <h3>Partner with us on what comes next.</h3>
+      <p>We work with clinicians, research groups, and institutions exploring high-resolution surface electrophysiology in their own area of practice.</p>
+    </div>
+    <div class="cta-actions">
+      <a class="btn btn-primary btn-cta" href="#">Explore collaborations <span class="arrow">→</span></a>
+      <a class="btn btn-secondary btn-cta" href="contact.html#newsletter">Follow updates</a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <span>© Polytecks 2026</span>
+    <span>Cambridge, UK</span>
+  </div>
+</footer>
+
+<script>
+/**
+ * Scroll-driven timeline with lerp smoothing.
+ *
+ * The dot's TARGET position is computed every scroll (where it should be
+ * given current scroll). Its actual displayed position EASES toward that
+ * target each animation frame. This eliminates the 1px-vibration that
+ * happens when the dot is pinned to viewport center — micro-scroll
+ * jitter is filtered by the lerp.
+ */
+(function () {
+  const timeline = document.getElementById('timeline');
+  const fill = document.getElementById('timelineFill');
+  const dot = document.getElementById('timelineDot');
+  const indications = Array.from(document.querySelectorAll('.timeline .indication'));
+  if (!timeline || !fill || !dot) return;
+
+  let targetOffset = 0;     // where the dot should be (timeline-relative px)
+  let currentOffset = 0;    // where it actually is, eased
+  let rafId = 0;
+  let needsTarget = true;
+
+  function readTarget() {
+    needsTarget = false;
+    const rect = timeline.getBoundingClientRect();
+    const vh = window.innerHeight || document.documentElement.clientHeight;
+    const tlTop = rect.top;
+    const tlHeight = rect.height;
+    const center = vh / 2;
+
+    let dotViewportY;
+    if (tlTop > center) {
+      dotViewportY = tlTop;
+    } else if (tlTop + tlHeight < center) {
+      dotViewportY = tlTop + tlHeight;
+    } else {
+      dotViewportY = center;
+    }
+    targetOffset = Math.max(0, Math.min(tlHeight, dotViewportY - tlTop));
+  }
+
+  function updateActive() {
+    const rect = timeline.getBoundingClientRect();
+    const dotViewportY = rect.top + currentOffset;
+    indications.forEach((el) => {
+      const r = el.getBoundingClientRect();
+      const elCenter = r.top + r.height / 2;
+      if (elCenter <= dotViewportY + 40) {
+        el.classList.add('is-active');
+      } else {
+        el.classList.remove('is-active');
+      }
+    });
+  }
+
+  function tick() {
+    if (needsTarget) readTarget();
+    // Ease 22% per frame — feels alive but not laggy
+    const next = currentOffset + (targetOffset - currentOffset) * 0.22;
+    // Snap when very close to avoid sub-pixel jitter
+    currentOffset = Math.abs(next - targetOffset) < 0.2 ? targetOffset : next;
+
+    dot.style.transform = 'translateY(' + currentOffset.toFixed(2) + 'px)';
+    fill.style.height = currentOffset.toFixed(2) + 'px';
+
+    updateActive();
+    rafId = requestAnimationFrame(tick);
+  }
+
+  function onScroll() { needsTarget = true; }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  // Initial sync — snap to target immediately so first paint isn't off
+  readTarget();
+  currentOffset = targetOffset;
+  rafId = requestAnimationFrame(tick);
+})();
+</script>
+
+</body>
+</html>

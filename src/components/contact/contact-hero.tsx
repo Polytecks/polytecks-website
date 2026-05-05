@@ -51,7 +51,7 @@ export function ContactHero() {
           </StackEntry>
 
           <StackEntry index={1} className={styles.block}>
-            <div className={styles.newsletterBlock}>
+            <div id="newsletter" className={styles.newsletterBlock}>
               <p className={styles.eyebrow}>Newsletter</p>
               <h2 className={styles.title}>Stay close to Mosaic.</h2>
               <p className={styles.lede}>
