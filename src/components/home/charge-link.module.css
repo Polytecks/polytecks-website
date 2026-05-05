@@ -8,6 +8,16 @@
   --cl-line: rgba(255, 255, 255, 0.18);
   --cl-charge-ms: 520ms;
   --cl-arrow-ms: 260ms;
+}
+
+/* Light theme — ChargeLink rest state was tuned for dark surfaces
+   (white label, faint white track). On a light bg both vanish.
+   Override the local CSS vars so the link reads as black on white,
+   keeping the indigo charge sweep on hover. */
+:global([data-theme="light"]) .link {
+  --cl-color: #14141a;
+  --cl-accent: #4a54c0;
+  --cl-line: rgba(0, 0, 0, 0.18);
 
   appearance: none;
   background: transparent;

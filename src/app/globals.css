@@ -175,8 +175,12 @@
   --bg: #fafaf8;
   --bg-2: #f4f1ea;
   --ink: #14141a;
-  --ink-dim: rgba(0, 0, 0, 0.58);
-  --ink-faint: rgba(0, 0, 0, 0.35);
+  --ink-dim: rgba(0, 0, 0, 0.62);
+  /* Bumped from 0.35 → 0.5 so secondary metadata (article dates,
+     publication affiliations, mono captions) reads with enough
+     contrast against the light page bg without becoming a second
+     primary text colour. */
+  --ink-faint: rgba(0, 0, 0, 0.5);
   --line: rgba(0, 0, 0, 0.08);
   --line-strong: rgba(0, 0, 0, 0.18);
 
@@ -261,4 +265,23 @@
     transparent 50%,
     rgba(0, 0, 0, var(--tw-vignette, 0.2)) 100%
   );
+}
+
+/* Light theme: drop all decorative dark-corner vignettes — they were
+   tuned to lift white panels off the surrounding dark page bg. With
+   the whole page now light, they just dim the corners for no reason. */
+[data-theme="light"] .whiteVignette {
+  display: none;
+}
+
+/* Light theme: thin grey hairline between adjacent top-level sections
+   in <main>. With most surfaces now near-white, sections previously
+   demarcated by dark/light contrast lose their visual boundary; a
+   1 px hairline at full viewport width restores the separation
+   without re-introducing dark bands.  Limited to direct children of
+   <main> so it doesn't accidentally divide nested sections inside a
+   subpage layout. */
+[data-theme="light"] main > section + section,
+[data-theme="light"] main > * + section {
+  border-top: 1px solid rgba(0, 0, 0, 0.10);
 }

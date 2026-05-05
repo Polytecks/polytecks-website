@@ -1,7 +1,5 @@
 "use client";
 
-import Image from "next/image";
-
 import { StackEntry } from "@/components/stack-entry";
 import styles from "./contact-hero.module.css";
 
@@ -77,25 +75,8 @@ export function ContactHero() {
           </StackEntry>
         </div>
 
-        {/* RIGHT — empty grid placeholder. Reserves horizontal space so the
-            form column doesn't expand into the area where the floating
-            image overlay sits. The image itself isn't here. */}
-        <div className={styles.imageColPlaceholder} aria-hidden="true" />
       </div>
 
-      {/* Free-floating image overlay — anchored to the right edge of the
-          viewport, completely independent of the grid. Spotlight mask is
-          on this wrapper so it stays viewport-anchored even when the
-          image inside translates. */}
-      <div className={styles.imageOverlay} aria-hidden="true">
-        <Image
-          src="/assets/mosaicvertical.png"
-          alt=""
-          width={1200}
-          height={1200}
-          className={styles.featureImage}
-        />
-      </div>
     </section>
   );
 }

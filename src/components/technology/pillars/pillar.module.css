@@ -23,6 +23,22 @@
   overflow: hidden;
 
   background-color: rgba(255, 255, 255, 0.012);
+}
+
+/* Light theme — pin pillar cards as dark islands on the light page so
+   the existing white-text typography keeps reading. Re-defines the
+   polytecks tokens locally; descendants (title/body/image/active
+   background gradient) all inherit the dark values. */
+:global([data-theme="light"]) .pillar {
+  --bg: #0a0a0e;
+  --bg-2: #0f1016;
+  --ink: #e8e9f0;
+  --ink-dim: #8a8c9a;
+  --ink-faint: #4a4c5a;
+  --line: rgba(255, 255, 255, 0.08);
+  --line-strong: rgba(255, 255, 255, 0.16);
+  background-color: var(--bg);
+  color: var(--ink);
 
   /* Smooth width (flex-grow) + height (min-height) morph via CSS instead of
      Framer's `layout` prop, which mis-measured the rect when both dimensions

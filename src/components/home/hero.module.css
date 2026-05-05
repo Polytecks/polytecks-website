@@ -308,6 +308,28 @@
   filter: blur(20px);
 }
 
+/* Light-theme: drop every dark-bg-tuned halo / vignette on the hero.
+   Headline & sub text-shadows, the .headline::before / .sub::before /
+   .arm::before / .arm::after radial vignettes, and the white-glow
+   filter on the arm image are all designed to lift content off a
+   dark page bg + the topo's pale contour lines. On the light page bg
+   they read as muddy smudges; clearing them gives the hero a clean
+   light surface. */
+:global([data-theme="light"]) .headline,
+:global([data-theme="light"]) .sub {
+  text-shadow: none;
+}
+:global([data-theme="light"]) .headline::before,
+:global([data-theme="light"]) .sub::before,
+:global([data-theme="light"]) .arm::before,
+:global([data-theme="light"]) .arm::after,
+:global([data-theme="light"]) .vignette {
+  display: none;
+}
+:global([data-theme="light"]) .arm img {
+  filter: contrast(1.05) saturate(1.05);
+}
+
 /* Per MOBILE_STRATEGY.md §4.3 — must be at the END of the file so its rules
    beat the equal-specificity bare declarations earlier in the cascade
    (e.g. .sub max-width: clamp(520px,...) and .ctas width: clamp(420px,...)).
