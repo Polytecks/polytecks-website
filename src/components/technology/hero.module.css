@@ -149,6 +149,16 @@
   );
 }
 
+/* Light theme: bump the hero to 115 vh so the fade band (bottom 12 %
+   of the hero = 13.8 vh tall, starting at 88 % = 101.2 vh from top)
+   sits below the visible viewport on first paint. Adds 15 vh of
+   padding-bottom so the centred title stays at the same visible
+   y-position as on the 100 vh dark hero. */
+:global([data-theme="light"]) .hero {
+  height: 115vh;
+  padding-bottom: calc(var(--nav-h, 72px) * 2 + 15vh);
+}
+
 @media (max-width: 720px) {
   .header {
     padding: 0 20px;
