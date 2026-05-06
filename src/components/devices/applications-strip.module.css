@@ -2,10 +2,14 @@
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   gap: clamp(20px, 2.5vw, 48px);
-  /* Break out of the Subpage's 1100px max-width so the six icons can
-     spread across the full page width. The strip is centered on the
-     viewport and capped at 1700px on very wide displays. */
-  width: min(94vw, 1700px);
+  /* Break out of the Subpage's 1100 px max-width so the six icons
+     can spread wider than the rest of the page content, but stop
+     short of the absolute viewport edges. Pulled in from
+     min(94vw, 1700px) → min(82vw, 1440px) so the row reads as a
+     coherent block rather than running edge-to-edge on wide
+     displays. The strip is centred via the 50% / translateX
+     trick further down. */
+  width: min(82vw, 1440px);
   max-width: none;
   margin-top: var(--sp-devices-header-to-strip, 32px);
   /* Bumped from 32 → 90 so the icon row reads as a complete grouping
