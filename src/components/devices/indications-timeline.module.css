@@ -43,7 +43,11 @@
 /* ---------- Scroll-driven vertical timeline ---------- */
 .timeline {
   position: relative;
-  margin: 0 0 140px;
+  /* Bottom margin sized so the coda below sits roughly halfway
+     between the end of the track and the platform section's
+     padding-top (72 px). Was 140 — coda hugged the platform too
+     closely. */
+  margin: 0 0 70px;
   /* Break out of the Subpage 1100 px content rail so the track has
      room to breathe; centre via 50% / translateX so the inner column
      stays aligned with the rest of the page. */
