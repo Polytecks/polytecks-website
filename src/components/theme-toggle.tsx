@@ -1,7 +1,20 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useTheme } from "@/lib/use-theme";
 import styles from "./theme-toggle.module.css";
+
+/**
+ * Routes where the dark and light heroes have different `height`
+ * values (the light hero is 115 vh to push the fade band past the
+ * fold on first paint, the dark hero is 100 vh). Toggling theme on
+ * these routes would smoothly animate the hero's height + cause
+ * the cover-fitted background image to re-scale, producing a
+ * visible jump. Force a full reload on these routes — the
+ * inline anti-FOUC script in layout.tsx then renders the new theme
+ * cleanly from scratch.
+ */
+const RELOAD_PATHS = ["/technology", "/careers"];
 
 /**
  * Sun / moon button that flips between dark and light. The `useTheme`
@@ -11,12 +24,25 @@ import styles from "./theme-toggle.module.css";
  */
 export function ThemeToggle() {
   const [theme, setTheme] = useTheme();
+  const pathname = usePathname();
   const next = theme === "dark" ? "light" : "dark";
+
+  const handleClick = () => {
+    setTheme(next);
+    const needsReload = RELOAD_PATHS.some(
+      (p) => pathname === p || pathname.startsWith(p + "/"),
+    );
+    if (needsReload) {
+      // rAF gives the localStorage write + data-theme attribute set
+      // a frame to land before the navigation kicks in.
+      requestAnimationFrame(() => window.location.reload());
+    }
+  };
 
   return (
     <button
       type="button"
-      onClick={() => setTheme(next)}
+      onClick={handleClick}
       className={styles.btn}
       aria-label={`Switch to ${next} theme`}
       title={`Switch to ${next} theme`}
