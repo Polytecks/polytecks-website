@@ -5,6 +5,13 @@
    on the default subpage rhythm. */
 .subpage {
   padding-top: 32px;
+  /* Pull the icon strip up by overriding the
+     --sp-devices-header-to-strip var on this subpage scope.
+     applications-strip reads the var as its margin-top; default is
+     32 px (set by use-tweaks). 8 px tightens the gap between the
+     lede and the icon row visibly on every laptop without
+     squashing them together. */
+  --sp-devices-header-to-strip: 8px;
 }
 
 /* Compress the gap between the lede and the icon strip. The default
