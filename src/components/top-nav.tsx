@@ -37,7 +37,7 @@ export function TopNav() {
   return (
     <>
     <header
-      className="fixed inset-x-0 top-0 z-50 h-[72px] border-b border-line bg-bg/70 backdrop-blur-md"
+      className="fixed inset-x-0 top-0 z-50 h-[72px] border-b border-line-strong bg-bg/70 backdrop-blur-md"
       style={{ ["--nav-h" as string]: "72px" }}
     >
       <nav className="mx-auto flex h-full max-w-[1400px] items-center justify-between px-6">
