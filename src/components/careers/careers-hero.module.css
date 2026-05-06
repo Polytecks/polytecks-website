@@ -96,13 +96,13 @@
 }
 
 :global([data-theme="light"]) .title {
-  color: #14141a;
-  text-shadow: 0 2px 16px rgba(255, 255, 255, 0.9);
+  color: #fff;
+  text-shadow: none;
 }
 
 :global([data-theme="light"]) .lede {
-  color: rgba(0, 0, 0, 0.7);
-  text-shadow: 0 2px 12px rgba(255, 255, 255, 0.85);
+  color: #e8e9f0;
+  text-shadow: none;
 }
 
 .title em {
