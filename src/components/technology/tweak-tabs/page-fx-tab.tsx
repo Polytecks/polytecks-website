@@ -89,16 +89,16 @@ export function PageFxTab() {
       <div className={styles.divider} />
 
       <Slider label="Cambridge ECG callout top" value={values.cambridgeCalloutTopVh} min={0} max={100} step={1}
-        format={(v) => `${v}vh`}
+        format={(v) => `${v}%`}
         onChange={(v) => setValue("cambridgeCalloutTopVh", v)} />
       <Slider label="Cambridge ECG callout left" value={values.cambridgeCalloutLeftVw} min={0} max={100} step={1}
-        format={(v) => `${v}vw`}
+        format={(v) => `${v}%`}
         onChange={(v) => setValue("cambridgeCalloutLeftVw", v)} />
       <Slider label="Cambridge body callout top" value={values.cambridgeBodyCalloutTopVh} min={0} max={100} step={1}
-        format={(v) => `${v}vh`}
+        format={(v) => `${v}%`}
         onChange={(v) => setValue("cambridgeBodyCalloutTopVh", v)} />
       <Slider label="Cambridge body callout left" value={values.cambridgeBodyCalloutLeftVw} min={0} max={100} step={1}
-        format={(v) => `${v}vw`}
+        format={(v) => `${v}%`}
         onChange={(v) => setValue("cambridgeBodyCalloutLeftVw", v)} />
       <Slider label="Cambridge scale" value={values.cambridgeImgScale} min={0.4} max={1.5} step={0.02}
         format={(v) => `${v.toFixed(2)}×`}

@@ -73,12 +73,13 @@
 }
 
 .media {
-  /* Container reflows the page around the image; no max-width cap so the
-     scale slider can grow the image past 1400px when desired. The actual
-     dimensions live on the <img> below — the container just centres it. */
+  /* Sized to the image so absolutely-positioned children (the two
+     callouts) measure their `top` / `left` percentages against the
+     IMAGE box, not the 100vw section. Without `width: max-content`
+     the .media spans the full section and 8 % drifts further off
+     the image as the viewport grows past the image's max-width cap. */
   position: relative;
-  display: flex;
-  justify-content: center;
+  width: max-content;
   margin: 0 auto;
   overflow: visible;
 }
@@ -204,8 +205,11 @@
    text via padding so it scales with the type. */
 .bodyText {
   position: absolute;
-  top: var(--tw-cb-body-callout-top, 10vh);
-  left: var(--tw-cb-body-callout-left, 8vw);
+  /* % of .media (the image container) so the callout stays anchored
+     to the image as the viewport widens past the image's max-width
+     cap. Was vh/vw — caused drift off the image on wide screens. */
+  top: var(--tw-cb-body-callout-top, 10%);
+  left: var(--tw-cb-body-callout-left, 8%);
   max-width: 480px;
   z-index: 3;
   font-family: var(--font-sans);
@@ -225,8 +229,9 @@
    ~2 lines instead of stacking 4 narrow ones. */
 .calloutText {
   position: absolute;
-  top: var(--tw-cb-callout-top, 10vh);
-  left: var(--tw-cb-callout-left, 54vw);
+  /* % of .media — see note on .bodyText above. */
+  top: var(--tw-cb-callout-top, 10%);
+  left: var(--tw-cb-callout-left, 54%);
   max-width: 480px;
   z-index: 3;
   font-family: var(--font-sans);

@@ -267,11 +267,16 @@ function applyToBody(values: TweakValues) {
   body.style.setProperty("--pillar-card-stagger-ms", `${values.pillarCardStaggerMs}ms`);
   body.style.setProperty("--devices-icon-stagger-ms", `${values.devicesIconStaggerMs}ms`);
 
-  // Cambridge callout text position — vh / vw so the slider scales with viewport.
-  body.style.setProperty("--tw-cb-callout-top", `${values.cambridgeCalloutTopVh}vh`);
-  body.style.setProperty("--tw-cb-callout-left", `${values.cambridgeCalloutLeftVw}vw`);
-  body.style.setProperty("--tw-cb-body-callout-top", `${values.cambridgeBodyCalloutTopVh}vh`);
-  body.style.setProperty("--tw-cb-body-callout-left", `${values.cambridgeBodyCalloutLeftVw}vw`);
+  // Cambridge callout text position — emitted as `%` so the value
+  // resolves against the parent .media (the image container) rather
+  // than the viewport. With the previous `vh`/`vw` units the callouts
+  // drifted off the image on wider screens once the image hit its
+  // max-width cap (image stops growing, viewport keeps growing,
+  // viewport-relative offsets keep growing past the image edge).
+  body.style.setProperty("--tw-cb-callout-top", `${values.cambridgeCalloutTopVh}%`);
+  body.style.setProperty("--tw-cb-callout-left", `${values.cambridgeCalloutLeftVw}%`);
+  body.style.setProperty("--tw-cb-body-callout-top", `${values.cambridgeBodyCalloutTopVh}%`);
+  body.style.setProperty("--tw-cb-body-callout-left", `${values.cambridgeBodyCalloutLeftVw}%`);
 
   // Cambridge image — single source of truth: the box.
   body.style.setProperty("--tw-cb-scale", String(values.cambridgeImgScale));
