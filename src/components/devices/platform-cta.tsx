@@ -16,18 +16,11 @@ export function PlatformCta() {
     <>
       <StackEntry index={11}>
         <section className={styles.platform} data-screen-label="11 Platform">
-          <div>
-            <div className={styles.kicker}>Platform</div>
-            <h2>One sensing platform, applied across many physiological systems.</h2>
-          </div>
-          <div className={styles.platformBody}>
-            <p>
-              These applications are not isolated devices, but expressions of a single sensing platform applied across different physiological systems.
-            </p>
-            <p>
-              The same underlying approach extends from cardiac and fetal monitoring to neural, muscular, and autonomic domains — and toward the broader set of indications above.
-            </p>
-          </div>
+          <div className={styles.kicker}>Platform</div>
+          <h2 className={styles.platformHeading}>
+            One sensing platform, applied across many{" "}
+            <em>physiological systems</em>.
+          </h2>
         </section>
       </StackEntry>
 

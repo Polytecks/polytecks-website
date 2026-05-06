@@ -1,12 +1,19 @@
-/* ---------- Platform — track ends here ---------- */
+/* ---------- Platform — quiet centred statement, no body copy. ----------
+   The timeline above already enumerates "one platform applied to many
+   systems"; the platform section just needs to NAME that synthesis,
+   not restate it. Editorial framing with hairlines above + below
+   (border-top is the existing section divider; border-bottom anchors
+   the bottom). */
 .platform {
   border-top: 1px solid var(--line);
-  padding: 80px 0 0;
+  border-bottom: 1px solid var(--line);
+  padding: 72px 32px;
   margin-bottom: 96px;
-  display: grid;
-  grid-template-columns: 1fr 1.4fr;
-  gap: 64px;
-  align-items: start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 18px;
 }
 
 .kicker {
@@ -15,33 +22,24 @@
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--ink-dim);
-  margin-bottom: 18px;
 }
 
-.platform h2 {
+.platformHeading {
   font-family: var(--font-display);
   font-weight: 300;
-  font-size: clamp(28px, 2.8vw, 40px);
+  font-size: clamp(28px, 3vw, 44px);
   letter-spacing: -0.02em;
   line-height: 1.2;
   margin: 0;
+  max-width: 24ch;
   color: var(--ink);
+  text-wrap: balance;
 }
 
-.platformBody p {
-  font-family: var(--font-sans);
-  font-weight: 300;
-  font-size: 17px;
-  line-height: 1.7;
-  color: var(--ink-dim);
-  margin: 0 0 18px;
-  max-width: 640px;
-}
-
-.platformBody p:first-child {
-  color: var(--ink);
-  font-weight: 400;
-  font-size: 19px;
+.platformHeading em {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--indigo-bright);
 }
 
 /* ---------- CTA ---------- */
