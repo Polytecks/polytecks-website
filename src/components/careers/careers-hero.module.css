@@ -85,12 +85,17 @@
    on the brightened photo, and fade into white at the bottom so the
    hero dissolves into the light page below. */
 :global([data-theme="light"]) .bgOverlay {
+  /* Lighten the all-over wash that was muddying the photo — only the
+     bottom ~12 % of the hero now has any tint, so the photo reads
+     close to natural until the page-bg fade kicks in at the very
+     bottom. On a normal laptop's first paint just the top edge of
+     the fade is visible. */
   background: linear-gradient(
     180deg,
-    rgba(250, 250, 248, 0.15) 0%,
-    rgba(250, 250, 248, 0.10) 40%,
-    rgba(250, 250, 248, 0.5) 75%,
-    rgba(250, 250, 248, 0.9) 92%,
+    transparent 0%,
+    transparent 88%,
+    rgba(250, 250, 248, 0.5) 94%,
+    rgba(250, 250, 248, 0.9) 98%,
     #fafaf8 100%
   );
 }
