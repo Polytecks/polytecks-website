@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { useTheme, type Theme } from "@/lib/use-theme";
 import styles from "./about-header-background.module.css";
 
-const FADE_MS = 250;
+const FADE_MS = 80;
 
 /**
  * Two background images stacked in the same wrap; the active one's
