@@ -8,12 +8,9 @@
   position: relative;
   width: 100%;
   height: 100vh;
-  /* Real photo of the mosaic-array against the body. The filename has
-     spaces — fine here because url(...) inside CSS handles them. */
-  background-image: url("/assets/mosiac technology page background real.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  /* Background photo is now rendered via <FadeImage> inside the hero
+     JSX (see hero.tsx) so Next.js can priority-preload it AND fade
+     it in on decode. The CSS background-image used to live here. */
   display: flex;
   align-items: center;
   /* Hero is height: 100vh and starts at y=72 (the fixed-nav offset on
@@ -26,6 +23,16 @@
   padding-bottom: calc(var(--nav-h, 72px) * 2);
   /* Below this the dark page panel begins. */
   background-color: #0a0a0e;
+}
+
+/* Background image, rendered via <FadeImage fill> in the JSX so it
+   gets Next.js priority-preload + onLoad fade-in. cover-fits to
+   match the prior background-size: cover behaviour. z-index 0 keeps
+   it below the dark overlay (z 1) and the header (z 2). */
+.bgImage {
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
 }
 
 /* Darker overlay so the photographic background reads as a deeper

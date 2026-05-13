@@ -28,11 +28,16 @@ type Props = {
  *   autoplay (browser shows the first frame as its own poster).
  */
 export function CrossfadeVideo({ src, className }: Props) {
+  const wrapRef = useRef<HTMLDivElement>(null);
   const videoARef = useRef<HTMLVideoElement>(null);
   const videoBRef = useRef<HTMLVideoElement>(null);
   const isCrossfadingRef = useRef(false);
   const [reducedMotion, setReducedMotion] = useState(false);
   const [aVisible, setAVisible] = useState(true);
+  // Defer mounting the <video> elements until the section is near the
+  // viewport. Two <video> tags eagerly competing with the hero entrance
+  // animations was a measurable cause of dropped frames at first paint.
+  const [inView, setInView] = useState(false);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -44,7 +49,30 @@ export function CrossfadeVideo({ src, className }: Props) {
   }, []);
 
   useEffect(() => {
+    const el = wrapRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") {
+      // No observer available — fall back to mounting immediately.
+      setInView(true);
+      return;
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          setInView(true);
+          io.disconnect();
+        }
+      },
+      // Pre-mount ~half a viewport before the section reaches the top
+      // of the screen so playback is buffered by the time it's visible.
+      { rootMargin: "50% 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  useEffect(() => {
     if (reducedMotion) return;
+    if (!inView) return;
     const a = videoARef.current;
     const b = videoBRef.current;
     if (!a || !b) return;
@@ -138,7 +166,7 @@ export function CrossfadeVideo({ src, className }: Props) {
       a.removeEventListener("loadedmetadata", startA);
       a.removeEventListener("loadedmetadata", checkFallback);
     };
-  }, [reducedMotion, src]);
+  }, [reducedMotion, src, inView]);
 
   const wrapClass = [styles.media, styles.videoWrap, className]
     .filter(Boolean)
@@ -146,47 +174,53 @@ export function CrossfadeVideo({ src, className }: Props) {
 
   if (reducedMotion) {
     return (
-      <div className={wrapClass}>
-        <video
-          src={src}
-          muted
-          playsInline
-          preload="metadata"
-          disablePictureInPicture
-          controlsList="nodownload noremoteplayback nofullscreen"
-          className={styles.video}
-          aria-hidden="true"
-        />
+      <div ref={wrapRef} className={wrapClass}>
+        {inView ? (
+          <video
+            src={src}
+            muted
+            playsInline
+            preload="metadata"
+            disablePictureInPicture
+            controlsList="nodownload noremoteplayback nofullscreen"
+            className={styles.video}
+            aria-hidden="true"
+          />
+        ) : null}
       </div>
     );
   }
 
   return (
-    <div className={wrapClass}>
-      <video
-        ref={videoARef}
-        src={src}
-        muted
-        playsInline
-        preload="metadata"
-        disablePictureInPicture
-        controlsList="nodownload noremoteplayback nofullscreen"
-        className={styles.video}
-        aria-hidden="true"
-        style={{ opacity: aVisible ? 1 : 0, zIndex: 0 }}
-      />
-      <video
-        ref={videoBRef}
-        src={src}
-        muted
-        playsInline
-        preload="metadata"
-        disablePictureInPicture
-        controlsList="nodownload noremoteplayback nofullscreen"
-        className={styles.video}
-        aria-hidden="true"
-        style={{ opacity: aVisible ? 0 : 1, zIndex: 1 }}
-      />
+    <div ref={wrapRef} className={wrapClass}>
+      {inView ? (
+        <>
+          <video
+            ref={videoARef}
+            src={src}
+            muted
+            playsInline
+            preload="metadata"
+            disablePictureInPicture
+            controlsList="nodownload noremoteplayback nofullscreen"
+            className={styles.video}
+            aria-hidden="true"
+            style={{ opacity: aVisible ? 1 : 0, zIndex: 0 }}
+          />
+          <video
+            ref={videoBRef}
+            src={src}
+            muted
+            playsInline
+            preload="metadata"
+            disablePictureInPicture
+            controlsList="nodownload noremoteplayback nofullscreen"
+            className={styles.video}
+            aria-hidden="true"
+            style={{ opacity: aVisible ? 0 : 1, zIndex: 1 }}
+          />
+        </>
+      ) : null}
     </div>
   );
 }

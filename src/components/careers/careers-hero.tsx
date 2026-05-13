@@ -1,5 +1,4 @@
-import Image from "next/image";
-
+import { FadeImage } from "@/components/fade-image";
 import { StackEntry } from "@/components/stack-entry";
 import styles from "./careers-hero.module.css";
 
@@ -7,11 +6,11 @@ export function CareersHero() {
   return (
     <section className={styles.hero}>
       <div className={styles.bg}>
-        <Image
+        <FadeImage
           src="/assets/Careers.png"
           alt="Polytecks team"
           fill
-          preload
+          priority
           sizes="100vw"
           className={styles.bgImage}
         />

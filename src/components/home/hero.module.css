@@ -51,8 +51,13 @@
   gap: clamp(40px, 5vw, 96px);
   align-items: center;
   grid-template-columns: 1.2fr 1fr;
-  /* Translate the content block upward by --landing-hero-shift (default 0) */
-  transform: translateY(calc(-1 * var(--landing-hero-shift, 0px)));
+  /* Translate the content block upward by --landing-hero-shift.
+     Fallback (28 px) matches the locked-in tweak default so the
+     SSR/initial-paint position is identical to the post-hydration
+     position — otherwise the content would render at 0 px shift
+     during SSR + first paint, then jump up 28 px once
+     TweaksProvider's useEffect ran and set the CSS variable. */
+  transform: translateY(calc(-1 * var(--landing-hero-shift, 28px)));
 }
 
 @media (max-width: 960px) {

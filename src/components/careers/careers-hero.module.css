@@ -17,7 +17,11 @@
   object-fit: cover;
   object-position: center 65%;
   filter: contrast(1.05) brightness(0.7);
-  animation: careers-bg-fade-in 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+  /* The CSS animation that used to live here ran on a fixed 1.2 s
+     timer regardless of whether the image had actually decoded. The
+     <FadeImage> component now drives the fade via its `onLoad`
+     handler, so the image only starts fading in once it's painted
+     — no more visible pop when the asset lands late. */
 }
 
 /* Wide-aspect viewports (ultrawides, 21:9, short browser windows). The
