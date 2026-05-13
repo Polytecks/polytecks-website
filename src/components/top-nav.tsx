@@ -5,6 +5,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ThemeToggle } from "./theme-toggle";
+import styles from "./top-nav.module.css";
 
 const NAV_ITEMS = [
   { href: "/about", label: "About Us" },
@@ -74,8 +75,9 @@ export function TopNav() {
                 <li key={href}>
                   <Link
                     href={href}
-                    className={`rounded-md px-3 py-2 font-mono text-[11px] uppercase tracking-[0.18em] transition-colors hover:text-ink ${
-                      active ? "text-ink" : "text-ink-dim"
+                    data-active={active}
+                    className={`${styles.link} font-mono text-[12px] font-medium uppercase tracking-[0.16em] transition-colors hover:text-[var(--indigo-lightest)] ${
+                      active ? "text-[var(--indigo-lightest)]" : "text-ink"
                     }`}
                   >
                     {label}
