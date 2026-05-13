@@ -89,10 +89,9 @@ export function FirstDevice() {
               referred, or treated.
             </p>
             <p>
-              In canine heart disease — and mitral valve disease in
-              particular — this decision often depends on referral imaging:
-              costly, capacity-limited, and not always immediately
-              accessible in primary care.
+              In canine heart disease this decision often depends on
+              referral imaging: costly, capacity-limited, and not always
+              immediately accessible in primary care.
             </p>
             <p>
               Polytecks enables a short, non-invasive measurement to be

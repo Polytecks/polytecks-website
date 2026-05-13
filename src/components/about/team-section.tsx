@@ -17,7 +17,7 @@ const TEAM = [
   },
   {
     src: "/assets/team-charlie.png",
-    name: "Charlie Brunt",
+    name: "Charles Hoang",
     role: "Founding Engineer",
     href: "https://www.linkedin.com/in/cwhbrunt/",
   },
