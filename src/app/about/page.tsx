@@ -3,6 +3,10 @@ import { CambridgeSection } from "@/components/about/cambridge-section";
 import { TeamSection } from "@/components/about/team-section";
 import { HexGradientDefs } from "@/components/hex-portrait";
 import { StackEntry } from "@/components/stack-entry";
+
+export const metadata = {
+  title: "About",
+};
 import { Subpage, SubpageHeader } from "@/components/subpage";
 
 export default function AboutPage() {
@@ -18,8 +22,14 @@ export default function AboutPage() {
             healthcare.
           </>
         }
-        lede="Polytecks is a medical technology start-up developing bioelectrical mapping for a novel non-invasive information source into disease."
-        boldLede
+        lede={
+          <>
+            Polytecks is developing flexible bioelectrical mapping technology
+            that turns the body’s <em>natural signals</em> into a new,
+            non-invasive view of disease.
+          </>
+        }
+        editorialLede
       />
       <StackEntry index={3}>
         <CambridgeSection />

@@ -20,10 +20,10 @@
    the hashed __lede substring is necessary because CSS Modules
    rewrites class names.
 
-   Also widen the lede to match the title's 900 px max-width so the
-   sub-line wraps naturally across two lines on a typical laptop
-   instead of three under the default 680 px cap. */
+   Max-width is intentionally NOT overridden here — the lede now
+   uses the editorialLede variant on this page, which sets its own
+   780 px max-width tuned for balanced 2-line wrapping. The earlier
+   900 px override was for the previous boldLede treatment. */
 .subpage [class*="__lede"] {
   margin-bottom: 40px;
-  max-width: 900px;
 }

@@ -2,8 +2,13 @@ import type { Metadata, Viewport } from "next";
 import { Space_Grotesk, Inter, JetBrains_Mono, Source_Serif_4 } from "next/font/google";
 import { TopNav } from "@/components/top-nav";
 import { Footer } from "@/components/footer/footer";
-import { TweakPanel } from "@/components/technology/tweak-panel";
 import { Providers } from "./providers";
+
+// Design-tweak panel is no longer mounted — site is locked in. If you
+// ever need it back, re-add the line below + `<TweakPanel />` in the
+// Providers tree. The TweaksProvider stays mounted so any values
+// already in localStorage continue to apply as CSS vars.
+//   import { TweakPanel } from "@/components/technology/tweak-panel";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -39,7 +44,13 @@ const sourceSerif = Source_Serif_4({
 });
 
 export const metadata: Metadata = {
-  title: "Polytecks — Making the Skin a Window into the Body",
+  /* Title template: the homepage uses `default`; every subpage that
+     exports its own metadata.title gets the template applied so the
+     browser tab reads e.g. "About · Polytecks", "Careers · Polytecks". */
+  title: {
+    default: "Polytecks — Making the Skin a Window into the Body",
+    template: "%s · Polytecks",
+  },
   description:
     "Polytecks is a Cambridge-based medical technology company developing bioelectrical mapping for enhanced diagnostics.",
   icons: {
@@ -83,7 +94,6 @@ export default function RootLayout({
           <TopNav />
           <main className="pt-[var(--nav-h,72px)]">{children}</main>
           <Footer />
-          <TweakPanel />
         </Providers>
       </body>
     </html>

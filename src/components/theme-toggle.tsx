@@ -113,15 +113,21 @@ function ThemeFlash({ visible }: { visible: boolean }) {
       aria-hidden="true"
       style={{
         position: "fixed",
-        top: "var(--nav-h, 72px)",
-        left: 0,
-        right: 0,
-        bottom: 0,
+        /* Full viewport coverage including the top nav — previously
+           the curtain started below the nav, which left the ribbon
+           visible during the flash. That caused the nav's logo
+           swap (dark <-> light variants) to read as a separate
+           "ribbon changes" beat after the screen went black.
+           Covering the whole viewport hides the entire transition
+           behind one curtain so the theme swap reads as a single
+           moment. */
+        inset: 0,
         background: "#000",
         opacity: visible ? 1 : 0,
         transition: `opacity ${visible ? FLASH_IN_MS : FLASH_OUT_MS}ms ease`,
         pointerEvents: "none",
-        zIndex: 100,
+        /* Bumped above the top nav (z-50) so the curtain covers it. */
+        zIndex: 200,
       }}
     />,
     document.body,

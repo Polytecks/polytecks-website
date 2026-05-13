@@ -48,7 +48,8 @@ export function Hero() {
           </h1>
 
           <p className={styles.sub}>
-            Advanced bioelectrical mapping for enhanced diagnostics
+            High-resolution <em>bioelectrical mapping</em>{" "}
+            <br />for earlier, non-invasive diagnostics.
           </p>
 
           <div className={styles.ctas}>

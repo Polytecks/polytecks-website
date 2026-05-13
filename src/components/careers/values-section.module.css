@@ -33,6 +33,15 @@
   );
 }
 
+/* Suppress the global light-theme divider — globals.css adds a
+   1 px hairline above every section in light mode via
+   `main > * + section { border-top }`. The careers hero ends in a
+   soft fade into this section, so a hard line on top breaks that
+   intended continuous transition. */
+:global([data-theme="light"]) .section {
+  border-top: none !important;
+}
+
 .inner {
   max-width: var(--content-w, 1400px);
   margin: 0 auto;

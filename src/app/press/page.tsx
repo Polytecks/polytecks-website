@@ -7,7 +7,7 @@ import { StackEntry } from "@/components/stack-entry";
 import styles from "./page.module.css";
 
 export const metadata = {
-  title: "Press & Publications — Polytecks",
+  title: "Press & Publications",
   description:
     "Press coverage and peer-reviewed publications from Polytecks, the Cambridge bioelectrical sensing start-up.",
 };

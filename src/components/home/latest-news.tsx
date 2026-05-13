@@ -1,5 +1,7 @@
+import Image from "next/image";
 import Link from "next/link";
 import { StackEntry } from "@/components/stack-entry";
+import { loadAnnouncements } from "@/data/announcements";
 import styles from "./latest-news.module.css";
 
 type NewsItem = {
@@ -8,34 +10,9 @@ type NewsItem = {
   /** ISO date "YYYY-MM-DD" — formatted to "DD MMM YYYY" in sans (not caps). */
   iso?: string;
   href: string;
+  /** Path under /assets/announcements/ for the card image. */
+  image?: string;
 };
-
-// Inline placeholder content. The user has indicated they may wire this up
-// to the press page's featured items in a future change — until then, three
-// real items live here so the section reads as a content surface, not a
-// "loading…" stub.
-const ITEMS: NewsItem[] = [
-  {
-    outlet: "Eureka Magazine",
-    title:
-      "New wearable sensor could transform cardiac monitoring during pregnancy",
-    iso: "2026-05-12",
-    href: "#",
-  },
-  {
-    outlet: "Department of Engineering, Cambridge",
-    title:
-      "From lab to market: Department spin-out develops wearable e-textile tech",
-    iso: "2026-04-22",
-    href: "#",
-  },
-  {
-    outlet: "Photonics CDT",
-    title: "CDT graduate presents novel health tech at House of Lords",
-    iso: "2026-03-04",
-    href: "#",
-  },
-];
 
 const MONTHS = [
   "Jan", "Feb", "Mar", "Apr", "May", "Jun",
@@ -59,6 +36,12 @@ function formatDate(iso?: string): string | null {
  * shadows, no surface lifts.
  */
 export function LatestNews() {
+  // Items are loaded at render time from `Homepage Announcements.txt`
+  // at the repo root — the user maintains that file by hand. We cap at
+  // the first three so the row layout doesn't overflow, and fall back
+  // gracefully if the file is missing (the section still renders its
+  // heading + "View all news" link).
+  const items: NewsItem[] = loadAnnouncements().slice(0, 3);
   return (
     <section className={styles.section}>
       <div className={styles.inner}>
@@ -70,7 +53,7 @@ export function LatestNews() {
         </header>
 
         <div className={styles.cards}>
-          {ITEMS.map((item, i) => {
+          {items.map((item, i) => {
             const dateLabel = formatDate(item.iso);
             return (
               <div key={`${item.outlet}-${i}`} className={styles.slot}>
@@ -81,6 +64,17 @@ export function LatestNews() {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
+                    {item.image ? (
+                      <div className={styles.imageWrap}>
+                        <Image
+                          src={item.image}
+                          alt=""
+                          fill
+                          sizes="(max-width: 720px) 100vw, 33vw"
+                          className={styles.image}
+                        />
+                      </div>
+                    ) : null}
                     <span className={styles.outlet}>{item.outlet}</span>
                     <h3 className={styles.cardTitle}>{item.title}</h3>
                     {dateLabel ? (

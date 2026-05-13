@@ -105,20 +105,49 @@
 .card {
   display: flex;
   flex-direction: column;
+  /* Symmetric horizontal padding on every card so each card's
+     content area (and therefore each card's image) renders at the
+     same width. The previous outer-edge padding-zero on slot 1/3
+     was good for editorial flush-to-edge text alignment but made
+     the three images render at three different sizes. */
   padding: 0 28px;
   text-decoration: none;
   color: inherit;
-  /* No transform, no shadow on hover — only the title colour shifts. */
+  /* No transform on hover — only the title colour + image zoom. */
 }
 
-/* Slot 1 has no left hairline so its card doesn't need the right-side gutter
-   that the others use to clear the rule. Slim the left padding back to 0. */
-.slot:first-child .card {
-  padding-left: 0;
+/* Card image — auto-discovered from public/assets/announcements/ by
+   leading slot number (1, 2, 3). Wrapper carries the fixed 3:2 aspect
+   so the row of cards reads as a balanced editorial trio regardless
+   of source image dimensions; the <Image fill> inside cover-fits.
+   Themed to match the rest of the site:
+     – subtle rounded corners (--radius-md, ~6 px)
+     – hairline indigo border tracking the page's accent vocabulary
+     – soft fade overlay on top so the image blends into the white
+       section bg cleanly instead of cutting hard at the edges. */
+.imageWrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  margin-bottom: 18px;
+  background: rgba(10, 10, 14, 0.06);
+  border-radius: var(--radius-md, 6px);
+  border: 1px solid rgba(106, 116, 220, 0.18);
 }
 
-.slot:last-child .card {
-  padding-right: 0;
+.image {
+  object-fit: cover;
+  object-position: center;
+  /* Full colour at rest, greyscale on hover — a calmer editorial
+     hover treatment than the previous zoom. The parent <a> drives
+     the :hover; the transition eases the desaturation in smoothly. */
+  filter: grayscale(0);
+  transition: filter 0.45s ease;
+}
+
+.card:hover .image {
+  filter: grayscale(1);
 }
 
 .outlet {

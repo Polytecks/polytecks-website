@@ -2,9 +2,21 @@
   position: relative;
   z-index: 5;
   max-width: 1400px;
-  margin: var(--sp-tech-hero-to-pillars, 0px) auto 0;
+  /* Pull the section up into the hero's bottom padding so the
+     title sits closer to the bottom of the background banner.
+     The tweak var (--sp-tech-hero-to-pillars) is added on top so
+     it can still fine-tune live; the hard -120px is the new
+     baseline. */
+  margin: calc(var(--sp-tech-hero-to-pillars, 0px) - 120px) auto 0;
   /* Tighter top padding pulls the lede + cards closer to the banner. */
   padding: calc(40px * var(--tw-rhythm, 1)) 40px calc(96px * var(--tw-rhythm, 1));
+}
+
+/* Suppress the global light-theme divider above this section —
+   the title sits directly under the hero banner and a hairline
+   above it would visually separate them, which we don't want. */
+:global([data-theme="light"]) .section {
+  border-top: none !important;
 }
 
 .title {

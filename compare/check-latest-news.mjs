@@ -1,0 +1,14 @@
+import { chromium } from "playwright";
+import { mkdirSync } from "node:fs";
+const browser = await chromium.launch();
+mkdirSync("compare/latest-news", { recursive: true });
+const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 2 });
+const page = await ctx.newPage();
+await page.goto("http://localhost:3000/", { waitUntil: "domcontentloaded", timeout: 60000 });
+await page.waitForTimeout(2500);
+const section = page.locator('section').filter({ hasText: 'Latest News' }).first();
+await section.scrollIntoViewIfNeeded();
+await page.waitForTimeout(1200);
+await section.screenshot({ path: "compare/latest-news/cards.png" });
+await browser.close();
+console.log("Wrote compare/latest-news/cards.png");

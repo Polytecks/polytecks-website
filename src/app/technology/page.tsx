@@ -5,6 +5,10 @@ import { Philosophy } from "@/components/technology/philosophy";
 import { PillarSection } from "@/components/technology/pillars/pillar-section";
 import { ProofSection } from "@/components/technology/proof-section/proof-section";
 
+export const metadata = {
+  title: "Technology",
+};
+
 /* Top-down page sequence (absolute delays in ms):
  *   Hero eyebrow:    0    (SubpageHeader internal index 0)
  *   Hero title:      ~stack-stagger-ms  (index 1)

@@ -121,7 +121,10 @@ const DEFAULT_IMAGE_TWEAK: ImageTweak = {
   cardHeightPx: 520,
 };
 
-// Locked-in defaults from tweaks-snapshot.json (2026-04-27).
+// Locked-in defaults — snapshot from tweaks-snapshot.json baked in
+// 2026-05-13. The tweak panel is no longer mounted; these values are
+// the public-facing visual state of the site. New visitors with no
+// localStorage entry see these out of the box.
 export const TWEAK_DEFAULTS: TweakValues = {
   pillarPop: 1.45,
   siblingDim: 0.25,
@@ -155,53 +158,49 @@ export const TWEAK_DEFAULTS: TweakValues = {
   labelWeight: 400,
   proofPulseIntensity: 0.04,
 
-  titleAnim: "wipe",
-  titleDurationMs: 700,
-  titleStaggerMs: 60,
-  topoLinesOnWhite: true,
-  stackDurationMs: 600,
-  stackOverlapPct: 30,
-  pillarCardStaggerMs: 120,
+  titleAnim: "stack",
+  titleDurationMs: 1500,
+  titleStaggerMs: 165,
+  topoLinesOnWhite: false,
+  stackDurationMs: 1500,
+  stackOverlapPct: 75,
+  pillarCardStaggerMs: 280,
   devicesIconStaggerMs: 80,
 
-  cambridgeCalloutTopVh: 10,
-  cambridgeCalloutLeftVw: 54,
-  cambridgeBodyCalloutTopVh: 10,
-  cambridgeBodyCalloutLeftVw: 8,
-  cambridgeImgScale: 1,
-  cambridgeCropBottom: 0.18,
+  cambridgeCalloutTopVh: 17,
+  cambridgeCalloutLeftVw: 61,
+  cambridgeBodyCalloutTopVh: 31,
+  cambridgeBodyCalloutLeftVw: 7,
+  cambridgeImgScale: 1.5,
+  cambridgeCropBottom: 0.16,
   cambridgeCropSides: 0,
-  cambridgeSideFadePct: 8,
-  cambridgeBottomFadePct: 15,
+  cambridgeSideFadePct: 7,
+  cambridgeBottomFadePct: 12,
 
 
-  contactImgScale: 1,
-  contactImgOffsetXPct: 0,
-  contactSpotXPct: 67,
-  contactSpotYPct: 50,
-  contactSpotSizePct: 80,
+  contactImgScale: 0.9,
+  contactImgOffsetXPct: 33,
+  contactSpotXPct: 100,
+  contactSpotYPct: 43,
+  contactSpotSizePct: 76,
 
-  landingArmDelayMs: 800,
-  landingSubDelayMs: 1600,
-  landingCta1DelayMs: 1800,
-  landingCta2DelayMs: 1950,
+  landingArmDelayMs: 1050,
+  landingSubDelayMs: 1400,
+  landingCta1DelayMs: 1650,
+  landingCta2DelayMs: 1800,
   landingElemDurationMs: 900,
-  landingHeroShiftPx: 0,
+  landingHeroShiftPx: 28,
 
-  homeMissionMargin: 80,
-  // Aligned with WEBSITE_REFERENCE.md §3.3 default (0 px). Was 80 px,
-  // which stacked on top of .ribbon's 80 px padding-top to put 161 px
-  // of dead black space between the white mission panel and the
-  // "AFFILIATIONS AND PARTNERS" eyebrow on every viewport.
+  homeMissionMargin: 0,
   homeRibbonMargin: 0,
-  aboutHeaderToCambridge: 380,
-  aboutCambridgeToTeam: 160,
-  aboutTeamGap: 120,
-  techHeroToPillars: 0,
-  techPillarsToProof: 0,
-  techProofToPhilosophy: 0,
-  devicesHeaderToStrip: 32,
-  devicesStripGapBelow: 90,
+  aboutHeaderToCambridge: 190,
+  aboutCambridgeToTeam: 200,
+  aboutTeamGap: 100,
+  techHeroToPillars: 200,
+  techPillarsToProof: 32,
+  techProofToPhilosophy: 200,
+  devicesHeaderToStrip: 104,
+  devicesStripGapBelow: 132,
   devicesIconRowGapY: 12,
   careersValuesBottom: 240,
 };

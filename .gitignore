@@ -44,5 +44,15 @@ next-env.d.ts
 /compare/*.png
 /compare/diff.json
 
+# Session screenshot directories — useful locally for reference but
+# not useful in the repo. The screenshots-redesign baseline that was
+# already committed stays tracked via the negation below.
+/compare/*/
+!/compare/screenshots-redesign/
+
+# Debug frame extracts saved at the repo root during media work
+/frame_*.png
+/frame_*.jpg
+
 # Local snapshot of design-tweaks panel state (dev-only, used to lock in defaults)
 /tweaks-snapshot.json

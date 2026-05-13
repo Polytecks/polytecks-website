@@ -16,9 +16,8 @@ const COMPANY: FooterLink[] = [
 
 const CONNECT: FooterLink[] = [
   { label: "Contact",  href: "/contact" },
-  { label: "LinkedIn", href: "#" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/company/polytecks", external: true },
   { label: "Email",    href: "#" },
-  { label: "X",        href: "#" },
 ];
 
 export function Footer() {

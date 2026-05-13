@@ -172,26 +172,31 @@
 .sub {
   position: relative;
   font-family: var(--font-sans);
-  /* Bumped to 600 to read with appropriate emphasis against the
-     display-300 headline above. */
-  font-weight: 600;
-  font-size: clamp(20px, 1.8vw, 36px);
-  line-height: 1.5;
-  /* Slight optical tightening so the full sub copy fits on one line at
-     every desktop breakpoint ≥1280. Without this, 1280/1440/1600 are
-     each ~10-15 px shy of natural width and force a wrap. */
-  letter-spacing: -0.02em;
-  /* Indigo-bright at all viewport widths — was previously white at desktop
-     and indigo only on mobile; the unified treatment matches the brand's
-     italic-accent vocabulary. */
-  color: var(--indigo-bright);
-  /* No fixed cap — let the grid column be the line-length authority. The
-     prior 900 px clamp prematurely wrapped the sub at 1920+ even though
-     the left column had room. Below ~1100 px viewport the 1.2fr column
-     is genuinely too narrow for the full string at this size, and the
-     sub wraps to two lines naturally. */
-  max-width: 100%;
-  margin-bottom: 64px;
+  /* Editorial weight — reads as supporting copy under the
+     display headline rather than competing with it. */
+  font-weight: 400;
+  /* Restrained fluid size — pinned around 26 px on a typical
+     1440 laptop (calc(0.55vw + 18px) at viewport 1440 = 25.92),
+     scales gently up to 32 px on large desktops (calc(...) at
+     2560 = 32). Floor 20 px keeps small viewports legible
+     before the mobile @media takes over. */
+  font-size: clamp(20px, calc(0.55vw + 18px), 32px);
+  /* Editorial line-height — inside the 1.35–1.45 range. */
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  /* Dark-neutral ink for the body — indigo is reserved for the
+     inline <em> accent only. */
+  color: var(--ink);
+  /* Fluid max-width — line break is now forced via a hard <br>
+     in the markup between "mapping" and "for", so max-width's
+     only job is to give each of the two lines room to breathe
+     without growing unnecessarily wide on large monitors. Scales
+     ~520 px on a 1440 laptop up to ~720 px on a 2560 display.
+     Floor 450 px keeps both lines comfortable on small laptops. */
+  max-width: clamp(450px, calc(11vw + 360px), 720px);
+  /* Gap to CTAs — slightly tighter than the prior 64 px so the
+     CTAs read as visually connected to the sub above. */
+  margin-bottom: 52px;
   /* Same omnidirectional black halo pattern as .headline — was a
      single Y-offset drop shadow, swapped to multi-layer halo so the
      sub also lifts cleanly off the topo lines. */
@@ -202,6 +207,18 @@
   will-change: transform, opacity, filter;
   animation: hl-unblur-elem var(--landing-elem-duration, 900ms) cubic-bezier(0.2, 0.8, 0.2, 1) both;
   animation-delay: var(--landing-sub-delay, 1600ms);
+}
+
+/* Indigo accent inside the sub — kills the default italic <em>
+   treatment used in the title and substitutes a measured weight
+   bump + colour shift. white-space: nowrap keeps the two-word
+   accent phrase ("bioelectrical mapping") on a single line so
+   the line break never falls inside it. */
+.sub em {
+  font-style: normal;
+  font-weight: 500;
+  color: var(--indigo-bright);
+  white-space: nowrap;
 }
 
 /* Discrete radial vignette anchoring the subtitle. Wider extension than
@@ -404,16 +421,15 @@
     margin-bottom: 18px;
   }
   .sub {
-    /* Sized so the sub wraps to two balanced lines:
-         "Advanced bioelectrical mapping"
-         "for enhanced diagnostics"
-       text-wrap: balance forces the same break across engines (verified
-       in WebKit + Chromium at 320/375/414). padding-right removed —
-       the prior asymmetric padding was costing 16 px of usable line
-       width and pushing "for" to orphan at the right viewports. */
+    /* Mobile sub sizing — small enough to fit on 2–3 balanced
+       lines at 320–414 px viewports. text-wrap: balance (set on
+       the base rule above) takes care of the line distribution;
+       max-width: 100% relaxes the desktop 760 px cap on narrow
+       screens so the lede uses the full column. The em accent
+       phrase ("bioelectrical mapping") keeps its nowrap, so the
+       break never lands inside it. */
     font-size: clamp(17px, calc(11.7px + 1.6vw), 19px);
     max-width: 100%;
-    text-wrap: balance;
     /* sub → arm gap. Down from 72 px (32 mb + 40 grid gap) to 48 — the
        headline-to-sub tightening implied a tighter overall mobile
        rhythm; preserves clear separation without wasted space. */
@@ -476,4 +492,53 @@
   .arm                   { animation-delay: 1000ms; }
   .ctas > *:nth-child(1) { animation-delay: 1300ms; }
   .ctas > *:nth-child(2) { animation-delay: 1450ms; }
+}
+
+/* ----------------------------------------------------------------------
+   Large-desktop refinements (≥ 1700 px)
+   ----------------------------------------------------------------------
+   The default desktop layout is tuned for a typical ~1440 laptop. On
+   1920+ monitors the same grid + spacing reads as a laptop composition
+   floating in a much bigger canvas. These overrides loosen the
+   composition for big screens only — the laptop layout is untouched.
+*/
+@media (min-width: 1700px) {
+  .content {
+    /* Wider container + a generous inter-column gap so the left text
+       block and the right arm visual sit confidently apart instead of
+       clustered in the centre of the frame. The grid ratio shifts
+       slightly (1.2fr 1fr → 1.4fr 1fr) so the left column has the
+       headroom needed for the sub to land on a single line. */
+    max-width: 2200px;
+    gap: clamp(100px, 6vw, 180px);
+    grid-template-columns: 1.4fr 1fr;
+  }
+
+  .headline {
+    /* A touch more space below the headline so the eye doesn't read the
+       title and sub as a single tight block on a bigger canvas. */
+    margin-bottom: 40px;
+  }
+
+  .sub {
+    /* Let the sub take the full width of its (now wider) column so the
+       sentence can land on one line on large monitors. The default
+       desktop cap was clamp(450, 11vw+360, 720) — narrow on purpose to
+       force the laptop two-line wrap. */
+    max-width: none;
+    /* Generous gap to the CTAs so they don't feel glued to the sub on a
+       large canvas. */
+    margin-bottom: 80px;
+  }
+  /* Suppress the hard line break that ships in the markup; the wider
+     column above lets the sub flow on one line cleanly here. */
+  .sub br {
+    display: none;
+  }
+
+  .arm img {
+    /* Allow the arm visual to grow a little larger to match the wider
+       gap and the lifted text block — was clamp(520, 50vw, 940). */
+    max-width: clamp(640px, 50vw, 1040px);
+  }
 }

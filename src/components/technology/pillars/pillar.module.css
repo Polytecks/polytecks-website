@@ -107,6 +107,10 @@
   opacity: 0;
   pointer-events: none;
   overflow-y: auto;
+  /* Deactivation: text fades OUT immediately (no delay) so it
+     clears before the card shrinks back. The activation override
+     below schedules the fade-IN AFTER the card has finished
+     expanding. */
   transition:
     opacity 250ms cubic-bezier(0.2, 0.7, 0.2, 1) 0ms,
     bottom var(--tw-anim-ms, 350ms) cubic-bezier(0.2, 0.7, 0.2, 1);
@@ -115,7 +119,12 @@
 .pillar[data-active="true"] .descriptionZone {
   opacity: 1;
   pointer-events: auto;
-  transition-delay: 200ms;
+  /* Hold the text invisible until the card finishes growing (which
+     completes at var(--tw-anim-ms, 350ms)), THEN fade it in. The
+     previous 200 ms delay started the fade while the card was
+     still mid-expansion, so the body copy visibly shifted as the
+     surrounding padding settled. */
+  transition-delay: var(--tw-anim-ms, 350ms);
 }
 
 .body {

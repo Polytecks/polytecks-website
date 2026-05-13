@@ -8,6 +8,17 @@
   justify-content: center;
 }
 
+/* Wrapper around the two stacked paragraphs — the section is a
+   flex row, so a single child here keeps both <p>s in a vertical
+   stack centred horizontally. */
+.copyStack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(20px, 1.6vw, 28px);
+  max-width: 720px;
+}
+
 .copy {
   font-family: var(--font-sans);
   font-weight: 300;
@@ -18,6 +29,15 @@
   text-align: center;
   text-wrap: pretty;
   margin: 0;
+}
+
+/* <strong> emphasis — bumped to weight 600 so it reads clearly
+   against the light 300 base without being too aggressive.
+   Inherits the dimmer body colour so it doesn't pull attention
+   the way the indigo <em> treatment does. */
+.copy strong {
+  font-weight: 425;
+  color: var(--ink);
 }
 
 @media (max-width: 720px) {

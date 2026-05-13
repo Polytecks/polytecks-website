@@ -57,14 +57,64 @@
   margin-bottom: 72px;
 }
 
-/* Opt-in heavier weight on specific pages (about, devices) where the
+/* Opt-in heavier weight on specific pages (devices) where the
    lede needs more emphasis. Applied via SubpageHeader's `boldLede` prop. */
 .ledeBold {
   font-weight: 600;
 }
 
+/* Editorial lede — restrained, dark-neutral body with a single
+   indigo accent phrase. Opt-in via SubpageHeader's `editorialLede`
+   prop. Designed to read as supporting copy rather than a second
+   headline: smaller and lighter than the boldLede treatment, dark
+   ink for the body, indigo only on an inline <em>. Override of
+   the default .lede colour comes from the higher-specificity
+   `.lede.ledeEditorial` combinator below. */
+.lede.ledeEditorial {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  /* Pinned to 22 px max keeps the lede firmly secondary to the
+     display headline even on wide viewports. */
+  font-size: clamp(18px, 1.4vw, 22px);
+  /* Open line-height so the paragraph reads as editorial copy,
+     not a compact block of text. */
+  line-height: 1.5;
+  color: var(--ink);
+  /* Wider max-width so text-wrap: balance lands on 2 calm
+     lines on desktop with the natural break falling after
+     "technology", rather than chunky 3-line wrapping. */
+  max-width: 780px;
+  letter-spacing: -0.005em;
+  text-wrap: balance;
+  /* Padding-top instead of margin-top so it doesn't collapse
+     with the title's margin-bottom; widens the visible gap from
+     the headline by the padding amount. */
+  padding-top: 20px;
+}
+
+/* Keep the indigo accent phrase on a single line — prevents a
+   line break landing between "natural" and "signals", which
+   would split the accent visually. */
+.ledeEditorial em {
+  white-space: nowrap;
+}
+
+/* Indigo accent inside the editorial lede — kills the default
+   italic <em> treatment (reserved for the title) and uses a
+   measured weight bump + colour shift instead. */
+.ledeEditorial em {
+  font-style: normal;
+  font-weight: 500;
+  color: var(--indigo-bright);
+}
+
 @media (max-width: 720px) {
   .subpage {
     padding: 100px 20px 60px;
+  }
+  .lede.ledeEditorial {
+    font-size: clamp(17px, 4vw, 19px);
+    line-height: 1.5;
+    max-width: 100%;
   }
 }

@@ -1,10 +1,12 @@
-/* Section heading shared between this section and "Future indications".
-   Patent-schematic / proprietary-research-lab register: monospace
-   uppercase kicker, light-weight display headline, italic-indigo
-   emphasis. */
+/* Section heading — patent-schematic / proprietary-research-lab
+   register: monospace uppercase kicker, light-weight display
+   headline, italic-indigo emphasis on "SwiftStage". max-width is
+   unset so the longer product title gets the full content width
+   before it has to wrap; if it still wraps to two lines that's
+   accepted by design. */
 .sectionHead {
   margin: 0 0 56px;
-  max-width: 720px;
+  max-width: none;
 }
 
 .kicker {
@@ -41,48 +43,174 @@
   margin-bottom: 140px;
 }
 
-.deviceVisual {
-  position: relative;
-  border: 1px solid var(--line);
-  background:
-    linear-gradient(135deg, rgba(74, 84, 192, 0.10), rgba(10, 10, 14, 0.6)),
-    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.018) 0 2px, transparent 2px 14px);
-  overflow: hidden;
-  min-height: 540px;
+/* StackEntry wraps the visual in .wrap > .inner > children. Grid
+   stretches .wrap to the row height, but .inner and the visual
+   inside default to auto height — so the visual was sitting at its
+   intrinsic min-height while the right column ran taller. This
+   class is passed to the visual's StackEntry as className and
+   forces height to cascade down through both wrappers so the
+   visual fills the full row. */
+.visualSlot,
+.visualSlot > div {
+  height: 100%;
+  min-height: 0;
 }
 
-.placeholder {
-  position: absolute;
-  inset: 0;
+.deviceVisual {
+  /* Outer wrapper for the device-visual now holds TWO bordered
+     boxes (dog + video) rather than one large box. No border or
+     halo of its own — the boxes carry the indigo frame each. Still
+     stretches to fill the grid row's full height so the pair
+     together occupies the same area the prior single box did. */
   display: flex;
-  align-items: center;
-  justify-content: center;
   flex-direction: column;
   gap: 18px;
-  color: var(--ink-faint);
+  height: 100%;
+  align-self: stretch;
+  min-height: 600px;
 }
 
-.glyph {
-  width: 120px;
-  height: 120px;
-  border: 1px solid var(--line-strong);
+/* Inner-glow pulse, used by both boxes via a ::after pseudo. The
+   glow is fully CONTAINED inside the box (inset box-shadow), so
+   it can't bleed across the inter-box gap and create the uneven
+   look an outer halo would (top vs bottom of each box differing
+   in brightness). Both boxes pulse in sync — desyncing reads as
+   asymmetric when they sit close together. */
+@keyframes device-halo {
+  0%, 100% {
+    box-shadow:
+      inset 0 0 0 1px rgba(168, 176, 243, 0.10),
+      inset 0 0 18px rgba(106, 116, 220, 0.10);
+  }
+  50% {
+    box-shadow:
+      inset 0 0 0 1px rgba(168, 176, 243, 0.32),
+      inset 0 0 30px rgba(106, 116, 220, 0.26);
+  }
+}
+
+/* Top box — dog photo fills it edge-to-edge. flex: 1 means this
+   box gets whatever vertical space is left after .videoBox claims
+   its natural height, so the dog reads as the dominant element of
+   the pair. */
+.dogBox {
   position: relative;
-  opacity: 0.55;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  /* Use box-shadow instead of border so the frame paints OUTSIDE
+     the box-edge and is guaranteed not to be overdrawn by any
+     absolutely-positioned child. Keep this in lockstep with the
+     identical box-shadow on .videoBox below. */
+  box-shadow: 0 0 0 1px rgba(168, 176, 243, 0.6);
+  background: #000;
 }
 
-.glyph::before {
+/* Pseudo-element overlay carries the animated inner glow above
+   the dog photo (which would otherwise obscure an inset shadow on
+   the box itself). */
+.dogBox::after {
   content: "";
   position: absolute;
-  inset: 12px;
-  border: 1px dashed var(--line-strong);
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  animation: device-halo 5s ease-in-out infinite;
 }
 
-.phLabel {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.25em;
-  color: var(--ink-faint);
+.dogImage {
+  object-fit: cover;
+  /* Crop a small slice off the top of the source so the dog's
+     head lands closer to the top of the frame instead of sitting
+     mid-frame. */
+  object-position: center 35%;
+}
+
+/* Kit overlay — sits directly on the dog photo (no white panel
+   anymore). Centred horizontally, anchored near the bottom. The
+   wrapper has a fixed aspect ratio so the contained <Image fill>
+   has a sized box; object-fit: contain inside preserves the kit's
+   true aspect regardless of the wrapper's shape. drop-shadow
+   gives it visual weight against the photo. */
+.kitOverlayWrap {
+  position: absolute;
+  bottom: 3%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 66%;
+  aspect-ratio: 5 / 3;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.kitOverlay {
+  object-fit: contain;
+  object-position: center bottom;
+  /* Dark glow border — stacked drop-shadows on the kit's alpha
+     shape. The first two are zero-offset radial halos that wrap
+     the silhouette in soft darkness so it lifts off the dog
+     photo; the third is the original grounded shadow for weight
+     beneath the kit. */
+  filter:
+    drop-shadow(0 0 14px rgba(0, 0, 0, 0.65))
+    drop-shadow(0 0 28px rgba(0, 0, 0, 0.45))
+    drop-shadow(0 14px 32px rgba(0, 0, 0, 0.5));
+}
+
+/* Bottom box — looping clip in its own bordered frame. The video
+   inside uses width:100%/height:auto so the box adopts the source
+   mp4's natural aspect (1916×838 ≈ 2.29:1); flex: 0 0 auto means
+   the box claims exactly that height in the column. */
+.videoBox {
+  flex: 0 0 auto;
+  position: relative;
+  /* Box has an explicit aspect-ratio so the contained video
+     sizes consistently regardless of the source's natural pixel
+     ratio. */
+  aspect-ratio: 1888 / 796;
+  overflow: hidden;
+  /* Use box-shadow instead of border to draw the frame: the
+     shadow paints OUTSIDE the box and isn't subject to being
+     overdrawn by an absolutely-positioned child the way a
+     normal border can be (the looping video sits at inset:0,
+     and in some painting orders that overlays the border edge).
+     The 0/0/0/1px spread gives us a hard 1 px ring matched to
+     the .dogBox border colour and alpha. */
+  box-shadow: 0 0 0 1px rgba(168, 176, 243, 0.6);
+  /* Transparent so the page background shows through the
+     alpha-keyed parts of the WebM. */
+  background: transparent;
+}
+
+
+.videoBox::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  animation: device-halo 5s ease-in-out infinite;
+}
+
+.kitVideo {
+  /* Fill the box exactly — the WebM has baked-in alpha keying
+     handled offline via ffmpeg so we no longer need to oversize
+     the element to crop a source white edge. Sitting flush to
+     inset:0 means the video never overlaps the videoBox border,
+     so the border renders cleanly all the way around. */
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dogBox::after,
+  .videoBox::after {
+    animation: none;
+  }
 }
 
 .deviceCopy {
@@ -144,8 +272,18 @@
   margin-top: 36px;
   padding: 22px 24px;
   border: 1px solid rgba(168, 176, 243, 0.28);
+  /* Linear gradient sweeping the full width of the block — was a
+     localised radial blob anchored to the left that only covered
+     ~1/3 of the box and read as uneven. The linear ramp keeps the
+     pulse-end accented while carrying the indigo wash all the way
+     across to the CTA on the right at a smoothly-falling
+     intensity. */
   background:
-    radial-gradient(ellipse 60% 200% at 0% 50%, rgba(74, 84, 192, 0.18), transparent 70%),
+    linear-gradient(90deg,
+      rgba(74, 84, 192, 0.22) 0%,
+      rgba(74, 84, 192, 0.14) 35%,
+      rgba(74, 84, 192, 0.08) 70%,
+      rgba(74, 84, 192, 0.04) 100%),
     rgba(255, 255, 255, 0.015);
   display: flex;
   align-items: center;

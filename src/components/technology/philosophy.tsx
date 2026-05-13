@@ -3,19 +3,20 @@ import styles from "./philosophy.module.css";
 export function Philosophy() {
   return (
     <section className={styles.section}>
-      <p className={styles.copy}>
-        {/* TODO: rewrite as: one sensor platform, many bioelectronic applications.
-            Starting with veterinary cardiology where the regulatory path is fastest,
-            then extending into human ECG, EEG, and EMG as clinical validation matures.
-            The technology beneath is the same — what changes is what we ask it to listen for. */}
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-        velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-        occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-        mollit anim id est laborum.
-      </p>
+      <div className={styles.copyStack}>
+        <p className={styles.copy}>
+          The future of diagnostics will not look like a machine beside the
+          bed. It will be <strong>soft</strong>, <strong>wearable</strong> and{" "}
+          <strong>almost invisible</strong>, sensing the body’s electrical
+          patterns with the spatial detail and long-term stability needed to
+          reveal disease earlier.
+        </p>
+        <p className={styles.copy}>
+          Polytecks is building that future through flexible electrode
+          technology: a new foundation for diagnostics that can work across
+          the body, over weeks at a time, and far beyond specialist settings.
+        </p>
+      </div>
     </section>
   );
 }

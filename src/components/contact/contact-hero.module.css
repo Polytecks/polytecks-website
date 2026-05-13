@@ -223,6 +223,47 @@
   color: var(--bg);
 }
 
+.submit:disabled,
+.subscribe:disabled {
+  opacity: 0.55;
+  cursor: progress;
+  pointer-events: none;
+}
+
+/* Honeypot — off-screen text input that bots fill in. Visually
+   removed, never tab-reachable, never focusable for screen readers
+   thanks to aria-hidden / tabIndex on the JSX. */
+.honeypot {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Inline submission feedback — sits between the submit button and
+   the email fallback (contact form) or below the subscribe input
+   (newsletter). Success is indigo, error is a muted alert. */
+.formStatusSuccess,
+.formStatusError {
+  margin: 14px 0 0;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+}
+.formStatusSuccess {
+  color: var(--indigo-bright);
+}
+.formStatusError {
+  color: #f0c0c0;
+}
+
 /* Plain mailto fallback below the submit button. The "Or email us:"
    text inherits the form's ink colour; the email itself is indigo with
    a hairline underline that brightens on hover. */
@@ -246,6 +287,53 @@
 .emailFallbackLink:hover {
   color: var(--indigo-light);
   border-bottom-color: var(--indigo-light);
+}
+
+/* LinkedIn button — sits below the email fallback. Same hairline
+   tone as the form's submit button, but pulls the indigo accent
+   into the icon and label so it reads as a social-link CTA rather
+   than a primary action. */
+.linkedinButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+  padding: 11px 22px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-decoration: none;
+  align-self: flex-start;
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.linkedinButton:hover {
+  background: var(--indigo-bright);
+  border-color: var(--indigo-bright);
+  color: var(--bg);
+}
+
+.linkedinIcon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+@media (hover: none), (max-width: 720px) {
+  .linkedinButton {
+    width: 100%;
+    min-height: 48px;
+    justify-content: center;
+    padding: 14px 22px;
+    align-self: stretch;
+    text-align: center;
+  }
 }
 
 /* RIGHT column — empty placeholder. Reserves grid space so the form

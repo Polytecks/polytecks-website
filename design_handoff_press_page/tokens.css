@@ -1,0 +1,356 @@
+/* Polytecks design tokens — lifted from website/src/app/globals.css.
+   This file is the single source of truth for colors + type used across
+   all three /press prototypes on the canvas. */
+
+:root {
+  /* Surfaces */
+  --bg: #0a0a0e;
+  --bg-2: #0f1016;
+  --bg-3: #14151d;
+
+  /* Ink */
+  --ink: #e8e9f0;
+  --ink-dim: #8a8c9a;
+  --ink-faint: #4a4c5a;
+
+  /* Hairlines */
+  --line: rgba(255, 255, 255, 0.08);
+  --line-strong: rgba(255, 255, 255, 0.16);
+
+  /* Indigo accent family */
+  --indigo: #4a54c0;
+  --indigo-bright: #6a74dc;
+  --indigo-light: #8e98ee;
+  --indigo-lightest: #a8b0f3;
+
+  /* Type stacks — Google Font equivalents of next/font defaults */
+  --font-display: "Space Grotesk", "Inter", system-ui, sans-serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-serif: "Source Serif 4", "Times New Roman", serif;
+
+  --content-w: 1400px;
+}
+
+/* Resets shared by all prototypes */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ---------- Shared atoms ---------- */
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--indigo-lightest);
+  background: rgba(74, 84, 192, 0.18);
+  border: 1px solid rgba(168, 176, 243, 0.4);
+  padding: 6px 14px;
+  border-radius: 999px;
+  display: inline-block;
+  box-shadow: 0 0 16px rgba(106, 116, 220, 0.25);
+}
+
+.display-h1 {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(40px, 5vw, 68px);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin: 0;
+  color: var(--ink);
+  text-wrap: pretty;
+}
+.display-h1 em {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--indigo-bright);
+}
+
+.lede {
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: clamp(18px, 1.4vw, 22px);
+  line-height: 1.55;
+  color: var(--indigo-bright);
+  max-width: 720px;
+  margin: 0;
+}
+
+.mono-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+
+/* ---------- Top nav (lite) ---------- */
+.topnav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  height: 72px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(10, 10, 14, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.topnav-inner {
+  max-width: var(--content-w);
+  margin: 0 auto;
+  padding: 0 32px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.topnav-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--ink);
+}
+.topnav-logo svg { display: block; }
+.topnav-logo-text {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+.topnav-logo-text em {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--indigo-bright);
+}
+.topnav-links {
+  display: flex;
+  gap: 4px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.topnav-link {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--ink-dim);
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: color 0.2s ease;
+}
+.topnav-link:hover { color: var(--ink); }
+.topnav-link.active { color: var(--ink); }
+
+/* ---------- Footer (lite) ---------- */
+.footer {
+  border-top: 1px solid var(--line);
+  background: var(--bg);
+  margin-top: 0;
+}
+.footer-top {
+  max-width: var(--content-w);
+  margin: 0 auto;
+  padding: 56px 32px 32px;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  gap: 64px;
+}
+.footer-col-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin: 0 0 16px;
+}
+.footer-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.footer-link {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: var(--ink-dim);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.footer-link:hover { color: var(--ink); }
+.footer-bottom {
+  max-width: var(--content-w);
+  margin: 0 auto;
+  padding: 16px 32px 32px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.footer-legal { display: flex; gap: 16px; }
+.footer-legal a {
+  color: var(--ink-faint);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.footer-legal a:hover { color: var(--ink-dim); }
+
+@media (max-width: 960px) {
+  .footer-top { grid-template-columns: repeat(2, 1fr); gap: 40px; }
+}
+@media (max-width: 560px) {
+  .footer-top { grid-template-columns: 1fr; gap: 32px; }
+  .footer-bottom { flex-direction: column; gap: 12px; align-items: flex-start; }
+  .topnav-links { display: none; }
+}
+
+/* ---------- Press contact strip (shared) ---------- */
+.press-contact {
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: var(--bg);
+}
+.press-contact-inner {
+  max-width: var(--content-w);
+  margin: 0 auto;
+  padding: 56px 32px;
+}
+.press-contact-eyebrow {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+.press-contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+}
+.press-contact h3 {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(28px, 2.4vw, 38px);
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin: 0 0 12px;
+  color: var(--ink);
+}
+.press-contact h3 em {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--indigo-bright);
+}
+.press-contact p {
+  margin: 0;
+  color: var(--ink-dim);
+  line-height: 1.55;
+}
+.press-contact-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-end;
+}
+.contact-email {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(28px, 2.4vw, 38px);
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: var(--ink);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.contact-email:hover {
+  color: var(--indigo-light);
+}
+.press-contact-meta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+@media (max-width: 720px) {
+  .press-contact-grid { grid-template-columns: 1fr; gap: 24px; }
+  .press-contact-inner { padding: 40px 20px; }
+  .press-contact-actions { align-items: flex-start; }
+}
+
+/* ---------- Polytecks logo mark (hex) ---------- */
+.poly-mark {
+  width: 28px;
+  height: 28px;
+  display: inline-block;
+}
+
+/* ---------- Image placeholder treatment ---------- */
+.img-ph {
+  position: relative;
+  background:
+    repeating-linear-gradient(
+      135deg,
+      rgba(168, 176, 243, 0.04) 0,
+      rgba(168, 176, 243, 0.04) 8px,
+      transparent 8px,
+      transparent 16px
+    ),
+    var(--bg-2);
+  border: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.img-ph::after {
+  content: attr(data-label);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  text-align: center;
+  padding: 0 16px;
+}
+
+/* Marker for fabricated content */
+.fabricated::before {
+  content: "FABRICATED";
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: rgba(255, 180, 100, 0.85);
+  border: 1px solid rgba(255, 180, 100, 0.3);
+  border-radius: 3px;
+  padding: 1px 6px;
+  margin-right: 8px;
+  vertical-align: 2px;
+}

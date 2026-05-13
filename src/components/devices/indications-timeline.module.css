@@ -100,8 +100,14 @@
   border-radius: 50%;
   background: #fff;
   border: 2px solid var(--indigo-bright);
+  /* The 5 px solid ring "punches" the dot through the timeline
+     track behind it. Using var(--bg) instead of a hardcoded
+     rgba(10, 10, 14) means the ring follows the active theme —
+     dark page bg in dark mode, light page bg in light mode — so
+     it doesn't show as a hard near-black halo on the light
+     theme. */
   box-shadow:
-    0 0 0 5px rgba(10, 10, 14, 1),
+    0 0 0 5px var(--bg),
     0 0 18px rgba(168, 176, 243, 0.6);
   pointer-events: none;
   z-index: 3;

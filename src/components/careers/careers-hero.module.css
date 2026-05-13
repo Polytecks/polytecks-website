@@ -79,22 +79,23 @@
   text-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
 }
 
-/* Light theme: brighten the photographic overlay (was 0.6→0.85
-   black to lift white text; now a much lighter wash so the photo
-   reads almost natural), flip the title to black so it sits cleanly
-   on the brightened photo, and fade into white at the bottom so the
-   hero dissolves into the light page below. */
+/* Light theme: keep the photo as DARK as it reads on the dark
+   theme. The previous override was deliberately translucent so the
+   photo would read "natural" in light mode, but it made the hero
+   feel washed-out and brighter than the rest of the site. Now we
+   reuse the dark-theme black overlay for the top ~80 % of the
+   gradient and only transition into the light page bg over the
+   bottom 20 % — so the photographic register matches both themes
+   while the hero still dissolves cleanly into the light section
+   below. */
 :global([data-theme="light"]) .bgOverlay {
-  /* Lighten the all-over wash that was muddying the photo — only the
-     bottom ~12 % of the hero now has any tint, so the photo reads
-     close to natural until the page-bg fade kicks in at the very
-     bottom. */
   background: linear-gradient(
     180deg,
-    transparent 0%,
-    transparent 88%,
-    rgba(250, 250, 248, 0.5) 94%,
-    rgba(250, 250, 248, 0.9) 98%,
+    rgba(10, 10, 14, 0.6) 0%,
+    rgba(10, 10, 14, 0.45) 40%,
+    rgba(10, 10, 14, 0.85) 80%,
+    rgba(10, 10, 14, 0.6) 90%,
+    rgba(250, 250, 248, 0.5) 96%,
     #fafaf8 100%
   );
 }

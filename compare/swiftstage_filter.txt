@@ -1,0 +1,12 @@
+[0:v]format=rgba,split=2[orig][toKey];
+
+[toKey]colorkey=color=0xFFFFFF:similarity=0.22:blend=0.05,alphaextract,erosion,dilation,gblur=sigma=0.6,format=gray[cleanA];
+
+color=c=black:s=1888x796:d=10:r=30,format=gray,geq=lum='lte(abs((X-1555)/275)\,1)*lte(2*abs((Y-378)/318)+abs((X-1555)/275)\,2)*255',gblur=sigma=0.8[hexMask];
+
+color=c=black:s=1888x796:d=10:r=30,format=gray,geq=lum='if(lt(X\,1227)\,255\,0)',gblur=sigma=0.5[leftMask];
+
+[cleanA][hexMask]blend=all_mode=lighten[stage1];
+[stage1][leftMask]blend=all_mode=lighten,format=gray[finalA];
+
+[orig][finalA]alphamerge,format=yuva420p[out]

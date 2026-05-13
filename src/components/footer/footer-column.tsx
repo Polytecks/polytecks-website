@@ -4,6 +4,7 @@ import styles from "./footer.module.css";
 export type FooterLink = {
   label: string;
   href: string;
+  external?: boolean;
 };
 
 export function FooterColumn({
@@ -19,7 +20,13 @@ export function FooterColumn({
       <ul className={styles.columnLinks}>
         {links.map((link) => (
           <li key={`${link.label}-${link.href}`}>
-            <Link href={link.href} className={styles.columnLink}>
+            <Link
+              href={link.href}
+              className={styles.columnLink}
+              {...(link.external
+                ? { target: "_blank", rel: "noopener noreferrer" }
+                : {})}
+            >
               {link.label}
             </Link>
           </li>

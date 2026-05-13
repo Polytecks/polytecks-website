@@ -1,5 +1,9 @@
 import { Subpage, SubpageHeader } from "@/components/subpage";
 
+export const metadata = {
+  title: "Terms",
+};
+
 export default function TermsPage() {
   return (
     <Subpage>

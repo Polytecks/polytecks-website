@@ -22,14 +22,28 @@ export function SubpageHeader({
   title,
   lede,
   boldLede = false,
+  editorialLede = false,
 }: {
   eyebrow: string;
   title: ReactNode;
   lede?: ReactNode;
-  /** Opt-in heavier (600) lede weight. Used on about + devices where the
+  /** Opt-in heavier (600) lede weight. Used on devices where the
    *  lede should read with more emphasis than the default 300. */
   boldLede?: boolean;
+  /** Opt-in editorial lede variant — dark-neutral body with an
+   *  indigo accent on an inline <em>. Mutually exclusive with
+   *  boldLede in practice; the about page uses this for a more
+   *  restrained, supporting subhead instead of a full-indigo
+   *  block. */
+  editorialLede?: boolean;
 }) {
+  const ledeClass = [
+    styles.lede,
+    boldLede ? styles.ledeBold : "",
+    editorialLede ? styles.ledeEditorial : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
   return (
     <>
       <StackEntry index={0}>
@@ -40,7 +54,7 @@ export function SubpageHeader({
       </StackEntry>
       {lede ? (
         <StackEntry index={2}>
-          <p className={`${styles.lede} ${boldLede ? styles.ledeBold : ""}`.trim()}>
+          <p className={ledeClass}>
             {lede}
           </p>
         </StackEntry>

@@ -11,8 +11,6 @@ export type PillarContent = {
   body: string;
 };
 
-// NOTE: All `body` strings are placeholder Lorem ipsum.
-// Real claims to be supplied later — search for "// TODO: real claim".
 export const PILLARS: PillarContent[] = [
   {
     id: "materials",
@@ -26,11 +24,12 @@ export const PILLARS: PillarContent[] = [
       width: 1600,
       height: 1000,
     },
-    // TODO: real claim about conducting-polymer wet-dry electrodes
     body:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod " +
-      "tempor incididunt ut labore et dolore magna aliqua, ut enim ad minim " +
-      "veniam quis nostrud exercitation ullamco laboris nisi ut aliquip.",
+      "Polytecks has developed a new group of conductive materials designed to " +
+      "replace the conventional electrode. Soft, conformable and gel-free, they " +
+      "allow us to collect richer bioelectrical signals from the body, opening " +
+      "the door to diagnostic possibilities that standard electrodes were never " +
+      "built to reach.",
   },
   {
     id: "form",
@@ -44,11 +43,12 @@ export const PILLARS: PillarContent[] = [
       width: 1600,
       height: 1000,
     },
-    // TODO: real claim about textile-integrated mechanical design
     body:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod " +
-      "tempor incididunt ut labore et dolore magna aliqua, ut enim ad minim " +
-      "veniam quis nostrud exercitation ullamco laboris nisi ut aliquip.",
+      "We integrate our sensing materials directly into flexible fabrics, " +
+      "turning electrode arrays into wearable surfaces rather than rigid " +
+      "devices. This makes high-density bioelectrical mapping easier to apply, " +
+      "easier to repeat and far better suited to point-of-care and ambulatory " +
+      "use.",
   },
   {
     id: "intelligence",
@@ -59,10 +59,10 @@ export const PILLARS: PillarContent[] = [
       src: "/assets/information.webm",
       alt: "Bioelectric signal reconstruction — animated visualisation",
     },
-    // TODO: real claim about software / decision-support layer
     body:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod " +
-      "tempor incididunt ut labore et dolore magna aliqua, ut enim ad minim " +
-      "veniam quis nostrud exercitation ullamco laboris nisi ut aliquip.",
+      "High-resolution signals are only useful if they can be understood. " +
+      "Mosaic transforms dense bioelectrical data into spatial maps and " +
+      "decision-support tools, helping reveal physiological patterns that " +
+      "conventional recordings often miss.",
   },
 ];

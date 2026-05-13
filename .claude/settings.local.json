@@ -35,7 +35,19 @@
       "Bash(git rm *)",
       "Bash(git mv *)",
       "PowerShell(Get-NetTCPConnection *)",
-      "Bash(git tag *)"
+      "Bash(git tag *)",
+      "Bash(ffmpeg -y -i public/assets/swiftstage3-loop.mp4 -ss 4 -update 1 -frames:v 1 -q:v 2 frame_inspect.jpg)",
+      "Bash(ffmpeg -y -i public/assets/swiftstage3-loop.mp4 -filter_complex '[0:v]split=2[a][b];     [a]crop=1208:in_h:0:0,format=yuva420p[left];     [b]crop=680:in_h:1208:0,format=rgba,colorkey=color=0xFFFFFF:similarity=0.30:blend=0.05,format=yuva420p[ck];     [ck]split=2[ck1][ck2];     [ck1]alphaextract,erosion,dilation,erosion,gblur=sigma=0.6,format=gray[cleanA];     [ck2][cleanA]alphamerge[right];     [left][right]hstack=inputs=2,format=yuva420p[out]' -map '[out]' -c:v libvpx-vp9 -pix_fmt yuva420p -auto-alt-ref 0 -b:v 2M -deadline good -cpu-used 2 -an public/assets/swiftstage3-clean.webm)",
+      "Bash(ffmpeg -y -i public/assets/swiftstage3-loop.mp4 -filter_complex_script compare/swiftstage_filter.txt -map '[out]' -c:v libvpx-vp9 -pix_fmt yuva420p -auto-alt-ref 0 -b:v 2M -deadline good -cpu-used 2 -an public/assets/swiftstage3-clean.webm)",
+      "Bash(ffmpeg -y -i frame_orig_3s.png -vf \"crop=1:1:1700:100\" -f rawvideo -pix_fmt rgb24 -)",
+      "Bash(xxd)",
+      "Bash(ffmpeg -y -i frame_orig_3s.png -vf \"crop=1:1:1860:350\" -f rawvideo -pix_fmt rgb24 -)",
+      "Bash(ffmpeg -y -i frame_orig_3s.png -vf \"crop=1:1:1500:30\" -f rawvideo -pix_fmt rgb24 -)",
+      "Bash(ffmpeg -y -i frame_orig_3s.png -vf \"crop=1:1:1700:700\" -f rawvideo -pix_fmt rgb24 -)",
+      "Bash(ffmpeg -y -i frame_orig_3s.png -vf \"crop=1:1:1554:350\" -f rawvideo -pix_fmt rgb24 -)",
+      "Bash(netstat -ano)",
+      "Bash(awk '{print $5}')",
+      "Bash(xargs -r taskkill //F //PID)"
     ]
   },
   "enableAllProjectMcpServers": true,

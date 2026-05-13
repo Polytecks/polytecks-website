@@ -101,8 +101,20 @@
      "cropping more of the bottom" means. Height is computed from
      width via aspect-ratio. */
   display: block;
+  /* Default (mobile through laptop) — scale the image down with
+     the viewport so the cathedral CONTENT is smaller on a 1440
+     laptop than on a 1920 monitor. clamp(900, 70vw, 1100) gives:
+       1100 viewport → 900 px wide  (banner with thin margins)
+       1280 viewport → 896 → 900 px wide
+       1440 viewport → 1008 px wide
+       1599 viewport → 1119 → 1100 px wide
+     Above 1600 the wide-display block lifts the cap to 1400 so
+     big monitors get the full-scale banner the user already
+     loves. min(…, 100vw) keeps the image inside the viewport on
+     anything narrower than 900 px (mobile / small tablet) so it
+     stays full-bleed there. */
   width: calc(
-    100vw
+    min(clamp(900px, 70vw, 1100px), 100vw)
     * var(--tw-cb-scale, 1)
     * (1 - var(--tw-cb-crop-sides, 0))
   );
@@ -130,17 +142,16 @@
   );
 }
 
-/* Wide-display variant — viewport ≥1600 px puts at least 100 px of bg
-   on each side of the (capped at 1400 px) image, which is enough room
-   for the side fade to read as a soft dissolve into the page bg
-   rather than as a strip of dimmed image. mask-composite: intersect
-   (and the webkit source-in equivalent) shows the image where BOTH
-   masks say "show," so the three fades stack cleanly. */
+/* Wide-display variant — viewport ≥ 1600 px puts at least 100 px of
+   bg on each side of the (capped at 1400 px) image, which is
+   enough room for the side fade to read as a soft dissolve into
+   the page bg rather than as a strip of dimmed image.
+   mask-composite: intersect (and the webkit source-in equivalent)
+   shows the image where BOTH masks say "show," so the three fades
+   stack cleanly. Below 1600 px the image is full-bleed and only
+   the bottom mask above applies. */
 @media (min-width: 1600px) {
   .media img {
-    /* On wide displays cap the image at 1400 px so it stops growing
-       with the viewport — at this size the side fade has room to
-       read as a soft dissolve rather than dimming the photo's edge. */
     width: calc(
       min(1400px, 100vw)
       * var(--tw-cb-scale, 1)
@@ -214,7 +225,13 @@
   z-index: 3;
   font-family: var(--font-sans);
   font-weight: 300;
-  font-size: calc(15px * var(--tw-cb-scale, 1));
+  /* Fluid callout size — scales with the viewport so the type
+     stays roughly proportional to the image. At 1440 laptop ≈ 12 px,
+     at 1920 desktop ≈ 15 px, at 2560 ultrawide ≈ 15 px (clamped).
+     Was a fixed 15 px which felt oversized once the laptop image
+     was banner-capped. Still multiplied by the tweak scale so the
+     slider works as before. */
+  font-size: calc(clamp(11px, 0.85vw, 15px) * var(--tw-cb-scale, 1));
   line-height: 1.5;
   color: var(--ink);
   margin: 0;
@@ -236,7 +253,13 @@
   z-index: 3;
   font-family: var(--font-sans);
   font-weight: 300;
-  font-size: calc(15px * var(--tw-cb-scale, 1));
+  /* Fluid callout size — scales with the viewport so the type
+     stays roughly proportional to the image. At 1440 laptop ≈ 12 px,
+     at 1920 desktop ≈ 15 px, at 2560 ultrawide ≈ 15 px (clamped).
+     Was a fixed 15 px which felt oversized once the laptop image
+     was banner-capped. Still multiplied by the tweak scale so the
+     slider works as before. */
+  font-size: calc(clamp(11px, 0.85vw, 15px) * var(--tw-cb-scale, 1));
   line-height: 1.5;
   color: var(--ink);
   margin: 0;

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { StackEntry } from "@/components/stack-entry";
 import styles from "./first-device.module.css";
@@ -19,7 +20,7 @@ export function FirstDevice() {
         <div className={styles.sectionHead}>
           <div className={styles.kicker}>Our first device</div>
           <h2 className={styles.heading}>
-            Veterinary cardiac staging at the <em>point of care</em>.
+            <em>SwiftStage:</em> Veterinary Cardiovascular Staging in Primary Care
           </h2>
         </div>
       </StackEntry>
@@ -28,13 +29,53 @@ export function FirstDevice() {
         className={styles.firstDevice}
         data-screen-label="01 First device — Veterinary"
       >
-        <StackEntry index={7}>
-          <div className={styles.deviceVisual} aria-hidden="true">
-            <div className={styles.placeholder}>
-              <div className={styles.glyph} />
-              <div className={styles.phLabel}>
-                Image · Device on canine patient
+        <StackEntry index={7} className={styles.visualSlot}>
+          <div className={styles.deviceVisual}>
+            {/* Top box — dog photo edge-to-edge, with the kit
+                overlay (swiftstage2) sitting directly on the photo
+                centred at the bottom. */}
+            <div className={styles.dogBox}>
+              <Image
+                src="/assets/swiftstage1.jpg"
+                alt="Dog patient receiving a Polytecks point-of-care measurement"
+                fill
+                sizes="(max-width: 960px) 100vw, 50vw"
+                className={styles.dogImage}
+              />
+              <div className={styles.kitOverlayWrap} aria-hidden="true">
+                <Image
+                  src="/assets/swiftstage2.png"
+                  alt=""
+                  fill
+                  sizes="(max-width: 960px) 40vw, 22vw"
+                  className={styles.kitOverlay}
+                />
               </div>
+            </div>
+            {/* Bottom box — looping clip in its own bordered
+                frame. The video is a WebM with baked-in VP9
+                alpha: the right ~36% of the frame was processed
+                offline with ffmpeg (colorkey + alpha-channel
+                erosion/dilation/blur to clean specks and feather
+                edges), so the clip plays natively with proper
+                transparency where the white background, red
+                lines, and hexagon live. The left ~64% of the
+                frame is the untouched dog photo. No realtime
+                filter is needed — the browser composites the
+                alpha directly. Source aspect 1888×796 ≈ 2.37:1. */}
+            <div className={styles.videoBox}>
+              <video
+                className={styles.kitVideo}
+                src="/assets/swiftstage3-clean.webm"
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                disablePictureInPicture
+                controlsList="nodownload noremoteplayback nofullscreen"
+                aria-hidden="true"
+              />
             </div>
           </div>
         </StackEntry>

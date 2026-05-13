@@ -5,15 +5,24 @@ import { useEffect, useRef, useState } from "react";
 import { useTheme, type Theme } from "@/lib/use-theme";
 import styles from "./about-header-background.module.css";
 
-const FADE_MS = 80;
+// Page-entry fade — matches the StackEntry duration so the
+// background appears alongside the rest of the page's load-in
+// cascade instead of snapping in. The delay holds the silhouette
+// invisible long enough for the eyebrow + title to settle before
+// the bg starts blooming in. Theme-swap fade stays fast so the
+// dark↔light hand-off remains snappy.
+const ENTRY_FADE_MS = 700;
+const ENTRY_DELAY_MS = 350;
+const SWAP_FADE_MS = 80;
 
 /**
  * Two background images stacked in the same wrap; the active one's
  * opacity is animated to 1, the inactive's stays 0. On initial mount
- * the active image fades in from 0; on theme change the current one
- * fades to 0 first, then after FADE_MS the displayedTheme swaps and
- * the new image fades to 1 — sequential, not a cross-fade. Both
- * images are mounted at all times so neither has to load during the
+ * the active image fades in from 0 over ENTRY_FADE_MS so it joins
+ * the page-entry cascade. On theme change the current one fades to
+ * 0 first, then after SWAP_FADE_MS the displayedTheme swaps and the
+ * new image fades to 1 — sequential, not a cross-fade. Both images
+ * are mounted at all times so neither has to load during the
  * transition.
  */
 export function AboutHeaderBackground() {
@@ -24,11 +33,26 @@ export function AboutHeaderBackground() {
   // 0 → 1 fade-in / 1 → 0 fade-out applied to whichever image
   // displayedTheme is currently pointing at.
   const [opacity, setOpacity] = useState(0);
+  // Tracks which timing the next CSS transition should use.
+  const [fadeMs, setFadeMs] = useState(ENTRY_FADE_MS);
   const firstMount = useRef(true);
 
   useEffect(() => {
     // First mount: sync displayedTheme to the real theme without
-    // animation, then fade the active image in from 0.
+    // animation, then — after a brief hold so the title can
+    // settle in first — fade the active image in over the longer
+    // entry timing.
+    //
+    // We intentionally DO NOT return a cleanup from this branch.
+    // The very next thing React does after this effect run is
+    // process the setDisplayedTheme state update; if the resolved
+    // theme differs from the initial state value, displayedTheme
+    // (an effect dependency) changes and React tears down this
+    // effect run, calling our cleanup. Clearing the timeout in
+    // cleanup would cancel the entrance fade entirely — exactly
+    // the bug that left the background invisible until the user
+    // toggled themes. The setTimeout below is one-shot and safe
+    // to leave running.
     if (firstMount.current) {
       firstMount.current = false;
       const initial =
@@ -37,18 +61,23 @@ export function AboutHeaderBackground() {
           ? "light"
           : "dark";
       setDisplayedTheme(initial);
-      requestAnimationFrame(() => setOpacity(1));
+      setFadeMs(ENTRY_FADE_MS);
+      setTimeout(() => {
+        requestAnimationFrame(() => setOpacity(1));
+      }, ENTRY_DELAY_MS);
       return;
     }
 
     if (theme === displayedTheme) return;
 
     // Theme changed → fade out current image, swap, fade in new.
+    // Use the snappier swap timing for this branch.
+    setFadeMs(SWAP_FADE_MS);
     setOpacity(0);
     const id = setTimeout(() => {
       setDisplayedTheme(theme);
       requestAnimationFrame(() => setOpacity(1));
-    }, FADE_MS);
+    }, SWAP_FADE_MS);
     return () => clearTimeout(id);
   }, [theme, displayedTheme]);
 
@@ -64,7 +93,7 @@ export function AboutHeaderBackground() {
         unoptimized
         style={{
           opacity: displayedTheme === "dark" ? opacity : 0,
-          transition: `opacity ${FADE_MS}ms ease`,
+          transition: `opacity ${fadeMs}ms ease`,
         }}
       />
       <Image
@@ -77,7 +106,7 @@ export function AboutHeaderBackground() {
         unoptimized
         style={{
           opacity: displayedTheme === "light" ? opacity : 0,
-          transition: `opacity ${FADE_MS}ms ease`,
+          transition: `opacity ${fadeMs}ms ease`,
         }}
       />
     </div>
