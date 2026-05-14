@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { FadeImage as Image } from "@/components/fade-image";
 import { useEffect, useState } from "react";
 import { ChargeLink } from "./charge-link";
 import styles from "./hero.module.css";

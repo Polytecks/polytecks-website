@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { FadeImage as Image } from "@/components/fade-image";
 import { StackEntry } from "@/components/stack-entry";
 import { PILLARS } from "./pillar-data";
 import styles from "./mobile-pillar-section.module.css";

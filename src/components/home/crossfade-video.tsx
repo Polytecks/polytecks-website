@@ -11,6 +11,14 @@ const MIN_DURATION_FOR_CROSSFADE_S = 1;
 type Props = {
   src: string;
   className?: string;
+  /**
+   * Poster image — painted as a CSS background on the wrapper so the
+   * tile shows a still frame instantly, even before the IntersectionObserver
+   * mounts the <video> elements. Also set as the `poster` attribute on
+   * each <video> so the same frame covers the period between mount and
+   * first decoded frame.
+   */
+  poster?: string;
 };
 
 /**
@@ -27,7 +35,7 @@ type Props = {
  * - prefers-reduced-motion: render a single static <video> with no
  *   autoplay (browser shows the first frame as its own poster).
  */
-export function CrossfadeVideo({ src, className }: Props) {
+export function CrossfadeVideo({ src, className, poster }: Props) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const videoARef = useRef<HTMLVideoElement>(null);
   const videoBRef = useRef<HTMLVideoElement>(null);
@@ -172,12 +180,26 @@ export function CrossfadeVideo({ src, className }: Props) {
     .filter(Boolean)
     .join(" ");
 
+  // Paint the poster directly on the wrapper so the tile shows the
+  // still frame instantly — before the IntersectionObserver mounts the
+  // <video> elements and before the MP4 has started downloading. The
+  // <video> elements sit absolutely on top of this background and
+  // cover it once they decode their first frame.
+  const wrapStyle: React.CSSProperties | undefined = poster
+    ? {
+        backgroundImage: `url("${poster}")`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }
+    : undefined;
+
   if (reducedMotion) {
     return (
-      <div ref={wrapRef} className={wrapClass}>
+      <div ref={wrapRef} className={wrapClass} style={wrapStyle}>
         {inView ? (
           <video
             src={src}
+            poster={poster}
             muted
             playsInline
             preload="metadata"
@@ -192,12 +214,13 @@ export function CrossfadeVideo({ src, className }: Props) {
   }
 
   return (
-    <div ref={wrapRef} className={wrapClass}>
+    <div ref={wrapRef} className={wrapClass} style={wrapStyle}>
       {inView ? (
         <>
           <video
             ref={videoARef}
             src={src}
+            poster={poster}
             muted
             playsInline
             preload="metadata"
@@ -210,6 +233,7 @@ export function CrossfadeVideo({ src, className }: Props) {
           <video
             ref={videoBRef}
             src={src}
+            poster={poster}
             muted
             playsInline
             preload="metadata"

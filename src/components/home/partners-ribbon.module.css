@@ -80,24 +80,27 @@
   width: max-content;
   align-items: center;
   /* Default duration scales with the new 11-logo set so px/sec stays
-     close to the previous 8-text-item ribbon. */
-  animation: slidePx var(--ribbon-loop-duration, 44s) linear infinite;
+     close to the previous 8-text-item ribbon.
+     Slowed a fraction (was 44s) per requested mobile pacing tweak —
+     the desktop value bumps in proportion so the whole ribbon feels
+     a touch calmer everywhere. */
+  animation: slidePx var(--ribbon-loop-duration, 56s) linear infinite;
 }
 
 /* Per MOBILE_STRATEGY.md §4.5 — the loop offset (half-set width) doesn't
    shrink much with viewport because the partner items aren't fluid, but
    a long sweep on a phone feels glacial. Compress duration on smaller
    viewports so the perceived scroll-through-frame speed stays roughly
-   constant. */
+   constant. Numbers are scaled up alongside the slower desktop default. */
 @media (max-width: 720px) {
   .track {
-    --ribbon-loop-duration: 32s;
+    --ribbon-loop-duration: 42s;
   }
 }
 
 @media (max-width: 560px) {
   .track {
-    --ribbon-loop-duration: 22s;
+    --ribbon-loop-duration: 28s;
   }
 }
 
@@ -127,6 +130,13 @@
   filter: grayscale(1) contrast(0.95);
   opacity: 0.7;
   transition: opacity 0.3s ease, filter 0.3s ease, transform 0.3s ease;
+  /* The ribbon is a passive display strip — no link target, no
+     interaction affordance. Disabling pointer events kills the
+     mobile tap-highlight flash and any focus/active state, which
+     read as accidental "is this clickable?" feedback. */
+  pointer-events: none;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
 }
 
 /* Variant for square logos (e.g. 5050) which need a taller anchor —
@@ -188,18 +198,14 @@
   .label {
     margin-bottom: 40px;
   }
-  /* On mobile drop the .isCenter / .isNear brightness boost — that
-     full-colour-against-grayscale-neighbours treatment reads as a
-     glow on small screens. Replace it with a subtle scale on the
-     centre item, which is more legible on a phone where the row
-     occupies most of the visible width and the focus cue should be
-     proportional rather than tonal. */
+  /* On mobile drop ALL centre/near distinction — keep every logo at
+     the baseline grayscale/opacity. The prior scale(1.12) on the
+     centre item read as a wobble in the row as logos passed through;
+     ribbon now scrolls as a flat, uniform strip. */
   .item.isCenter,
   .item.isNear {
     opacity: 0.7;
     filter: grayscale(1) contrast(0.95);
-  }
-  .item.isCenter {
-    transform: scale(1.12);
+    transform: none;
   }
 }

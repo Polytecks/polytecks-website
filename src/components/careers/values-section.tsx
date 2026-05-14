@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { FadeImage as Image } from "@/components/fade-image";
 import { StackEntry } from "@/components/stack-entry";
 import styles from "./values-section.module.css";
 

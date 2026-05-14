@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "next/image";
+import { FadeImage as Image } from "@/components/fade-image";
 import { FooterColumn, type FooterLink } from "./footer-column";
 import styles from "./footer.module.css";
 

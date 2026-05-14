@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { FadeImage as Image } from "@/components/fade-image";
 import styles from "./hex-portrait.module.css";
 
 export function HexGradientDefs() {

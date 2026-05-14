@@ -38,8 +38,15 @@
 @media (max-width: 720px) {
   .mark {
     /* Mobile: smaller fixed height matched to the tighter logo cap
-       above (40 + 18 + 18 = 76). Equal across all four marks. */
+       above (40 + 18 + 18 = 76). Equal across all four marks.
+       Stretch to the parent grid cell's width so the corner brackets
+       on all four marks form a clean 2×2 with identical frame
+       dimensions — without this each mark sized to its own logo
+       width and the frame widths varied between ~140 and ~174 px. */
     height: 76px;
+    width: 100%;
+    min-width: 0;
+    padding-inline: 12px;
   }
   .logo {
     max-height: 40px;

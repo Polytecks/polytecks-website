@@ -178,7 +178,9 @@
   .logos {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 32px;
-    justify-items: center;
+    gap: 24px 20px;
+    justify-items: stretch;
+    max-width: 360px;
+    margin: 0 auto;
   }
 }

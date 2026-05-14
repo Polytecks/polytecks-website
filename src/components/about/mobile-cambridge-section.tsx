@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { FadeImage as Image } from "@/components/fade-image";
 import styles from "./mobile-cambridge-section.module.css";
 
 /**

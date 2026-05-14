@@ -56,3 +56,7 @@ next-env.d.ts
 
 # Local snapshot of design-tweaks panel state (dev-only, used to lock in defaults)
 /tweaks-snapshot.json
+
+# Originals saved by scripts/image-audit.mjs before in-place compression.
+# Kept locally for rollback; not useful in the repo.
+/public/assets/_orig/

@@ -201,9 +201,16 @@
   .track {
     display: none;
   }
-  /* Inline variant inherits the same pill styling. */
+  /* Inline variant inherits the same pill styling — and on mobile
+     also adopts the full-width-with-cap layout so two adjacent
+     inline CTAs (e.g. the technology page's "See it in action" /
+     "Read our Publications") render at the same width regardless
+     of label length, instead of shrinking to their own content. */
   .link[data-variant="inline"] {
-    display: inline-flex;
+    display: flex;
+    width: 100%;
+    max-width: 360px;
+    margin-inline: auto;
   }
   .link[data-variant="inline"] .label {
     justify-content: center;

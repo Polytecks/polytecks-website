@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { FadeImage as Image } from "@/components/fade-image";
 import { motion } from "framer-motion";
 import { useRef, useState, type CSSProperties } from "react";
 import type { CardImageTweaks } from "@/lib/use-tweaks";

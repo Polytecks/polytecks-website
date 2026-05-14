@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { FadeImage as Image } from "@/components/fade-image";
 import { HexPortrait } from "@/components/hex-portrait";
 import styles from "./team-section.module.css";
 

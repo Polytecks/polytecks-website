@@ -50,7 +50,7 @@ export default function TechnologyPage() {
           <ChargeLink href="/devices" label="See it in action" variant="inline" />
           <ChargeLink
             href="/press#publications"
-            label="Read our peer-reviewed work"
+            label="Read our Publications"
             variant="inline"
           />
         </section>

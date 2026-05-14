@@ -117,4 +117,35 @@
     line-height: 1.5;
     max-width: 100%;
   }
+  /* Subpage header text on mobile can land on top of full-bleed
+     background figures (e.g. the about-page indigo silhouette).
+     Halo the title + lede so they lift cleanly off the figure on
+     both themes — same omnidirectional shadow pattern used on the
+     home hero. The eyebrow already carries its own badge bg so it
+     reads against any backdrop without help. */
+  .title,
+  .lede {
+    text-shadow:
+      0 0 6px rgba(0, 0, 0, 0.7),
+      0 0 16px rgba(0, 0, 0, 0.5),
+      0 0 32px rgba(0, 0, 0, 0.35);
+  }
+}
+
+:global([data-theme="light"]) .title,
+:global([data-theme="light"]) .lede {
+  /* Light theme inverts the halo so the dark glyphs lift off
+     pale-tinted backdrops. Scoped to the same mobile width via
+     the @media above's specificity — light-theme desktop keeps
+     no shadow since there's no overlay legibility risk there. */
+}
+
+@media (max-width: 720px) {
+  :global([data-theme="light"]) .title,
+  :global([data-theme="light"]) .lede {
+    text-shadow:
+      0 0 6px rgba(255, 255, 255, 0.95),
+      0 0 16px rgba(255, 255, 255, 0.85),
+      0 0 32px rgba(255, 255, 255, 0.6);
+  }
 }

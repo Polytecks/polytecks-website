@@ -41,11 +41,16 @@
   .wrap {
     /* On mobile the figure sits behind the text rather than alongside
        it. Span the viewport, edges extended past the 20 px Subpage
-       padding to reach the screen edge. */
+       padding to reach the screen edge.
+       Slightly de-tuned opacity so the figure reads as a background
+       wash rather than a foreground graphic competing with the
+       header copy on top — desktop keeps full strength because the
+       figure sits in its own column there. */
     left: calc(50% - 50vw);
     right: calc(50% - 50vw);
     width: 100vw;
     height: 600px;
+    opacity: 0.55;
   }
   .image {
     /* Mobile keeps cover so the figure fills the full-width band

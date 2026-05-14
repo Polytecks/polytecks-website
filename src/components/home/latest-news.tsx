@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { FadeImage as Image } from "@/components/fade-image";
 import Link from "next/link";
 import { StackEntry } from "@/components/stack-entry";
 import { loadAnnouncements } from "@/data/announcements";

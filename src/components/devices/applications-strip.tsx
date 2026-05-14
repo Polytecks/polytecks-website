@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { FadeImage as Image } from "@/components/fade-image";
 import { useEffect, useState } from "react";
 import { StackEntry } from "@/components/stack-entry";
 import styles from "./applications-strip.module.css";

@@ -65,8 +65,12 @@ export function TopNav() {
 
         {/* Desktop link list — hidden below 720px. ThemeToggle sits at
             the right end of the row as the last item so it doesn't
-            disrupt the existing nav rhythm. */}
-        <div className="hidden items-center gap-2 [@media(min-width:720px)]:flex">
+            disrupt the existing nav rhythm. Wrapper gap is tuned so
+            the visible whitespace between the last link's glyphs and
+            the toggle button matches the inter-link rhythm: each link
+            has 14 px side-padding and the ul-gap is 4 px → glyph-to-
+            glyph spacing is 32 px. 14 + 18 = 32 matches. */}
+        <div className="hidden items-center gap-[18px] [@media(min-width:720px)]:flex">
           <ul className="flex items-center gap-1">
             {NAV_ITEMS.map(({ href, label }) => {
               const active =

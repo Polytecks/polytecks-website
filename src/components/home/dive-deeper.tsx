@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { FadeImage as Image } from "@/components/fade-image";
 import Link from "next/link";
 import { StackEntry } from "@/components/stack-entry";
 import { CrossfadeVideo } from "./crossfade-video";
@@ -9,7 +9,7 @@ type TileData = {
   href: string;
   media:
     | { kind: "image"; src: string; alt: string }
-    | { kind: "video"; src: string };
+    | { kind: "video"; src: string; poster: string };
 };
 
 // Tile definitions are a plain array so swapping label / route / media
@@ -29,10 +29,15 @@ const TILES: TileData[] = [
     label: "See Our Technology",
     href: "/technology",
     media: {
-      // URL-encode the spaces in the filename — the asset on disk is
-      // "polytecks textile vid 1.mp4". Browsers accept this directly.
       kind: "video",
-      src: "/assets/polytecks%20textile%20vid%201.mp4",
+      // 720p re-encode of the 1080p source: ~1.7 MB vs 15 MB, visually
+      // indistinguishable at the tile's display size. The poster is the
+      // first frame extracted as an 80 KB JPG and painted as a CSS
+      // background on the video wrap, so the tile is never a grey
+      // square — the still frame shows instantly and the video swaps
+      // in over the top once decoded.
+      src: "/assets/polytecks-textile-720.mp4",
+      poster: "/assets/polytecks-textile-poster.jpg",
     },
   },
 ];
@@ -80,7 +85,7 @@ function Tile({ label, href, media }: TileData) {
           />
         </div>
       ) : (
-        <CrossfadeVideo src={media.src} />
+        <CrossfadeVideo src={media.src} poster={media.poster} />
       )}
 
       {/* Label-legibility gradient. Sits above the media (z 2) and below
