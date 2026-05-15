@@ -60,7 +60,7 @@ export function TeamSection() {
   return (
     <div id="team" className={styles.section}>
       <h2 className={styles.title}>
-        The Team Behind
+        The Team<span className={styles.titleBehind}> Behind</span>
         <Image
           className={`themeDarkOnly ${styles.titleLogo}`}
           src="/assets/polytecks-logo-white.png"

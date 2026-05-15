@@ -1,6 +1,6 @@
 .fc {
   max-width: 1300px;
-  margin: 120px auto 0;
+  margin: 64px auto 0;
   padding: 0 32px 56px;
 }
 
@@ -220,6 +220,7 @@
 
 @media (max-width: 720px) {
   .fc {
+    margin-top: 32px;
     padding: 0 20px 40px;
     /* Stack the children so we can reorder via `order` — moves the
        pagination arrows from beside the (non-existent on mobile)

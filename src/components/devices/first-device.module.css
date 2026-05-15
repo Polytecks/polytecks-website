@@ -126,13 +126,35 @@
   object-position: center 35%;
 }
 
-/* Product image — fills the box via <Image fill>, contained so the
-   kit's true aspect is preserved and the image is centred both
-   axes inside the black field. */
+/* Kit overlay — sits directly on the dog photo (no white panel
+   anymore). Centred horizontally, anchored near the bottom. The
+   wrapper has a fixed aspect ratio so the contained <Image fill>
+   has a sized box; object-fit: contain inside preserves the kit's
+   true aspect regardless of the wrapper's shape. drop-shadow
+   gives it visual weight against the photo. */
+.kitOverlayWrap {
+  position: absolute;
+  bottom: 3%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 66%;
+  aspect-ratio: 5 / 3;
+  pointer-events: none;
+  z-index: 2;
+}
+
 .kitOverlay {
   object-fit: contain;
-  object-position: center;
-  padding: 6%;
+  object-position: center bottom;
+  /* Dark glow border — stacked drop-shadows on the kit's alpha
+     shape. The first two are zero-offset radial halos that wrap
+     the silhouette in soft darkness so it lifts off the dog
+     photo; the third is the original grounded shadow for weight
+     beneath the kit. */
+  filter:
+    drop-shadow(0 0 14px rgba(0, 0, 0, 0.65))
+    drop-shadow(0 0 28px rgba(0, 0, 0, 0.45))
+    drop-shadow(0 14px 32px rgba(0, 0, 0, 0.5));
 }
 
 /* Bottom box — looping clip in its own bordered frame. The video
@@ -371,12 +393,27 @@
   }
 }
 
-/* Mobile: tighten the breathing-room padding from 6% (felt
-   under-filled) to 3% so the product reads larger inside the top
-   box while still keeping a visible gap on all four edges. */
+/* Mobile: hide the dog photo and stretch the kit-overlay wrapper to
+   fill the whole box, so the SwiftStage product reads as a centred
+   hero on a black field. The drop-shadow is dropped — it existed to
+   lift the kit off the dog photo and isn't needed on plain black. A
+   3 % inset keeps a visible gap on all four edges. */
 @media (max-width: 720px) {
+  .dogImage {
+    display: none;
+  }
+  .kitOverlayWrap {
+    position: absolute;
+    inset: 3%;
+    width: auto;
+    aspect-ratio: auto;
+    transform: none;
+    left: auto;
+    bottom: auto;
+  }
   .kitOverlay {
-    padding: 3%;
+    object-position: center;
+    filter: none;
   }
 }
 

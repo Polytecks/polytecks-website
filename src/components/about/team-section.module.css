@@ -60,6 +60,11 @@
   .teamGrid { grid-template-columns: 1fr; gap: 48px; }
 }
 
+@media (max-width: 720px) {
+  .titleBehind,
+  .titleLogo { display: none; }
+}
+
 /* Per MOBILE_STRATEGY.md §4.9 — move the 2-col breakpoint up from 560
    to 720 (matches the primary mobile breakpoint per §3.4). The earlier
    560 cutoff produced a cramped 3-col layout at 600-560px where the
