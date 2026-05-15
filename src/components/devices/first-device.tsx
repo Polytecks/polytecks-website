@@ -31,26 +31,18 @@ export function FirstDevice() {
       >
         <StackEntry index={7} className={styles.visualSlot}>
           <div className={styles.deviceVisual}>
-            {/* Top box — dog photo edge-to-edge, with the kit
-                overlay (swiftstage2) sitting directly on the photo
-                centred at the bottom. */}
+            {/* Top box — SwiftStage product on a black field, centred.
+                Earlier this carried a dog-patient photo with the kit
+                overlaid at the bottom; we now show only the product
+                so the visual reads as a clean product hero. */}
             <div className={styles.dogBox}>
               <Image
-                src="/assets/swiftstage1.jpg"
-                alt="Dog patient receiving a Polytecks point-of-care measurement"
+                src="/assets/swiftstage2.png"
+                alt="SwiftStage device"
                 fill
                 sizes="(max-width: 960px) 100vw, 50vw"
-                className={styles.dogImage}
+                className={styles.kitOverlay}
               />
-              <div className={styles.kitOverlayWrap} aria-hidden="true">
-                <Image
-                  src="/assets/swiftstage2.png"
-                  alt=""
-                  fill
-                  sizes="(max-width: 960px) 40vw, 22vw"
-                  className={styles.kitOverlay}
-                />
-              </div>
             </div>
             {/* Bottom box — looping clip in its own bordered
                 frame. The video is a WebM with baked-in VP9

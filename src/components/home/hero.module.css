@@ -400,12 +400,17 @@
      lets "Making the Skin" and "a Window into" each fit on one line
      at 320 px even at 36 px headline. Without this, the headline
      fragments to 4-5 lines on narrow viewports.
-     Top padding reserves space for the 72 px fixed nav plus a
-     20 px breathing strip, combined with align-items: flex-start
-     below so stacked mobile content never spills behind the nav. */
+     Top padding sits under the 72 px fixed nav and lets the headline
+     drift a few px under its blurred edge for a tighter composition.
+     Bottom padding: 40 px so the CTAs aren't flush against the next
+     section. min-height is dropped so the hero shrinks to content +
+     padding (the desktop 100vh-72px floor would leave dead space at
+     the bottom on tall mobile viewports once we stopped
+     vertical-centring). */
   .hero {
-    padding: calc(72px + 20px) 20px 20px;
+    padding: 24px 20px 40px;
     align-items: flex-start;
+    min-height: auto;
   }
   /* Drop the inherited `gap: clamp(40px, 5vw, 96px)` row-spacing — at
      mobile the 40 px floor stacks on top of every per-element margin
@@ -462,17 +467,19 @@
     width: 100%;
   }
   .arm img {
-    /* Cap mobile arm to a clean tap-size and centre it explicitly.
-       The desktop max-width clamp(520, 50vw, 940) bottoms out at
-       520 px on small screens, which is wider than any sub-720 px
-       viewport, so width:100% wins and the image fills its track.
-       On wider mobile (e.g. 700 px tablets) the desktop cap kicked
-       in and left the image flush-left because justify-content alone
-       isn't enough when width:100% is also set — explicit margin-auto
-       + a tighter cap centres it predictably across the mobile range. */
-    display: block;
-    margin-inline: auto;
+    /* Cap mobile arm to a clean tap-size. The .arm parent is a
+       flex container with justify-content: center already, so the
+       capped image sits centred without any explicit display/margin
+       overrides — and crucially this preserves the .themeDarkOnly /
+       .themeLightOnly { display: none } toggles that hide one of
+       the two stacked theme variants. (A `display: block` here is
+       higher specificity than those global classes and was leaking
+       both images on top of each other.)
+       Small leftward nudge so the arm reads visually centred against
+       the headline column above rather than the geometric centre of
+       the (slightly narrower) image box. */
     max-width: min(100%, 380px);
+    transform: translateX(-12px);
   }
   .ctas {
     width: 100%;

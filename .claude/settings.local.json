@@ -53,7 +53,9 @@
       "Bash(git push *)",
       "Bash(ffmpeg -y -i \"public/assets/polytecks textile vid 1.mp4\" -vframes 1 -q:v 3 -vf \"scale=1280:-2\" \"public/assets/polytecks-textile-poster.jpg\")",
       "Bash(ffmpeg -y -i \"public/assets/polytecks textile vid 1.mp4\" -vf \"scale=1280:-2\" -c:v libx264 -preset slow -crf 22 -profile:v high -pix_fmt yuv420p -movflags +faststart -an \"public/assets/polytecks-textile-720.mp4\")",
-      "Bash(awk '{print $5, $NF}')"
+      "Bash(awk '{print $5, $NF}')",
+      "Bash(git reset *)",
+      "Bash(git ls-remote *)"
     ]
   },
   "enableAllProjectMcpServers": true,
