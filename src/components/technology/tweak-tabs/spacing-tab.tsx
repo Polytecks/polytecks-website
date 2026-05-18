@@ -26,10 +26,10 @@ export function SpacingTab() {
       <Slider label="Header → Cambridge" value={values.aboutHeaderToCambridge} min={100} max={600} step={10}
         format={(v) => `${v}px`}
         onChange={(v) => setValue("aboutHeaderToCambridge", v)} />
-      <Slider label="Cambridge → Team" value={values.aboutCambridgeToTeam} min={0} max={300} step={10}
+      <Slider label="Cambridge → Team" value={values.aboutCambridgeToTeam} min={-200} max={300} step={10}
         format={(v) => `${v}px`}
         onChange={(v) => setValue("aboutCambridgeToTeam", v)} />
-      <Slider label="Team top gap" value={values.aboutTeamGap} min={0} max={200} step={10}
+      <Slider label="Team top gap" value={values.aboutTeamGap} min={-200} max={200} step={10}
         format={(v) => `${v}px`}
         onChange={(v) => setValue("aboutTeamGap", v)} />
 

@@ -33,11 +33,18 @@ export function MobileCambridgeSection() {
       </p>
 
       <div className={styles.media}>
+        <div className={styles.glow} aria-hidden="true">
+          <div className={styles.glowInner}>
+            <span className={styles.glowLayer1} />
+            <span className={styles.glowLayer2} />
+            <span className={styles.glowLayer3} />
+          </div>
+        </div>
         <Image
-          src="/assets/cambridge.png"
+          src="/assets/cambridge-new.png"
           alt="King's College, University of Cambridge"
-          width={2400}
-          height={1350}
+          width={3840}
+          height={2560}
           sizes="100vw"
           priority
         />

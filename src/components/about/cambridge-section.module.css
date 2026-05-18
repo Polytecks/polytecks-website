@@ -2,14 +2,13 @@
    and a floating ECG legacy badge in the top-right corner. */
 
 .section {
-  /* Pushed down so the title sits further from the AboutHeader/lede.
-     Hardcoded rather than `var(--sp-about-header-to-cambridge, …)`
-     so the design value lives in code; users with the old 280 px
-     value cached in localStorage would otherwise still see the
-     pre-bump spacing. The tweak slider for this still writes to the
-     var on body but no longer reads here. */
-  margin-top: 380px;
-  margin-bottom: var(--sp-about-cambridge-to-team, 160px);
+  /* Top spacing comes from --sp-about-header-to-cambridge, written by
+     the tweak panel (use-tweaks.tsx → aboutHeaderToCambridge). The
+     fallback 190 px matches the current design default; older cached
+     localStorage values are no longer a concern now that the panel is
+     remounted and visitors can tune live. */
+  margin-top: var(--sp-about-header-to-cambridge, 510px);
+  margin-bottom: var(--sp-about-cambridge-to-team, -60px);
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
   position: relative;
@@ -79,114 +78,90 @@
      the .media spans the full section and 8 % drifts further off
      the image as the viewport grows past the image's max-width cap. */
   position: relative;
-  width: max-content;
+  /* Sizing moved from `.media img` to `.media` itself so the explicit
+     width works with `container-type: inline-size` (containment
+     blocks descendant-driven intrinsic sizing, which broke the
+     previous `width: max-content`). The img inside now fills 100%
+     of this box. Aspect ratio also lives here so .media has a
+     concrete height for the absolute .glow + callouts. */
+  width: min(
+    calc(
+      min(clamp(900px, 70vw, 1100px), 100vw)
+      * var(--tw-cb-scale, 1)
+      * (1 - var(--tw-cb-crop-sides, 0))
+    ),
+    100vw
+  );
+  aspect-ratio: 1100 / calc(688 * (1 - var(--tw-cb-crop-bottom, 0)));
   margin: 0 auto;
   overflow: visible;
+  /* Establish a stacking context so the negative-z-index .glow layer
+     stays contained inside .media (won't fall behind the page bg)
+     and so the absolute-positioned .glow paints below the in-flow
+     <img>. Without isolation, absolute children paint above in-flow
+     content in the same stacking context regardless of source order. */
+  isolation: isolate;
+  /* Make .media an inline-size container so the callouts below can
+     size their type and text block via `cqw` — 1cqw == 1% of the
+     image's rendered width. */
+  container-type: inline-size;
 }
 
 .media img {
-  /* The image box's SHAPE is locked via aspect-ratio so the same slice
-     of the source pixels is always visible regardless of viewport size.
-     object-fit: cover with object-position: center top clips into a
-     box of fixed shape, so the bottom crop can never drift on resize.
-     ────────────────────────────────────────────────────────────────────
-     Width fills the viewport up to a 1400 px ceiling — on average
-     laptops (≤1400 px wide) the image is full-bleed, on wider
-     displays it's capped and the surrounding page bg shows on either
-     side. Multiplied by --tw-cb-scale and reduced by
-     --tw-cb-crop-sides.
-     Aspect ratio is locked at 1100 / 619 (the source's natural ratio)
-     and WIDENED by the bottom-crop slider — increasing crop_bottom
-     shortens the box in proportion to its width, which is what
-     "cropping more of the bottom" means. Height is computed from
-     width via aspect-ratio. */
+  /* Width + aspect-ratio now live on .media (see comment above —
+     necessary for container-type: inline-size to work). The img
+     simply fills its parent. object-fit: cover + center bottom
+     anchors the embankment to the box bottom; the natural angled
+     bottom edge stays intact while the upper transparent-sky
+     portion of the source is clipped by the tighter aspect-ratio. */
   display: block;
-  /* Default (mobile through laptop) — scale the image down with
-     the viewport so the cathedral CONTENT is smaller on a 1440
-     laptop than on a 1920 monitor. clamp(900, 70vw, 1100) gives:
-       1100 viewport → 900 px wide  (banner with thin margins)
-       1280 viewport → 896 → 900 px wide
-       1440 viewport → 1008 px wide
-       1599 viewport → 1119 → 1100 px wide
-     Above 1600 the wide-display block lifts the cap to 1400 so
-     big monitors get the full-scale banner the user already
-     loves. min(…, 100vw) keeps the image inside the viewport on
-     anything narrower than 900 px (mobile / small tablet) so it
-     stays full-bleed there. */
-  width: calc(
-    min(clamp(900px, 70vw, 1100px), 100vw)
-    * var(--tw-cb-scale, 1)
-    * (1 - var(--tw-cb-crop-sides, 0))
-  );
-  aspect-ratio: 1100 / calc(619 * (1 - var(--tw-cb-crop-bottom, 0.18)));
-  height: auto;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  object-position: center top;
-  /* Default mask: bottom fade only — no side fade because on average
-     laptop viewports the image runs edge-to-edge, so a side fade
-     would just dim the leftmost/rightmost slice of the image against
-     the page bg, not produce a soft dissolve. Side fade is re-added
-     in the @media (min-width: 1600px) block below where the image
-     genuinely floats inside the viewport. */
-  -webkit-mask-image: linear-gradient(
-    to top,
-    transparent 0%,
-    black var(--tw-cb-bottom-fade, 15%),
-    black 100%
-  );
-  mask-image: linear-gradient(
-    to top,
-    transparent 0%,
-    black var(--tw-cb-bottom-fade, 15%),
-    black 100%
-  );
+  object-position: center bottom;
+  /* No mask here — the bottom-fade is gone (image has a natural
+     bottom edge), and the side fade at ≥1600 px is applied to
+     .media in the wide-display branch below. */
 }
 
 /* Wide-display variant — viewport ≥ 1600 px puts at least 100 px of
    bg on each side of the (capped at 1400 px) image, which is
    enough room for the side fade to read as a soft dissolve into
-   the page bg rather than as a strip of dimmed image.
-   mask-composite: intersect (and the webkit source-in equivalent)
-   shows the image where BOTH masks say "show," so the three fades
-   stack cleanly. Below 1600 px the image is full-bleed and only
-   the bottom mask above applies. */
+   the page bg rather than as a strip of dimmed image. Side-only
+   now that the bottom mask is gone — single gradient, no
+   compositing needed. */
 @media (min-width: 1600px) {
-  .media img {
-    width: calc(
-      min(1400px, 100vw)
-      * var(--tw-cb-scale, 1)
-      * (1 - var(--tw-cb-crop-sides, 0))
+  .media {
+    /* Wider cap on big monitors. Sizing now lives on .media (post
+     * container-type refactor) so the img and the glow share the
+     * exact same box. */
+    width: min(
+      calc(
+        min(1400px, 100vw)
+        * var(--tw-cb-scale, 1)
+        * (1 - var(--tw-cb-crop-sides, 0))
+      ),
+      100vw
     );
-    -webkit-mask-image:
-      linear-gradient(
-        to right,
-        transparent 0%,
-        black var(--tw-cb-side-fade, 8%),
-        black calc(100% - var(--tw-cb-side-fade, 8%)),
-        transparent 100%
-      ),
-      linear-gradient(
-        to top,
-        transparent 0%,
-        black var(--tw-cb-bottom-fade, 15%),
-        black 100%
-      );
-    -webkit-mask-composite: source-in;
-    mask-image:
-      linear-gradient(
-        to right,
-        transparent 0%,
-        black var(--tw-cb-side-fade, 8%),
-        black calc(100% - var(--tw-cb-side-fade, 8%)),
-        transparent 100%
-      ),
-      linear-gradient(
-        to top,
-        transparent 0%,
-        black var(--tw-cb-bottom-fade, 15%),
-        black 100%
-      );
-    mask-composite: intersect;
+    /* Side fade applied here (not on the img) so it propagates to
+     * the glow layer for free — both .media's in-flow img and its
+     * abs-positioned .glow are painted within .media's stacking
+     * context and inherit the mask. Saves duplicating the gradient
+     * on .glow at this breakpoint. */
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black var(--tw-cb-side-fade, 8%),
+      black calc(100% - var(--tw-cb-side-fade, 8%)),
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black var(--tw-cb-side-fade, 8%),
+      black calc(100% - var(--tw-cb-side-fade, 8%)),
+      transparent 100%
+    );
   }
 }
 
@@ -219,19 +194,23 @@
   /* % of .media (the image container) so the callout stays anchored
      to the image as the viewport widens past the image's max-width
      cap. Was vh/vw — caused drift off the image on wide screens. */
-  top: var(--tw-cb-body-callout-top, 10%);
-  left: var(--tw-cb-body-callout-left, 8%);
-  max-width: 480px;
+  top: var(--tw-cb-body-callout-top, 15%);
+  left: var(--tw-cb-body-callout-left, 21%);
+  /* Max-width as a % of .media (the image) instead of an absolute
+     480px. The fixed 480px ate ~60% of the image at narrow laptop
+     widths, pushing the right edge of this block over the chapel. */
+  max-width: var(--tw-cb-callout-maxwidth-pct, 29%);
   z-index: 3;
   font-family: var(--font-sans);
   font-weight: 300;
-  /* Fluid callout size — scales with the viewport so the type
-     stays roughly proportional to the image. At 1440 laptop ≈ 12 px,
-     at 1920 desktop ≈ 15 px, at 2560 ultrawide ≈ 15 px (clamped).
-     Was a fixed 15 px which felt oversized once the laptop image
-     was banner-capped. Still multiplied by the tweak scale so the
-     slider works as before. */
-  font-size: calc(clamp(11px, 0.85vw, 15px) * var(--tw-cb-scale, 1));
+  /* Font size scales with the IMAGE width via container queries —
+     1cqw == 1% of .media's width. The previous `clamp(11px, 0.85vw,
+     15px)` clamped at 11px around 1295px viewport, after which the
+     image kept shrinking but the type didn't, so it ate the image.
+     Plain Ncqw keeps the proportion exact across the desktop range.
+     Still multiplied by --tw-cb-scale so the existing scale slider
+     composes the same way. */
+  font-size: calc(var(--tw-cb-callout-font-cqw, 0.69) * 1cqw * var(--tw-cb-scale, 1));
   line-height: 1.5;
   color: var(--ink);
   margin: 0;
@@ -247,19 +226,15 @@
 .calloutText {
   position: absolute;
   /* % of .media — see note on .bodyText above. */
-  top: var(--tw-cb-callout-top, 10%);
-  left: var(--tw-cb-callout-left, 54%);
-  max-width: 480px;
+  top: var(--tw-cb-callout-top, 15%);
+  left: var(--tw-cb-callout-left, 68%);
+  /* % of .media — see note on .bodyText above. */
+  max-width: var(--tw-cb-callout-maxwidth-pct, 29%);
   z-index: 3;
   font-family: var(--font-sans);
   font-weight: 300;
-  /* Fluid callout size — scales with the viewport so the type
-     stays roughly proportional to the image. At 1440 laptop ≈ 12 px,
-     at 1920 desktop ≈ 15 px, at 2560 ultrawide ≈ 15 px (clamped).
-     Was a fixed 15 px which felt oversized once the laptop image
-     was banner-capped. Still multiplied by the tweak scale so the
-     slider works as before. */
-  font-size: calc(clamp(11px, 0.85vw, 15px) * var(--tw-cb-scale, 1));
+  /* cqw-based font sizing — see note on .bodyText above. */
+  font-size: calc(var(--tw-cb-callout-font-cqw, 0.69) * 1cqw * var(--tw-cb-scale, 1));
   line-height: 1.5;
   color: var(--ink);
   margin: 0;
@@ -274,6 +249,140 @@
   font-style: italic;
   font-weight: 500;
   color: var(--indigo-bright);
+}
+
+/* Cambridge glow layer — sits inside .media, sized to the image's
+   bounding box (inset: 0 inside .media which is width: max-content +
+   in-flow img height). The new source image's sky is transparent, so
+   the glow shows THROUGH the upper part of the image and is occluded
+   by the buildings/grass. Driven entirely by CSS custom properties
+   emitted by use-tweaks.tsx (see --tw-cb-glow-* family). All animation
+   is CSS @keyframes; no JS loops, no observers, no rAF. */
+.glow {
+  position: absolute;
+  inset: 0;
+  z-index: -1;             /* below the in-flow <img>; safe because .media has isolation: isolate */
+  pointer-events: none;
+  overflow: hidden;        /* breathe-scale leakage stays inside the image's box */
+  opacity: calc(var(--tw-cb-glow-enabled, 1) * var(--tw-cb-glow-opacity, 0.46));
+  will-change: opacity;
+  /* Bottom-cut mask. Even though the glow's bounding box matches the
+     image's, the radial gradient itself can light up the area where
+     the photographed embankment/water sits — which is opaque in the
+     image so the glow is occluded there, but if the slider moves the
+     centre down or radius up the glow can creep into pixels that
+     have a thin alpha gradient near the photographed bottom edge.
+     This mask fades the glow to transparent in the bottom
+     --tw-cb-glow-bottom-cut % of its box, with --tw-cb-glow-bottom-angle
+     letting Callan tilt the cut to follow the embankment's slope.
+     We bias from `to top` by the angle, so 0deg = horizontal,
+     positive = right side cuts higher, negative = left side cuts
+     higher. */
+  -webkit-mask-image: linear-gradient(
+    calc(0deg + var(--tw-cb-glow-bottom-angle, 0deg)),
+    transparent 0%,
+    black var(--tw-cb-glow-bottom-cut, 40%),
+    black 100%
+  );
+  mask-image: linear-gradient(
+    calc(0deg + var(--tw-cb-glow-bottom-angle, 0deg)),
+    transparent 0%,
+    black var(--tw-cb-glow-bottom-cut, 40%),
+    black 100%
+  );
+}
+
+/* No separate @media (min-width: 1600px) .glow override needed any
+   more — the wide-display side-fade mask is applied to .media itself
+   (see the ≥1600 block near the top of this file), and the mask
+   propagates to the abs-positioned .glow for free. .glow's default
+   bottom-cut mask stays in place, and the two effectively stack
+   (parent mask × child mask) without explicit mask-composite. */
+
+.glowInner {
+  position: absolute;
+  inset: 0;
+  animation: cbGlowBreathe var(--tw-cb-glow-breathe-s, 5s) ease-in-out infinite;
+  will-change: transform;
+  transform-origin: center;
+}
+
+@keyframes cbGlowBreathe {
+  0%, 100% { transform: scale(var(--tw-cb-glow-scale-min, 0.875)); }
+  50%      { transform: scale(var(--tw-cb-glow-scale-max, 1.125)); }
+}
+
+/* Each layer is a radial gradient centred near the chapel spires.
+   Layer 1 and Layer 3 use the base colour, Layer 2 uses the shift
+   colour, so opacity-modulated cross-fades between them feel like a
+   slow indigo↔violet drift. Each layer transforms independently with
+   slightly different timing so they drift in and out of register —
+   that's the "mottling." */
+.glowLayer1, .glowLayer2, .glowLayer3 {
+  position: absolute;
+  inset: 0;
+  will-change: transform, opacity;
+}
+
+.glowLayer1 {
+  background: radial-gradient(
+    ellipse var(--tw-cb-glow-radius, 48%) var(--tw-cb-glow-radius, 48%)
+      at var(--tw-cb-glow-cx, 50%) var(--tw-cb-glow-cy, 42%),
+    var(--tw-cb-glow-color-1, #675fb4) 0%,
+    transparent 70%
+  );
+  animation: cbGlowDrift1 var(--tw-cb-glow-drift-s, 20s) ease-in-out infinite;
+}
+.glowLayer2 {
+  background: radial-gradient(
+    ellipse calc(var(--tw-cb-glow-radius, 48%) * 0.78) calc(var(--tw-cb-glow-radius, 48%) * 0.92)
+      at calc(var(--tw-cb-glow-cx, 50%) + 8%) calc(var(--tw-cb-glow-cy, 42%) - 4%),
+    var(--tw-cb-glow-color-2, #5937be) 0%,
+    transparent 65%
+  );
+  animation: cbGlowDrift2 calc(var(--tw-cb-glow-drift-s, 20s) * 1.27) ease-in-out infinite;
+  opacity: 0.8;
+}
+.glowLayer3 {
+  background: radial-gradient(
+    ellipse calc(var(--tw-cb-glow-radius, 48%) * 1.15) calc(var(--tw-cb-glow-radius, 48%) * 0.6)
+      at calc(var(--tw-cb-glow-cx, 50%) - 6%) calc(var(--tw-cb-glow-cy, 42%) + 10%),
+    var(--tw-cb-glow-color-1, #675fb4) 0%,
+    transparent 60%
+  );
+  animation: cbGlowDrift3 calc(var(--tw-cb-glow-drift-s, 20s) * 0.83) ease-in-out infinite;
+  opacity: 0.55;
+}
+
+/* Drift keyframes — translate the layer with a magnitude scaled by
+   --tw-cb-glow-mottle (0 = stationary, 1 = full wander). Opacity also
+   modulates so the dominant colour cycles between color-1 and
+   color-2. The three layers use staggered easing curves to keep them
+   from syncing up visually. */
+@keyframes cbGlowDrift1 {
+  0%, 100% { transform: translate(0%, 0%); opacity: 1; }
+  33%      { transform: translate(calc(2.5% * var(--tw-cb-glow-mottle, 0.28)),
+                                   calc(-3.5% * var(--tw-cb-glow-mottle, 0.28))); opacity: 0.7; }
+  66%      { transform: translate(calc(-1.5% * var(--tw-cb-glow-mottle, 0.28)),
+                                   calc(2% * var(--tw-cb-glow-mottle, 0.28))); opacity: 0.9; }
+}
+@keyframes cbGlowDrift2 {
+  0%, 100% { transform: translate(0%, 0%); opacity: 0.5; }
+  40%      { transform: translate(calc(-3% * var(--tw-cb-glow-mottle, 0.28)),
+                                   calc(2.5% * var(--tw-cb-glow-mottle, 0.28))); opacity: 0.95; }
+  70%      { transform: translate(calc(2% * var(--tw-cb-glow-mottle, 0.28)),
+                                   calc(-1.5% * var(--tw-cb-glow-mottle, 0.28))); opacity: 0.65; }
+}
+@keyframes cbGlowDrift3 {
+  0%, 100% { transform: translate(0%, 0%); opacity: 0.7; }
+  25%      { transform: translate(calc(1.5% * var(--tw-cb-glow-mottle, 0.28)),
+                                   calc(2.5% * var(--tw-cb-glow-mottle, 0.28))); opacity: 0.4; }
+  55%      { transform: translate(calc(-2.5% * var(--tw-cb-glow-mottle, 0.28)),
+                                   calc(-2% * var(--tw-cb-glow-mottle, 0.28))); opacity: 0.85; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glowInner, .glowLayer1, .glowLayer2, .glowLayer3 { animation: none; }
 }
 
 @media (max-width: 720px) {

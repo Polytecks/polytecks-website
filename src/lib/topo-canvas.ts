@@ -296,19 +296,9 @@ export class TopoCanvas {
     this.ctx.stroke();
   }
 
-  private lastDrawT = 0;
-
   private draw(t: number) {
     if (!this.running) return;
     this.raf = requestAnimationFrame((tt) => this.draw(tt));
-    // Throttle to ~30 FPS — at the design's slow phase rate
-    // (time * 0.0004 → 0.025 rad/frame on a 60 fps loop) halving the
-    // framerate is visually identical but saves ~50 % of the CPU
-    // budget. Two renderIsolines() passes per draw is the most
-    // expensive part of the page during idle, so this is a steady-
-    // state win for both perceived smoothness AND laptop battery.
-    if (t - this.lastDrawT < 32) return;
-    this.lastDrawT = t;
     const time = t * 0.0004;
 
     const target = this.mouse.active ? 1 : 0;

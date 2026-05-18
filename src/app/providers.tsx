@@ -2,6 +2,11 @@
 
 import { useEffect, type ReactNode } from "react";
 import { TweaksProvider } from "@/lib/use-tweaks";
+// Design-tweak panel is hidden. The TweaksProvider stays mounted so any
+// values already in localStorage continue to apply as CSS vars. To
+// re-enable the panel, uncomment the import below and the <TweakPanel />
+// mount, then visit any page with ?tweaks=1 appended to the URL.
+// import { TweakPanel } from "@/components/technology/tweak-panel";
 
 export function Providers({ children }: { children: ReactNode }) {
   // Reset scroll on every page load. Browsers default to

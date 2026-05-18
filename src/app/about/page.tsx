@@ -8,10 +8,11 @@ export const metadata = {
   title: "About",
 };
 import { Subpage, SubpageHeader } from "@/components/subpage";
+import subpageStyles from "@/components/subpage.module.css";
 
 export default function AboutPage() {
   return (
-    <Subpage>
+    <Subpage className={subpageStyles.cambridgeAligned}>
       <AboutHeaderBackground />
       <HexGradientDefs />
       <SubpageHeader

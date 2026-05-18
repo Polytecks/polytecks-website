@@ -108,6 +108,24 @@
   color: var(--indigo-bright);
 }
 
+/* Scoped alignment helper — pulls the eyebrow / title / lede left by
+   20 px so they line up with the Cambridge section's own title left
+   edge. The Cambridge title uses `margin-left: max(40px, calc(50vw - 530px))`
+   inside a 100vw breakout, which sits 20 px lefter than the standard
+   `.subpage` content column (`max-width: 1100px + padding-left: 40px`
+   ⇒ `50vw - 510px` left edge). The shift only kicks in at viewports
+   wide enough that both elements have escaped their 40 px floor —
+   below ~1140 px both already sit at 40 px from the viewport edge,
+   so no shift is needed. Applied via the about page passing
+   `className={styles.cambridgeAligned}` to <Subpage>. */
+@media (min-width: 1140px) {
+  .cambridgeAligned .eyebrow,
+  .cambridgeAligned .title,
+  .cambridgeAligned .lede {
+    margin-left: -20px;
+  }
+}
+
 @media (max-width: 720px) {
   .subpage {
     padding: 100px 20px 60px;

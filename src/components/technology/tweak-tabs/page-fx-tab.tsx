@@ -1,8 +1,31 @@
 "use client";
 
+import { useState } from "react";
 import { useTweaks, type TitleAnim } from "@/lib/use-tweaks";
 import { Slider } from "./slider";
 import styles from "../tweak-panel.module.css";
+
+/** Inline colour-picker row — matches the Slider row layout so the
+ *  Cambridge glow section reads as a single coherent group. Native
+ *  `<input type="color">` so we don't ship a custom palette UI. */
+function ColorInput({
+  label, value, onChange,
+}: { label: string; value: string; onChange: (v: string) => void }) {
+  return (
+    <div className={styles.row}>
+      <div className={styles.rowLabel}>
+        <span>{label}</span>
+        <span className={styles.value}>{value}</span>
+      </div>
+      <input
+        type="color"
+        className={styles.colorInput}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+      />
+    </div>
+  );
+}
 
 const TITLE_ANIMS: { id: TitleAnim; label: string }[] = [
   { id: "wipe",    label: "Wipe" },
@@ -12,6 +35,54 @@ const TITLE_ANIMS: { id: TitleAnim; label: string }[] = [
 
 export function PageFxTab() {
   const { values, setValue } = useTweaks();
+  const [copyMsg, setCopyMsg] = useState<string | null>(null);
+
+  const copyGlowSnapshot = async () => {
+    const tsBlock = [
+      "/* Paste into use-tweaks.tsx — TWEAK_DEFAULTS */",
+      `cambridgeGlowEnabled: ${values.cambridgeGlowEnabled},`,
+      `cambridgeGlowOpacity: ${values.cambridgeGlowOpacity},`,
+      `cambridgeGlowCenterXPct: ${values.cambridgeGlowCenterXPct},`,
+      `cambridgeGlowCenterYPct: ${values.cambridgeGlowCenterYPct},`,
+      `cambridgeGlowRadiusPct: ${values.cambridgeGlowRadiusPct},`,
+      `cambridgeGlowColor1: "${values.cambridgeGlowColor1}",`,
+      `cambridgeGlowColor2: "${values.cambridgeGlowColor2}",`,
+      `cambridgeGlowDriftS: ${values.cambridgeGlowDriftS},`,
+      `cambridgeGlowBreatheS: ${values.cambridgeGlowBreatheS},`,
+      `cambridgeGlowBreatheAmp: ${values.cambridgeGlowBreatheAmp},`,
+      `cambridgeGlowMottle: ${values.cambridgeGlowMottle},`,
+      `cambridgeGlowBottomCutPct: ${values.cambridgeGlowBottomCutPct},`,
+      `cambridgeGlowBottomAngleDeg: ${values.cambridgeGlowBottomAngleDeg},`,
+    ].join("\n");
+    const amp = values.cambridgeGlowBreatheAmp;
+    const cssBlock = [
+      "/* Paste into cambridge-section.module.css fallback defaults */",
+      `--tw-cb-glow-enabled: ${values.cambridgeGlowEnabled ? 1 : 0};`,
+      `--tw-cb-glow-opacity: ${values.cambridgeGlowOpacity};`,
+      `--tw-cb-glow-cx: ${values.cambridgeGlowCenterXPct}%;`,
+      `--tw-cb-glow-cy: ${values.cambridgeGlowCenterYPct}%;`,
+      `--tw-cb-glow-radius: ${values.cambridgeGlowRadiusPct}%;`,
+      `--tw-cb-glow-color-1: ${values.cambridgeGlowColor1};`,
+      `--tw-cb-glow-color-2: ${values.cambridgeGlowColor2};`,
+      `--tw-cb-glow-drift-s: ${values.cambridgeGlowDriftS}s;`,
+      `--tw-cb-glow-breathe-s: ${values.cambridgeGlowBreatheS}s;`,
+      `--tw-cb-glow-scale-min: ${(1 - amp).toFixed(4)};`,
+      `--tw-cb-glow-scale-max: ${(1 + amp).toFixed(4)};`,
+      `--tw-cb-glow-mottle: ${values.cambridgeGlowMottle};`,
+      `--tw-cb-glow-bottom-cut: ${values.cambridgeGlowBottomCutPct}%;`,
+      `--tw-cb-glow-bottom-angle: ${values.cambridgeGlowBottomAngleDeg}deg;`,
+    ].join("\n");
+    const snapshot = `${tsBlock}\n\n${cssBlock}\n`;
+    try {
+      await navigator.clipboard.writeText(snapshot);
+      setCopyMsg("Copied glow values to clipboard");
+    } catch {
+      setCopyMsg("Clipboard blocked — open devtools console");
+      // eslint-disable-next-line no-console
+      console.log(snapshot);
+    }
+    setTimeout(() => setCopyMsg(null), 3000);
+  };
 
   return (
     <>
@@ -100,6 +171,12 @@ export function PageFxTab() {
       <Slider label="Cambridge body callout left" value={values.cambridgeBodyCalloutLeftVw} min={0} max={100} step={1}
         format={(v) => `${v}%`}
         onChange={(v) => setValue("cambridgeBodyCalloutLeftVw", v)} />
+      <Slider label="Callout font (cqw)" value={values.cambridgeCalloutFontCqw} min={0.4} max={1.5} step={0.01}
+        format={(v) => `${v.toFixed(2)}cqw`}
+        onChange={(v) => setValue("cambridgeCalloutFontCqw", v)} />
+      <Slider label="Callout max-width" value={values.cambridgeCalloutMaxWidthPct} min={20} max={80} step={1}
+        format={(v) => `${v}%`}
+        onChange={(v) => setValue("cambridgeCalloutMaxWidthPct", v)} />
       <Slider label="Cambridge scale" value={values.cambridgeImgScale} min={0.4} max={1.5} step={0.02}
         format={(v) => `${v.toFixed(2)}×`}
         onChange={(v) => setValue("cambridgeImgScale", v)} />
@@ -112,10 +189,67 @@ export function PageFxTab() {
       <Slider label="Cambridge side fade" value={values.cambridgeSideFadePct} min={0} max={30} step={1}
         format={(v) => `${v}%`}
         onChange={(v) => setValue("cambridgeSideFadePct", v)} />
-      <Slider label="Cambridge bottom fade" value={values.cambridgeBottomFadePct} min={0} max={50} step={1}
-        format={(v) => `${v}%`}
-        onChange={(v) => setValue("cambridgeBottomFadePct", v)} />
 
+      <div className={styles.divider} />
+
+      <div className={styles.row}>
+        <div className={styles.rowLabel}><span>CAMBRIDGE GLOW</span></div>
+      </div>
+      <div className={styles.row}>
+        <div className={styles.rowLabel}>
+          <span>Glow on</span>
+          <span className={styles.value}>{values.cambridgeGlowEnabled ? "on" : "off"}</span>
+        </div>
+        <div className={styles.segmented}>
+          <button type="button" className={styles.segment}
+            data-active={values.cambridgeGlowEnabled === true}
+            onClick={() => setValue("cambridgeGlowEnabled", true)}>On</button>
+          <button type="button" className={styles.segment}
+            data-active={values.cambridgeGlowEnabled === false}
+            onClick={() => setValue("cambridgeGlowEnabled", false)}>Off</button>
+        </div>
+      </div>
+      <Slider label="Glow opacity" value={values.cambridgeGlowOpacity} min={0} max={1} step={0.02}
+        format={(v) => v.toFixed(2)}
+        onChange={(v) => setValue("cambridgeGlowOpacity", v)} />
+      <Slider label="Glow centre X" value={values.cambridgeGlowCenterXPct} min={0} max={100} step={1}
+        format={(v) => `${v}%`}
+        onChange={(v) => setValue("cambridgeGlowCenterXPct", v)} />
+      <Slider label="Glow centre Y" value={values.cambridgeGlowCenterYPct} min={0} max={100} step={1}
+        format={(v) => `${v}%`}
+        onChange={(v) => setValue("cambridgeGlowCenterYPct", v)} />
+      <Slider label="Glow radius" value={values.cambridgeGlowRadiusPct} min={10} max={150} step={1}
+        format={(v) => `${v}%`}
+        onChange={(v) => setValue("cambridgeGlowRadiusPct", v)} />
+      <ColorInput label="Glow base colour" value={values.cambridgeGlowColor1}
+        onChange={(v) => setValue("cambridgeGlowColor1", v)} />
+      <ColorInput label="Glow shift colour" value={values.cambridgeGlowColor2}
+        onChange={(v) => setValue("cambridgeGlowColor2", v)} />
+      <Slider label="Colour drift" value={values.cambridgeGlowDriftS} min={5} max={80} step={1}
+        format={(v) => `${v}s`}
+        onChange={(v) => setValue("cambridgeGlowDriftS", v)} />
+      <Slider label="Breathe duration" value={values.cambridgeGlowBreatheS} min={5} max={40} step={1}
+        format={(v) => `${v}s`}
+        onChange={(v) => setValue("cambridgeGlowBreatheS", v)} />
+      <Slider label="Breathe amplitude" value={values.cambridgeGlowBreatheAmp} min={0} max={0.2} step={0.005}
+        format={(v) => `±${(v * 100).toFixed(1)}%`}
+        onChange={(v) => setValue("cambridgeGlowBreatheAmp", v)} />
+      <Slider label="Mottle intensity" value={values.cambridgeGlowMottle} min={0} max={1} step={0.02}
+        format={(v) => v.toFixed(2)}
+        onChange={(v) => setValue("cambridgeGlowMottle", v)} />
+      <Slider label="Glow bottom cut" value={values.cambridgeGlowBottomCutPct} min={0} max={40} step={1}
+        format={(v) => `${v}%`}
+        onChange={(v) => setValue("cambridgeGlowBottomCutPct", v)} />
+      <Slider label="Glow bottom angle" value={values.cambridgeGlowBottomAngleDeg} min={-10} max={10} step={0.5}
+        format={(v) => `${v}°`}
+        onChange={(v) => setValue("cambridgeGlowBottomAngleDeg", v)} />
+
+      <div className={styles.row}>
+        <button type="button" className={styles.snapshot} onClick={copyGlowSnapshot}>
+          📋 Save current glow values
+        </button>
+        {copyMsg ? <div className={styles.snapshotMsg}>{copyMsg}</div> : null}
+      </div>
 
       <div className={styles.divider} />
 

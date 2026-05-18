@@ -47,9 +47,17 @@
   position: relative;
   width: 100%;
   margin: 0;
-  /* Locked aspect ratio — more square than desktop's 16:9 so the photo
-     doesn't dominate the scroll on tall phones. */
-  aspect-ratio: 4 / 3;
+  /* Aspect ratio 8/5 (= 1.6) — moderately tighter than the source's
+     3:2 so some of the transparent-sky portion is cropped down.
+     Combined with `object-position: center bottom` below, the
+     embankment is anchored to the box bottom and the upper sky gets
+     clipped, so the chapel sits closer to the section title.
+     Mirrors the desktop 1.6 ratio. */
+  aspect-ratio: 8 / 5;
+  /* Stacking context for the negative-z-index glow layer (mirrors
+     desktop). Without isolation the glow could fall behind the page
+     bg rather than staying inside the image's bounding box. */
+  isolation: isolate;
 }
 
 .media img {
@@ -57,22 +65,12 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center top;
-  /* Bottom-only fade (Layer B). With the image now full-bleed at 100vw
-     (margin-x: calc(50% - 50vw) on .section + width:100% on .media),
-     the desktop's left/right Layer A fade made the image look inset
-     from the viewport edges instead of touching them. Bottom Layer B
-     stays — it dissolves the photo into the dark page beneath, which
-     is the desktop identity treatment per WEBSITE_REFERENCE.md §5.2.2.
-     Top stays hard so the King's College spires cut clean. */
-  -webkit-mask-image: linear-gradient(to top,
-    transparent 0%,
-    black 18%,
-    black 100%);
-  mask-image: linear-gradient(to top,
-    transparent 0%,
-    black 18%,
-    black 100%);
+  object-position: center bottom;
+  /* Bottom mask fade removed — the new cut-out image has a natural
+     diagonal bottom edge (embankment / water), and we anchor that
+     bottom to the box bottom via `object-position: center bottom`.
+     Some of the transparent sky at the top of the source is clipped
+     by the tighter 7/4 aspect ratio above. */
 }
 
 .callout {
@@ -91,4 +89,110 @@
   font-style: italic;
   font-weight: 500;
   color: var(--indigo-bright);
+}
+
+/* Cambridge glow — mirrors the desktop glow layer. Same DOM structure
+   (.glow > .glowInner > 3× .glowLayerN), same CSS custom properties
+   (--tw-cb-glow-*) so the tweak panel controls both at once. The
+   keyframes are duplicated here rather than imported because CSS
+   Modules don't share @keyframes across files; the names are scoped
+   per-module ("cbGlowBreatheM", "cbGlowDrift1M" etc.) to avoid
+   collisions with the desktop file in the same page (when one
+   variant unmounts the other's animations should already be GC'd,
+   but explicit scoping is safer). */
+.glow {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: calc(var(--tw-cb-glow-enabled, 1) * var(--tw-cb-glow-opacity, 0.46));
+  will-change: opacity;
+  -webkit-mask-image: linear-gradient(
+    calc(0deg + var(--tw-cb-glow-bottom-angle, 0deg)),
+    transparent 0%,
+    black var(--tw-cb-glow-bottom-cut, 40%),
+    black 100%
+  );
+  mask-image: linear-gradient(
+    calc(0deg + var(--tw-cb-glow-bottom-angle, 0deg)),
+    transparent 0%,
+    black var(--tw-cb-glow-bottom-cut, 40%),
+    black 100%
+  );
+}
+
+.glowInner {
+  position: absolute;
+  inset: 0;
+  animation: cbGlowBreatheM var(--tw-cb-glow-breathe-s, 5s) ease-in-out infinite;
+  will-change: transform;
+  transform-origin: center;
+}
+
+@keyframes cbGlowBreatheM {
+  0%, 100% { transform: scale(var(--tw-cb-glow-scale-min, 0.875)); }
+  50%      { transform: scale(var(--tw-cb-glow-scale-max, 1.125)); }
+}
+
+.glowLayer1, .glowLayer2, .glowLayer3 {
+  position: absolute;
+  inset: 0;
+  will-change: transform, opacity;
+}
+
+.glowLayer1 {
+  background: radial-gradient(
+    ellipse var(--tw-cb-glow-radius, 48%) var(--tw-cb-glow-radius, 48%)
+      at var(--tw-cb-glow-cx, 50%) var(--tw-cb-glow-cy, 42%),
+    var(--tw-cb-glow-color-1, #675fb4) 0%,
+    transparent 70%
+  );
+  animation: cbGlowDrift1M var(--tw-cb-glow-drift-s, 20s) ease-in-out infinite;
+}
+.glowLayer2 {
+  background: radial-gradient(
+    ellipse calc(var(--tw-cb-glow-radius, 48%) * 0.78) calc(var(--tw-cb-glow-radius, 48%) * 0.92)
+      at calc(var(--tw-cb-glow-cx, 50%) + 8%) calc(var(--tw-cb-glow-cy, 42%) - 4%),
+    var(--tw-cb-glow-color-2, #5937be) 0%,
+    transparent 65%
+  );
+  animation: cbGlowDrift2M calc(var(--tw-cb-glow-drift-s, 20s) * 1.27) ease-in-out infinite;
+  opacity: 0.8;
+}
+.glowLayer3 {
+  background: radial-gradient(
+    ellipse calc(var(--tw-cb-glow-radius, 48%) * 1.15) calc(var(--tw-cb-glow-radius, 48%) * 0.6)
+      at calc(var(--tw-cb-glow-cx, 50%) - 6%) calc(var(--tw-cb-glow-cy, 42%) + 10%),
+    var(--tw-cb-glow-color-1, #675fb4) 0%,
+    transparent 60%
+  );
+  animation: cbGlowDrift3M calc(var(--tw-cb-glow-drift-s, 20s) * 0.83) ease-in-out infinite;
+  opacity: 0.55;
+}
+
+@keyframes cbGlowDrift1M {
+  0%, 100% { transform: translate(0%, 0%); opacity: 1; }
+  33%      { transform: translate(calc(2.5% * var(--tw-cb-glow-mottle, 0.28)),
+                                   calc(-3.5% * var(--tw-cb-glow-mottle, 0.28))); opacity: 0.7; }
+  66%      { transform: translate(calc(-1.5% * var(--tw-cb-glow-mottle, 0.28)),
+                                   calc(2% * var(--tw-cb-glow-mottle, 0.28))); opacity: 0.9; }
+}
+@keyframes cbGlowDrift2M {
+  0%, 100% { transform: translate(0%, 0%); opacity: 0.5; }
+  40%      { transform: translate(calc(-3% * var(--tw-cb-glow-mottle, 0.28)),
+                                   calc(2.5% * var(--tw-cb-glow-mottle, 0.28))); opacity: 0.95; }
+  70%      { transform: translate(calc(2% * var(--tw-cb-glow-mottle, 0.28)),
+                                   calc(-1.5% * var(--tw-cb-glow-mottle, 0.28))); opacity: 0.65; }
+}
+@keyframes cbGlowDrift3M {
+  0%, 100% { transform: translate(0%, 0%); opacity: 0.7; }
+  25%      { transform: translate(calc(1.5% * var(--tw-cb-glow-mottle, 0.28)),
+                                   calc(2.5% * var(--tw-cb-glow-mottle, 0.28))); opacity: 0.4; }
+  55%      { transform: translate(calc(-2.5% * var(--tw-cb-glow-mottle, 0.28)),
+                                   calc(-2% * var(--tw-cb-glow-mottle, 0.28))); opacity: 0.85; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glowInner, .glowLayer1, .glowLayer2, .glowLayer3 { animation: none; }
 }

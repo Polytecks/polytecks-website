@@ -10,7 +10,7 @@
      Falls back to 3× viewport. Mobile + reduced-motion media queries below
      override to height: auto so the section collapses to its natural size. */
   height: var(--tw-proof-height, 300vh);
-  margin-top: var(--sp-tech-pillars-to-proof, 0px);
+  margin-top: var(--sp-tech-pillars-to-proof, 64px);
   background: transparent;
 }
 

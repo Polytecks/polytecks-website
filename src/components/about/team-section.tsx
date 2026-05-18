@@ -19,7 +19,6 @@ const TEAM = [
     src: "/assets/team-charlie.png",
     name: "Charles Hoang",
     role: "Founding Engineer",
-    href: "https://www.linkedin.com/in/cwhbrunt/",
   },
 ] as const;
 
@@ -86,7 +85,7 @@ export function TeamSection() {
             alt={m.name}
             name={m.name}
             role={m.role}
-            href={m.href}
+            href={"href" in m ? m.href : undefined}
           />
         ))}
       </div>

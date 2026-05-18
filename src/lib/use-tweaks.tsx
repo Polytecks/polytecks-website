@@ -68,6 +68,13 @@ export type TweakValues = {
   // Wider ranges so the callout can be placed anywhere over/around the image.
   cambridgeCalloutTopVh: number;   // 0 → 100 (vh — top offset from image top)
   cambridgeCalloutLeftVw: number;  // 0 → 100 (vw — left offset from image left)
+  // Cambridge callout typography — both callouts (body + ECG) scale
+  // their font-size and max-width as a % of the IMAGE width (via
+  // container queries on .media), not the viewport. Keeps the text
+  // proportional to the image at every viewport so it doesn't overlap
+  // the chapel on narrow laptop screens.
+  cambridgeCalloutFontCqw: number;       // 0.4 → 1.5, default 0.85 (cqw multiplier; 1cqw = 1% of image width)
+  cambridgeCalloutMaxWidthPct: number;   // 20 → 80, default 44 (% of image width)
   // Cambridge body callout ("Polytecks grew out of…") — positioned
   // independently from the ECG callout so the two can sit side-by-side.
   cambridgeBodyCalloutTopVh: number;   // 0 → 100 (vh)
@@ -77,7 +84,24 @@ export type TweakValues = {
   cambridgeCropBottom: number;   // 0 → 0.6, default 0 (fraction trimmed from bottom)
   cambridgeCropSides: number;    // 0 → 0.4, default 0 (fraction trimmed from sides)
   cambridgeSideFadePct: number;  // 0 → 30, default 8 (% reach inward from each side)
-  cambridgeBottomFadePct: number;// 0 → 50, default 15 (% reach upward from bottom)
+  cambridgeBottomFadePct: number;// 0 → 50, default 15 (% reach upward from bottom) — DEPRECATED, no longer read by CSS (the new cut-out image has a natural bottom edge). Field retained for stored-snapshot compatibility.
+
+  // Cambridge glow layer — animated indigo/violet wash behind the
+  // (transparent-sky) image. CSS-only, GPU-friendly, no JS loops.
+  // All values feed into --tw-cb-glow-* custom properties on body.
+  cambridgeGlowEnabled: boolean;       // master on/off
+  cambridgeGlowOpacity: number;        // 0 → 1, base wrapper opacity
+  cambridgeGlowCenterXPct: number;     // 0 → 100, gradient centre X (% of image)
+  cambridgeGlowCenterYPct: number;     // 0 → 100, gradient centre Y
+  cambridgeGlowRadiusPct: number;      // 10 → 150, ellipse radius (% of short edge)
+  cambridgeGlowColor1: string;         // base hex (#rrggbb)
+  cambridgeGlowColor2: string;         // shift hex (#rrggbb) — second hue drifted toward
+  cambridgeGlowDriftS: number;         // 5 → 80, colour drift cycle seconds
+  cambridgeGlowBreatheS: number;       // 5 → 40, breathe scale cycle seconds
+  cambridgeGlowBreatheAmp: number;     // 0 → 0.2, breathe scale half-amplitude
+  cambridgeGlowMottle: number;         // 0 → 1, relative offset between layers
+  cambridgeGlowBottomCutPct: number;   // 0 → 40, % of glow box masked out at the bottom (matches the image's angled embankment)
+  cambridgeGlowBottomAngleDeg: number; // -10 → 10, tilt of the bottom-cut mask, matches the embankment's slope
 
 
   // Contact image — independent: image scale, offset, spotlight position, spotlight size
@@ -101,8 +125,8 @@ export type TweakValues = {
   homeMissionMargin: number;          // 0 → 200, default 80
   homeRibbonMargin: number;           // 0 → 200, default 80
   aboutHeaderToCambridge: number;     // 100 → 600, default 320 (matches existing)
-  aboutCambridgeToTeam: number;       // 0 → 300, default 80
-  aboutTeamGap: number;               // 0 → 200, default 80
+  aboutCambridgeToTeam: number;       // -200 → 300, default 0 (negative pulls team UP into Cambridge's box)
+  aboutTeamGap: number;               // -200 → 200, default 80
   techHeroToPillars: number;          // 0 → 200, default 0
   techPillarsToProof: number;         // 0 → 200, default 0
   techProofToPhilosophy: number;      // 0 → 200, default 0
@@ -167,15 +191,31 @@ export const TWEAK_DEFAULTS: TweakValues = {
   pillarCardStaggerMs: 280,
   devicesIconStaggerMs: 80,
 
-  cambridgeCalloutTopVh: 17,
-  cambridgeCalloutLeftVw: 61,
-  cambridgeBodyCalloutTopVh: 31,
-  cambridgeBodyCalloutLeftVw: 7,
+  cambridgeCalloutTopVh: 15,
+  cambridgeCalloutLeftVw: 68,
+  cambridgeBodyCalloutTopVh: 15,
+  cambridgeBodyCalloutLeftVw: 21,
+  cambridgeCalloutFontCqw: 0.69,
+  cambridgeCalloutMaxWidthPct: 29,
   cambridgeImgScale: 1.5,
-  cambridgeCropBottom: 0.16,
+  cambridgeCropBottom: 0,
   cambridgeCropSides: 0,
   cambridgeSideFadePct: 7,
   cambridgeBottomFadePct: 12,
+
+  cambridgeGlowEnabled: true,
+  cambridgeGlowOpacity: 0.46,
+  cambridgeGlowCenterXPct: 50,
+  cambridgeGlowCenterYPct: 42,
+  cambridgeGlowRadiusPct: 48,
+  cambridgeGlowColor1: "#675fb4",
+  cambridgeGlowColor2: "#5937be",
+  cambridgeGlowDriftS: 20,
+  cambridgeGlowBreatheS: 5,
+  cambridgeGlowBreatheAmp: 0.125,
+  cambridgeGlowMottle: 0.28,
+  cambridgeGlowBottomCutPct: 40,
+  cambridgeGlowBottomAngleDeg: 0,
 
 
   contactImgScale: 0.9,
@@ -193,11 +233,11 @@ export const TWEAK_DEFAULTS: TweakValues = {
 
   homeMissionMargin: 0,
   homeRibbonMargin: 0,
-  aboutHeaderToCambridge: 190,
-  aboutCambridgeToTeam: 200,
+  aboutHeaderToCambridge: 510,
+  aboutCambridgeToTeam: -60,
   aboutTeamGap: 100,
   techHeroToPillars: 200,
-  techPillarsToProof: 32,
+  techPillarsToProof: 64,
   techProofToPhilosophy: 200,
   devicesHeaderToStrip: 104,
   devicesStripGapBelow: 132,
@@ -276,6 +316,8 @@ function applyToBody(values: TweakValues) {
   body.style.setProperty("--tw-cb-callout-left", `${values.cambridgeCalloutLeftVw}%`);
   body.style.setProperty("--tw-cb-body-callout-top", `${values.cambridgeBodyCalloutTopVh}%`);
   body.style.setProperty("--tw-cb-body-callout-left", `${values.cambridgeBodyCalloutLeftVw}%`);
+  body.style.setProperty("--tw-cb-callout-font-cqw", String(values.cambridgeCalloutFontCqw));
+  body.style.setProperty("--tw-cb-callout-maxwidth-pct", `${values.cambridgeCalloutMaxWidthPct}%`);
 
   // Cambridge image — single source of truth: the box.
   body.style.setProperty("--tw-cb-scale", String(values.cambridgeImgScale));
@@ -283,6 +325,26 @@ function applyToBody(values: TweakValues) {
   body.style.setProperty("--tw-cb-crop-sides", String(values.cambridgeCropSides));
   body.style.setProperty("--tw-cb-side-fade", `${values.cambridgeSideFadePct}%`);
   body.style.setProperty("--tw-cb-bottom-fade", `${values.cambridgeBottomFadePct}%`);
+
+  // Cambridge glow — emitted as CSS vars consumed by .glow / .glowInner /
+  // .glowLayer* in cambridge-section.module.css and mobile-cambridge-section.module.css.
+  // Scale endpoints are pre-computed here (number, no calc) so the CSS
+  // keyframes can use them directly inside transform: scale().
+  const glowAmp = values.cambridgeGlowBreatheAmp;
+  body.style.setProperty("--tw-cb-glow-enabled", values.cambridgeGlowEnabled ? "1" : "0");
+  body.style.setProperty("--tw-cb-glow-opacity", String(values.cambridgeGlowOpacity));
+  body.style.setProperty("--tw-cb-glow-cx", `${values.cambridgeGlowCenterXPct}%`);
+  body.style.setProperty("--tw-cb-glow-cy", `${values.cambridgeGlowCenterYPct}%`);
+  body.style.setProperty("--tw-cb-glow-radius", `${values.cambridgeGlowRadiusPct}%`);
+  body.style.setProperty("--tw-cb-glow-color-1", values.cambridgeGlowColor1);
+  body.style.setProperty("--tw-cb-glow-color-2", values.cambridgeGlowColor2);
+  body.style.setProperty("--tw-cb-glow-drift-s", `${values.cambridgeGlowDriftS}s`);
+  body.style.setProperty("--tw-cb-glow-breathe-s", `${values.cambridgeGlowBreatheS}s`);
+  body.style.setProperty("--tw-cb-glow-scale-min", String((1 - glowAmp).toFixed(4)));
+  body.style.setProperty("--tw-cb-glow-scale-max", String((1 + glowAmp).toFixed(4)));
+  body.style.setProperty("--tw-cb-glow-mottle", String(values.cambridgeGlowMottle));
+  body.style.setProperty("--tw-cb-glow-bottom-cut", `${values.cambridgeGlowBottomCutPct}%`);
+  body.style.setProperty("--tw-cb-glow-bottom-angle", `${values.cambridgeGlowBottomAngleDeg}deg`);
 
 
   // Contact image — scale, offset, spotlight (all independent)
