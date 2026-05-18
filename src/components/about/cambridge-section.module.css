@@ -32,11 +32,11 @@
   font-size: clamp(28px, 3vw, 44px);
   line-height: 1.15;
   letter-spacing: -0.02em;
-  /* Gap between the section title and the image below. Bumped to
-     28 px so the title doesn't feel pressed against the image's top
-     edge — the space above the title is still driven by the section's
-     --sp-about-header-to-cambridge margin. */
-  margin-bottom: 28px;
+  /* Gap between the section title and the image below. Kept tight at
+     8 px so the title sits close to the image — the space above the
+     title is driven by the section's --sp-about-header-to-cambridge
+     margin. */
+  margin-bottom: 8px;
   margin-left: max(40px, calc(50vw - 530px));
   margin-right: max(40px, calc(50vw - 530px));
   max-width: none;
