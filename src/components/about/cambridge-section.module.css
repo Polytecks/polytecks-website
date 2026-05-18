@@ -8,7 +8,7 @@
      localStorage values are no longer a concern now that the panel is
      remounted and visitors can tune live. */
   margin-top: var(--sp-about-header-to-cambridge, 510px);
-  margin-bottom: var(--sp-about-cambridge-to-team, -60px);
+  margin-bottom: var(--sp-about-cambridge-to-team, -30px);
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
   position: relative;
@@ -32,10 +32,11 @@
   font-size: clamp(28px, 3vw, 44px);
   line-height: 1.15;
   letter-spacing: -0.02em;
-  /* Tightened so the title sits close to the image below; the
-     extra space requested above the title comes from the section's
-     top margin (--sp-about-header-to-cambridge in use-tweaks.tsx). */
-  margin-bottom: 8px;
+  /* Gap between the section title and the image below. Bumped to
+     28 px so the title doesn't feel pressed against the image's top
+     edge — the space above the title is still driven by the section's
+     --sp-about-header-to-cambridge margin. */
+  margin-bottom: 28px;
   margin-left: max(40px, calc(50vw - 530px));
   margin-right: max(40px, calc(50vw - 530px));
   max-width: none;
@@ -194,8 +195,8 @@
   /* % of .media (the image container) so the callout stays anchored
      to the image as the viewport widens past the image's max-width
      cap. Was vh/vw — caused drift off the image on wide screens. */
-  top: var(--tw-cb-body-callout-top, 15%);
-  left: var(--tw-cb-body-callout-left, 21%);
+  top: var(--tw-cb-body-callout-top, 3%);
+  left: var(--tw-cb-body-callout-left, 25%);
   /* Max-width as a % of .media (the image) instead of an absolute
      480px. The fixed 480px ate ~60% of the image at narrow laptop
      widths, pushing the right edge of this block over the chapel. */
@@ -226,8 +227,8 @@
 .calloutText {
   position: absolute;
   /* % of .media — see note on .bodyText above. */
-  top: var(--tw-cb-callout-top, 15%);
-  left: var(--tw-cb-callout-left, 68%);
+  top: var(--tw-cb-callout-top, 3%);
+  left: var(--tw-cb-callout-left, 62%);
   /* % of .media — see note on .bodyText above. */
   max-width: var(--tw-cb-callout-maxwidth-pct, 29%);
   z-index: 3;
