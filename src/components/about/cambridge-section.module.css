@@ -192,11 +192,19 @@
    text via padding so it scales with the type. */
 .bodyText {
   position: absolute;
-  /* % of .media (the image container) so the callout stays anchored
-     to the image as the viewport widens past the image's max-width
-     cap. Was vh/vw — caused drift off the image on wide screens. */
+  /* Vertical position is % of .media (the image container) so the
+     callout stays anchored to the image as it scales across
+     viewports — see the tweak panel's body callout Y slider. */
   top: var(--tw-cb-body-callout-top, 3%);
-  left: var(--tw-cb-body-callout-left, 25%);
+  /* Horizontal position pinned to the section title's left edge.
+     .title uses `margin-left: max(40px, calc(50vw - 530px))` from
+     the 100vw .section. Since .media is centred via `margin: 0 auto`,
+     its left:50% point coincides with viewport-centre, so
+     `max(40px, calc(50% - 530px))` here (measured from .media's left
+     edge) produces the same viewport-x as the title at every
+     viewport — both narrow (40px floor) and wide. No longer reads
+     `--tw-cb-body-callout-left`; that var/slider is now inert. */
+  left: max(40px, calc(50% - 530px));
   /* Max-width as a % of .media (the image) instead of an absolute
      480px. The fixed 480px ate ~60% of the image at narrow laptop
      widths, pushing the right edge of this block over the chapel. */
@@ -226,9 +234,16 @@
    ~2 lines instead of stacking 4 narrow ones. */
 .calloutText {
   position: absolute;
-  /* % of .media — see note on .bodyText above. */
-  top: var(--tw-cb-callout-top, 3%);
-  left: var(--tw-cb-callout-left, 62%);
+  /* Vertical position is % of .media — see note on .bodyText above.
+     Default 13% places this callout cleanly below the body callout
+     (which sits at top: 3% with ~3 wrapped lines = ~7.5% of media
+     height tall). Tunable via the ECG callout top slider. */
+  top: var(--tw-cb-callout-top, 12%);
+  /* Horizontal position pinned to the same left edge as .bodyText
+     (the section title's left edge). Both callouts now stack
+     left-aligned as a flow-like column over the image. No longer
+     reads `--tw-cb-callout-left`; that var/slider is now inert. */
+  left: max(40px, calc(50% - 530px));
   /* % of .media — see note on .bodyText above. */
   max-width: var(--tw-cb-callout-maxwidth-pct, 29%);
   z-index: 3;

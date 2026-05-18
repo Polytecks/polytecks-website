@@ -159,18 +159,15 @@ export function PageFxTab() {
 
       <div className={styles.divider} />
 
+      {/* X position sliders removed: body callout is now hardcoded to the
+          section title's left edge, and the ECG callout is hardcoded to
+          body + 37% of image width. Y sliders stay tunable. */}
       <Slider label="Cambridge ECG callout top" value={values.cambridgeCalloutTopVh} min={0} max={100} step={1}
         format={(v) => `${v}%`}
         onChange={(v) => setValue("cambridgeCalloutTopVh", v)} />
-      <Slider label="Cambridge ECG callout left" value={values.cambridgeCalloutLeftVw} min={0} max={100} step={1}
-        format={(v) => `${v}%`}
-        onChange={(v) => setValue("cambridgeCalloutLeftVw", v)} />
       <Slider label="Cambridge body callout top" value={values.cambridgeBodyCalloutTopVh} min={0} max={100} step={1}
         format={(v) => `${v}%`}
         onChange={(v) => setValue("cambridgeBodyCalloutTopVh", v)} />
-      <Slider label="Cambridge body callout left" value={values.cambridgeBodyCalloutLeftVw} min={0} max={100} step={1}
-        format={(v) => `${v}%`}
-        onChange={(v) => setValue("cambridgeBodyCalloutLeftVw", v)} />
       <Slider label="Callout font (cqw)" value={values.cambridgeCalloutFontCqw} min={0.4} max={1.5} step={0.01}
         format={(v) => `${v.toFixed(2)}cqw`}
         onChange={(v) => setValue("cambridgeCalloutFontCqw", v)} />

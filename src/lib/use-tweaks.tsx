@@ -191,7 +191,7 @@ export const TWEAK_DEFAULTS: TweakValues = {
   pillarCardStaggerMs: 280,
   devicesIconStaggerMs: 80,
 
-  cambridgeCalloutTopVh: 3,
+  cambridgeCalloutTopVh: 12,
   cambridgeCalloutLeftVw: 62,
   cambridgeBodyCalloutTopVh: 3,
   cambridgeBodyCalloutLeftVw: 25,
