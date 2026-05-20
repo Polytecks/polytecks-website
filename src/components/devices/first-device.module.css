@@ -177,11 +177,10 @@
      The 0/0/0/1px spread gives us a hard 1 px ring matched to
      the .dogBox border colour and alpha. */
   box-shadow: 0 0 0 1px rgba(168, 176, 243, 0.6);
-  /* Black so the alpha-keyed parts of the WebM read as black
-     instead of revealing the page bg behind them — under
-     light theme `var(--bg)` resolves to off-white and was
-     bleeding through the keyed regions of the clip. */
-  background: #000;
+  /* Transparent so the alpha-keyed regions of the WebM reveal
+     the page background and the box reads correctly under both
+     themes. */
+  background: transparent;
 }
 
 
