@@ -401,14 +401,18 @@
   .dogImage {
     display: none;
   }
+  /* With the dog photo hidden, the dogBox's hardcoded #000 was the
+     only thing painting behind the kit — making it transparent lets
+     the page bg (and therefore the active theme) show through. */
+  .dogBox {
+    background: transparent;
+  }
   .kitOverlayWrap {
     position: absolute;
     inset: 3%;
     width: auto;
     aspect-ratio: auto;
     transform: none;
-    left: auto;
-    bottom: auto;
   }
   .kitOverlay {
     object-position: center;
