@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import { type PressItem } from "@/data/press";
 import { SectionEyebrow } from "./section-eyebrow";
@@ -66,15 +67,24 @@ export function FeaturedCarousel({ items }: Props) {
         >
           {featured.map((item) => (
             <a key={item.id} className={styles.card} href={item.href}>
-              {/* No real photographic assets yet — placeholder treatment
-                  (striped gradient + outlet label) maintains the 16:9
-                  aspect ratio so swapping to <Image fill /> later is a
-                  drop-in. */}
+              {/* Wrapper holds the 16:9 contract for both the real image
+                  and the striped placeholder fallback. <Image fill /> +
+                  object-fit: cover in CSS handles the photo case. */}
               <div
                 className={styles.imgPh}
-                data-label={`IMAGE · ${item.outlet.toUpperCase()}`}
+                data-label={item.image ? undefined : `IMAGE · ${item.outlet.toUpperCase()}`}
                 aria-hidden="true"
-              />
+              >
+                {item.image ? (
+                  <Image
+                    src={item.image}
+                    alt=""
+                    fill
+                    sizes="(max-width: 720px) 100vw, 50vw"
+                    className={styles.img}
+                  />
+                ) : null}
+              </div>
               <div className={styles.meta}>
                 <span className={styles.outlet}>{item.outlet}</span>
                 <span className={styles.dot}>·</span>

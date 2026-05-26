@@ -106,7 +106,7 @@
   transition: border-color 0.25s ease;
 }
 
-.imgPh::after {
+.imgPh[data-label]::after {
   content: attr(data-label);
   font-family: var(--font-mono);
   font-size: 10px;
@@ -115,6 +115,29 @@
   color: var(--ink-faint);
   text-align: center;
   padding: 0 16px;
+}
+
+/* Real image inside .imgPh — covers the 16:9 box without distortion.
+   At rest the photo reads muted (lowered saturation + slight indigo
+   tint via brightness/contrast nudge) so it sits alongside the rest
+   of the page's restrained palette; on card hover it resolves to
+   full colour. Deliberately no transform — we wanted hover feedback
+   that isn't a scale-up. */
+.img {
+  object-fit: cover;
+  border-radius: inherit;
+  filter: saturate(0.55) brightness(0.95) contrast(0.96);
+  transition: filter 0.45s ease;
+}
+
+.card:hover .img {
+  filter: saturate(1) brightness(1) contrast(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .img {
+    transition: none;
+  }
 }
 
 .card:hover .imgPh {

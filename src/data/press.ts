@@ -11,6 +11,9 @@ export type PressItem = {
   /** Reserved — not currently rendered, kept for future. */
   excerpt?: string;
   featured?: boolean;
+  /** Path under /public, e.g. "/assets/press-foo.jpeg". Rendered in the
+   *  featured carousel; falls back to striped placeholder when absent. */
+  image?: string;
   /** Mark items invented for prototyping; renders a FAB tag and is removed on real content. */
   fabricated?: boolean;
   /** Companion to `fabricated` — left as-is from the handoff data. */
@@ -41,13 +44,13 @@ export const PRESS_ITEMS: PressItem[] = [
     date: "March 2026",
     iso: "2026-03-10",
     href: "https://www.jbs.cam.ac.uk/2026/enterprisetech-community-recognised-in-21towatch-top21-2026-awards/",
+    image: "/assets/press-cambridge-judge.jpeg",
     excerpt:
       "The 2026 winners of the 21toWatch awards include many alumni, innovations and companies supported by the Cambridge Judge Entrepreneurship Centre.",
   },
   {
     id: "p2",
     real: true,
-    featured: true,
     type: "press",
     outlet: "#21toWatch",
     title: "#21toWatch 2026 Winners Revealed",
@@ -67,13 +70,13 @@ export const PRESS_ITEMS: PressItem[] = [
     date: "November 2025",
     iso: "2025-11-04",
     href: "https://www.pes-cdt.org/news/cdt-graduate-presents-novel-health-tech-at-house-of-lords",
+    image: "/assets/press-photonics-cdt.jpeg",
     excerpt:
       "Ruben Ruiz-Mateos Serrano, a recent graduate of the EPSRC Centre for Doctoral Training in Connected Electronic and Photonic Systems (CEPS CDT) at the University of Cambridge, was invited to speak at the UK House of Lords.",
   },
   {
     id: "p4",
     real: true,
-    featured: true,
     type: "podcast",
     outlet: "The Project Cambridge Show",
     title:
@@ -87,7 +90,6 @@ export const PRESS_ITEMS: PressItem[] = [
   {
     id: "p5",
     real: true,
-    featured: true,
     type: "press",
     outlet: "Eureka Magazine",
     title: "Polytecks Launches Wearable E-Textiles for Heart Diagnostics",
@@ -125,12 +127,14 @@ export const PRESS_ITEMS: PressItem[] = [
   {
     id: "p8",
     real: true,
+    featured: true,
     type: "press",
     outlet: "University of Cambridge",
     title: "Startups to receive support in new programme",
     date: "August 2025",
     iso: "2025-08-20",
     href: "https://www.cam.ac.uk/news/startups-to-receive-support-in-new-programme",
+    image: "/assets/press-cam-startups.jpeg",
     excerpt:
       "King’s Entrepreneurship Lab (King’s E-Lab) and Founders at the University of Cambridge revealed the 24 startups that will join King’s College’s first-ever incubator cohort.",
   },
