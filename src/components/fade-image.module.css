@@ -1,0 +1,90 @@
+/* Shimmer placeholder painted behind images while they download.
+   Pairs with FadeImage's existing opacity fade-in: once the image loads,
+   the shimmer unmounts and the image transitions to opacity: 1. */
+
+.fadeImageWrap {
+  /* display: contents removes the wrapper from layout entirely so the
+     <img> keeps the layout role the consumer's CSS expects (sizing via
+     descendant selectors like `.imageZone img`, or via classNames passed
+     to FadeImage that set object-fit/object-position). The shimmer
+     sibling positions against the consumer's already-positioned parent. */
+  display: contents;
+}
+
+.shimmer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: var(
+    --shimmer-bg,
+    color-mix(in srgb, currentColor 6%, transparent)
+  );
+  border-radius: inherit;
+  z-index: 0;
+  pointer-events: none;
+  /* Cached images flip loaded=true inside useEffect within a few ms of
+     mount, which unmounts the shimmer. Delay the fade-in by 150ms so
+     the shimmer is invisible during that single render and only paints
+     for genuinely slow loads. */
+  opacity: 0;
+  animation: fadeImageShimmerWarmup 200ms ease-out 150ms forwards;
+}
+
+.shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in srgb, currentColor 8%, transparent) 50%,
+    transparent 100%
+  );
+  transform: translateX(-100%);
+  animation: fadeImageShimmerSweep 1.6s ease-in-out infinite;
+}
+
+.fadeImageWrap[data-tone="light"] .shimmer {
+  --shimmer-bg: rgba(255, 255, 255, 0.06);
+}
+.fadeImageWrap[data-tone="light"] .shimmer::after {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.10),
+    transparent
+  );
+}
+.fadeImageWrap[data-tone="dark"] .shimmer {
+  --shimmer-bg: rgba(0, 0, 0, 0.06);
+}
+.fadeImageWrap[data-tone="dark"] .shimmer::after {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 0, 0, 0.10),
+    transparent
+  );
+}
+
+@keyframes fadeImageShimmerWarmup {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeImageShimmerSweep {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shimmer {
+    animation: none;
+    opacity: 1;
+  }
+  .shimmer::after {
+    display: none;
+  }
+}
