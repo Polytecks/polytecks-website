@@ -22,6 +22,19 @@
   border-radius: inherit;
   z-index: 0;
   pointer-events: none;
+  /* Feather the rectangular edges so the shimmer doesn't cut off at a
+     hard tint boundary against the surrounding page background. The
+     mask also softens how the sweep enters/exits at the box edges. */
+  -webkit-mask-image: radial-gradient(
+    ellipse 100% 100% at center,
+    black 55%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    ellipse 100% 100% at center,
+    black 55%,
+    transparent 100%
+  );
   /* Cached images flip loaded=true inside useEffect within a few ms of
      mount, which unmounts the shimmer. Delay the fade-in by 150ms so
      the shimmer is invisible during that single render and only paints
