@@ -15,7 +15,7 @@
   gap: 64px;
 }
 
-.logoLink { display: inline-flex; align-items: flex-start; }
+.logoLink { display: inline-flex; align-items: flex-start; position: relative; }
 .logo { height: 32px; width: auto; }
 
 .column { /* layout marker */ }
