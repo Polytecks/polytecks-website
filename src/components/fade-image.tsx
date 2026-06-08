@@ -41,10 +41,19 @@ export function FadeImage({
   const imgRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
+    const img = imgRef.current;
+    if (!img) return;
     // If the underlying <img> is already complete by the time we
     // mount (cached / synchronously decoded), flip to visible
     // immediately without waiting for an event that won't fire.
-    if (imgRef.current?.complete) setLoaded(true);
+    // Also flip if the image is display:none — theme-conditional
+    // duplicates (themeDarkOnly/themeLightOnly) keep one image hidden
+    // permanently, and a hidden image may never fire onLoad. Without
+    // this, the hidden duplicate's shimmer would paint forever in the
+    // shared positioned ancestor on top of the visible image.
+    if (img.complete || window.getComputedStyle(img).display === "none") {
+      setLoaded(true);
+    }
   }, []);
 
   return (
