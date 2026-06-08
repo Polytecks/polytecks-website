@@ -15,7 +15,12 @@
   gap: 64px;
 }
 
-.logoLink { display: inline-flex; align-items: flex-start; position: relative; }
+.logoLink {
+  display: inline-flex;
+  align-items: flex-start;
+  /* Positioned ancestor for the FadeImage shimmer placeholder. */
+  position: relative;
+}
 .logo { height: 32px; width: auto; }
 
 .column { /* layout marker */ }
