@@ -14,6 +14,26 @@
   filter: invert(1) grayscale(1) contrast(0.95);
 }
 
+/* Some marks don't survive the invert (gradients/colour that flip ugly),
+   so they ship a dedicated light-mode asset. Render both variants and let
+   the theme decide which shows; the bespoke light asset must NOT be
+   inverted — only flattened to match the grayscale strip. */
+.logoLight {
+  display: none;
+}
+
+:global([data-theme="light"]) .logoDark {
+  display: none;
+}
+
+:global([data-theme="light"]) .logoLight {
+  display: block;
+}
+
+:global([data-theme="light"]) .item img.logoLight {
+  filter: grayscale(1) contrast(0.95);
+}
+
 /* Extend the ribbon bg upward to cover the gap introduced by --sp-home-ribbon,
    preventing the topo canvas from peeking through between the mission panel
    and the ribbon when the spacing tweak is non-zero. */
@@ -129,7 +149,6 @@
   justify-content: center;
   filter: grayscale(1) contrast(0.95);
   opacity: 0.7;
-  transition: opacity 0.3s ease, filter 0.3s ease, transform 0.3s ease;
   /* The ribbon is a passive display strip — no link target, no
      interaction affordance. Disabling pointer events kills the
      mobile tap-highlight flash and any focus/active state, which
@@ -153,22 +172,6 @@
    neighbours when separated by only the standard gap. */
 .itemExtraGap {
   margin-inline: 24px;
-}
-
-/* As each logo passes the centre of the viewport the rAF loop tags it
-   .isCenter (full colour + full opacity) and the two adjacent items
-   .isNear (a smaller bump in colour/opacity) so the transition
-   into/out of centre feels continuous rather than a hard pop. The
-   ribbon has no hover affordance, so this position-driven highlight
-   is the only "this is the focus item" cue. */
-.item.isCenter {
-  opacity: 1;
-  filter: grayscale(0) contrast(1);
-}
-
-.item.isNear {
-  opacity: 0.85;
-  filter: grayscale(0.4) contrast(0.95);
 }
 
 .logo {
@@ -197,15 +200,5 @@
   }
   .label {
     margin-bottom: 40px;
-  }
-  /* On mobile drop ALL centre/near distinction — keep every logo at
-     the baseline grayscale/opacity. The prior scale(1.12) on the
-     centre item read as a wobble in the row as logos passed through;
-     ribbon now scrolls as a flat, uniform strip. */
-  .item.isCenter,
-  .item.isNear {
-    opacity: 0.7;
-    filter: grayscale(1) contrast(0.95);
-    transform: none;
   }
 }
