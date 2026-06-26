@@ -148,6 +148,9 @@
 .imageEl {
   object-fit: cover;
   object-position: center;
+  /* Re-enable pointer events disabled globally (Edge visual-search suppression
+     in globals.css) — this tile has a hover zoom (.tile:hover .media). */
+  pointer-events: auto;
 }
 
 /* Both <video> elements inside the dual-video crossfade wrapper. The

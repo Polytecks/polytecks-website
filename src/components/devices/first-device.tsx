@@ -20,7 +20,7 @@ export function FirstDevice() {
         <div className={styles.sectionHead}>
           <div className={styles.kicker}>Our first device</div>
           <h2 className={styles.heading}>
-            <em>SwiftStage:</em> Veterinary Cardiovascular Staging in Primary Care
+            Veterinary Cardiovascular Staging in Primary Care
           </h2>
         </div>
       </StackEntry>
@@ -124,7 +124,6 @@ export function FirstDevice() {
 
             <div className={styles.statusBlock}>
               <div className={styles.statusRow}>
-                <span className={styles.statusPulse} aria-hidden="true" />
                 <div className={styles.statusText}>
                   <span className={styles.top}>Trial ongoing</span>
                   <span className={styles.bot}>

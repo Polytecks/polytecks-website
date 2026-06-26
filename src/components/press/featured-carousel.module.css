@@ -128,6 +128,9 @@
   border-radius: inherit;
   filter: saturate(0.55) brightness(0.95) contrast(0.96);
   transition: filter 0.45s ease;
+  /* Re-enable pointer events disabled globally (Edge visual-search suppression
+     in globals.css) — this image has a hover treatment (.card:hover .img). */
+  pointer-events: auto;
 }
 
 .card:hover .img {

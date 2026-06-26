@@ -285,6 +285,20 @@
 [data-theme="light"] .themeDarkOnly { display: none; }
 [data-theme="light"] .themeLightOnly { display: block; }
 
+/* Suppress Microsoft Edge's "Visual Search" hover icon (the camera/magnifier
+   chip Edge overlays on images on mouseover). Edge offers no official opt-out
+   for sites; the only working technique is making the image transparent to
+   pointer events so Edge never registers the hover. This is safe for the vast
+   majority of our images because they're either purely decorative or wrapped
+   in a <Link>/<a> (the link still receives the click — the image doesn't need
+   to). The handful of images with an image-level hover/active treatment are
+   re-enabled with `pointer-events: auto` in their own module CSS; all of those
+   effects are driven by a parent container, so the re-enable preserves them.
+   Trade-off: right-click "Save image as" on suppressed images is also blocked. */
+img {
+  pointer-events: none;
+}
+
 /* Light theme: thin grey hairline between adjacent top-level sections
    in <main>. With most surfaces now near-white, sections previously
    demarcated by dark/light contrast lose their visual boundary; a

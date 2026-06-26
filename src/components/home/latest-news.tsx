@@ -48,7 +48,7 @@ export function LatestNews() {
         <header className={styles.header}>
           <p className={styles.eyebrow}>Latest News</p>
           <h2 className={styles.title}>
-            Advancing what&apos;s possible in <em>diagnostics</em>.
+            Advancing what&apos;s possible in <em>diagnostics</em>
           </h2>
         </header>
 

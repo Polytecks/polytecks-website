@@ -161,6 +161,9 @@
   height: 100%;
   object-fit: cover;
   display: block;
+  /* Re-enable pointer events disabled globally (Edge visual-search suppression
+     in globals.css) — the active pillar scales/repositions its image. */
+  pointer-events: auto;
   /* Per-card per-state values are written as CSS variables on the pillar
      button via inline style. Defaults here let the pillar render sanely
      without a tweaks provider. */

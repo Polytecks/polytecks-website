@@ -144,6 +144,9 @@
      the :hover; the transition eases the desaturation in smoothly. */
   filter: grayscale(0);
   transition: filter 0.45s ease;
+  /* Re-enable pointer events disabled globally (Edge visual-search suppression
+     in globals.css) — this card has a hover treatment (.card:hover .image). */
+  pointer-events: auto;
 }
 
 .card:hover .image {
