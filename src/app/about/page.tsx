@@ -16,7 +16,6 @@ export default function AboutPage() {
       <AboutHeaderBackground />
       <HexGradientDefs />
       <SubpageHeader
-        eyebrow="About Us"
         title={
           <>
             We are building the <em>sensing layer</em> for next-generation
@@ -32,10 +31,10 @@ export default function AboutPage() {
         }
         editorialLede
       />
-      <StackEntry index={3}>
+      <StackEntry index={2}>
         <CambridgeSection />
       </StackEntry>
-      <StackEntry index={4}>
+      <StackEntry index={3}>
         <TeamSection />
       </StackEntry>
     </Subpage>

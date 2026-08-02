@@ -25,7 +25,6 @@ export function TechnologyHero() {
 
       <div className={styles.header}>
         <SubpageHeader
-          eyebrow="Technology"
           title={
             <>
               The <em>Mosaic</em>

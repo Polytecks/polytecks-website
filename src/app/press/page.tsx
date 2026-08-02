@@ -27,9 +27,6 @@ export default function PressPage() {
     <>
       <section className={styles.head}>
         <StackEntry index={0}>
-          <div className={styles.eyebrow}>Press &amp; Publications</div>
-        </StackEntry>
-        <StackEntry index={1}>
           <h1 className={styles.headline}>
             Capturing signals from the body.
             <br />
@@ -38,19 +35,19 @@ export default function PressPage() {
         </StackEntry>
       </section>
 
-      <StackEntry index={2}>
+      <StackEntry index={1}>
         <FeaturedCarousel items={PRESS_ITEMS} />
       </StackEntry>
 
-      <StackEntry index={3}>
+      <StackEntry index={2}>
         <PressSection />
       </StackEntry>
 
-      <StackEntry index={4}>
+      <StackEntry index={3}>
         <PublicationsSection />
       </StackEntry>
 
-      <StackEntry index={5}>
+      <StackEntry index={4}>
         <PressContact />
       </StackEntry>
     </>

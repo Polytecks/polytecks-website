@@ -1,5 +1,5 @@
 /* Devices-specific subpage overrides — pull the heading/lede/icon
-   strip up so the whole eyebrow+title+lede+6 icons sequence is
+   strip up so the whole title+lede+6 icons sequence is
    visible above the fold on common laptop viewports (≤768 px tall).
    Without these overrides, the icon strip ends ~14 px below 768 px
    on the default subpage rhythm. */

@@ -1,34 +1,10 @@
-/* Page header — left-aligned eyebrow + display headline. The container
-   is 1280px because the headline is allowed to fill more horizontal
-   space than the section bodies below (which cap at 1100px). */
+/* Page header — display headline. The container is 1280px because the
+   headline is allowed to fill more horizontal space than the section
+   bodies below (which cap at 1100px). */
 .head {
   max-width: 1280px;
   margin: 0 auto;
   padding: 96px 32px 48px;
-}
-
-/* Eyebrow on the page header is the existing pill-style "badge" eyebrow
-   (mission-panel.tsx → .eyebrow), not the line-flanked SectionEyebrow.
-   This matches the prototype's `.page-head .eyebrow` rule which uses the
-   pill treatment. */
-.eyebrow {
-  /* `display: block; width: fit-content` detaches the badge from the
-     parent .head's `text-align: center`, so the badge sits at the
-     left edge of the head while the headline below stays centred. */
-  display: block;
-  width: fit-content;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--indigo-lightest);
-  background: rgba(74, 84, 192, 0.18);
-  border: 1px solid rgba(168, 176, 243, 0.4);
-  padding: 6px 14px;
-  border-radius: 999px;
-  box-shadow: 0 0 16px rgba(106, 116, 220, 0.25);
-  margin-bottom: 24px;
 }
 
 .headline {

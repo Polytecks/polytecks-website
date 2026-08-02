@@ -13,7 +13,6 @@ export default function DevicesPage() {
   return (
     <Subpage className={styles.subpage}>
       <SubpageHeader
-        eyebrow="Devices"
         title={
           <>
             Making disease easier to <em>spot</em>, diagnose, and manage.

@@ -8,7 +8,6 @@ export default function PrivacyPage() {
   return (
     <Subpage>
       <SubpageHeader
-        eyebrow="Legal"
         title={<>Privacy Policy</>}
         lede="Coming soon."
       />

@@ -18,13 +18,11 @@ export function Subpage({
 }
 
 export function SubpageHeader({
-  eyebrow,
   title,
   lede,
   boldLede = false,
   editorialLede = false,
 }: {
-  eyebrow: string;
   title: ReactNode;
   lede?: ReactNode;
   /** Opt-in heavier (600) lede weight. Used on devices where the
@@ -47,13 +45,10 @@ export function SubpageHeader({
   return (
     <>
       <StackEntry index={0}>
-        <div className={styles.eyebrow}>{eyebrow}</div>
-      </StackEntry>
-      <StackEntry index={1}>
         <h1 className={styles.title}><AnimatedTitle>{title}</AnimatedTitle></h1>
       </StackEntry>
       {lede ? (
-        <StackEntry index={2}>
+        <StackEntry index={1}>
           <p className={ledeClass}>
             {lede}
           </p>

@@ -10,9 +10,8 @@ export const metadata = {
 };
 
 /* Top-down page sequence (absolute delays in ms):
- *   Hero eyebrow:    0    (SubpageHeader internal index 0)
- *   Hero title:      ~stack-stagger-ms  (index 1)
- *   Hero lede:       ~2*stack-stagger-ms (index 2)
+ *   Hero title:      0    (SubpageHeader internal index 0)
+ *   Hero lede:       ~stack-stagger-ms  (index 1)
  *   Pillar title:    1500
  *   Pillar cards:    1750 + i × pillar-card-stagger-ms  (handled in PillarSection)
  *   Proof section:   2700
@@ -24,8 +23,8 @@ export const metadata = {
 export default function TechnologyPage() {
   return (
     <>
-      {/* TechnologyHero contains the SubpageHeader (eyebrow/title/lede at
-          internal indices 0/1/2). No outer StackEntry wrapper — those
+      {/* TechnologyHero contains the SubpageHeader (title/lede at
+          internal indices 0/1). No outer StackEntry wrapper — those
           internal indices already provide the staggered entry. */}
       <TechnologyHero />
       <PillarSection />

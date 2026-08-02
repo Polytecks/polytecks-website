@@ -8,7 +8,6 @@ export default function TermsPage() {
   return (
     <Subpage>
       <SubpageHeader
-        eyebrow="Legal"
         title={<>Terms of Service</>}
         lede="Coming soon."
       />
