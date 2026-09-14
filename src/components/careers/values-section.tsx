@@ -45,12 +45,12 @@ export function ValuesSection() {
   return (
     <section className={styles.section}>
       <div className={styles.inner}>
-        <StackEntry index={0}>
+        <StackEntry>
           <h2 className={styles.heading}>Values</h2>
         </StackEntry>
         <div className={styles.grid}>
           {VALUES.map((v, i) => (
-            <StackEntry key={v.title} index={i + 1}>
+            <StackEntry key={v.title}>
               <div className={styles.value}>
                 <Image
                   src={v.icon}

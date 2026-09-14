@@ -1,43 +1,9 @@
-/* Page-level stack entry — used to stagger element appearance on page load.
-   Pairs with <StackEntry index={N}>; respects --stack-stagger-ms (default 80ms)
-   and --stack-duration-ms (default 700ms). */
+/* Static block wrapper — see stack-entry.tsx. */
 
 .wrap {
   display: block;
-  /* No overflow: hidden — would clip absolute-positioned children, glow effects,
-     position: sticky descendants (proof section), and any text that visually
-     extends past its box (e.g. negative-left overlays on Cambridge section). */
 }
 
 .inner {
   display: block;
-  transform: translateY(28px);
-  opacity: 0;
-  animation: stackEntryIn var(--stack-duration-ms, 700ms) cubic-bezier(0.16, 1, 0.3, 1) both;
-  animation-delay: var(--stack-delay-ms, calc(var(--stack-i, 0) * var(--stack-stagger-ms, 80ms)));
-}
-
-@keyframes stackEntryIn {
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .inner {
-    animation: none !important;
-    transform: none;
-    opacity: 1;
-  }
-}
-
-/* Per MOBILE_STRATEGY.md §4.24 — compress the entry cascade on mobile.
-   The desktop default of 420ms per index step looks deliberate at wide
-   viewports but feels slow on a phone where the user has already
-   scrolled past elements before they finish settling. */
-@media (max-width: 720px) {
-  .wrap {
-    --stack-stagger-ms: 280ms;
-  }
 }

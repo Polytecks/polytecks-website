@@ -30,7 +30,7 @@ export function MobilePillarSection() {
 
       <div className={styles.stack}>
         {PILLARS.map((p, i) => (
-          <StackEntry key={p.id} index={i + 1}>
+          <StackEntry key={p.id}>
             <article className={styles.card}>
               <div className={styles.media}>
                 {p.visual.kind === "video" ? (

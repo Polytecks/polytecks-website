@@ -57,7 +57,7 @@ export function LatestNews() {
             const dateLabel = formatDate(item.iso);
             return (
               <div key={`${item.outlet}-${i}`} className={styles.slot}>
-                <StackEntry index={i}>
+                <StackEntry>
                   <a
                     className={styles.card}
                     href={item.href}

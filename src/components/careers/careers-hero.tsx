@@ -16,7 +16,7 @@ export function CareersHero() {
         />
         <div className={styles.bgOverlay} aria-hidden="true" />
       </div>
-      <StackEntry index={0} className={styles.content}>
+      <StackEntry className={styles.content}>
         <h1 className={styles.title}>
           Help us build the future of <em>bioelectrical sensing.</em>
         </h1>

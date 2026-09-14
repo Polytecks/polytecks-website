@@ -31,10 +31,10 @@ export default function AboutPage() {
         }
         editorialLede
       />
-      <StackEntry index={2}>
+      <StackEntry>
         <CambridgeSection />
       </StackEntry>
-      <StackEntry index={3}>
+      <StackEntry>
         <TeamSection />
       </StackEntry>
     </Subpage>

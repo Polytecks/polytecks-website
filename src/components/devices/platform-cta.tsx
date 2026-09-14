@@ -13,7 +13,7 @@ import styles from "./platform-cta.module.css";
  */
 export function PlatformCta() {
   return (
-    <StackEntry index={11}>
+    <StackEntry>
       <section className={styles.cta} data-screen-label="11 CTA">
         <div>
           <h3>Partner with us on what comes next.</h3>

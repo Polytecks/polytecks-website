@@ -281,7 +281,7 @@ export function IndicationsTimeline() {
 
   return (
     <>
-      <StackEntry index={9}>
+      <StackEntry>
         <div className={styles.sectionHead}>
           <div className={styles.kicker}>Future indications</div>
           <h2 className={styles.heading}>
@@ -303,7 +303,7 @@ export function IndicationsTimeline() {
         ))}
       </div>
 
-      <StackEntry index={10}>
+      <StackEntry>
         <div className={styles.coda} data-screen-label="10 And many more">
           <p>
             And <em>many more</em>, across cardiology, neurophysiology, autonomic systems, and musculoskeletal health.

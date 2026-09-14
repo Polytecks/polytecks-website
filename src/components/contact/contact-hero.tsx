@@ -44,7 +44,7 @@ export function ContactHero() {
       <div className={styles.grid}>
         {/* LEFT — form + newsletter, plain black, no panel chrome */}
         <div className={styles.copyCol}>
-          <StackEntry index={0} className={styles.block}>
+          <StackEntry className={styles.block}>
             <div className={styles.contactBlock}>
               <p className={styles.eyebrow}>Reach Out</p>
               <h1 className={styles.title}>Contact us.</h1>
@@ -91,7 +91,7 @@ export function ContactHero() {
             </div>
           </StackEntry>
 
-          <StackEntry index={1} className={styles.block}>
+          <StackEntry className={styles.block}>
             <div id="newsletter" className={styles.newsletterBlock}>
               <p className={styles.eyebrow}>Newsletter</p>
               <h2 className={styles.title}>Stay close to Mosaic.</h2>

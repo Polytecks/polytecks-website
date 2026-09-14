@@ -51,14 +51,12 @@ function DesktopPillarSection() {
     return () => window.removeEventListener("keydown", handleEscape);
   }, [handleEscape]);
 
-  // Title fires after the hero's lede (~1500ms with default timing).
-  // Cards cascade left-to-right starting after the title is mid-fade.
-  const TITLE_DELAY_MS = 1500;
+  // Cards cascade left-to-right after this base delay.
   const CARDS_BASE_DELAY_MS = 1750;
 
   return (
     <section className={styles.section} aria-label="Three pillars of the technology">
-      <StackEntry delayMs={TITLE_DELAY_MS}>
+      <StackEntry>
         <h2 className={styles.title}>
           The electrode. <em>Reimagined from first principles.</em>
         </h2>

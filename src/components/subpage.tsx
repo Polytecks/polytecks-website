@@ -1,5 +1,4 @@
 import type { ReactNode } from "react";
-import { AnimatedTitle } from "./animated-title";
 import { StackEntry } from "./stack-entry";
 import styles from "./subpage.module.css";
 
@@ -44,11 +43,11 @@ export function SubpageHeader({
     .join(" ");
   return (
     <>
-      <StackEntry index={0}>
-        <h1 className={styles.title}><AnimatedTitle>{title}</AnimatedTitle></h1>
+      <StackEntry>
+        <h1 className={styles.title}>{title}</h1>
       </StackEntry>
       {lede ? (
-        <StackEntry index={1}>
+        <StackEntry>
           <p className={ledeClass}>
             {lede}
           </p>

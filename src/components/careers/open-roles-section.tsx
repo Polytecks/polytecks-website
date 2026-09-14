@@ -5,10 +5,10 @@ export function OpenRolesSection() {
   return (
     <section className={styles.section}>
       <div className={styles.inner}>
-        <StackEntry index={0}>
+        <StackEntry>
           <h2 className={styles.heading}>Open Roles</h2>
         </StackEntry>
-        <StackEntry index={1}>
+        <StackEntry>
           <div className={styles.list} role="list">
             <p className={styles.empty}>
               Currently no open roles &mdash; check back later.

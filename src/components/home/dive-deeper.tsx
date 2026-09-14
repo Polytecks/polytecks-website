@@ -60,7 +60,7 @@ export function DiveDeeper() {
 
         <div className={styles.grid}>
           {TILES.map((tile, i) => (
-            <StackEntry key={tile.href} index={i}>
+            <StackEntry key={tile.href}>
               <Tile {...tile} />
             </StackEntry>
           ))}

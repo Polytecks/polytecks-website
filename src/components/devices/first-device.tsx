@@ -16,7 +16,7 @@ import styles from "./first-device.module.css";
 export function FirstDevice() {
   return (
     <>
-      <StackEntry index={6}>
+      <StackEntry>
         <div className={styles.sectionHead}>
           <div className={styles.kicker}>Our first device</div>
           <h2 className={styles.heading}>
@@ -29,7 +29,7 @@ export function FirstDevice() {
         className={styles.firstDevice}
         data-screen-label="01 First device — Veterinary"
       >
-        <StackEntry index={7} className={styles.visualSlot}>
+        <StackEntry className={styles.visualSlot}>
           <div className={styles.deviceVisual}>
             {/* Top box — desktop shows the dog patient photo with the
                 SwiftStage kit overlaid near the bottom. On mobile the
@@ -82,7 +82,7 @@ export function FirstDevice() {
           </div>
         </StackEntry>
 
-        <StackEntry index={8}>
+        <StackEntry>
           <div className={styles.deviceCopy}>
             <p className={styles.lead}>
               Our first device is designed for veterinary cardiovascular

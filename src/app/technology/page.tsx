@@ -9,32 +9,20 @@ export const metadata = {
   title: "Technology",
 };
 
-/* Top-down page sequence (absolute delays in ms):
- *   Hero title:      0    (SubpageHeader internal index 0)
- *   Hero lede:       ~stack-stagger-ms  (index 1)
- *   Pillar title:    1500
- *   Pillar cards:    1750 + i × pillar-card-stagger-ms  (handled in PillarSection)
- *   Proof section:   2700
- *   Philosophy:      3000
- *   Charge link:     3300
- *
- * Each section anchors itself to a fixed clock offset so the visual order
- * is strict top-down regardless of the global stack-stagger setting. */
+/* Everything renders in place on load except the pillar cards, which keep
+ * their staggered entry (handled in PillarSection). */
 export default function TechnologyPage() {
   return (
     <>
-      {/* TechnologyHero contains the SubpageHeader (title/lede at
-          internal indices 0/1). No outer StackEntry wrapper — those
-          internal indices already provide the staggered entry. */}
       <TechnologyHero />
       <PillarSection />
-      <StackEntry delayMs={2700}>
+      <StackEntry>
         <ProofSection />
       </StackEntry>
-      <StackEntry delayMs={3000}>
+      <StackEntry>
         <Philosophy />
       </StackEntry>
-      <StackEntry delayMs={3300}>
+      <StackEntry>
         <section
           style={{
             maxWidth: 1400,
